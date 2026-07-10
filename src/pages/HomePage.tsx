@@ -4,6 +4,7 @@ import { Services }     from '../components/home/Services'
 import { HowWeHelp }    from '../components/home/HowWeHelp'
 import { BrandPromise } from '../components/home/BrandPromise'
 import { AboutUs }      from '../components/home/AboutUs'
+import { Omnichannel }  from '../components/home/Omnichannel'
 import { Footer }       from '../components/Footer'
 
 export function HomePage() {
@@ -16,6 +17,7 @@ export function HomePage() {
         <HowWeHelp />
         <BrandPromise />
         <AboutUs />
+        <Omnichannel />
       </main>
       <Footer />
     </div>

@@ -56,10 +56,11 @@ export function AboutUs() {
 
         /* dark showcase: word / oval / word */
         .cc-au-showcase {
-          background: ${DARK}; position: relative;
+          background: ${DARK}; position: relative; isolation: isolate;
           padding: clamp(8px, 1.5vw, 24px) clamp(24px, 4vw, 64px) clamp(64px, 9vw, 140px);
           text-align: center; overflow: hidden;
         }
+        .cc-au-word-wrap { position: relative; z-index: 4; pointer-events: none; }
         .cc-au-word {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
           font-size: clamp(64px, 15vw, 260px); line-height: 0.92; letter-spacing: -0.02em;
@@ -116,7 +117,9 @@ export function AboutUs() {
 
       {/* ── Dark showcase (word / oval / word) ── */}
       <div className="cc-au-showcase">
-        <MaskReveal as="h2" className="cc-au-word" duration={1}>Always</MaskReveal>
+        <div className="cc-au-word-wrap">
+          <MaskReveal as="h2" className="cc-au-word" duration={1} inView={false}>Always</MaskReveal>
+        </div>
 
         <motion.div
           className="cc-au-oval"
@@ -138,7 +141,9 @@ export function AboutUs() {
           </a>
         </motion.div>
 
-        <MaskReveal as="h2" className="cc-au-word" duration={1} delay={0.06}>Answered</MaskReveal>
+        <div className="cc-au-word-wrap">
+          <MaskReveal as="h2" className="cc-au-word" duration={1} delay={0.06} inView={false}>Answered</MaskReveal>
+        </div>
       </div>
     </section>
   )
