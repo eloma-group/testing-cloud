@@ -4,10 +4,118 @@
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
   --color-cc-text:   #2E3A34;
-  --color-cc-accent: #C6866B;
+  --color-cc-accent: #D2704A;
   --color-cc-dark:   #3E4A42;
-  --color-cc-cream:  #F4F1EB;
-  --color-cc-muted:  #6B756E;
+  --color-cc-cream:  #F6F2EA;
+  --color-cc-ink:    #0F0F10;
+  --color-cc-muted:  #63706A;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   The page is WHITE. Cream is a tint, not a paint.
+
+   The previous system painted every surface cream (#F4F1EB) and
+   then floated cream cards on it, roughly 2% apart in luminance.
+   Nothing was ever the brightest thing on screen, so nothing read
+   as lit - which is the definition of matte. Worse, two hues were
+   running at once: terracotta AND a sage-green wash, and two warm
+   hues at low chroma average out to mud.
+
+   The fix is the one Aave uses:
+
+     1. White is the base. Cream only ever appears as the far stop
+        of a gradient, so a section drifts from white into a tint
+        rather than sitting flat in one.
+     2. One accent hue. Terracotta, and nothing else. Green survives
+        only on live-status dots, where it means something.
+     3. The accent is ~10% of the surface. Solid on small objects
+        (buttons, dots, icons), gradient on large ones (blooms,
+        washes, seals) - flat colour over a big area reads cheap.
+     4. Cards are pure white with a hairline and a shadow you have
+        to look for. Contrast comes from the card being brighter
+        than the wash under it, not from a heavy drop shadow.
+     5. Dark sections are obsidian, not sage. #0F0F10 with #181818
+        surfaces, the way the footer now reads.
+   ────────────────────────────────────────────────────────────── */
+:root {
+  /* ── the light side: white, then four cream tints ── */
+  --cc-white:     #FFFFFF;
+  --cc-cream-1:   #FCFAF6;   /* barely tinted - a white that is not clinical */
+  --cc-cream-2:   #F6F2EA;   /* the cream */
+  --cc-cream-3:   #EFE8DC;   /* deep - gradient ends and seams only */
+  --cc-cream-4:   #E5DCCC;   /* deepest - never a fill, only an edge */
+
+  --cc-text:      #2E3A34;
+  --cc-dark:      #3E4A42;
+
+  /* Opaque and clear of 4.5:1. The old rgba(46,58,52,0.55) landed
+     around 3.4:1 on cream and was half the reason type read washed out. */
+  --cc-muted:     #63706A;
+  --cc-faint:     #828C87;
+
+  /* ── obsidian: the dark half of the rhythm ── */
+  --cc-ink:       #0F0F10;   /* the base */
+  --cc-ink-2:     #141416;   /* a section within it */
+  --cc-ink-3:     #181818;   /* a raised surface - only just lighter, on purpose */
+  --cc-ink-4:     #202021;   /* the lit top edge of that surface */
+  --cc-line:      #2A2A2A;   /* hairline borders on ink */
+
+  /* type on ink, straight off the reference */
+  --cc-on-ink:        #FFFFFF;
+  --cc-on-ink-muted:  #BDBDBD;
+  --cc-on-ink-faint:  #858387;
+
+  /* ── terracotta, refined ──
+     The old #CE7F5C sat at 52% saturation, which is the chroma of
+     unglazed clay - it disappeared against cream. This is the same
+     hue with the chroma raised, so it has something to say on white. */
+  --cc-accent:     #D2704A;
+  --cc-accent-hi:  #F09A72;   /* the lit edge */
+  --cc-accent-mid: #C25C36;   /* the body of a button - white type clears 4.3:1 here */
+  --cc-accent-lo:  #9C4324;   /* the edge turned away from the light */
+  /* text-safe on white (5.3:1). Eyebrows, links, small labels use THIS,
+     never --cc-accent, which only clears 3:1 and is for fills and display type. */
+  --cc-accent-ink: #A85434;
+
+  /* accent as a channel triple, so washes can be written inline */
+  --cc-accent-rgb: 210, 112, 74;
+
+  /* ── shadows: present, but you have to look for them ──
+     Tinted with the ink hue, never neutral grey. A tight contact
+     shadow (the object touching the page) plus one soft ambient. */
+  --sh-1: 0 1px 2px rgba(20,20,22,0.05);
+  --sh-2: 0 1px 2px rgba(20,20,22,0.05),
+          0 8px 20px -12px rgba(20,20,22,0.16);
+  --sh-3: 0 1px 3px rgba(20,20,22,0.06),
+          0 16px 34px -18px rgba(20,20,22,0.18),
+          0 40px 70px -44px rgba(20,20,22,0.22);
+  --sh-accent: 0 1px 3px rgba(156,67,36,0.20),
+               0 10px 22px -12px rgba(156,67,36,0.34),
+               0 26px 46px -28px rgba(156,67,36,0.38);
+
+  /* ── rims: a hairline, and a white lip along the top edge ── */
+  --rim-light: inset 0 1px 0 rgba(255,255,255,1),
+               inset 0 0 0 1px rgba(20,20,22,0.07);
+  --rim-ink:   inset 0 1px 0 rgba(255,255,255,0.08),
+               inset 0 0 0 1px #2A2A2A;
+  --rim-accent: inset 0 1px 0 rgba(255,255,255,0.42),
+                inset 0 -1px 0 rgba(84,34,16,0.26);
+
+  /* ── surfaces ── */
+  --gl-pane:   linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
+  --gl-pane-2: linear-gradient(168deg, #FFFFFF 0%, #FCFAF6 50%, #F4EFE6 100%);
+  --gl-ink:    linear-gradient(180deg, #181818 0%, #121213 46%, #0F0F10 100%);
+  --gl-ink-surface: linear-gradient(168deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0) 100%);
+  --gl-accent: linear-gradient(168deg, var(--cc-accent-hi) 0%, var(--cc-accent) 46%, var(--cc-accent-lo) 100%);
+
+  /* The big soft accent bloom. This is the "gradient purple" move: a wash
+     of the accent hue at very low alpha over a large area, so the colour is
+     felt rather than seen. Never use a flat accent fill this big. */
+  --gl-bloom: radial-gradient(closest-side, rgba(210,112,74,0.14), rgba(210,112,74,0) 72%);
+
+  /* Dark gradients band on 8-bit panels and banding reads as cheap.
+     A 2% noise film over the ink hides it. */
+  --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
 }
 
 *,
@@ -21,14 +129,21 @@
 html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  /* Never let the browser fake a weight it does not have - a synthesized
+     800/900 is just a smeared 700, and it is what made headings look muddy. */
+  font-synthesis-weight: none;
+  text-size-adjust: 100%;
 }
 
 body {
-  background-color: #F4F1EB;
-  color: #2E3A34;
+  background-color: var(--cc-white);
+  color: var(--cc-text);
   font-family: 'Inter', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
+  font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;
+  letter-spacing: -0.006em;
 }
 
 img {
@@ -41,6 +156,135 @@ a {
   color: inherit;
 }
 
+::selection {
+  background: rgba(210, 112, 74, 0.22);
+  color: var(--cc-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--cc-accent);
+  outline-offset: 3px;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   Surface utilities. All of these are background / box-shadow on a
+   pseudo-element with pointer-events: none, so none of them costs
+   anything during scroll.
+   ────────────────────────────────────────────────────────────── */
+
+/* A card: white, a hairline, and a shadow you have to look for. */
+.gl-card {
+  position: relative;
+  isolation: isolate;
+  background: var(--gl-pane);
+  box-shadow: var(--rim-light), var(--sh-2);
+}
+.gl-card--lift { box-shadow: var(--rim-light), var(--sh-3); }
+
+/* A raised surface on ink - only just lighter than the ink under it. */
+.gl-card-ink {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--cc-ink-3);
+  background-image: var(--gl-ink-surface);
+  box-shadow: var(--rim-ink);
+}
+
+/* The specular highlight: a tight band along the top edge. Fade it out by
+   16% and it reads as a lit surface; carry it to 50% and it is just haze. */
+.gl-spec { position: relative; isolation: isolate; }
+.gl-spec::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  border-radius: inherit;
+  pointer-events: none;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.9) 0%,
+      rgba(255,255,255,0.24) 3%,
+      rgba(255,255,255,0.05) 9%,
+      rgba(255,255,255,0) 16%
+    );
+}
+.gl-spec-ink::after {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.03) 4%,
+      rgba(255,255,255,0) 14%
+    );
+}
+
+/* A full-bleed obsidian section: the dark half of the light/dark rhythm. */
+.gl-panel {
+  position: relative;
+  isolation: isolate;
+  background-color: var(--cc-ink);
+  background-image: var(--gl-ink);
+  color: var(--cc-on-ink);
+}
+.gl-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: var(--grain);
+  background-size: 140px 140px;
+  opacity: 0.04;
+  mix-blend-mode: overlay;
+}
+/* The seam where ink meets white should look like an edge, not a colour change. */
+.gl-panel::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 1px;
+  z-index: 5;
+  pointer-events: none;
+  background: linear-gradient(90deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0) 100%);
+}
+.gl-panel > * { position: relative; z-index: 1; }
+
+/* Terracotta - buttons, seals, anything that should carry the accent. */
+.gl-accent {
+  background-image: var(--gl-accent);
+  color: #FFFFFF;
+  box-shadow: var(--rim-accent), var(--sh-accent);
+}
+
+/* Sweep a band of light across a surface on hover. */
+.gl-shine { position: relative; overflow: hidden; }
+.gl-shine > * { position: relative; z-index: 2; }
+.gl-shine::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    104deg,
+    transparent 36%,
+    rgba(255, 255, 255, 0.42) 50%,
+    transparent 64%
+  );
+  transform: translateX(-120%);
+  will-change: transform;
+  transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.gl-shine:hover::before,
+.gl-shine:focus-visible::before { transform: translateX(120%); }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  .gl-shine::before { display: none; }
 }

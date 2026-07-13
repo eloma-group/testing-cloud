@@ -1,21 +1,48 @@
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { CSSProperties, ReactNode } from 'react'
-import { ArrowUpRight } from 'lucide-react'
+import {
+  ArrowUpRight, Headset, MessageSquare, Clock, Wrench, Check, Ticket,
+  TrendingUp, PhoneCall, Target, ClipboardCheck, Database, X,
+} from 'lucide-react'
 import { MaskReveal, popUp, staggerParent, VIEWPORT, EASE } from '../../lib/anim'
 
 const TEXT   = '#2E3A34'
-const ACCENT = '#C6866B'
-const CREAM  = '#F4F1EB'
-const MUTED  = 'rgba(46,58,52,0.6)'
+const ACCENT = '#D2704A'
+const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const CREAM  = '#F6F2EA'
+const MUTED  = '#63706A'
+
+const GLOSS      = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
+const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
 
 /* ──────────────────────────────────────────────────────────────
    Four rendered 3D icons resting on a lit shelf (3dicons.co, CC0).
-   Hover or tap one and its work flies out above it as a stack of
-   cut-out cards, while everything else falls back and blurs away.
+   Hover or tap one and the surface that capability actually runs on flies
+   out above it - a phone, a laptop, a monitor, an order sheet - each built
+   in CSS, posed in perspective, with its own icons orbiting in front.
+   Everything else on the shelf falls back and blurs away.
    ────────────────────────────────────────────────────────────── */
 
-const tilt = (deg: string) => ({ ['--r']: deg }) as CSSProperties
+/* Pose one piece of the cluster. Position comes from l/r/t/b/w so the piece
+   is anchored in the pop area; the 3D lives in the custom properties, which
+   the shared .cc-hw-el transform reads. */
+type Pose = {
+  l?: string; r?: string; t?: string; b?: string; w?: string
+  rx?: number; ry?: number; rz?: number
+  z?: number                                   // depth, px
+  d?: number                                   // entry delay, s
+}
+const at = (p: Pose): CSSProperties => ({
+  left: p.l, right: p.r, top: p.t, bottom: p.b, width: p.w,
+  ['--rx']: `${p.rx ?? 0}deg`,
+  ['--ry']: `${p.ry ?? 0}deg`,
+  ['--rz']: `${p.rz ?? 0}deg`,
+  ['--z']: `${p.z ?? 0}px`,
+  ['--d']: `${p.d ?? 0}s`,
+} as CSSProperties)
+
+const WAVE = [0.4, 0.85, 0.55, 1, 0.7, 0.45, 0.9, 0.6, 0.35]
 
 type Item = {
   n: string
@@ -25,9 +52,7 @@ type Item = {
   metric: string        // the number that makes the promise concrete
   glow: string          // spotlight colour behind the icon
   icon: string
-  photo: string
-  alt: string
-  cards: ReactNode      // the cut-out cards that fly out with the photo
+  mock: ReactNode       // the device cluster that flies out
 }
 
 const ITEMS: Item[] = [
@@ -37,23 +62,34 @@ const ITEMS: Item[] = [
     metric: '18 sec average answer',
     glow: 'rgba(198,86,86,0.28)',
     icon: '/images/icons/headphone.png',
-    photo: '/images/help/care.jpg',
-    alt: 'Support agent on a call wearing a headset',
-    cards: (
+    mock: (
       <>
-        <div className="cc-hw-card cc-hw-ui" style={tilt('4deg')}>
-          <span className="chrome" aria-hidden><i /><i /><i /></span>
-          <span className="k">Answered in</span>
-          <span className="v">18 sec</span>
-          <span className="bars" aria-hidden>
-            <i style={{ height: '40%' }} /><i style={{ height: '75%' }} /><i style={{ height: '55%' }} />
-            <i style={{ height: '95%' }} /><i style={{ height: '62%' }} /><i style={{ height: '35%' }} />
+        {/* a phone, mid-call */}
+        <div className="cc-hw-el cc-hw-phone" style={at({ l: '34%', b: '0%', w: '31%', rx: 6, ry: 11, rz: -4, z: 20 })}>
+          <span className="notch" aria-hidden />
+          <span className="scr">
+            <span className="av" aria-hidden />
+            <b>Incoming call</b>
+            <span className="ln dim" style={{ width: '48%' }} />
+            <span className="wave" aria-hidden>
+              {WAVE.map((h, i) => <i key={i} style={{ height: `${h * 100}%` }} />)}
+            </span>
+            <span className="acts" aria-hidden>
+              <i className="no"><X size={11} strokeWidth={2.6} /></i>
+              <i className="yes"><PhoneCall size={11} strokeWidth={2.4} /></i>
+            </span>
           </span>
         </div>
-        <div className="cc-hw-card cc-hw-chat" style={tilt('-4deg')}>
-          <span className="b in">Where is my order?</span>
-          <span className="b out">Out for delivery</span>
-        </div>
+
+        <span className="cc-hw-el cc-hw-ico" style={at({ l: '1%', t: '15%', rx: 4, ry: 14, rz: -8, z: 70, d: 0.1 })}>
+          <Headset size={17} strokeWidth={2.2} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ r: '4%', t: '4%', rx: 4, ry: -13, rz: 7, z: 60, d: 0.16 })}>
+          <MessageSquare size={16} strokeWidth={2.1} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ r: '0%', b: '14%', rx: 3, ry: -15, rz: -5, z: 85, d: 0.22 })}>
+          <Clock size={16} strokeWidth={2.1} />
+        </span>
       </>
     ),
   },
@@ -63,19 +99,30 @@ const ITEMS: Item[] = [
     metric: '92% fixed first time',
     glow: 'rgba(74,160,150,0.28)',
     icon: '/images/icons/tool.png',
-    photo: '/images/help/tech.jpg',
-    alt: 'Technician repairing a laptop at a workbench',
-    cards: (
+    mock: (
       <>
-        <div className="cc-hw-card cc-hw-ui" style={tilt('5deg')}>
-          <span className="chrome" aria-hidden><i /><i /><i /></span>
-          <span className="k">Ticket #4821</span>
-          <span className="v sm">Login failure</span>
-          <span className="tag ok">Resolved in 6 min</span>
+        {/* a laptop running the ticket queue */}
+        <div className="cc-hw-el cc-hw-lap" style={at({ l: '19%', b: '9%', w: '61%', rx: 9, ry: -9, rz: 2, z: 20 })}>
+          <span className="lid">
+            <span className="scr">
+              <span className="chrome" aria-hidden><i /><i /><i /></span>
+              <span className="row"><b>Ticket #4821</b><span className="tag">open</span></span>
+              <span className="row"><s>Login failure</s><span className="tag ok">fixed</span></span>
+              <span className="row"><s>Sync error</s><span className="tag ok">fixed</span></span>
+            </span>
+          </span>
+          <span className="deck" aria-hidden><i /></span>
         </div>
-        <div className="cc-hw-card cc-hw-pill" style={tilt('-5deg')}>
-          <span className="dot" aria-hidden /> First-fix rate 92%
-        </div>
+
+        <span className="cc-hw-el cc-hw-ico" style={at({ l: '0%', t: '10%', rx: 4, ry: 14, rz: -8, z: 75, d: 0.1 })}>
+          <Wrench size={16} strokeWidth={2.2} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ r: '3%', t: '1%', rx: 4, ry: -13, rz: 8, z: 60, d: 0.16 })}>
+          <Ticket size={16} strokeWidth={2.1} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ r: '0%', b: '4%', rx: 3, ry: -15, rz: -6, z: 85, d: 0.22 })}>
+          <Check size={17} strokeWidth={3} />
+        </span>
       </>
     ),
   },
@@ -85,22 +132,35 @@ const ITEMS: Item[] = [
     metric: '+38% more win-backs',
     glow: 'rgba(214,140,84,0.3)',
     icon: '/images/icons/target.png',
-    photo: '/images/help/sales.jpg',
-    alt: 'Sales agent on a headset holding a clipboard of leads',
-    cards: (
+    mock: (
       <>
-        <div className="cc-hw-card cc-hw-ui" style={tilt('-5deg')}>
-          <span className="chrome" aria-hidden><i /><i /><i /></span>
-          <span className="k">Win-backs</span>
-          <span className="v">+38%</span>
-          <span className="bars up" aria-hidden>
-            <i style={{ height: '30%' }} /><i style={{ height: '46%' }} /><i style={{ height: '58%' }} />
-            <i style={{ height: '72%' }} /><i style={{ height: '88%' }} /><i style={{ height: '100%' }} />
+        {/* a monitor on its stand, showing the win-back board */}
+        <div className="cc-hw-el cc-hw-mon" style={at({ l: '20%', b: '2%', w: '59%', rx: 8, ry: -9, rz: 2, z: 20 })}>
+          <span className="bez">
+            <span className="scr">
+              <span className="kk">Win-backs</span>
+              <span className="big">+38%</span>
+              <span className="bars" aria-hidden>
+                <i style={{ height: '28%' }} /><i style={{ height: '42%' }} /><i style={{ height: '54%' }} />
+                <i className="on" style={{ height: '70%' }} />
+                <i className="on" style={{ height: '86%' }} />
+                <i className="on" style={{ height: '100%' }} />
+              </span>
+            </span>
           </span>
+          <span className="neck" aria-hidden />
+          <span className="foot" aria-hidden />
         </div>
-        <div className="cc-hw-card cc-hw-pill" style={tilt('5deg')}>
-          <span className="dot" aria-hidden /> 12 callbacks booked today
-        </div>
+
+        <span className="cc-hw-el cc-hw-ico" style={at({ l: '0%', b: '6%', rx: 4, ry: 14, rz: -8, z: 75, d: 0.1 })}>
+          <TrendingUp size={17} strokeWidth={2.3} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ l: '2%', t: '2%', rx: 4, ry: 13, rz: 6, z: 60, d: 0.16 })}>
+          <PhoneCall size={16} strokeWidth={2.1} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ r: '0%', t: '8%', rx: 3, ry: -14, rz: -5, z: 85, d: 0.22 })}>
+          <Target size={16} strokeWidth={2.1} />
+        </span>
       </>
     ),
   },
@@ -110,18 +170,28 @@ const ITEMS: Item[] = [
     metric: 'Zero backlog, daily',
     glow: 'rgba(122,152,124,0.3)',
     icon: '/images/icons/folder.png',
-    photo: '/images/help/backoffice.jpg',
-    alt: 'Administrator working through order paperwork at a desk',
-    cards: (
+    mock: (
       <>
-        <div className="cc-hw-card cc-hw-list" style={tilt('4deg')}>
-          <span className="row"><i className="tick" aria-hidden />Order #10248 processed</span>
-          <span className="row"><i className="tick" aria-hidden />CRM records synced</span>
-          <span className="row muted"><i className="tick" aria-hidden />Refund logged</span>
+        {/* the order sheet, worked and stamped */}
+        <div className="cc-hw-el cc-hw-doc" style={at({ l: '28%', b: '2%', w: '45%', rx: 7, ry: 10, rz: -3, z: 20 })}>
+          <span className="head"><b>Order #10248</b></span>
+          <span className="body">
+            <span className="row"><i className="tick"><Check size={8} strokeWidth={4} /></i><span className="ln" style={{ width: '66%' }} /></span>
+            <span className="row"><i className="tick"><Check size={8} strokeWidth={4} /></i><span className="ln dim" style={{ width: '48%' }} /></span>
+            <span className="row"><i className="tick"><Check size={8} strokeWidth={4} /></i><span className="ln dim" style={{ width: '58%' }} /></span>
+            <span className="stamp">Cleared</span>
+          </span>
         </div>
-        <div className="cc-hw-card cc-hw-pill" style={tilt('-6deg')}>
-          <span className="dot" aria-hidden /> 0 backlog today
-        </div>
+
+        <span className="cc-hw-el cc-hw-ico" style={at({ r: '0%', t: '8%', rx: 4, ry: -14, rz: 7, z: 75, d: 0.1 })}>
+          <ClipboardCheck size={17} strokeWidth={2.2} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ l: '0%', t: '1%', rx: 4, ry: 13, rz: -7, z: 60, d: 0.16 })}>
+          <Database size={16} strokeWidth={2.1} />
+        </span>
+        <span className="cc-hw-el cc-hw-ico ghost" style={at({ l: '2%', b: '10%', rx: 3, ry: 15, rz: 5, z: 85, d: 0.22 })}>
+          <Check size={17} strokeWidth={3} />
+        </span>
       </>
     ),
   },
@@ -141,17 +211,18 @@ export function HowWeHelp() {
   return (
     <section className="cc-hw" id="how-we-help" aria-label="How we help">
       <style>{`
+        /* runs the other way: cream at the head, opening out to white, so the
+           shelf below sits on the brightest part of the page */
         .cc-hw {
           position: relative; isolation: isolate;
-          background: ${CREAM}; color: ${TEXT};
+          background: linear-gradient(180deg, ${CREAM} 0%, #FCFAF6 38%, #FFFFFF 100%);
+          color: ${TEXT};
           padding: clamp(64px, 9vw, 140px) clamp(24px, 4vw, 64px);
           text-align: center; overflow: hidden;
         }
         .cc-hw::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background:
-            radial-gradient(70% 50% at 50% 0%, rgba(139,163,138,0.2), transparent 66%),
-            radial-gradient(46% 40% at 4% 96%, rgba(198,134,107,0.14), transparent 70%);
+          background: radial-gradient(50% 42% at 6% 96%, rgba(210,112,74,0.10), transparent 70%);
         }
         .cc-hw-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
 
@@ -160,7 +231,7 @@ export function HowWeHelp() {
           display: inline-flex; align-items: center; gap: 12px; justify-content: center;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
-          color: ${ACCENT}; margin: 0 0 clamp(16px, 2vw, 26px);
+          color: ${ACCENT_INK}; margin: 0 0 clamp(16px, 2vw, 26px);
         }
         .cc-hw-eyebrow::before, .cc-hw-eyebrow::after {
           content: ''; width: clamp(22px, 3vw, 44px); height: 1px; background: ${ACCENT}; opacity: 0.55;
@@ -181,15 +252,32 @@ export function HowWeHelp() {
         .cc-hw-stage {
           position: relative; text-align: left;
           border-radius: clamp(22px, 2.2vw, 40px);
-          background: linear-gradient(170deg, #FFFDFB 0%, #F3F0E9 58%, #EDE9E0 100%);
-          box-shadow: 0 60px 120px -70px rgba(46,58,52,0.6), 0 0 0 1px rgba(46,58,52,0.07);
+          background: linear-gradient(170deg, #FFFFFF 0%, #FDFBF8 52%, #F7F3EC 100%);
+          box-shadow:
+            inset 0 0 0 1px rgba(20,20,22,0.07),
+            0 1px 3px rgba(20,20,22,0.05),
+            0 18px 40px -22px rgba(20,20,22,0.16),
+            0 48px 88px -52px rgba(20,20,22,0.20);
           padding: clamp(18px, 2vw, 34px) clamp(16px, 2vw, 36px) clamp(22px, 2.4vw, 40px);
+        }
+        /* the sheen that runs across the top of the shelf - painted over the
+           dot grid but under the content, which all sits at z-index 1 and up */
+        .cc-hw-stage::after {
+          content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+          border-radius: inherit;
+          background: linear-gradient(
+            180deg,
+            rgba(255,255,255,0.95) 0%,
+            rgba(255,255,255,0.32) 3%,
+            rgba(255,255,255,0.06) 9%,
+            rgba(255,255,255,0) 16%
+          );
         }
         /* fine dot grid, faded out toward the bottom */
         .cc-hw-stage::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
           border-radius: inherit;
-          background-image: radial-gradient(rgba(46,58,52,0.09) 1px, transparent 1px);
+          background-image: radial-gradient(rgba(26,33,29,0.09) 1px, transparent 1px);
           background-size: 26px 26px;
           -webkit-mask-image: linear-gradient(180deg, #000, transparent 72%);
                   mask-image: linear-gradient(180deg, #000, transparent 72%);
@@ -199,30 +287,30 @@ export function HowWeHelp() {
           display: flex; align-items: center; justify-content: space-between; gap: 16px;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.72vw, 12px); letter-spacing: 2.2px;
-          color: rgba(46,58,52,0.4);
+          color: rgba(26,33,29,0.4);
           padding-bottom: clamp(10px, 1.2vw, 16px);
-          border-bottom: 1px solid rgba(46,58,52,0.09);
+          border-bottom: 1px solid rgba(26,33,29,0.09);
           transition: opacity .45s ease, filter .45s ease;
         }
         /* everything around the open stack recedes */
         .cc-hw-stage.is-open .cc-hw-bar { opacity: 0.22; filter: blur(2px); }
-        .cc-hw-bar .live { display: inline-flex; align-items: center; gap: 8px; color: ${ACCENT}; }
+        .cc-hw-bar .live { display: inline-flex; align-items: center; gap: 8px; color: ${ACCENT_INK}; }
         .cc-hw-bar .live i {
           width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT};
-          box-shadow: 0 0 0 0 rgba(198,134,107,0.55);
+          box-shadow: 0 0 0 0 rgba(210,112,74,0.55);
           animation: cc-hw-ping 2.6s cubic-bezier(.16,1,.3,1) infinite;
         }
         @keyframes cc-hw-ping {
-          0% { box-shadow: 0 0 0 0 rgba(198,134,107,0.5); }
-          70%, 100% { box-shadow: 0 0 0 9px rgba(198,134,107,0); }
+          0% { box-shadow: 0 0 0 0 rgba(210,112,74,0.5); }
+          70%, 100% { box-shadow: 0 0 0 9px rgba(210,112,74,0); }
         }
 
         .cc-hw-grid {
           position: relative; z-index: 1;
           display: grid; grid-template-columns: repeat(4, 1fr);
-          /* headroom reserved for the pop-out stacks: nothing shifts on hover.
-             The stacks break out over the frame edge from here. */
-          padding-top: clamp(110px, 11vw, 170px);
+          /* headroom reserved for the device clusters: nothing shifts on hover.
+             They break out over the frame edge from here. */
+          padding-top: clamp(150px, 16vw, 240px);
         }
         .cc-hw-item {
           position: relative; display: flex; flex-direction: column; align-items: center;
@@ -233,7 +321,7 @@ export function HowWeHelp() {
         /* hairline between the shelves */
         .cc-hw-item + .cc-hw-item::before {
           content: ''; position: absolute; left: 0; top: 8%; bottom: 8%; width: 1px;
-          background: linear-gradient(180deg, transparent, rgba(46,58,52,0.14) 30%, rgba(46,58,52,0.14) 70%, transparent);
+          background: linear-gradient(180deg, transparent, rgba(26,33,29,0.14) 30%, rgba(26,33,29,0.14) 70%, transparent);
         }
         .cc-hw-grid.is-open .cc-hw-item:not(.is-active) { opacity: 0.28; filter: blur(3px); transform: scale(0.96); }
         .cc-hw-item.is-active { z-index: 5; }
@@ -253,10 +341,10 @@ export function HowWeHelp() {
           position: absolute; top: clamp(-6px, 0.4vw, 8px); left: 50%; transform: translateX(-50%);
           font-family: 'Poppins', sans-serif; font-weight: 900; letter-spacing: -0.05em;
           font-size: clamp(64px, 7vw, 120px); line-height: 1;
-          color: rgba(46,58,52,0.06); pointer-events: none; user-select: none;
+          color: rgba(26,33,29,0.06); pointer-events: none; user-select: none;
           transition: color .5s ease;
         }
-        .cc-hw-item.is-active .cc-hw-ghost { color: rgba(198,134,107,0.16); }
+        .cc-hw-item.is-active .cc-hw-ghost { color: rgba(210,112,74,0.16); }
 
         .cc-hw-trigger {
           position: relative; z-index: 1;
@@ -272,7 +360,7 @@ export function HowWeHelp() {
         }
         .cc-hw-icon img {
           width: 100%; height: auto; display: block;
-          filter: drop-shadow(0 22px 26px rgba(46,58,52,0.28));
+          filter: drop-shadow(0 22px 26px rgba(26,33,29,0.28));
           animation: cc-hw-float 6.5s cubic-bezier(.45,0,.55,1) infinite;
           transition: transform .6s cubic-bezier(.16,1,.3,1);
           will-change: transform;
@@ -288,7 +376,7 @@ export function HowWeHelp() {
         .cc-hw-shelf::after {
           content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
           width: 62%; height: 14px; border-radius: 50%;
-          background: radial-gradient(closest-side, rgba(46,58,52,0.26), transparent);
+          background: radial-gradient(closest-side, rgba(26,33,29,0.26), transparent);
           transition: width .55s cubic-bezier(.16,1,.3,1), opacity .5s ease;
         }
         .cc-hw-item.is-active .cc-hw-shelf::after { width: 74%; opacity: 0.85; }
@@ -301,7 +389,7 @@ export function HowWeHelp() {
           pointer-events: none;
         }
 
-        .cc-hw-line { width: 100%; height: 1px; background: rgba(46,58,52,0.12); margin: clamp(10px, 1.2vw, 16px) 0 clamp(16px, 1.8vw, 26px); }
+        .cc-hw-line { width: 100%; height: 1px; background: rgba(26,33,29,0.12); margin: clamp(10px, 1.2vw, 16px) 0 clamp(16px, 1.8vw, 26px); }
 
         .cc-hw-label {
           font-family: 'Poppins', sans-serif; font-weight: 600; text-align: center;
@@ -317,131 +405,267 @@ export function HowWeHelp() {
         .cc-hw-metric {
           display: inline-flex; align-items: center; gap: 8px; margin-top: clamp(10px, 1.2vw, 16px);
           font-family: 'Inter', sans-serif; font-weight: 700;
-          font-size: clamp(12px, 0.88vw, 14px); letter-spacing: 0.2px; color: rgba(46,58,52,0.75);
+          font-size: clamp(12px, 0.88vw, 14px); letter-spacing: 0.2px; color: ${TEXT};
           padding: 7px 14px; border-radius: 100px;
-          background: rgba(255,255,255,0.75); box-shadow: inset 0 0 0 1px rgba(46,58,52,0.08);
+          background: linear-gradient(168deg, rgba(255,255,255,0.95), rgba(255,255,255,0.62));
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 0 0 1px rgba(26,33,29,0.08),
+            0 6px 14px -10px rgba(26,33,29,0.5);
           transition: background .4s ease, box-shadow .4s ease, color .4s ease;
         }
         .cc-hw-metric::before {
-          content: ''; width: 6px; height: 6px; border-radius: 50%; background: ${ACCENT}; flex-shrink: 0;
+          content: ''; width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0;
+          background: radial-gradient(circle at 32% 28%, #F5BB9C, ${ACCENT} 60%, #9C4324);
         }
         .cc-hw-item.is-active .cc-hw-metric {
-          background: #fff; color: ${TEXT}; box-shadow: 0 12px 26px -16px rgba(46,58,52,0.6);
+          background: linear-gradient(168deg, #FFFFFF, #F7F5F0);
+          color: ${TEXT};
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 0 0 1px rgba(26,33,29,0.06),
+            0 14px 28px -14px rgba(26,33,29,0.55);
         }
 
         /* the pill keeps its space at all times so nothing jumps */
         .cc-hw-view {
           display: inline-flex; align-items: center; gap: 8px;
           margin-top: clamp(12px, 1.4vw, 18px); min-height: 44px; padding: 11px 20px;
-          border-radius: 100px; background: ${TEXT}; color: #fff; text-decoration: none;
+          border-radius: 100px; color: #fff; text-decoration: none;
+          background: linear-gradient(168deg, #38423B 0%, #262F29 55%, #1A211D 100%);
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.9vw, 14px);
-          box-shadow: 0 16px 30px -18px rgba(46,58,52,0.9);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            inset 0 -1px 0 rgba(0,0,0,0.4),
+            0 2px 4px rgba(26,33,29,0.3),
+            0 16px 30px -16px rgba(26,33,29,0.85);
           opacity: 0; transform: translateY(8px); pointer-events: none;
-          transition: opacity .4s ease, transform .5s cubic-bezier(.16,1,.3,1), background .3s ease;
+          transition: opacity .4s ease, transform .5s cubic-bezier(.16,1,.3,1),
+                      background .3s ease, box-shadow .3s ease;
           will-change: transform;
         }
         .cc-hw-item.is-active .cc-hw-view { opacity: 1; transform: translateY(0); pointer-events: auto; }
-        .cc-hw-view:hover { background: ${ACCENT}; }
+        .cc-hw-view:hover {
+          background: ${GLOSS};
+          box-shadow: ${ACCENT_RIM}, 0 18px 34px -16px rgba(156,67,36,0.8);
+        }
 
-        /* ── the pop-out stack ── */
+        /* ── the device cluster that flies out ── */
         .cc-hw-pop {
           position: absolute; z-index: 4; pointer-events: none;
           left: 50%; transform: translateX(-50%);
           bottom: calc(100% - clamp(10px, 1.2vw, 20px));
-          width: clamp(240px, 24vw, 340px); height: clamp(190px, 19vw, 265px);
+          width: clamp(300px, 29vw, 430px); height: clamp(240px, 23vw, 330px);
+          perspective: 1100px;
         }
-        /* the outer stacks open inward so they never leave the stage */
+        /* the outer clusters open inward so they never leave the stage */
         .cc-hw-item:first-child .cc-hw-pop { left: 0; transform: none; }
         .cc-hw-item:last-child  .cc-hw-pop { left: auto; right: 0; transform: none; }
+        .cc-hw-3d { position: absolute; inset: 0; transform-style: preserve-3d; }
 
-        .cc-hw-card {
-          position: absolute; text-align: left;
-          background: #fff; border-radius: 16px;
-          box-shadow: 0 26px 50px -24px rgba(46,58,52,0.55), 0 0 0 1px rgba(46,58,52,0.06);
+        /* One transform for every piece. The entry offset is applied first, in the
+           parent's space, so pieces slide straight up rather than along their own
+           tilted axis. Only transform and opacity ever change. */
+        .cc-hw-el {
+          position: absolute;
+          transform:
+            translateY(var(--in, 44px))
+            translateZ(var(--z, 0px))
+            rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotateZ(var(--rz, 0deg))
+            scale(var(--s, 0.88));
+          opacity: 0;
+          transition: opacity .45s ease, transform .75s cubic-bezier(.16,1,.3,1);
+          will-change: transform, opacity;
+        }
+        .cc-hw-item.is-active .cc-hw-el {
+          --in: 0px; --s: 1; opacity: 1;
+          transition-delay: var(--d, 0s);       /* stagger on the way in, not out */
+        }
+
+        /* An all-light device on a cream stage has no silhouette - it dissolves
+           into the shelf. So every device is an INK shell around a LIGHT screen:
+           the dark frame draws the shape, the bright screen carries the content.
+           That is also why each one is a different object - phone, laptop,
+           monitor, order sheet - rather than four variations of a rounded box. */
+        /* the ink shells */
+        .cc-hw-phone,
+        .cc-hw-lap .lid,
+        .cc-hw-mon .bez {
+          background: linear-gradient(168deg, #3E4941 0%, #262F29 52%, #161C19 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.22),
+            inset 0 -1px 0 rgba(0,0,0,0.5),
+            inset 0 0 0 1px rgba(255,255,255,0.08),
+            0 3px 8px rgba(26,33,29,0.34),
+            0 30px 56px -24px rgba(26,33,29,0.7);
+        }
+        /* the bright screens inside them */
+        .cc-hw-phone .scr,
+        .cc-hw-lap .scr,
+        .cc-hw-mon .scr {
+          background: linear-gradient(168deg, #FFFFFF 0%, #F5F2EB 100%);
+          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.1), inset 0 2px 5px rgba(26,33,29,0.08);
+        }
+
+        /* 01 - the phone */
+        .cc-hw-phone { aspect-ratio: 1 / 2; border-radius: 20px; padding: 5px; }
+        .cc-hw-phone .notch {
+          position: absolute; top: 10px; left: 50%; transform: translateX(-50%); z-index: 2;
+          width: 26%; height: 4px; border-radius: 100px; background: rgba(0,0,0,0.5);
+        }
+        .cc-hw-phone .scr {
+          position: relative; height: 100%; border-radius: 16px; overflow: hidden;
+          display: flex; flex-direction: column; align-items: center; gap: 4px;
+          padding: 19px 9px 9px;
+        }
+        .cc-hw-phone .av {
+          width: 32px; height: 32px; border-radius: 50%; flex: none; margin-bottom: 3px;
+          background: radial-gradient(circle at 34% 28%, #F5BB9C, ${ACCENT} 58%, #9C4324);
+          box-shadow: inset 0 -1px 2px rgba(84,34,16,0.5), 0 0 0 4px rgba(210,112,74,0.16);
+        }
+        .cc-hw-phone .wave { display: flex; align-items: center; gap: 2px; height: 20px; width: 100%; margin-top: auto; }
+        .cc-hw-phone .wave i { flex: 1; border-radius: 100px; background: rgba(210,112,74,0.8); }
+        .cc-hw-phone .acts { display: flex; gap: 10px; justify-content: center; margin-top: 8px; }
+        .cc-hw-phone .acts i { width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; }
+        .cc-hw-phone .acts i.yes { background: ${GLOSS}; color: #fff; box-shadow: ${ACCENT_RIM}; }
+        .cc-hw-phone .acts i.no {
+          background: linear-gradient(168deg, #FFFFFF, #E4E0D6); color: rgba(26,33,29,0.55);
+          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.14);
+        }
+
+        /* 02 - the laptop. The deck being wider than the lid is the whole tell. */
+        .cc-hw-lap { display: flex; flex-direction: column; align-items: center; }
+        .cc-hw-lap .lid { width: 100%; border-radius: 10px 10px 3px 3px; padding: 7px 7px 8px; }
+        .cc-hw-lap .scr {
+          display: flex; flex-direction: column; gap: 5px;
+          border-radius: 5px; padding: 9px 10px 10px; text-align: left;
+        }
+        .cc-hw-lap .deck {
+          position: relative; width: 114%; height: 10px; border-radius: 2px 2px 8px 8px;
+          background: linear-gradient(180deg, #47524A 0%, #232C27 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.24),
+            inset 0 0 0 1px rgba(255,255,255,0.07),
+            0 8px 16px -8px rgba(26,33,29,0.6);
+        }
+        .cc-hw-lap .deck i {
+          position: absolute; left: 50%; top: 2px; transform: translateX(-50%);
+          width: 20%; height: 3px; border-radius: 100px; background: rgba(0,0,0,0.4);
+        }
+
+        /* 03 - the monitor on its stand */
+        .cc-hw-mon { display: flex; flex-direction: column; align-items: center; }
+        .cc-hw-mon .bez { width: 100%; border-radius: 10px; padding: 8px 8px 14px; }
+        .cc-hw-mon .scr {
+          display: flex; flex-direction: column; gap: 1px;
+          border-radius: 5px; padding: 10px 11px 11px; text-align: left;
+        }
+        .cc-hw-mon .neck {
+          width: 16%; height: 14px;
+          background: linear-gradient(90deg, #232C27, #3E4941 50%, #232C27);
+          box-shadow: 0 4px 10px -4px rgba(26,33,29,0.6);
+        }
+        .cc-hw-mon .foot {
+          width: 42%; height: 6px; border-radius: 3px;
+          background: linear-gradient(180deg, #47524A, #1D2521);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.2),
+            0 10px 20px -8px rgba(26,33,29,0.65);
+        }
+
+        /* 04 - the order sheet. Paper, so it stays light - but the ink header
+           strip gives it the edge the others get from their shells. */
+        .cc-hw-doc {
+          aspect-ratio: 3 / 3.7; border-radius: 10px; overflow: hidden;
+          display: flex; flex-direction: column;
+          background: linear-gradient(168deg, #FFFFFF 0%, #F7F5EF 60%, #EDE9E0 100%);
+          box-shadow:
+            inset 0 0 0 1px rgba(26,33,29,0.12),
+            0 3px 8px rgba(26,33,29,0.2),
+            0 28px 52px -22px rgba(26,33,29,0.6);
+        }
+        .cc-hw-doc .head {
+          flex: none; padding: 9px 11px;
+          background: linear-gradient(168deg, #3E4941, #232C27);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.16);
+        }
+        .cc-hw-doc .head b {
+          font-family: 'Inter', sans-serif; font-weight: 800;
+          font-size: 10px; letter-spacing: 0.6px; color: ${CREAM};
+        }
+        .cc-hw-doc .body {
+          flex: 1; display: flex; flex-direction: column; gap: 8px;
+          padding: 11px; text-align: left;
+        }
+        .cc-hw-doc .tick {
+          width: 14px; height: 14px; flex: none; border-radius: 50%;
+          display: grid; place-items: center;
+          background: rgba(94,140,110,0.18); color: #4C7C5F;
+          box-shadow: inset 0 0 0 1px rgba(94,140,110,0.45);
+        }
+        /* the stamp lands over the sheet, slightly off-square, like a real one */
+        .cc-hw-doc .stamp {
+          align-self: flex-end; margin-top: auto; transform: rotate(-7deg);
+          padding: 4px 10px; border-radius: 4px;
+          font-family: 'Inter', sans-serif; font-weight: 900; text-transform: uppercase;
+          font-size: 9px; letter-spacing: 1.6px; color: ${ACCENT_INK};
+          box-shadow: inset 0 0 0 2px rgba(210,112,74,0.55);
+        }
+
+        /* the icons orbiting the device */
+        .cc-hw-ico {
+          width: clamp(36px, 3.5vw, 48px); aspect-ratio: 1; border-radius: 13px;
+          display: grid; place-items: center; color: #fff;
+          background: ${GLOSS};
+          box-shadow: ${ACCENT_RIM},
+            0 2px 5px rgba(156,67,36,0.35),
+            0 16px 28px -12px rgba(156,67,36,0.6);
+        }
+        .cc-hw-ico.ghost {
+          color: ${TEXT};
+          background: linear-gradient(168deg, #FFFFFF 0%, #FAF8F4 50%, #EAE5DA 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 0 0 1px rgba(26,33,29,0.12),
+            0 1px 3px rgba(20,20,22,0.06),
+            0 16px 28px -12px rgba(26,33,29,0.55);
+        }
+
+        /* shared screen furniture */
+        .cc-hw-pop .chrome { display: flex; gap: 4px; margin-bottom: 2px; }
+        .cc-hw-pop .chrome i { width: 5px; height: 5px; border-radius: 50%; background: rgba(26,33,29,0.18); }
+        .cc-hw-pop .chrome i:first-child { background: rgba(210,112,74,0.85); }
+        .cc-hw-pop .ln { display: block; height: 5px; border-radius: 100px; background: rgba(26,33,29,0.26); }
+        .cc-hw-pop .ln.dim { background: rgba(26,33,29,0.14); }
+        .cc-hw-pop .row { display: flex; align-items: center; gap: 7px; }
+        .cc-hw-pop .row b, .cc-hw-pop .row s {
+          font-family: 'Inter', sans-serif; font-size: 10px; line-height: 1.3;
+          white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .cc-hw-pop .row b { font-weight: 700; color: ${TEXT}; }
+        .cc-hw-pop .row s { font-weight: 500; color: rgba(26,33,29,0.42); text-decoration: none; }
+        .cc-hw-pop .tag {
+          margin-left: auto; flex: none; padding: 3px 6px; border-radius: 100px;
           font-family: 'Inter', sans-serif;
-          opacity: 0; transform: translateY(24px) scale(0.9) rotate(var(--r, 0deg));
-          transition: opacity .45s ease, transform .7s cubic-bezier(.16,1,.3,1);
-          will-change: transform;
+          font-size: 8px; font-weight: 800; letter-spacing: 0.8px; text-transform: uppercase;
+          background: rgba(210,112,74,0.2); color: #A85434;
         }
-        .cc-hw-item.is-active .cc-hw-card { opacity: 1; transform: translateY(0) scale(1) rotate(var(--r, 0deg)); }
-        .cc-hw-item.is-active .cc-hw-card:nth-child(2) { transition-delay: .07s; }
-        .cc-hw-item.is-active .cc-hw-card:nth-child(3) { transition-delay: .13s; }
-
-        /* photo cut-out */
-        .cc-hw-photo {
-          left: 0; bottom: 0; width: 45%; aspect-ratio: 3 / 4;
-          overflow: hidden; padding: 0; margin: 0;
-        }
-        .cc-hw-photo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .cc-hw-photo figcaption {
-          position: absolute; left: 8px; bottom: 8px;
-          font-size: 9px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase;
-          color: #fff; background: rgba(28,36,31,0.6); padding: 4px 8px; border-radius: 100px;
-        }
-
-        /* stat / ticket card */
-        .cc-hw-ui {
-          right: 0; top: 10%; width: 63%;
-          padding: clamp(10px, 1vw, 14px) clamp(12px, 1.1vw, 16px);
-          display: flex; flex-direction: column; gap: 4px;
-        }
-        .cc-hw-ui .chrome { display: flex; gap: 4px; margin-bottom: 6px; }
-        .cc-hw-ui .chrome i { width: 6px; height: 6px; border-radius: 50%; background: rgba(46,58,52,0.14); }
-        .cc-hw-ui .k {
-          font-weight: 700; text-transform: uppercase; letter-spacing: 1.4px;
-          font-size: 10px; color: rgba(46,58,52,0.45);
-        }
-        .cc-hw-ui .v {
+        .cc-hw-pop .tag.ok { background: rgba(94,140,110,0.18); color: #4C7C5F; }
+        .cc-hw-pop b.big, .cc-hw-pop .big {
           font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
-          font-size: clamp(19px, 1.7vw, 26px); color: ${TEXT}; line-height: 1.1;
+          font-size: 26px; line-height: 1.15; color: ${TEXT};
         }
-        .cc-hw-ui .v.sm { font-size: clamp(14px, 1.15vw, 17px); }
-        .cc-hw-ui .bars { display: flex; align-items: flex-end; gap: 4px; height: 26px; margin-top: 6px; }
-        .cc-hw-ui .bars i { flex: 1; border-radius: 3px; background: rgba(46,58,52,0.14); }
-        .cc-hw-ui .bars.up i { background: linear-gradient(180deg, ${ACCENT}, rgba(198,134,107,0.3)); }
-        .cc-hw-ui .tag {
-          align-self: flex-start; margin-top: 8px; padding: 4px 9px; border-radius: 100px;
-          font-size: 10px; font-weight: 800; letter-spacing: 0.6px; text-transform: uppercase;
+        .cc-hw-pop .kk {
+          font-family: 'Inter', sans-serif;
+          font-size: 9px; font-weight: 800; letter-spacing: 1.4px; text-transform: uppercase;
+          color: rgba(26,33,29,0.42);
         }
-        .cc-hw-ui .tag.ok { background: rgba(63,122,114,0.13); color: #3F7A72; }
-
-        /* chat card */
-        .cc-hw-chat {
-          left: 8%; top: 0; width: 60%;
-          padding: 11px; display: flex; flex-direction: column; gap: 6px;
+        .cc-hw-phone .scr b {
+          font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10px; color: ${TEXT};
         }
-        .cc-hw-chat .b { font-size: 11px; line-height: 1.35; padding: 7px 10px; border-radius: 11px; max-width: 92%; }
-        .cc-hw-chat .in  { background: rgba(46,58,52,0.07); color: ${TEXT}; border-bottom-left-radius: 3px; }
-        .cc-hw-chat .out { background: ${ACCENT}; color: #fff; align-self: flex-end; border-bottom-right-radius: 3px; }
-
-        /* list card */
-        .cc-hw-list {
-          right: 0; top: 8%; width: 64%;
-          padding: clamp(10px, 1vw, 13px); display: flex; flex-direction: column; gap: 7px;
-        }
-        .cc-hw-list .row { display: flex; align-items: center; gap: 7px; font-size: 11px; line-height: 1.3; color: ${TEXT}; }
-        .cc-hw-list .row.muted { color: rgba(46,58,52,0.45); }
-        .cc-hw-list .tick {
-          width: 13px; height: 13px; flex-shrink: 0; border-radius: 50%;
-          background: rgba(78,107,83,0.16); box-shadow: inset 0 0 0 1.5px rgba(78,107,83,0.5);
-        }
-
-        /* floating pill */
-        .cc-hw-pill {
-          left: 2%; top: 0; display: inline-flex; align-items: center; gap: 7px;
-          padding: 9px 14px; border-radius: 100px; white-space: nowrap;
-          font-size: 11px; font-weight: 700; color: ${TEXT};
-        }
-        .cc-hw-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; flex-shrink: 0; }
-
-        /* ── footer CTA ── */
-          display: inline-flex; align-items: center; justify-content: center; gap: 12px;
-          min-height: 54px; padding: 16px clamp(32px, 3.6vw, 52px);
-          background: ${ACCENT}; color: #fff; text-decoration: none;
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
-          font-size: clamp(12px, 1vw, 14px); letter-spacing: 2.4px; border-radius: 4px;
-          transition: transform .45s cubic-bezier(.16,1,.3,1), background .4s ease; will-change: transform;
-        }
+        .cc-hw-pop .bars { display: flex; align-items: flex-end; gap: 4px; height: 38px; margin-top: 5px; }
+        .cc-hw-pop .bars i { flex: 1; border-radius: 3px 3px 2px 2px; background: rgba(26,33,29,0.14); }
+        .cc-hw-pop .bars i.on { background: linear-gradient(180deg, #F09A72, ${ACCENT}); }
 
         @media (min-width: 1920px) { .cc-hw-inner { max-width: 1900px; } }
         @media (min-width: 2560px) { .cc-hw-inner { max-width: 2400px; } }
@@ -456,15 +680,15 @@ export function HowWeHelp() {
           .cc-hw-item + .cc-hw-item::before { display: none; }
           .cc-hw-item:nth-child(even)::after {
             content: ''; position: absolute; left: 0; top: 10%; bottom: 10%; width: 1px;
-            background: linear-gradient(180deg, transparent, rgba(46,58,52,0.13), transparent);
+            background: linear-gradient(180deg, transparent, rgba(26,33,29,0.13), transparent);
           }
-          .cc-hw-pop { width: min(64vw, 300px); height: min(46vw, 220px); }
+          .cc-hw-pop { width: min(72vw, 330px); height: min(54vw, 250px); }
           .cc-hw-item:nth-child(odd) .cc-hw-pop  { left: 0; right: auto; transform: none; }
           .cc-hw-item:nth-child(even) .cc-hw-pop { left: auto; right: 0; transform: none; }
         }
         @media (max-width: 560px) {
           .cc-hw-desc { max-width: 22ch; font-size: 14px; }
-          .cc-hw-pop { width: 72vw; height: 54vw; }
+          .cc-hw-pop { width: 82vw; height: 62vw; }
           .cc-hw-bar { font-size: 10px; letter-spacing: 1.6px; }
         }
 
@@ -472,7 +696,7 @@ export function HowWeHelp() {
           .cc-hw-icon img { animation: none; }
           .cc-hw-bar .live i { animation: none; }
           .cc-hw-grid.is-open .cc-hw-item:not(.is-active) { filter: none; transform: none; }
-          .cc-hw-item, .cc-hw-card, .cc-hw-view, .cc-hw-spot { transition-duration: .01ms; }
+          .cc-hw-item, .cc-hw-el, .cc-hw-view, .cc-hw-spot { transition-duration: .01ms; }
         }
       `}</style>
 
@@ -511,13 +735,9 @@ export function HowWeHelp() {
                 <span className="cc-hw-spot" aria-hidden />
                 <span className="cc-hw-ghost" aria-hidden>{it.n}</span>
 
-                {/* the cut-out stack that flies out above the icon */}
+                {/* the device cluster that flies out above the icon */}
                 <div className="cc-hw-pop" aria-hidden>
-                  <figure className="cc-hw-card cc-hw-photo" style={tilt('-7deg')}>
-                    <img src={it.photo} alt="" width={700} height={900} loading="lazy" decoding="async" />
-                    <figcaption>{it.short}</figcaption>
-                  </figure>
-                  {it.cards}
+                  <div className="cc-hw-3d">{it.mock}</div>
                 </div>
 
                 <button

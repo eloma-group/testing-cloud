@@ -7,10 +7,15 @@ import { MaskReveal, staggerParent, popUp, VIEWPORT } from '../../lib/anim'
 const MotionLink = motion.create(Link)
 
 const TEXT   = '#2E3A34'
-const ACCENT = '#C6866B'
-const CREAM  = '#F4F1EB'
-const MUTED  = 'rgba(46,58,52,0.6)'
+const ACCENT = '#D2704A'
+const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const CREAM  = '#F6F2EA'
+const MUTED  = '#63706A'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
+
+const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 46%, #9C4324 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
 
 /* channel tiles that light up one after another on the left screen */
 const CHANNELS: { Icon: LucideIcon; label: string }[] = [
@@ -133,16 +138,17 @@ export function Omnichannel() {
   return (
     <section className="cc-oc" id="channels" aria-label="Omnichannel support">
       <style>{`
+        /* the widest white in the page: the hands read as cut out of paper */
         .cc-oc {
           position: relative; isolation: isolate;
-          background: radial-gradient(130% 90% at 50% 0%, #ffffff 0%, ${CREAM} 55%, #ECE6DB 100%);
+          background: radial-gradient(140% 96% at 50% 4%, #FFFFFF 0%, #FCFAF6 48%, ${CREAM} 80%, #EFE8DC 100%);
           color: ${TEXT}; overflow: hidden;
           padding: clamp(80px, 11vw, 170px) clamp(24px, 4vw, 64px) clamp(56px, 8vw, 120px);
           text-align: center;
         }
         .cc-oc::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background: radial-gradient(46% 40% at 50% 32%, rgba(198,134,107,0.14), transparent 66%);
+          background: radial-gradient(48% 42% at 50% 34%, rgba(210,112,74,0.10), transparent 68%);
         }
         .cc-oc-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
         @media (min-width: 1920px) { .cc-oc-inner { max-width: 1900px; } }
@@ -176,8 +182,22 @@ export function Omnichannel() {
         .cc-oc-screen {
           position: absolute; z-index: 2; overflow: hidden;
           container-type: size;
-          background: linear-gradient(180deg, #FFFFFF, #FBFAF7);
-          box-shadow: inset 0 0 0 1px rgba(46,58,52,0.06);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FDFCFA 46%, #F3F1EB 100%);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 0 0 1px rgba(26,33,29,0.06);
+        }
+        /* the reflection sliding down the glass - what makes a screen read as glass */
+        .cc-oc-screen::after {
+          content: ''; position: absolute; inset: 0; z-index: 9; pointer-events: none;
+          background: linear-gradient(
+            152deg,
+            rgba(255,255,255,0.6) 0%,
+            rgba(255,255,255,0.16) 18%,
+            rgba(255,255,255,0) 38%,
+            rgba(255,255,255,0) 72%,
+            rgba(255,255,255,0.22) 100%
+          );
         }
         .cc-oc-app {
           height: 100%; display: flex; flex-direction: column;
@@ -188,9 +208,9 @@ export function Omnichannel() {
         /* skeleton bars - stand in for copy, so the screens stay iconographic */
         .cc-oc-sk {
           height: 2.6cqh; min-height: 3px; border-radius: 100px;
-          background: rgba(46,58,52,0.16); display: block;
+          background: rgba(26,33,29,0.16); display: block;
         }
-        .cc-oc-sk.faint { background: rgba(46,58,52,0.09); }
+        .cc-oc-sk.faint { background: rgba(26,33,29,0.09); }
 
         /* status bar */
         .cc-oc-appbar { display: flex; align-items: center; gap: 3cqw; }
@@ -210,7 +230,7 @@ export function Omnichannel() {
         }
         .cc-oc-appbar-dots { margin-left: auto; display: flex; gap: 1.4cqw; }
         .cc-oc-appbar-dots i {
-          width: 1.6cqw; aspect-ratio: 1; border-radius: 50%; background: rgba(46,58,52,0.18);
+          width: 1.6cqw; aspect-ratio: 1; border-radius: 50%; background: rgba(26,33,29,0.18);
         }
 
         /* ── left screen: channel tiles lighting up in sequence ── */
@@ -227,18 +247,18 @@ export function Omnichannel() {
         .cc-oc-tile-box {
           position: relative; width: 100%; aspect-ratio: 1; border-radius: 26%;
           display: grid; place-items: center;
-          background: rgba(46,58,52,0.05); box-shadow: inset 0 0 0 1px rgba(46,58,52,0.07);
+          background: rgba(26,33,29,0.05); box-shadow: inset 0 0 0 1px rgba(26,33,29,0.07);
         }
         .cc-oc-tile-box::before {
           content: ''; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
-          background: linear-gradient(160deg, rgba(198,134,107,0.24), rgba(198,134,107,0.10));
-          box-shadow: inset 0 0 0 1px rgba(198,134,107,0.42);
+          background: linear-gradient(160deg, rgba(210,112,74,0.24), rgba(210,112,74,0.10));
+          box-shadow: inset 0 0 0 1px rgba(210,112,74,0.42);
           will-change: opacity;
           animation: cc-oc-glow 7.2s cubic-bezier(.16,1,.3,1) infinite;
           animation-delay: calc(var(--i) * 1.8s);
         }
         .cc-oc-tile-box .ic { position: absolute; width: 46%; height: 46%; }
-        .cc-oc-tile-box .ic.off { color: rgba(46,58,52,0.42); }
+        .cc-oc-tile-box .ic.off { color: rgba(26,33,29,0.42); }
         .cc-oc-tile-box .ic.on {
           color: ${ACCENT}; opacity: 0; will-change: opacity;
           animation: cc-oc-glow 7.2s cubic-bezier(.16,1,.3,1) infinite;
@@ -259,11 +279,11 @@ export function Omnichannel() {
         /* the queue bar sweeping under the tiles */
         .cc-oc-track {
           position: relative; height: 2.6cqh; min-height: 3px; border-radius: 100px;
-          background: rgba(46,58,52,0.08); overflow: hidden;
+          background: rgba(26,33,29,0.08); overflow: hidden;
         }
         .cc-oc-track span {
           position: absolute; inset: 0; width: 32%; border-radius: 100px;
-          background: linear-gradient(90deg, rgba(198,134,107,0.25), ${ACCENT});
+          background: linear-gradient(90deg, rgba(210,112,74,0.25), ${ACCENT});
           will-change: transform;
           animation: cc-oc-sweep 7.2s cubic-bezier(.65,0,.35,1) infinite;
         }
@@ -292,8 +312,8 @@ export function Omnichannel() {
         .cc-oc-orb-core {
           position: relative; width: 66%; aspect-ratio: 1; border-radius: 50%;
           display: grid; place-items: center; color: #fff;
-          background: linear-gradient(150deg, ${ACCENT}, #b5765c);
-          box-shadow: 0 4cqh 6cqh -3cqh rgba(198,134,107,0.75);
+          background: linear-gradient(150deg, ${ACCENT}, #A85434);
+          box-shadow: 0 4cqh 6cqh -3cqh rgba(210,112,74,0.75);
           will-change: transform;
           animation: cc-oc-breathe 3s cubic-bezier(.4,0,.6,1) infinite;
         }
@@ -318,12 +338,12 @@ export function Omnichannel() {
         .cc-oc-chip {
           display: flex; align-items: center; gap: 2.5cqw;
           padding: 3.2cqh 3.4cqw; border-radius: 100px;
-          background: rgba(198,134,107,0.10); box-shadow: inset 0 0 0 1px rgba(198,134,107,0.3);
+          background: rgba(210,112,74,0.10); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.3);
           will-change: transform, opacity;
           animation: cc-oc-chip-in 7.2s cubic-bezier(.16,1,.3,1) infinite;
         }
         .cc-oc-chip .ic { flex: none; width: 4.6cqw; height: auto; aspect-ratio: 1; color: ${ACCENT}; }
-        .cc-oc-chip .cc-oc-sk { background: rgba(198,134,107,0.34); }
+        .cc-oc-chip .cc-oc-sk { background: rgba(210,112,74,0.34); }
         @keyframes cc-oc-chip-in {
           0%, 6%    { transform: translateY(28%); opacity: 0; }
           14%, 88%  { transform: translateY(0);   opacity: 1; }
@@ -346,7 +366,7 @@ export function Omnichannel() {
           display: inline-flex; align-items: center; gap: 12px; justify-content: center;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
-          color: ${ACCENT}; margin: 0 0 clamp(14px, 1.6vw, 20px);
+          color: ${ACCENT_INK}; margin: 0 0 clamp(14px, 1.6vw, 20px);
         }
         .cc-oc-eyebrow::before, .cc-oc-eyebrow::after { content: ''; width: clamp(22px, 3vw, 44px); height: 1px; background: ${ACCENT}; opacity: 0.55; }
         .cc-oc-title {
@@ -367,10 +387,36 @@ export function Omnichannel() {
           text-decoration: none; letter-spacing: 0.2px; cursor: pointer;
           transition: transform .45s cubic-bezier(.16,1,.3,1), background .35s ease, color .35s ease; will-change: transform;
         }
-        .cc-oc-btn.primary { background: ${ACCENT}; color: #fff; box-shadow: 0 18px 40px -20px rgba(198,134,107,0.75); }
-        .cc-oc-btn.primary:hover { background: #b5765c; transform: translateY(-3px); }
-        .cc-oc-btn.ghost { background: transparent; color: ${TEXT}; border: 1.5px solid rgba(46,58,52,0.24); }
-        .cc-oc-btn.ghost:hover { background: ${TEXT}; color: ${CREAM}; transform: translateY(-3px); }
+        .cc-oc-btn.primary {
+          background: ${GLOSS}; color: #fff;
+          box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
+        }
+        .cc-oc-btn.primary:hover {
+          transform: translateY(-3px);
+          box-shadow: ${ACCENT_RIM},
+            0 3px 6px rgba(156,67,36,0.4),
+            0 18px 30px -10px rgba(156,67,36,0.68),
+            0 44px 70px -26px rgba(156,67,36,0.8);
+        }
+        /* a glass pill on cream that fills to ink on hover */
+        .cc-oc-btn.ghost {
+          color: ${TEXT}; border: 0;
+          background: linear-gradient(168deg, rgba(255,255,255,0.9), rgba(255,255,255,0.45));
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,1),
+            inset 0 -1px 0 rgba(20,20,22,0.03),
+            inset 0 0 0 1.5px rgba(26,33,29,0.18),
+            0 2px 4px rgba(26,33,29,0.10);
+        }
+        .cc-oc-btn.ghost:hover {
+          color: ${CREAM}; transform: translateY(-3px);
+          background: linear-gradient(168deg, #38423B, #262F29 60%, #1A211D);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.18),
+            inset 0 -1px 0 rgba(0,0,0,0.4),
+            0 2px 4px rgba(26,33,29,0.24),
+            0 18px 34px -16px rgba(26,33,29,0.7);
+        }
         .cc-oc-btn svg { transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform; }
         .cc-oc-btn.primary:hover svg { transform: translateX(4px); }
 
@@ -412,8 +458,8 @@ export function Omnichannel() {
           whileInView="show"
           viewport={VIEWPORT}
         >
-          <MotionLink className="cc-oc-btn primary" to="/contact" variants={popUp}>
-            Book a Free Call
+          <MotionLink className="cc-oc-btn primary gl-shine" to="/contact" variants={popUp}>
+            <span>Book a Free Call</span>
             <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
           </MotionLink>
           <MotionLink className="cc-oc-btn ghost" to="/#services" variants={popUp}>

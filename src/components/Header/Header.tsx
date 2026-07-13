@@ -4,8 +4,12 @@ import { Menu, X } from 'lucide-react'
 import { navItems } from '../../data/navItems'
 import { useScrollY } from '../../hooks/useScrollY'
 
-const TEXT   = '#2E3A34'
-const ACCENT = '#C6866B'
+const TEXT = '#2E3A34'
+
+/* the glossy terracotta the whole site's buttons wear */
+const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
 
 export function Header() {
   const scrollY = useScrollY()
@@ -34,10 +38,17 @@ export function Header() {
           height: '64px',
           display: 'flex',
           alignItems: 'center',
-          background: transparent ? 'transparent' : 'rgba(244,241,235,0.94)',
-          backdropFilter: transparent ? 'none' : 'blur(12px)',
-          borderBottom: transparent ? '1px solid transparent' : '1px solid rgba(46,58,52,0.08)',
-          transition: 'background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease',
+          /* White glass, not a cream slab. The page under it is white now, so a
+             cream bar would read as a stripe rather than as the page continuing. */
+          background: transparent
+            ? 'transparent'
+            : 'rgba(255,255,255,0.82)',
+          backdropFilter: transparent ? 'none' : 'blur(16px) saturate(1.5)',
+          WebkitBackdropFilter: transparent ? 'none' : 'blur(16px) saturate(1.5)',
+          boxShadow: transparent
+            ? 'none'
+            : '0 1px 0 rgba(20,20,22,0.07)',
+          transition: 'background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease',
         }}
       >
         <div
@@ -74,7 +85,8 @@ export function Header() {
                 width: 9,
                 height: 9,
                 borderRadius: '50%',
-                background: ACCENT,
+                background: 'radial-gradient(circle at 32% 28%, #F5BB9C, #D2704A 58%, #9C4324)',
+                boxShadow: '0 1px 3px rgba(156,67,36,0.55)',
                 flexShrink: 0,
               }}
             />
@@ -115,7 +127,7 @@ export function Header() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Link
               to="/contact"
-              className="cc-hd-cta"
+              className="cc-hd-cta gl-shine"
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -123,20 +135,29 @@ export function Header() {
                 minHeight: 44,
                 padding: '11px 26px',
                 borderRadius: 999,
-                background: ACCENT,
+                background: GLOSS,
+                boxShadow: `${ACCENT_RIM}, ${ACCENT_CAST}`,
                 color: '#fff',
                 fontFamily: "'Poppins', sans-serif",
                 fontSize: '13px',
-                fontWeight: 500,
+                fontWeight: 600,
                 letterSpacing: '1.5px',
                 textTransform: 'uppercase',
                 whiteSpace: 'nowrap',
-                transition: 'transform 0.25s ease, background 0.25s ease',
+                transition: 'transform 0.35s cubic-bezier(.16,1,.3,1), box-shadow 0.35s ease',
               }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = '#b7775c'; el.style.transform = 'translateY(-2px)' }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = ACCENT; el.style.transform = 'translateY(0)' }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(-2px)'
+                el.style.boxShadow = `${ACCENT_RIM}, 0 14px 26px -10px rgba(156,67,36,0.6), 0 34px 60px -24px rgba(156,67,36,0.7)`
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLElement
+                el.style.transform = 'translateY(0)'
+                el.style.boxShadow = `${ACCENT_RIM}, ${ACCENT_CAST}`
+              }}
             >
-              Get Started
+              <span>Get Started</span>
             </Link>
 
             {/* Hamburger - mobile */}
@@ -172,7 +193,7 @@ export function Header() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: '#F4F1EB',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #FCFAF6 52%, #F6F2EA 100%)',
           zIndex: 49,
           overflowY: 'auto',
           transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)',
@@ -188,7 +209,7 @@ export function Header() {
               style={{
                 display: 'block',
                 padding: '18px 0',
-                borderBottom: '1px solid rgba(46,58,52,0.08)',
+                borderBottom: '1px solid rgba(26,33,29,0.08)',
                 fontSize: '17px',
                 fontWeight: 500,
                 fontFamily: "'Poppins', sans-serif",
@@ -209,11 +230,12 @@ export function Header() {
               width: '100%',
               minHeight: 52,
               borderRadius: 999,
-              background: ACCENT,
+              background: GLOSS,
+              boxShadow: `${ACCENT_RIM}, ${ACCENT_CAST}`,
               color: '#fff',
               fontFamily: "'Poppins', sans-serif",
               fontSize: '14px',
-              fontWeight: 500,
+              fontWeight: 600,
               letterSpacing: '1.5px',
               textTransform: 'uppercase',
             }}

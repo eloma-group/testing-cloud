@@ -1,7 +1,26 @@
 import { Phone, Mail, MapPin } from 'lucide-react'
 
-const DARK   = '#3E4A42'
-const ACCENT = '#C6866B'
+const ACCENT = '#D2704A'
+const ACCENT_GLOSS = 'linear-gradient(168deg, #F09A72 0%, #D2704A 46%, #9C4324 100%)'
+
+/* Obsidian, not sage.
+
+   The previous footer was a dark green (#38423B down to #1A211D) - a tinted
+   dark, which on a warm page reads as more of the same warmth rather than as
+   a break from it. The reference does the opposite: the dark section is a
+   near-neutral black, and that neutrality is what makes the one accent colour
+   in it look lit. Surfaces sit only a few points above the base (#181818 on
+   #0F0F10), and every division is a #2A2A2A hairline rather than a shadow. */
+const INK     = '#0F0F10'   // the base
+const SURFACE = '#181818'   // a raised surface - only just lighter, on purpose
+const LINE    = '#2A2A2A'   // every hairline in here
+
+const DARK_GLOSS = 'linear-gradient(180deg, #181818 0%, #121213 46%, #0F0F10 100%)'
+const GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E\")"
+
+/* type on ink, straight off the reference: white, then two greys */
+const LINK  = '#BDBDBD'
+const QUIET = '#858387'
 
 type FooterCol = { heading: string; links: { label: string; href: string }[] }
 const COLS: FooterCol[] = [
@@ -72,12 +91,12 @@ function FooterLink({ label, href }: { label: string; href: string }) {
       href={href}
       style={{
         fontSize: 14,
-        color: 'rgba(255,255,255,0.55)',
+        color: LINK,
         transition: 'color 0.18s ease, padding-left 0.18s ease',
         display: 'block',
       }}
       onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = '#fff'; el.style.paddingLeft = '5px' }}
-      onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = 'rgba(255,255,255,0.55)'; el.style.paddingLeft = '0' }}
+      onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = LINK; el.style.paddingLeft = '0' }}
     >
       {label}
     </a>
@@ -86,13 +105,36 @@ function FooterLink({ label, href }: { label: string; href: string }) {
 
 export function Footer() {
   return (
-    <footer id="contact" style={{ background: DARK, position: 'relative', overflow: 'hidden' }}>
-      {/* soft accent glow, top-center */}
+    <footer
+      id="contact"
+      style={{
+        background: DARK_GLOSS,
+        backgroundColor: INK,
+        position: 'relative',
+        overflow: 'hidden',
+      }}
+    >
+      {/* The one place the accent gets to be a gradient over a large area:
+          a soft bloom at the seam, so the terracotta reads as light falling
+          into the black rather than as paint sitting on it. */}
       <div style={{
         position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
-        width: '60%', height: 300,
-        background: `radial-gradient(ellipse at top, ${ACCENT}18 0%, transparent 65%)`,
+        width: '68%', height: 340,
+        background: `radial-gradient(ellipse at top, rgba(210,112,74,0.20) 0%, transparent 66%)`,
         pointerEvents: 'none', zIndex: 0,
+      }} />
+      {/* grain film - keeps the ink gradient from banding into visible steps */}
+      <div style={{
+        position: 'absolute', inset: 0,
+        backgroundImage: GRAIN, backgroundSize: '140px 140px',
+        opacity: 0.04, mixBlendMode: 'overlay',
+        pointerEvents: 'none', zIndex: 0,
+      }} />
+      {/* the seam where the cream above meets the black - an edge, not a colour change */}
+      <div style={{
+        position: 'absolute', top: 0, left: 0, right: 0, height: 1,
+        background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent)',
+        pointerEvents: 'none', zIndex: 1,
       }} />
 
       <div style={{ padding: 'clamp(56px,7vw,110px) clamp(24px,4vw,64px) 0', position: 'relative', zIndex: 1 }}>
@@ -111,7 +153,11 @@ export function Footer() {
             {/* Brand / stay in touch */}
             <div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 22 }}>
-                <span style={{ width: 10, height: 10, borderRadius: '50%', background: ACCENT }} />
+                <span style={{
+                  width: 10, height: 10, borderRadius: '50%',
+                  background: 'radial-gradient(circle at 32% 28%, #F5BB9C, #D2704A 58%, #9C4324)',
+                  boxShadow: '0 0 14px rgba(210,112,74,0.55)',
+                }} />
                 <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>
                   Nexa
                 </span>
@@ -125,22 +171,22 @@ export function Footer() {
                 Stay in touch.
               </h2>
 
-              <p style={{ fontSize: 14.5, color: 'rgba(255,255,255,0.55)', lineHeight: 1.8, maxWidth: 320, margin: '0 0 26px' }}>
+              <p style={{ fontSize: 14.5, color: LINK, lineHeight: 1.8, maxWidth: 320, margin: '0 0 26px' }}>
                 A customer support collective helping brands deliver reliable,
                 human service - around the clock, built to scale.
               </p>
 
               {/* Contact details */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26 }}>
-                <a href="tel:1800000000" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+                <a href="tel:1800000000" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: LINK }}>
                   <Phone size={15} strokeWidth={1.6} style={{ color: ACCENT, flexShrink: 0 }} />
                   1800 000 000
                 </a>
-                <a href="mailto:hello@nexa.support" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+                <a href="mailto:hello@nexa.support" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: LINK }}>
                   <Mail size={15} strokeWidth={1.6} style={{ color: ACCENT, flexShrink: 0 }} />
                   hello@nexa.support
                 </a>
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: 'rgba(255,255,255,0.6)' }}>
+                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: LINK }}>
                   <MapPin size={15} strokeWidth={1.6} style={{ color: ACCENT, flexShrink: 0 }} />
                   Melbourne, Australia
                 </span>
@@ -156,13 +202,23 @@ export function Footer() {
                     style={{
                       width: 40, height: 40, borderRadius: 10,
                       display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      background: 'rgba(255,255,255,0.08)',
-                      border: '1px solid rgba(255,255,255,0.12)',
-                      color: '#fff',
-                      transition: 'transform 0.2s ease, background 0.2s ease',
+                      background: SURFACE,
+                      boxShadow: `inset 0 0 0 1px ${LINE}`,
+                      color: '#FFFFFF',
+                      transition: 'transform 0.25s cubic-bezier(.16,1,.3,1), background 0.25s ease, box-shadow 0.25s ease',
                     }}
-                    onMouseEnter={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = ACCENT; el.style.transform = 'translateY(-3px)' }}
-                    onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = 'rgba(255,255,255,0.08)'; el.style.transform = 'translateY(0)' }}
+                    onMouseEnter={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.background = ACCENT_GLOSS
+                      el.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.4), 0 10px 24px -10px rgba(210,112,74,0.7)'
+                      el.style.transform = 'translateY(-3px)'
+                    }}
+                    onMouseLeave={(e) => {
+                      const el = e.currentTarget as HTMLElement
+                      el.style.background = SURFACE
+                      el.style.boxShadow = `inset 0 0 0 1px ${LINE}`
+                      el.style.transform = 'translateY(0)'
+                    }}
                   >
                     <Icon />
                   </a>
@@ -193,9 +249,9 @@ export function Footer() {
             padding: 'clamp(18px,2.5vw,26px) 0 clamp(24px,3vw,36px)',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
             flexWrap: 'wrap', gap: 14,
-            borderTop: '1px solid rgba(255,255,255,0.09)',
+            borderTop: `1px solid ${LINE}`,
           }}>
-            <p style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.32)', margin: 0 }}>
+            <p style={{ fontSize: 12.5, color: QUIET, margin: 0 }}>
               © {new Date().getFullYear()} Nexa. All rights reserved.
             </p>
             <div style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px,2vw,24px)', flexWrap: 'wrap' }}>
@@ -203,9 +259,9 @@ export function Footer() {
                 <a
                   key={link}
                   href="#"
-                  style={{ fontSize: 12.5, color: 'rgba(255,255,255,0.32)', transition: 'color 0.15s ease' }}
+                  style={{ fontSize: 12.5, color: QUIET, transition: 'color 0.15s ease' }}
                   onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.color = ACCENT }}
-                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = 'rgba(255,255,255,0.32)' }}
+                  onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.color = QUIET }}
                 >
                   {link}
                 </a>

@@ -4,9 +4,18 @@ import { ArrowRight } from 'lucide-react'
 import { MaskReveal, useParallax } from '../../lib/anim'
 
 const TEXT   = '#2E3A34'
-const ACCENT = '#C6866B'
-const MINT   = '#DEE8E2' // soft sage-mint panel
+const ACCENT = '#D2704A'
+const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+/* Was a sage-mint slab (#DEE8E2). A second hue at low chroma, running
+   alongside the terracotta, is what turned the whole page muddy - so the
+   panel now sits in the same white-to-cream ramp as every other section. */
+const CREAM  = '#F6F2EA'
+const MUTED  = '#5A665F'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
+
+const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
 
 type RowProps = {
   reverse?: boolean
@@ -45,8 +54,8 @@ function Row({ reverse, eyebrow, heading, body, cta, img }: RowProps) {
         <motion.p className="cc-bp-eyebrow" {...rise(0)}>{eyebrow}</motion.p>
         <MaskReveal as="h2" className="cc-bp-h2" delay={0.08}>{heading}</MaskReveal>
         <motion.p className="cc-bp-p" {...rise(0.16)}>{body}</motion.p>
-        <motion.a className="cc-bp-btn" href={cta.href} {...rise(0.24)}>
-          {cta.label}
+        <motion.a className="cc-bp-btn gl-shine" href={cta.href} {...rise(0.24)}>
+          <span>{cta.label}</span>
           <ArrowRight size={19} strokeWidth={2.4} aria-hidden />
         </motion.a>
       </div>
@@ -58,7 +67,7 @@ export function BrandPromise() {
   return (
     <section className="cc-bp" id="brand-promise" aria-label="Your brand, represented">
       <style>{`
-        .cc-bp { background: ${MINT}; overflow: hidden; }
+        .cc-bp { background: #FFFFFF; overflow: hidden; }
         .cc-bp-row { display: grid; grid-template-columns: 1fr 1fr; }
 
         /* full-bleed photo */
@@ -68,17 +77,31 @@ export function BrandPromise() {
           object-fit: cover; object-position: center;
           will-change: transform;
         }
+        /* a glass edge where the photo meets the panel, so the seam catches light */
+        .cc-bp-media::after {
+          content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+          background: linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0) 22%);
+        }
 
-        /* content panel */
+        /* content panel - white at the top, drifting into cream, with one soft
+           terracotta bloom behind the copy */
         .cc-bp-panel {
+          position: relative;
           display: flex; flex-direction: column; justify-content: center;
           padding: clamp(48px, 6vw, 120px) clamp(28px, 5vw, 96px);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FCFAF6 44%, ${CREAM} 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1);
         }
+        .cc-bp-panel::before {
+          content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+          background: radial-gradient(58% 46% at 24% 10%, rgba(210,112,74,0.09), transparent 72%);
+        }
+        .cc-bp-panel > * { position: relative; z-index: 1; }
         .cc-bp-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
-          color: ${ACCENT}; margin: 0 0 clamp(20px, 2.4vw, 30px);
+          color: ${ACCENT_INK}; margin: 0 0 clamp(20px, 2.4vw, 30px);
         }
         .cc-bp-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-bp-h2 {
@@ -89,20 +112,23 @@ export function BrandPromise() {
         .cc-bp-p {
           font-family: 'Inter', sans-serif;
           font-size: clamp(16px, 1.3vw, 20px); line-height: 1.72;
-          color: rgba(46,58,52,0.72); margin: clamp(24px, 2.8vw, 38px) 0 0; max-width: 46ch;
+          color: ${MUTED}; margin: clamp(24px, 2.8vw, 38px) 0 0; max-width: 46ch;
         }
         .cc-bp-btn {
           display: inline-flex; align-items: center; justify-content: center; gap: 12px;
           align-self: flex-start; margin-top: clamp(32px, 4vw, 52px);
           min-height: 60px; padding: 18px clamp(34px, 3.6vw, 54px);
-          background: ${ACCENT}; color: #fff; text-decoration: none; border-radius: 100px;
+          background: ${GLOSS}; color: #fff; text-decoration: none; border-radius: 100px;
           font-family: 'Inter', sans-serif; font-weight: 700;
           font-size: clamp(15px, 1.2vw, 18px); letter-spacing: 0.2px;
-          box-shadow: 0 18px 40px -20px rgba(198,134,107,0.7);
-          transition: transform .45s cubic-bezier(.16,1,.3,1), background .4s ease; will-change: transform;
+          box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
+          transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; will-change: transform;
         }
         .cc-bp-btn svg { transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform; }
-        .cc-bp-btn:hover { background: #b5765c; transform: translateY(-3px); }
+        .cc-bp-btn:hover {
+          transform: translateY(-3px);
+          box-shadow: ${ACCENT_RIM}, 0 16px 28px -10px rgba(156,67,36,0.6), 0 38px 66px -26px rgba(156,67,36,0.72);
+        }
         .cc-bp-btn:hover svg { transform: translateX(4px); }
 
         /* reversed row: text left, image right (desktop) */

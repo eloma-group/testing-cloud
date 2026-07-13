@@ -2,7 +2,8 @@ import { useRef } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import { EASE, MaskReveal } from '../../lib/anim'
 
-const ACCENT = '#C6866B'
+const ACCENT    = '#D2704A'
+const ACCENT_HI = '#F09A72'
 
 export function Hero() {
   const reduce = useReducedMotion() ?? false
@@ -28,12 +29,15 @@ export function Hero() {
           padding: clamp(120px, 15vh, 220px) clamp(24px, 4vw, 64px) clamp(56px, 9vh, 120px);
           background-color: #1c231f;
         }
-        /* Full-bleed premium montage - shown clean, no CSS overlay or gradient on top.
-           A soft scrim is baked into the footage so the copy zone stays legible. */
         .cc-hero-bg {
           position: absolute; inset: 0; width: 100%; height: 100%;
           object-fit: cover; object-position: center top;
           z-index: 0; pointer-events: none;
+        }
+        /* the glass edge where the hero meets the section under it */
+        .cc-hero-gloss {
+          position: absolute; inset: auto 0 0 0; z-index: 1; height: 1px; pointer-events: none;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.28), transparent);
         }
         .cc-hero-inner {
           position: relative; z-index: 2;
@@ -41,26 +45,31 @@ export function Hero() {
         }
         .cc-hero-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
-          font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
-          color: rgba(255,255,255,0.86); margin: 0 0 clamp(18px, 2.2vw, 28px);
-          text-shadow: 0 1px 16px rgba(0,0,0,0.5);
+          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(11px, 0.82vw, 13px); letter-spacing: 2.8px;
+          color: #FFFFFF; margin: 0 0 clamp(18px, 2.2vw, 28px);
+          text-shadow: 0 1px 3px rgba(0,0,0,0.45);
         }
-        .cc-hero-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px;
-          background: linear-gradient(90deg, ${ACCENT}, transparent); }
+        .cc-hero-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 2px; border-radius: 2px;
+          background: linear-gradient(90deg, ${ACCENT_HI}, ${ACCENT}, transparent); }
         .cc-hero-h1 {
           font-family: 'Poppins', sans-serif; font-weight: 600;
-          font-size: clamp(34px, 5.3vw, 84px); line-height: 1.03; letter-spacing: -0.02em;
+          font-size: clamp(34px, 5.3vw, 84px); line-height: 1.03; letter-spacing: -0.025em;
           margin: 0; color: #fff; max-width: 18ch;
-          text-shadow: 0 2px 44px rgba(0,0,0,0.5);
+          text-shadow: 0 1px 2px rgba(0,0,0,0.32), 0 2px 12px rgba(0,0,0,0.22);
         }
-        .cc-hero-h1 .accent { color: ${ACCENT}; }
+        /* the accent words catch the light the same way the buttons do */
+        .cc-hero-h1 .accent {
+          background: linear-gradient(168deg, ${ACCENT_HI}, ${ACCENT} 60%, #A85434);
+          -webkit-background-clip: text; background-clip: text;
+          -webkit-text-fill-color: transparent; color: ${ACCENT};
+        }
         .cc-hero-p {
-          font-family: 'Inter', sans-serif;
+          font-family: 'Inter', sans-serif; font-weight: 400;
           font-size: clamp(15px, 1.35vw, 19px); line-height: 1.75;
-          color: rgba(255,255,255,0.88); max-width: 560px;
+          color: rgba(255,255,255,0.94); max-width: 560px;
           margin: clamp(22px, 2.6vw, 34px) 0 0;
-          text-shadow: 0 2px 24px rgba(0,0,0,0.55);
+          text-shadow: 0 1px 3px rgba(0,0,0,0.4);
         }
 
         @media (min-width: 1920px) {
@@ -96,6 +105,8 @@ export function Hero() {
           <source src="/images/hero.mp4" type="video/mp4" />
         </motion.video>
       )}
+
+      <span className="cc-hero-gloss" aria-hidden />
 
       <motion.div className="cc-hero-inner" style={reduce ? undefined : { y: contentY, opacity: contentOpacity }}>
         <motion.p className="cc-hero-eyebrow" {...fade(0.02)}>Outsourced Customer Support</motion.p>
