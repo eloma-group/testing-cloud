@@ -8,28 +8,28 @@ const COLS: FooterCol[] = [
   {
     heading: 'Company',
     links: [
-      { label: 'About',    href: '#about'    },
-      { label: 'Services', href: '#services' },
-      { label: 'Team',     href: '#team'     },
-      { label: 'Careers',  href: '#careers'  },
+      { label: 'About',    href: '/#about'    },
+      { label: 'Services', href: '/#services' },
+      { label: 'Team',     href: '/#about'     },
+      { label: 'Careers',  href: '/contact'  },
     ],
   },
   {
     heading: 'Solutions',
     links: [
-      { label: 'Inbound Support', href: '#services' },
-      { label: 'Outbound Sales',  href: '#services' },
-      { label: 'Live Chat',       href: '#services' },
-      { label: 'Back Office',     href: '#services' },
+      { label: 'Inbound Support', href: '/#services' },
+      { label: 'Outbound Sales',  href: '/#services' },
+      { label: 'Live Chat',       href: '/#services' },
+      { label: 'Back Office',     href: '/#services' },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'Blog',        href: '#blog'    },
-      { label: 'Case Studies', href: '#blog'   },
-      { label: 'Contact',     href: '#contact' },
-      { label: 'Support',     href: '#contact' },
+      { label: 'Blog',        href: '/#industries'    },
+      { label: 'Case Studies', href: '/#industries'   },
+      { label: 'Contact',     href: '/contact' },
+      { label: 'Support',     href: '/contact' },
     ],
   },
 ]

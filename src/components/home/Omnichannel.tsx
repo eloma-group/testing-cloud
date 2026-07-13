@@ -1,7 +1,10 @@
 import { motion, useReducedMotion } from 'framer-motion'
+import { Link } from 'react-router-dom'
 import { ArrowRight, Phone, MessageCircle, Mail, MessageSquare, Headset, CheckCheck } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { MaskReveal, staggerParent, popUp, VIEWPORT } from '../../lib/anim'
+
+const MotionLink = motion.create(Link)
 
 const TEXT   = '#2E3A34'
 const ACCENT = '#C6866B'
@@ -409,13 +412,13 @@ export function Omnichannel() {
           whileInView="show"
           viewport={VIEWPORT}
         >
-          <motion.a className="cc-oc-btn primary" href="#contact" variants={popUp}>
+          <MotionLink className="cc-oc-btn primary" to="/contact" variants={popUp}>
             Book a Free Call
             <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
-          </motion.a>
-          <motion.a className="cc-oc-btn ghost" href="#services" variants={popUp}>
+          </MotionLink>
+          <MotionLink className="cc-oc-btn ghost" to="/#services" variants={popUp}>
             See Our Channels
-          </motion.a>
+          </MotionLink>
         </motion.div>
       </div>
     </section>

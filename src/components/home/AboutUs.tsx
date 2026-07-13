@@ -1,4 +1,5 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
@@ -277,10 +278,10 @@ export function AboutUs() {
             width={1120} height={770} loading="lazy" decoding="async"
             style={reduce ? { scale: 1.12 } : { y: ovalImgY, scale: 1.12 }}
           />
-          <a className="cc-au-btn" href="#contact">
+          <Link className="cc-au-btn" to="/contact">
             Book a Free Call
             <ArrowRight size={17} strokeWidth={2.4} aria-hidden />
-          </a>
+          </Link>
         </motion.div>
 
         <div className="cc-au-word-wrap">

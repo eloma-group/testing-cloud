@@ -1,4 +1,5 @@
 import { useCallback, useRef, useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
 import { MaskReveal, fadeUp, VIEWPORT, EASE } from '../../lib/anim'
@@ -121,7 +122,7 @@ const SERVICES: Service[] = [
 /* Rotating seal — circular text on a path, spinning on the compositor. */
 function Seal() {
   return (
-    <a className="cc-sv-seal" href="#contact" aria-label="Get in touch about our services">
+    <Link className="cc-sv-seal" to="/contact" aria-label="Get in touch about our services">
       <svg className="cc-sv-seal-ring" viewBox="0 0 120 120" aria-hidden focusable="false">
         <defs>
           <path id="cc-sv-seal-path" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0" />
@@ -138,7 +139,7 @@ function Seal() {
           stroke="currentColor" strokeWidth="2" strokeLinecap="round"
         />
       </svg>
-    </a>
+    </Link>
   )
 }
 
@@ -459,9 +460,9 @@ export function Services() {
                   <span className="cc-sv-pill">{cur.tag}</span>
                   <span className="cc-sv-scrim" aria-hidden />
                   <figcaption className="cc-sv-cap">{cur.caption}</figcaption>
-                  <a className="cc-sv-arrow" href="#contact" aria-label={`Talk to us about ${cur.title}`}>
+                  <Link className="cc-sv-arrow" to="/contact" aria-label={`Talk to us about ${cur.title}`}>
                     <ArrowUpRight size={20} strokeWidth={2.2} aria-hidden />
-                  </a>
+                  </Link>
                 </motion.figure>
               </AnimatePresence>
 

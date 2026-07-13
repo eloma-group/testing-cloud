@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { CSSProperties, ReactNode } from 'react'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowUpRight } from 'lucide-react'
 import { MaskReveal, popUp, staggerParent, VIEWPORT, EASE } from '../../lib/anim'
 
 const TEXT   = '#2E3A34'
@@ -435,8 +435,6 @@ export function HowWeHelp() {
         .cc-hw-pill .dot { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; flex-shrink: 0; }
 
         /* ── footer CTA ── */
-        .cc-hw-foot { display: flex; justify-content: center; margin-top: clamp(34px, 4vw, 64px); }
-        .cc-hw-btn {
           display: inline-flex; align-items: center; justify-content: center; gap: 12px;
           min-height: 54px; padding: 16px clamp(32px, 3.6vw, 52px);
           background: ${ACCENT}; color: #fff; text-decoration: none;
@@ -444,9 +442,6 @@ export function HowWeHelp() {
           font-size: clamp(12px, 1vw, 14px); letter-spacing: 2.4px; border-radius: 4px;
           transition: transform .45s cubic-bezier(.16,1,.3,1), background .4s ease; will-change: transform;
         }
-        .cc-hw-btn svg { transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform; }
-        .cc-hw-btn:hover { background: #b5765c; transform: translateY(-3px); }
-        .cc-hw-btn:hover svg { transform: translateX(4px); }
 
         @media (min-width: 1920px) { .cc-hw-inner { max-width: 1900px; } }
         @media (min-width: 2560px) { .cc-hw-inner { max-width: 2400px; } }
@@ -553,12 +548,6 @@ export function HowWeHelp() {
           </motion.div>
         </motion.div>
 
-        <div className="cc-hw-foot">
-          <motion.a className="cc-hw-btn" href="#services" {...rise(0.22)}>
-            Learn More
-            <ArrowRight size={17} strokeWidth={2.4} aria-hidden />
-          </motion.a>
-        </div>
       </div>
     </section>
   )

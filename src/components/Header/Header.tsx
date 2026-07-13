@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import { Menu, X } from 'lucide-react'
 import { navItems } from '../../data/navItems'
 import { useScrollY } from '../../hooks/useScrollY'
@@ -8,11 +9,14 @@ const ACCENT = '#C6866B'
 
 export function Header() {
   const scrollY = useScrollY()
+  const { pathname } = useLocation()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const isHome = pathname === '/'
 
   // Transparent while the hero (100vh) is still in view; solid cream after.
+  /* only the home page has a dark hero for the header to sit over */
   const overHero =
-    scrollY < (typeof window !== 'undefined' ? window.innerHeight - 64 : 700)
+    isHome && scrollY < (typeof window !== 'undefined' ? window.innerHeight - 64 : 700)
   const transparent = overHero && !mobileOpen
 
   const textColor = transparent ? '#ffffff' : TEXT
@@ -48,8 +52,8 @@ export function Header() {
           }}
         >
           {/* Wordmark */}
-          <a
-            href="/"
+          <Link
+            to="/"
             className="cc-hd-word"
             style={{
               flexShrink: 0,
@@ -75,7 +79,7 @@ export function Header() {
               }}
             />
             Nexa
-          </a>
+          </Link>
 
           {/* Desktop Nav */}
           <nav
@@ -83,9 +87,9 @@ export function Header() {
             style={{ display: 'flex', alignItems: 'center', gap: 'clamp(4px, 1vw, 12px)' }}
           >
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="cc-hd-link"
                 style={{
                   padding: '0 14px',
@@ -103,14 +107,14 @@ export function Header() {
                 onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.opacity = '1' }}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
           {/* Right side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <a
-              href="#contact"
+            <Link
+              to="/contact"
               className="cc-hd-cta"
               style={{
                 display: 'inline-flex',
@@ -133,7 +137,7 @@ export function Header() {
               onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.background = ACCENT; el.style.transform = 'translateY(0)' }}
             >
               Get Started
-            </a>
+            </Link>
 
             {/* Hamburger - mobile */}
             <button
@@ -177,9 +181,9 @@ export function Header() {
       >
         <div style={{ padding: '16px 24px 64px' }}>
           {navItems.map((item) => (
-            <a
+            <Link
               key={item.label}
-              href={item.href}
+              to={item.href}
               onClick={() => setMobileOpen(false)}
               style={{
                 display: 'block',
@@ -192,10 +196,10 @@ export function Header() {
               }}
             >
               {item.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             onClick={() => setMobileOpen(false)}
             style={{
               marginTop: 28,
@@ -215,7 +219,7 @@ export function Header() {
             }}
           >
             Get Started
-          </a>
+          </Link>
         </div>
       </div>
 
