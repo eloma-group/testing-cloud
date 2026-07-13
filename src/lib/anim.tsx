@@ -1,5 +1,6 @@
-import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion'
+import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import type { Variants } from 'framer-motion'
+import { useRef } from 'react'
 import type { ElementType, ReactNode, RefObject } from 'react'
 
 /* ──────────────────────────────────────────────────────────────
@@ -47,20 +48,26 @@ export function MaskReveal({
   const reduce = useReducedMotion() ?? false
   const Tag = as
 
+  /* Observe the clipping wrapper, never the masked child: the child starts
+     translated fully outside the wrapper's overflow:hidden box, and an
+     IntersectionObserver clips against ancestors, so it would never report
+     itself as visible and the reveal would never fire. */
+  const ref = useRef<HTMLSpanElement>(null)
+  const seen = useInView(ref, VIEWPORT)
+
   if (reduce) {
     return <Tag className={className}>{children}</Tag>
   }
 
-  const trigger = inView
-    ? { whileInView: { y: 0 }, viewport: VIEWPORT }
-    : { animate: { y: 0 } }
-
   return (
-    <span style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.14em', marginBottom: '-0.14em' }}>
+    <span
+      ref={ref}
+      style={{ display: 'block', overflow: 'hidden', paddingBottom: '0.14em', marginBottom: '-0.14em' }}
+    >
       <motion.span
         style={{ display: 'block', willChange: 'transform' }}
         initial={{ y: '118%' }}
-        {...trigger}
+        animate={{ y: inView && !seen ? '118%' : 0 }}
         transition={{ duration, ease: EASE, delay }}
       >
         <Tag className={className}>{children}</Tag>

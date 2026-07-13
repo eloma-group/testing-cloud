@@ -1,330 +1,444 @@
-import { useState } from 'react'
+import { useCallback, useRef, useState } from 'react'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
-import type { ReactNode } from 'react'
 import { ArrowUpRight } from 'lucide-react'
-import { MaskReveal, fadeUp, staggerParent, VIEWPORT } from '../../lib/anim'
+import { MaskReveal, fadeUp, VIEWPORT, EASE } from '../../lib/anim'
 
 const TEXT   = '#2E3A34'
 const ACCENT = '#C6866B'
 const DARK   = '#3E4A42'
 const CREAM  = '#F4F1EB'
-const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
+const MUTED  = 'rgba(46,58,52,0.55)'
 
 /* ──────────────────────────────────────────────────────────────
-   3D icons — an isometric, top-lit rounded platform with a
-   gradient face, an extruded darker side for real thickness,
-   a gloss highlight and a coloured depth-glow. Glyph in white.
+   Editorial collage showcase. One service at a time, presented
+   as a print-style spread: photo tiles, oversized two-tone
+   display type, micro-copy columns and a rotating seal.
    ────────────────────────────────────────────────────────────── */
 
-type Tile = { id: string; a: string; b: string; children: ReactNode }
+type Tone = 'm' | 's' | 'a'          // muted / solid / accent
+type Word = { t: string; tone: Tone }
 
-function Tile3D({ id, a, b, children }: Tile) {
-  return (
-    <svg className="cc-serv-tile" viewBox="0 0 128 128" fill="none" aria-hidden focusable="false">
-      <defs>
-        <linearGradient id={`${id}-face`} x1="24" y1="10" x2="104" y2="112" gradientUnits="userSpaceOnUse">
-          <stop stopColor={a} /><stop offset="1" stopColor={b} />
-        </linearGradient>
-        <linearGradient id={`${id}-side`} x1="20" y1="96" x2="108" y2="124" gradientUnits="userSpaceOnUse">
-          <stop stopColor={b} /><stop offset="1" stopColor="#20271f" />
-        </linearGradient>
-        <linearGradient id={`${id}-gloss`} x1="64" y1="12" x2="64" y2="78" gradientUnits="userSpaceOnUse">
-          <stop stopColor="#fff" stopOpacity="0.55" /><stop offset="1" stopColor="#fff" stopOpacity="0" />
-        </linearGradient>
-        <radialGradient id={`${id}-glow`} cx="0.5" cy="0.42" r="0.62">
-          <stop stopColor={a} stopOpacity="0.5" /><stop offset="1" stopColor={a} stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <ellipse cx="64" cy="74" rx="54" ry="48" fill={`url(#${id}-glow)`} />
-      <rect x="22" y="24" width="84" height="84" rx="27" fill={`url(#${id}-side)`} />
-      <rect x="22" y="16" width="84" height="84" rx="27" fill={`url(#${id}-face)`} />
-      <rect x="22" y="16" width="84" height="84" rx="27" fill={`url(#${id}-gloss)`} />
-      <rect x="22.75" y="16.75" width="82.5" height="82.5" rx="26.25" stroke="#fff" strokeOpacity="0.32" strokeWidth="1.5" />
-      <g transform="translate(0,-4)" stroke="#fff" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
-        {children}
-      </g>
-    </svg>
-  )
+type Service = {
+  n: string
+  tag: string
+  nav: string
+  title: string                       // plain-text title (screen readers, tab rail)
+  head: Word[]                        // display type
+  caption: string
+  colA: string
+  colB: string
+  img: { main: string; mid: string; side: string }
+  alt: { main: string; mid: string; side: string }
 }
-
-type Service = { n: string; title: string; tag: string; desc: string; a: string; b: string; icon: ReactNode }
 
 const SERVICES: Service[] = [
   {
-    n: '01', title: 'Inbound Call Handling', tag: 'Voice',
-    desc: 'Every incoming call answered in seconds, in your brand name, by agents trained on your product - no queues, no missed customers, no voicemail black holes.',
-    a: '#E0A788', b: ACCENT,
-    icon: (
-      <>
-        <path d="M46 68v-6a18 18 0 0 1 36 0v6" />
-        <path d="M46 66h-4a5 5 0 0 0-5 5v6a5 5 0 0 0 5 5h4V66Z" fill="#fff" stroke="none" />
-        <path d="M82 66h4a5 5 0 0 1 5 5v6a5 5 0 0 1-5 5h-4V66Z" fill="#fff" stroke="none" />
-        <path d="M82 82v3a7 7 0 0 1-7 7h-7" />
-      </>
-    ),
+    n: '01', tag: 'Voice', nav: 'Inbound Voice',
+    title: 'Inbound Call Handling',
+    head: [{ t: 'INBOUND', tone: 'm' }, { t: 'CALL', tone: 's' }, { t: 'HANDLING', tone: 'm' }],
+    caption: 'Answered in seconds, in your brand name, by agents trained on your product.',
+    colA: 'Every incoming call is picked up by a trained agent, so no customer waits in a queue or lands in a voicemail black hole.',
+    colB: 'Scripts, tone of voice and escalation rules are built around your brand before the first call is ever taken.',
+    img: { main: '/images/services/s1-main.jpg', mid: '/images/services/s1-mid.jpg', side: '/images/services/s1-side.jpg' },
+    alt: {
+      main: 'Call centre agent wearing a headset speaking with a customer',
+      mid: 'Headset resting on a laptop at an agent workstation',
+      side: 'Two call centre agents taking calls on headsets at a shared desk',
+    },
   },
   {
-    n: '02', title: 'Live Chat & Email', tag: 'Digital',
-    desc: 'Real-time chat and inbox coverage across your website and channels, keeping first-response times in seconds and every conversation on-brand.',
-    a: '#5A6A5D', b: DARK,
-    icon: (
-      <>
-        <rect x="38" y="42" width="38" height="30" rx="8" fill="#fff" stroke="none" />
-        <path d="M47 80v-8h11l-11 8Z" fill="#fff" stroke="none" />
-        <rect x="66" y="58" width="26" height="22" rx="7" fill={ACCENT} stroke="none" />
-        <path d="M82 86v-6h-6l6 6Z" fill={ACCENT} stroke="none" />
-        <path d="M46 53h22M46 61h14" stroke={DARK} strokeWidth="3.4" />
-      </>
-    ),
+    n: '02', tag: 'Digital', nav: 'Live Chat & Email',
+    title: 'Live Chat and Email',
+    head: [{ t: 'LIVE', tone: 'm' }, { t: 'CHAT', tone: 's' }, { t: '&', tone: 'a' }, { t: 'EMAIL', tone: 'm' }],
+    caption: 'First response in seconds across web chat, email and social inboxes.',
+    colA: 'Real-time chat coverage on your website and app, with replies that read exactly like your own team wrote them.',
+    colB: 'Inbox triage, follow-ups and tagging handled for you, so nothing sits unread overnight or slips past an SLA.',
+    img: { main: '/images/services/s2-main.jpg', mid: '/images/services/s2-mid.jpg', side: '/images/services/s2-side.jpg' },
+    alt: {
+      main: 'Support agent with a headset typing a chat reply at a desk',
+      mid: 'Laptop with a headset set up for live chat support',
+      side: 'Customer support agent working on a laptop in a bright office',
+    },
   },
   {
-    n: '03', title: 'Technical Helpdesk', tag: 'Support',
-    desc: 'Tier-1 and tier-2 troubleshooting with tickets logged, escalated and resolved, so your product issues never stall and your team stays focused.',
-    a: '#5A6A5D', b: DARK,
-    icon: (
-      <>
-        <circle cx="64" cy="62" r="13" fill="#fff" stroke="none" />
-        <circle cx="64" cy="62" r="5.5" fill={DARK} stroke="none" />
-        <path d="M64 39v9M64 76v9M41 62h9M78 62h9M47 45l6.5 6.5M80.5 78.5 74 72M80.5 45.5 74 52M47 79l6.5-6.5" />
-      </>
-    ),
+    n: '03', tag: 'Support', nav: 'Technical Helpdesk',
+    title: 'Technical Helpdesk',
+    head: [{ t: 'TECHNICAL', tone: 'm' }, { t: 'HELPDESK', tone: 's' }],
+    caption: 'Tier-1 and tier-2 troubleshooting, logged, escalated and resolved.',
+    colA: 'Tickets are raised, diagnosed and escalated with a clear trail, so product issues never stall halfway through a fix.',
+    colB: 'Your engineers only see what genuinely needs them. Everything else is closed before it ever reaches their queue.',
+    img: { main: '/images/services/s3-main.jpg', mid: '/images/services/s3-mid.jpg', side: '/images/services/s3-side.jpg' },
+    alt: {
+      main: 'Helpdesk agent with a headset troubleshooting on a laptop',
+      mid: 'Network cables patched into a server rack',
+      side: 'Technical support team working at computers with headsets',
+    },
   },
   {
-    n: '04', title: '24/7 Multilingual Support', tag: 'Global',
-    desc: 'Round-the-clock coverage across time zones and languages, so your customers always reach a real, fluent person - day, night, weekends and holidays.',
-    a: '#E0A788', b: ACCENT,
-    icon: (
-      <>
-        <circle cx="64" cy="62" r="22" fill="#fff" stroke="none" />
-        <path d="M42 62h44M64 40c9 9 9 35 0 44M64 40c-9 9-9 35 0 44" stroke={ACCENT} strokeWidth="3.2" />
-        <path d="M48 50c9 5.5 23 5.5 32 0M48 74c9-5.5 23-5.5 32 0" stroke={ACCENT} strokeWidth="3.2" />
-      </>
-    ),
+    n: '04', tag: 'Global', nav: '24/7 Multilingual',
+    title: '24/7 Multilingual Support',
+    head: [{ t: '24/7', tone: 'a' }, { t: 'MULTILINGUAL', tone: 's' }, { t: 'SUPPORT', tone: 'm' }],
+    caption: 'Real, fluent people on shift while your market sleeps.',
+    colA: 'Round-the-clock cover across time zones, weekends and public holidays, with no drop in tone, accuracy or patience.',
+    colB: 'Native and near-native agents, so every customer is answered in the language they reached out in.',
+    img: { main: '/images/services/s4-main.jpg', mid: '/images/services/s4-mid.jpg', side: '/images/services/s4-side.jpg' },
+    alt: {
+      main: 'Diverse team of multilingual support agents on headsets',
+      mid: 'Office building at night with lit windows and people still working',
+      side: 'Agent taking a call late at night at a lit desk',
+    },
   },
   {
-    n: '05', title: 'Outbound & Telesales', tag: 'Growth',
-    desc: 'Proactive callbacks, follow-ups and sales outreach that turn warm leads into booked, paying customers - fully scripted, measured and reported to you.',
-    a: '#5A6A5D', b: DARK,
-    icon: (
-      <>
-        <path d="M46 46a5 5 0 0 1 5-4l7 1a5 5 0 0 1 4 4l1 7a5 5 0 0 1-1 5l-4 3a30 30 0 0 0 14 14l3-4a5 5 0 0 1 5-1l7 1a5 5 0 0 1 4 4l1 7a5 5 0 0 1-4 5c-22 3-44-19-42-42Z" fill="#fff" stroke="none" />
-        <path d="M72 42h14v14" stroke={ACCENT} strokeWidth="3.6" />
-        <path d="M86 42 70 58" stroke={ACCENT} strokeWidth="3.6" />
-      </>
-    ),
+    n: '05', tag: 'Growth', nav: 'Outbound Sales',
+    title: 'Outbound and Telesales',
+    head: [{ t: 'OUTBOUND', tone: 'm' }, { t: '&', tone: 'a' }, { t: 'TELESALES', tone: 's' }],
+    caption: 'Warm leads followed up, called back and closed.',
+    colA: 'Proactive callbacks, renewals and win-backs run to a script you approve, measured and coached call by call.',
+    colB: 'Every outcome is logged and reported, so you can see exactly what pipeline the calls actually created.',
+    img: { main: '/images/services/s5-main.jpg', mid: '/images/services/s5-mid.jpg', side: '/images/services/s5-side.jpg' },
+    alt: {
+      main: 'Confident telesales agent with a headset on an outbound call',
+      mid: 'Agent reviewing notes while on a call at a desk',
+      side: 'Two agents making outbound calls in a bright office',
+    },
   },
   {
-    n: '06', title: 'Back-Office & Orders', tag: 'Operations',
-    desc: 'Order processing, data entry and after-call admin handled off your plate with accuracy and speed, so the work behind the calls never piles up.',
-    a: '#5A6A5D', b: DARK,
-    icon: (
-      <>
-        <rect x="44" y="42" width="40" height="48" rx="7" fill="#fff" stroke="none" />
-        <rect x="55" y="37" width="18" height="10" rx="4" fill={ACCENT} stroke="none" />
-        <path d="M53 62h22M53 71h22M53 80h13" stroke={DARK} strokeWidth="3.4" />
-      </>
-    ),
+    n: '06', tag: 'Operations', nav: 'Back-Office',
+    title: 'Back-Office and Orders',
+    head: [{ t: 'BACK', tone: 's' }, { t: 'OFFICE', tone: 'm' }, { t: '& ORDERS', tone: 'm' }],
+    caption: 'The admin behind the calls, cleared the same day.',
+    colA: 'Order processing, data entry and CRM hygiene handled off your plate, with the accuracy and speed the work demands.',
+    colB: 'After-call paperwork never piles up, so your front line stays free to do the thing you hired them for: talking to customers.',
+    img: { main: '/images/services/s6-main.jpg', mid: '/images/services/s6-mid.jpg', side: '/images/services/s6-side.jpg' },
+    alt: {
+      main: 'Back-office administrator processing order paperwork at a desk',
+      mid: 'Reports and charts spread across a desk beside a laptop',
+      side: 'Desk with laptop, documents and order boxes ready for dispatch',
+    },
   },
 ]
+
+/* Rotating seal — circular text on a path, spinning on the compositor. */
+function Seal() {
+  return (
+    <a className="cc-sv-seal" href="#contact" aria-label="Get in touch about our services">
+      <svg className="cc-sv-seal-ring" viewBox="0 0 120 120" aria-hidden focusable="false">
+        <defs>
+          <path id="cc-sv-seal-path" d="M60,60 m-43,0 a43,43 0 1,1 86,0 a43,43 0 1,1 -86,0" />
+        </defs>
+        <text>
+          <textPath href="#cc-sv-seal-path" startOffset="0">
+            GET IN TOUCH • GET IN TOUCH •
+          </textPath>
+        </text>
+      </svg>
+      <svg className="cc-sv-seal-star" viewBox="0 0 24 24" aria-hidden focusable="false">
+        <path
+          d="M12 2v20M2 12h20M4.9 4.9l14.2 14.2M19.1 4.9L4.9 19.1"
+          stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+        />
+      </svg>
+    </a>
+  )
+}
 
 export function Services() {
   const reduce = useReducedMotion() ?? false
   const [active, setActive] = useState(0)
   const cur = SERVICES[active]
+  const warmed = useRef(false)
+
+  /* Warm the image cache for the other slides once the section is in
+     view, so switching services never shows an empty tile. */
+  const preload = useCallback(() => {
+    if (warmed.current) return
+    warmed.current = true
+    const run = () => {
+      for (const s of SERVICES) {
+        for (const src of [s.img.main, s.img.mid, s.img.side]) {
+          const im = new Image()
+          im.src = src
+        }
+      }
+    }
+    const idle: typeof window.requestIdleCallback | undefined = window.requestIdleCallback
+    if (idle) idle(run, { timeout: 2500 })
+    else window.setTimeout(run, 1200)
+  }, [])
+
+  const slide = reduce
+    ? {}
+    : {
+        initial: { opacity: 0, scale: 1.04 },
+        animate: { opacity: 1, scale: 1 },
+        exit: { opacity: 0, scale: 0.99 },
+        transition: { duration: 0.6, ease: EASE },
+      }
 
   return (
-    <section className="cc-serv" id="services" aria-label="Our services">
+    <section className="cc-sv" id="services" aria-label="Our services">
       <style>{`
-        .cc-serv {
+        .cc-sv {
           position: relative; isolation: isolate;
-          background: ${CREAM};
-          color: ${TEXT};
-          padding: clamp(72px, 10vw, 150px) clamp(24px, 4vw, 64px);
+          background: ${CREAM}; color: ${TEXT};
+          padding: clamp(64px, 8vw, 140px) clamp(24px, 4vw, 64px);
           overflow: hidden;
         }
-        .cc-serv-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
+        .cc-sv::before {
+          content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+          background:
+            radial-gradient(80% 55% at 50% 0%, rgba(139,163,138,0.20), transparent 68%),
+            radial-gradient(55% 45% at 100% 100%, rgba(198,134,107,0.12), transparent 70%);
+        }
+        .cc-sv-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
 
-        /* ── header ── */
-        .cc-serv-eyebrow {
+        /* ── section header ── */
+        .cc-sv-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
-          color: ${ACCENT}; margin: 0 0 clamp(16px, 2vw, 24px);
+          color: ${ACCENT}; margin: 0 0 clamp(14px, 1.6vw, 22px);
         }
-        .cc-serv-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
-        .cc-serv-head {
+        .cc-sv-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
+        .cc-sv-head {
           display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between;
-          gap: clamp(20px, 3vw, 48px); margin-bottom: clamp(40px, 5vw, 76px);
+          gap: clamp(20px, 3vw, 48px); margin-bottom: clamp(28px, 3.4vw, 54px);
         }
-        .cc-serv-h2 {
+        .cc-sv-h2 {
           font-family: 'Poppins', sans-serif; font-weight: 600;
           font-size: clamp(36px, 5.4vw, 84px); line-height: 1.0; letter-spacing: -0.025em;
           margin: 0; color: ${TEXT}; max-width: 15ch;
         }
-        .cc-serv-h2 .accent { color: ${ACCENT}; }
-        .cc-serv-lead {
+        .cc-sv-h2 .accent { color: ${ACCENT}; }
+        .cc-sv-lead {
           font-family: 'Inter', sans-serif;
           font-size: clamp(15px, 1.2vw, 18px); line-height: 1.75;
-          color: rgba(46,58,52,0.6); margin: 0; max-width: 42ch; padding-bottom: 6px;
+          color: ${MUTED}; margin: 0; max-width: 40ch; padding-bottom: 6px;
         }
 
-        /* ── split showcase ── */
-        .cc-serv-split {
-          display: grid; grid-template-columns: 1.02fr 1fr;
-          gap: clamp(20px, 2.4vw, 40px); align-items: stretch;
+        /* ── canvas: white frame + inner stage (the "spread") ── */
+        .cc-sv-canvas {
+          position: relative;
+          border-radius: clamp(22px, 2.2vw, 38px);
+          background: #FFFFFF;
+          padding: clamp(8px, 0.8vw, 14px);
+          box-shadow: 0 50px 110px -60px rgba(46,58,52,0.55), 0 0 0 1px rgba(46,58,52,0.06);
         }
-
-        /* left: live detail panel */
-        .cc-serv-detail {
+        .cc-sv-stage {
           position: relative; overflow: hidden;
-          border-radius: 30px;
-          background: #ffffff;
-          border: 1px solid rgba(46,58,52,0.1);
-          box-shadow: 0 26px 60px -42px rgba(46,58,52,0.4);
-          padding: clamp(32px, 3vw, 52px);
-          display: flex; flex-direction: column;
-          min-height: clamp(400px, 37vw, 510px);
+          border-radius: clamp(16px, 1.6vw, 28px);
+          background: #EFEDE6;
+          padding: clamp(10px, 1vw, 16px);
         }
-        /* thin brand accent line along the top edge */
-        .cc-serv-detail::before {
-          content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-          background: linear-gradient(90deg, ${ACCENT}, rgba(198,134,107,0)); z-index: 2;
+
+        .cc-sv-grid {
+          display: grid;
+          grid-template-columns: repeat(12, 1fr);
+          grid-template-rows: clamp(150px, 17vw, 280px) auto;
+          gap: clamp(8px, 0.9vw, 14px);
         }
-        .cc-serv-detail-top, .cc-serv-detail-body { position: relative; z-index: 1; }
-        .cc-serv-detail-top { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-        .cc-serv-tag {
+
+        /* photo tiles */
+        .cc-sv-tile { position: relative; overflow: hidden; border-radius: clamp(12px, 1.3vw, 22px); background: #E2DFD7; }
+        .cc-sv-tile img {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transform: scale(1.001); /* kills sub-pixel seams on scale-in */
+        }
+        .cc-sv-main { grid-column: 1 / 6; grid-row: 1 / 3; }
+        .cc-sv-mid  { grid-column: 6 / 9; grid-row: 1 / 2; }
+        .cc-sv-side { grid-column: 9 / 13; grid-row: 1 / 2; }
+        .cc-sv-copy {
+          grid-column: 6 / 13; grid-row: 2 / 3;
+          display: flex; flex-direction: column; gap: clamp(18px, 2vw, 30px);
+          padding: clamp(10px, 1.2vw, 20px) clamp(4px, 0.6vw, 10px) clamp(2px, 0.4vw, 6px);
+        }
+
+        /* main tile furniture: tag pill, caption scrim, arrow */
+        .cc-sv-pill {
+          position: absolute; top: clamp(12px, 1.2vw, 20px); left: clamp(12px, 1.2vw, 20px); z-index: 2;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(10px, 0.8vw, 12px); letter-spacing: 2px; color: ${ACCENT};
-          padding: 7px 15px; border: 1px solid rgba(198,134,107,0.35); border-radius: 100px;
-          background: rgba(255,255,255,0.6);
+          font-size: clamp(10px, 0.75vw, 12px); letter-spacing: 2px; color: ${TEXT};
+          padding: 8px 14px; border-radius: 100px; background: rgba(255,255,255,0.92);
         }
-        .cc-serv-step {
-          font-family: 'Poppins', sans-serif; letter-spacing: 0.5px;
-          color: rgba(46,58,52,0.35); font-size: clamp(13px, 1vw, 15px); font-weight: 500;
+        .cc-sv-scrim {
+          position: absolute; inset: auto 0 0 0; z-index: 1; height: 62%; pointer-events: none;
+          background: linear-gradient(to top, rgba(28,36,31,0.86), rgba(28,36,31,0.34) 45%, rgba(28,36,31,0));
         }
-        .cc-serv-step b { color: ${TEXT}; font-size: clamp(22px, 2.2vw, 34px); font-weight: 600; letter-spacing: -0.03em; }
+        .cc-sv-cap {
+          position: absolute; z-index: 2;
+          left: clamp(14px, 1.4vw, 24px); right: clamp(64px, 7vw, 92px); bottom: clamp(14px, 1.4vw, 24px);
+          font-family: 'Inter', sans-serif; font-weight: 500;
+          font-size: clamp(14px, 1.05vw, 16px); line-height: 1.5; color: rgba(255,255,255,0.94);
+          margin: 0; text-wrap: balance;
+        }
+        .cc-sv-arrow {
+          position: absolute; z-index: 2; right: clamp(14px, 1.4vw, 22px); bottom: clamp(14px, 1.4vw, 22px);
+          width: 46px; height: 46px; border-radius: 100px; border: 0; cursor: pointer;
+          display: grid; place-items: center; color: ${TEXT}; background: ${CREAM}; text-decoration: none;
+          transition: transform .5s cubic-bezier(.16,1,.3,1), background-color .3s ease, color .3s ease;
+          will-change: transform;
+        }
+        .cc-sv-arrow:hover { transform: translate(3px, -3px); background: ${ACCENT}; color: #fff; }
 
-        .cc-serv-detail-body { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
-        .cc-serv-iconwrap {
-          position: relative; align-self: flex-start;
-          display: grid; place-items: center;
-          margin: clamp(14px, 1.6vw, 24px) 0;
+        /* rotating seal, straddling the mid / side tiles */
+        .cc-sv-seal {
+          grid-column: 8 / 10; grid-row: 1 / 2; place-self: center; z-index: 3;
+          position: relative; display: grid; place-items: center; text-decoration: none;
+          width: clamp(92px, 9.6vw, 138px); height: clamp(92px, 9.6vw, 138px);
+          border-radius: 100px; background: ${TEXT}; color: #fff;
+          box-shadow: 0 18px 40px -18px rgba(28,36,31,0.7);
+          transition: transform .5s cubic-bezier(.16,1,.3,1), background-color .35s ease;
+          will-change: transform;
         }
-        .cc-serv-pedestal {
-          position: absolute; bottom: clamp(2px, 0.4vw, 8px); left: 50%; transform: translateX(-50%);
-          width: 78%; height: 22px; border-radius: 50%;
-          background: radial-gradient(closest-side, rgba(46,58,52,0.22), transparent);
-          z-index: 0; pointer-events: none;
+        .cc-sv-seal:hover { transform: scale(1.05); background: ${DARK}; }
+        .cc-sv-seal-ring {
+          position: absolute; inset: 0; width: 100%; height: 100%;
+          animation: cc-sv-spin 22s linear infinite; will-change: transform;
         }
-        .cc-serv-tile {
-          position: relative; z-index: 1;
-          width: clamp(104px, 11vw, 150px); height: clamp(104px, 11vw, 150px);
-          filter: drop-shadow(0 20px 26px rgba(46,58,52,0.26));
-          animation: cc-float 6s cubic-bezier(.45,0,.55,1) infinite;
+        .cc-sv-seal-ring text {
+          font-family: 'Inter', sans-serif; font-size: 10.5px; font-weight: 800;
+          letter-spacing: 2.6px; fill: #fff;
         }
-        @keyframes cc-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
-        .cc-serv-detail h3 {
-          font-family: 'Poppins', sans-serif; font-weight: 600;
-          font-size: clamp(26px, 2.8vw, 44px); line-height: 1.06; letter-spacing: -0.02em;
-          margin: 0 0 clamp(10px, 1vw, 16px); color: ${TEXT};
-        }
-        .cc-serv-detail p {
-          font-family: 'Inter', sans-serif;
-          font-size: clamp(15px, 1.1vw, 17px); line-height: 1.7;
-          margin: 0 0 clamp(20px, 2.2vw, 30px); color: rgba(46,58,52,0.66); max-width: 48ch;
-        }
-        .cc-serv-cta {
-          display: inline-flex; align-items: center; gap: 10px; align-self: flex-start;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
-          letter-spacing: 0.3px; color: ${TEXT}; text-decoration: none;
-        }
-        .cc-serv-cta .ic {
-          display: inline-flex; padding: 9px; border-radius: 100px; background: ${ACCENT}; color: #fff;
-          transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform;
-        }
-        .cc-serv-cta:hover .ic { transform: translate(3px,-3px); }
+        .cc-sv-seal-star { position: relative; width: 34%; height: 34%; color: ${ACCENT}; }
+        @keyframes cc-sv-spin { to { transform: rotate(360deg); } }
 
-        /* right: interactive list — stretches to match the panel height */
-        .cc-serv-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; height: 100%; }
-        .cc-serv-list li { flex: 1 1 0; display: flex; flex-direction: column; }
-        .cc-serv-row {
-          position: relative; width: 100%; height: 100%; text-align: left; background: none; border: 0; cursor: pointer;
-          display: flex; align-items: center; gap: clamp(16px, 1.8vw, 28px);
-          padding: clamp(14px, 1.6vw, 24px) clamp(14px, 1.6vw, 26px);
-          border-top: 1px solid rgba(46,58,52,0.12);
-          font-family: 'Poppins', sans-serif; color: ${TEXT};
-          transition: padding-left .5s cubic-bezier(.16,1,.3,1);
+        /* copy column: micro paragraphs + oversized display type */
+        .cc-sv-micro {
+          display: grid; grid-template-columns: 1fr 1fr auto;
+          gap: clamp(14px, 1.6vw, 30px); align-items: start;
         }
-        .cc-serv-list li:last-child .cc-serv-row { border-bottom: 1px solid rgba(46,58,52,0.12); }
-        .cc-serv-row::before {
-          content: ''; position: absolute; left: 0; top: 14%; bottom: 14%; width: 3px; border-radius: 3px;
-          background: ${ACCENT}; transform: scaleY(0); transform-origin: center;
-          transition: transform .5s cubic-bezier(.16,1,.3,1);
+        .cc-sv-micro p {
+          font-family: 'Inter', sans-serif; margin: 0;
+          font-size: clamp(14px, 0.95vw, 16px); line-height: 1.6; color: rgba(46,58,52,0.62);
+          max-width: 34ch;
         }
-        .cc-serv-row.is-active::before { transform: scaleY(1); }
-        .cc-serv-row.is-active { padding-left: clamp(24px, 2.4vw, 40px); }
-        .cc-serv-rn {
-          font-size: clamp(13px, 1vw, 15px); font-weight: 600; letter-spacing: 1px;
-          color: rgba(46,58,52,0.4); min-width: 2.4ch; transition: color .4s ease;
+        .cc-sv-count {
+          font-family: 'Poppins', sans-serif; font-weight: 600; white-space: nowrap;
+          font-size: clamp(13px, 0.95vw, 15px); letter-spacing: 1px; color: rgba(46,58,52,0.38);
         }
-        .cc-serv-row.is-active .cc-serv-rn { color: ${ACCENT}; }
-        .cc-serv-rt {
-          flex: 1; font-weight: 600; letter-spacing: -0.02em; line-height: 1.1;
-          font-size: clamp(19px, 2vw, 32px);
-          color: rgba(46,58,52,0.55); transition: color .4s ease;
-        }
-        .cc-serv-row.is-active .cc-serv-rt, .cc-serv-row:hover .cc-serv-rt { color: ${TEXT}; }
-        .cc-serv-rarrow {
-          color: ${ACCENT}; opacity: 0; transform: translateX(-6px);
-          transition: opacity .4s ease, transform .5s cubic-bezier(.16,1,.3,1); will-change: transform;
-        }
-        .cc-serv-row.is-active .cc-serv-rarrow { opacity: 1; transform: translateX(0); }
+        .cc-sv-count b { color: ${TEXT}; font-size: clamp(20px, 1.9vw, 30px); font-weight: 700; letter-spacing: -0.03em; }
 
-        /* inline detail — only used on mobile accordion */
-        .cc-serv-inline { display: none; }
+        .cc-sv-display {
+          font-family: 'Poppins', sans-serif; font-weight: 900; text-transform: uppercase;
+          font-size: clamp(30px, 4.5vw, 86px); line-height: 0.94; letter-spacing: -0.045em;
+          margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 0.24em;
+        }
+        .cc-sv-display .w { display: inline-block; will-change: transform; }
+        /* last word + mark travel together so the mark never wraps alone */
+        .cc-sv-display .last { display: inline-flex; align-items: baseline; gap: 0.2em; white-space: nowrap; }
+        .cc-sv-display .m { color: rgba(46,58,52,0.34); }
+        .cc-sv-display .s { color: ${TEXT}; }
+        .cc-sv-display .a { color: ${ACCENT}; }
+        .cc-sv-mark { width: 0.42em; height: 0.42em; align-self: center; color: ${TEXT}; flex-shrink: 0; }
 
-        @media (min-width: 1920px) { .cc-serv-inner { max-width: 1900px; } }
-        @media (min-width: 2560px) { .cc-serv-inner { max-width: 2400px; } }
+        /* ── service index: lives in the dead space under the display type ── */
+        .cc-sv-index { margin-top: auto; padding-top: clamp(14px, 1.6vw, 24px); }
+        .cc-sv-index-label {
+          display: flex; align-items: center; gap: 12px; margin: 0 0 clamp(6px, 0.7vw, 10px);
+          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(10px, 0.72vw, 12px); letter-spacing: 2.2px; color: rgba(46,58,52,0.42);
+        }
+        .cc-sv-index-label::after { content: ''; flex: 1; height: 1px; background: rgba(46,58,52,0.14); }
+        .cc-sv-tabs {
+          display: grid; grid-template-columns: 1fr 1fr;
+          column-gap: clamp(10px, 1.2vw, 24px);
+        }
+        .cc-sv-tab {
+          position: relative; isolation: isolate; overflow: hidden;
+          display: flex; align-items: center; gap: clamp(10px, 0.9vw, 14px);
+          width: 100%; min-height: 48px; text-align: left; cursor: pointer;
+          background: none; border: 0; border-radius: clamp(8px, 0.7vw, 12px);
+          padding: clamp(10px, 0.9vw, 14px) clamp(10px, 0.9vw, 15px);
+          box-shadow: inset 0 -1px 0 rgba(46,58,52,0.13);
+          transition: box-shadow .35s ease;
+        }
+        /* terracotta wipe, left to right */
+        .cc-sv-tab::before {
+          content: ''; position: absolute; inset: 0; z-index: 0; border-radius: inherit;
+          background: ${ACCENT}; transform: scaleX(0); transform-origin: left;
+          transition: transform .55s cubic-bezier(.16,1,.3,1); will-change: transform;
+        }
+        .cc-sv-tab > * { position: relative; z-index: 1; }
+        .cc-sv-tab:hover::before, .cc-sv-tab.is-active::before { transform: scaleX(1); }
+        .cc-sv-tab:hover, .cc-sv-tab.is-active { box-shadow: inset 0 -1px 0 rgba(46,58,52,0); }
 
+        .cc-sv-tab-n {
+          font-family: 'Inter', sans-serif; font-weight: 800; letter-spacing: 1.6px;
+          font-size: clamp(10px, 0.75vw, 12px); color: rgba(46,58,52,0.38);
+          transition: color .3s ease;
+        }
+        .cc-sv-tab-t {
+          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.015em;
+          font-size: clamp(14px, 1.05vw, 18px); line-height: 1.25; color: rgba(46,58,52,0.58);
+          transition: color .3s ease;
+        }
+        .cc-sv-tab-a {
+          margin-left: auto; flex-shrink: 0; color: rgba(255,255,255,0.9);
+          opacity: 0; transform: translateX(-6px);
+          transition: opacity .35s ease, transform .5s cubic-bezier(.16,1,.3,1); will-change: transform;
+        }
+        .cc-sv-tab:hover .cc-sv-tab-n, .cc-sv-tab.is-active .cc-sv-tab-n { color: rgba(255,255,255,0.72); }
+        .cc-sv-tab:hover .cc-sv-tab-t, .cc-sv-tab.is-active .cc-sv-tab-t { color: #fff; }
+        .cc-sv-tab:hover .cc-sv-tab-a, .cc-sv-tab.is-active .cc-sv-tab-a { opacity: 1; transform: translateX(0); }
+        .cc-sv-tab:focus-visible { outline: 2px solid ${TEXT}; outline-offset: -3px; }
+
+        @media (min-width: 1920px) { .cc-sv-inner { max-width: 1900px; } }
+        @media (min-width: 2560px) { .cc-sv-inner { max-width: 2400px; } }
+
+        /* ── tablet: seal drops out of the tile gutter, type shrinks ── */
+        @media (max-width: 1100px) {
+          .cc-sv-grid { grid-template-rows: clamp(140px, 20vw, 220px) auto; }
+          .cc-sv-display { font-size: clamp(30px, 5.4vw, 60px); }
+          .cc-sv-micro { grid-template-columns: 1fr 1fr; }
+          .cc-sv-count { grid-column: 1 / 3; order: -1; }
+        }
+
+        /* ── mobile: single column spread ── */
         @media (max-width: 900px) {
-          .cc-serv-split { grid-template-columns: 1fr; }
-          .cc-serv-detail { display: none; }              /* swap to accordion */
-          .cc-serv-list, .cc-serv-list li { height: auto; flex: initial; }
-          .cc-serv-inline {
-            display: block; overflow: hidden;
-            padding: 0 clamp(14px, 1.6vw, 26px);
+          .cc-sv-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: auto auto auto; }
+          .cc-sv-main { grid-column: 1 / 3; grid-row: 1 / 2; aspect-ratio: 4 / 5; }
+          .cc-sv-mid  { grid-column: 1 / 2; grid-row: 2 / 3; aspect-ratio: 1 / 1; }
+          .cc-sv-side { grid-column: 2 / 3; grid-row: 2 / 3; aspect-ratio: 1 / 1; }
+          .cc-sv-copy { grid-column: 1 / 3; grid-row: 3 / 4; padding: clamp(12px, 3vw, 18px) 2px 4px; }
+          .cc-sv-seal {
+            grid-column: 2 / 3; grid-row: 1 / 2; place-self: end;
+            margin: 0 clamp(12px, 3vw, 18px) clamp(12px, 3vw, 18px) 0;
+            width: clamp(88px, 24vw, 116px); height: clamp(88px, 24vw, 116px);
           }
-          .cc-serv-inline-in {
-            display: flex; gap: 20px; align-items: center;
-            padding: 4px 0 clamp(22px, 5vw, 30px);
-          }
-          .cc-serv-inline .cc-serv-tile { width: 92px; height: 92px; margin: 0; flex-shrink: 0; animation: none; }
-          .cc-serv-inline p {
-            font-family: 'Inter', sans-serif; font-size: clamp(14px, 3.6vw, 16px); line-height: 1.65;
-            margin: 0; color: rgba(46,58,52,0.66);
-          }
-          .cc-serv-row { gap: 16px; }
+          .cc-sv-arrow { display: none; }            /* the seal is the CTA here */
+          .cc-sv-cap { right: clamp(96px, 30vw, 140px); }
+          .cc-sv-display { font-size: clamp(34px, 9vw, 58px); }
+          .cc-sv-index { padding-top: clamp(16px, 4vw, 24px); }
+          .cc-sv-tabs { column-gap: clamp(8px, 2.4vw, 18px); }
         }
-        @media (max-width: 480px) {
-          .cc-serv-inline-in { flex-direction: column; align-items: flex-start; }
+
+        @media (max-width: 560px) {
+          .cc-sv-micro { grid-template-columns: 1fr; }
+          .cc-sv-micro p { max-width: none; }
+          .cc-sv-count { grid-column: 1 / -1; }
+          .cc-sv-cap { right: clamp(90px, 34vw, 130px); font-size: 14px; }
+          .cc-sv-tabs { grid-template-columns: 1fr; }   /* full-width rows: bigger tap targets */
+          .cc-sv-tab { min-height: 52px; }
         }
+
         @media (prefers-reduced-motion: reduce) {
-          .cc-serv-tile { animation: none; }
+          .cc-sv-seal-ring { animation: none; }
+          .cc-sv-arrow, .cc-sv-seal, .cc-sv-tab::before { transition: none; }
         }
       `}</style>
 
-      <div className="cc-serv-inner">
-        <div className="cc-serv-head">
+      <motion.div className="cc-sv-inner" onViewportEnter={preload} viewport={{ once: true, margin: '200px' }}>
+        <div className="cc-sv-head">
           <div>
-            <motion.p className="cc-serv-eyebrow" variants={fadeUp} initial="hidden" whileInView="show" viewport={VIEWPORT}>
+            <motion.p className="cc-sv-eyebrow" variants={fadeUp} initial="hidden" whileInView="show" viewport={VIEWPORT}>
               What We Handle
             </motion.p>
-            <MaskReveal as="h2" className="cc-serv-h2" delay={0.05}>
+            <MaskReveal as="h2" className="cc-sv-h2" delay={0.05}>
               Your whole support desk, <span className="accent">under your brand</span>
             </MaskReveal>
           </div>
           <motion.p
-            className="cc-serv-lead"
+            className="cc-sv-lead"
             variants={fadeUp}
             initial="hidden"
             whileInView="show"
@@ -336,108 +450,102 @@ export function Services() {
           </motion.p>
         </div>
 
-        <div className="cc-serv-split">
-          {/* live detail panel (desktop / tablet) */}
-          <motion.div className="cc-serv-detail" variants={fadeUp} initial="hidden" whileInView="show" viewport={VIEWPORT}>
-            <div className="cc-serv-detail-top">
-              <span className="cc-serv-tag">{cur.tag}</span>
-              <span className="cc-serv-step"><b>{cur.n}</b> / 06</span>
-            </div>
-
-            <AnimatePresence mode="wait" initial={false}>
-              <motion.div
-                key={active}
-                className="cc-serv-detail-body"
-                initial={reduce ? false : { opacity: 0, y: 18 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={reduce ? { opacity: 0 } : { opacity: 0, y: -14 }}
-                transition={{ duration: 0.45, ease: EASE }}
-              >
-                <div className="cc-serv-iconwrap">
-                  <span className="cc-serv-pedestal" aria-hidden />
-                  <svg className="cc-serv-tile" viewBox="0 0 128 128" fill="none" aria-hidden>
-                    <defs>
-                      <linearGradient id="det-face" x1="24" y1="10" x2="104" y2="112" gradientUnits="userSpaceOnUse">
-                        <stop stopColor={cur.a} /><stop offset="1" stopColor={cur.b} />
-                      </linearGradient>
-                      <linearGradient id="det-side" x1="20" y1="96" x2="108" y2="124" gradientUnits="userSpaceOnUse">
-                        <stop stopColor={cur.b} /><stop offset="1" stopColor="#20271f" />
-                      </linearGradient>
-                      <linearGradient id="det-gloss" x1="64" y1="12" x2="64" y2="78" gradientUnits="userSpaceOnUse">
-                        <stop stopColor="#fff" stopOpacity="0.55" /><stop offset="1" stopColor="#fff" stopOpacity="0" />
-                      </linearGradient>
-                      <radialGradient id="det-glow" cx="0.5" cy="0.42" r="0.62">
-                        <stop stopColor={cur.a} stopOpacity="0.5" /><stop offset="1" stopColor={cur.a} stopOpacity="0" />
-                      </radialGradient>
-                    </defs>
-                    <ellipse cx="64" cy="74" rx="54" ry="48" fill="url(#det-glow)" />
-                    <rect x="22" y="24" width="84" height="84" rx="27" fill="url(#det-side)" />
-                    <rect x="22" y="16" width="84" height="84" rx="27" fill="url(#det-face)" />
-                    <rect x="22" y="16" width="84" height="84" rx="27" fill="url(#det-gloss)" />
-                    <rect x="22.75" y="16.75" width="82.5" height="82.5" rx="26.25" stroke="#fff" strokeOpacity="0.32" strokeWidth="1.5" />
-                    <g transform="translate(0,-4)" stroke="#fff" strokeWidth="3.6" strokeLinecap="round" strokeLinejoin="round" fill="none">
-                      {cur.icon}
-                    </g>
-                  </svg>
-                </div>
-
-                <div>
-                  <h3>{cur.title}</h3>
-                  <p>{cur.desc}</p>
-                  <a className="cc-serv-cta" href="#contact">
-                    Learn more
-                    <span className="ic"><ArrowUpRight size={16} strokeWidth={2.4} aria-hidden /></span>
+        <motion.div className="cc-sv-canvas" variants={fadeUp} initial="hidden" whileInView="show" viewport={VIEWPORT}>
+          <div className="cc-sv-stage">
+            <div className="cc-sv-grid" aria-label={`${cur.title} - service ${cur.n} of 06`}>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.figure key={`main-${active}`} className="cc-sv-tile cc-sv-main" style={{ margin: 0 }} {...slide}>
+                  <img src={cur.img.main} alt={cur.alt.main} width={1100} height={1400} decoding="async" />
+                  <span className="cc-sv-pill">{cur.tag}</span>
+                  <span className="cc-sv-scrim" aria-hidden />
+                  <figcaption className="cc-sv-cap">{cur.caption}</figcaption>
+                  <a className="cc-sv-arrow" href="#contact" aria-label={`Talk to us about ${cur.title}`}>
+                    <ArrowUpRight size={20} strokeWidth={2.2} aria-hidden />
                   </a>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-          </motion.div>
+                </motion.figure>
+              </AnimatePresence>
 
-          {/* interactive list */}
-          <motion.ul
-            className="cc-serv-list"
-            variants={staggerParent(0.08, 0.1)}
-            initial="hidden"
-            whileInView="show"
-            viewport={VIEWPORT}
-          >
-            {SERVICES.map((s, i) => (
-              <motion.li key={s.title} variants={fadeUp}>
-                <button
-                  type="button"
-                  className={`cc-serv-row${active === i ? ' is-active' : ''}`}
-                  onMouseEnter={() => setActive(i)}
-                  onFocus={() => setActive(i)}
-                  onClick={() => setActive(i)}
-                  aria-pressed={active === i}
-                >
-                  <span className="cc-serv-rn">{s.n}</span>
-                  <span className="cc-serv-rt">{s.title}</span>
-                  <ArrowUpRight className="cc-serv-rarrow" size={26} strokeWidth={2} aria-hidden />
-                </button>
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div key={`mid-${active}`} className="cc-sv-tile cc-sv-mid" {...slide}>
+                  <img src={cur.img.mid} alt={cur.alt.mid} width={800} height={640} decoding="async" />
+                </motion.div>
+              </AnimatePresence>
 
-                {/* mobile-only inline accordion detail */}
-                <AnimatePresence initial={false}>
-                  {active === i && (
-                    <motion.div
-                      className="cc-serv-inline"
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.4, ease: EASE }}
-                    >
-                      <div className="cc-serv-inline-in">
-                        <Tile3D id={`m${i}`} a={s.a} b={s.b}>{s.icon}</Tile3D>
-                        <p>{s.desc}</p>
-                      </div>
-                    </motion.div>
-                  )}
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div key={`side-${active}`} className="cc-sv-tile cc-sv-side" {...slide}>
+                  <img src={cur.img.side} alt={cur.alt.side} width={800} height={1000} decoding="async" />
+                </motion.div>
+              </AnimatePresence>
+
+              <Seal />
+
+              <div className="cc-sv-copy">
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={`copy-${active}`}
+                    initial={reduce ? false : { opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={reduce ? { opacity: 0 } : { opacity: 0, y: -12 }}
+                    transition={{ duration: 0.45, ease: EASE }}
+                    style={{ display: 'flex', flexDirection: 'column', gap: 'clamp(16px, 2vw, 30px)' }}
+                  >
+                    <div className="cc-sv-micro">
+                      <p>{cur.colA}</p>
+                      <p>{cur.colB}</p>
+                      <span className="cc-sv-count"><b>{cur.n}</b> / 06</span>
+                    </div>
+
+                    <h3 className="cc-sv-display">
+                      {cur.head.map((w, i) => {
+                        const word = (
+                          <motion.span
+                            className={`w ${w.tone}`}
+                            initial={reduce ? false : { opacity: 0, y: 18 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.08 + i * 0.06, duration: 0.6, ease: EASE }}
+                          >
+                            {w.t}
+                          </motion.span>
+                        )
+                        if (i < cur.head.length - 1) return <span key={w.t}>{word}</span>
+                        return (
+                          <span className="last" key={w.t}>
+                            {word}
+                            <svg className="cc-sv-mark" viewBox="0 0 24 24" aria-hidden focusable="false">
+                              <path d="M2 22 L22 22 L22 2 Z" fill="currentColor" />
+                            </svg>
+                          </span>
+                        )
+                      })}
+                    </h3>
+                  </motion.div>
                 </AnimatePresence>
-              </motion.li>
-            ))}
-          </motion.ul>
-        </div>
-      </div>
+
+                <div className="cc-sv-index">
+                  <p className="cc-sv-index-label">All services</p>
+                  <div className="cc-sv-tabs" aria-label="Choose a service">
+                    {SERVICES.map((s, i) => (
+                      <button
+                        key={s.title}
+                        type="button"
+                        id={`cc-sv-tab-${i}`}
+                        className={`cc-sv-tab${active === i ? ' is-active' : ''}`}
+                        aria-pressed={active === i}
+                        onClick={() => setActive(i)}
+                        onFocus={() => setActive(i)}
+                      >
+                        <span className="cc-sv-tab-n">{s.n}</span>
+                        <span className="cc-sv-tab-t">{s.nav}</span>
+                        <ArrowUpRight className="cc-sv-tab-a" size={17} strokeWidth={2.2} aria-hidden />
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
+      </motion.div>
     </section>
   )
 }
