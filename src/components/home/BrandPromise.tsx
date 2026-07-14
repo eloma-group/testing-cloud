@@ -1,7 +1,10 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight } from 'lucide-react'
 import { MaskReveal, useParallax } from '../../lib/anim'
+
+const MotionLink = motion.create(Link)
 
 const TEXT   = '#2E3A34'
 const ACCENT = '#D2704A'
@@ -22,7 +25,7 @@ type RowProps = {
   eyebrow: string
   heading: string
   body: string
-  cta: { label: string; href: string }
+  cta: { label: string; to: string }
   img: { src: string; alt: string }
 }
 
@@ -54,10 +57,10 @@ function Row({ reverse, eyebrow, heading, body, cta, img }: RowProps) {
         <motion.p className="cc-bp-eyebrow" {...rise(0)}>{eyebrow}</motion.p>
         <MaskReveal as="h2" className="cc-bp-h2" delay={0.08}>{heading}</MaskReveal>
         <motion.p className="cc-bp-p" {...rise(0.16)}>{body}</motion.p>
-        <motion.a className="cc-bp-btn gl-shine" href={cta.href} {...rise(0.24)}>
+        <MotionLink className="cc-bp-btn gl-shine" to={cta.to} {...rise(0.24)}>
           <span>{cta.label}</span>
           <ArrowRight size={19} strokeWidth={2.4} aria-hidden />
-        </motion.a>
+        </MotionLink>
       </div>
     </div>
   )
@@ -146,7 +149,7 @@ export function BrandPromise() {
         eyebrow="Your Brand, Represented"
         heading="A support team that feels like your own"
         body="Your customers never feel handed off. We train, staff and manage a dedicated team that speaks in your voice and follows your playbook - so every call, chat and email sounds like it came from inside your business."
-        cta={{ label: 'Book a Free Consultation', href: '#contact' }}
+        cta={{ label: 'Book a Free Consultation', to: '/contact#write' }}
         img={{ src: '/images/support-agent.jpg', alt: 'Customer support agent wearing a headset, assisting a customer' }}
       />
 
@@ -155,7 +158,7 @@ export function BrandPromise() {
         eyebrow="Built To Scale"
         heading="Scale your support up or down, on demand"
         body="Launches, seasonal peaks, quiet weeks - your team flexes to match. Add trained agents in days, not months, and only pay for the capacity you actually use. No recruitment, no overheads, no idle staff to carry."
-        cta={{ label: 'See How It Works', href: '#services' }}
+        cta={{ label: 'See How It Works', to: '/services' }}
         img={{ src: '/images/support-team.jpg', alt: 'Call centre agents on headsets supporting customers in a modern office' }}
       />
     </section>

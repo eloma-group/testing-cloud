@@ -419,7 +419,7 @@ export function Engagement() {
               </div>
 
               <div className="cc-en-cell foot">
-                <Link className="cc-en-cta" to="/contact">
+                <Link className="cc-en-cta" to="/contact#write">
                   Start on this model
                   <ArrowRight size={17} strokeWidth={2.4} aria-hidden />
                 </Link>
@@ -433,7 +433,7 @@ export function Engagement() {
             Not sure which one fits? <b>One call is enough for us to tell you straight</b> - we will
             size the team against your real ticket volume, not a guess.
           </p>
-          <Link className="cc-en-btn" to="/contact">
+          <Link className="cc-en-btn" to="/contact#write">
             <span>Book a Free Call</span>
             <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
           </Link>

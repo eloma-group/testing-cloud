@@ -1,11 +1,13 @@
 export type NavItem = { label: string; href: string }
 
-/* Home-page sections are reached by hash, so they work from any route.
-   Contact is a page of its own. */
+/* Every entry is a page of its own now. The home page still carries
+   its section anchors, but the header no longer scrolls you around
+   inside it - it takes you somewhere. */
 export const navItems: NavItem[] = [
-  { label: 'About',      href: '/#about'      },
-  { label: 'Services',   href: '/#services'   },
-  { label: 'Industries', href: '/#industries' },
-  { label: 'Pricing',    href: '/#engagement' },
-  { label: 'Contact',    href: '/contact'     },
+  { label: 'About',      href: '/about'      },
+  { label: 'Services',   href: '/services'   },
+  { label: 'Solutions',  href: '/solutions'  },
+  { label: 'Industries', href: '/industries' },
+  { label: 'Blog',       href: '/blog'       },
+  { label: 'Contact',    href: '/contact'    },
 ]

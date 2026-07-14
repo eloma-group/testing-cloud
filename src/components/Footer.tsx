@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { Phone, Mail, MapPin } from 'lucide-react'
 
 const ACCENT = '#D2704A'
@@ -27,28 +28,28 @@ const COLS: FooterCol[] = [
   {
     heading: 'Company',
     links: [
-      { label: 'About',    href: '/#about'    },
-      { label: 'Services', href: '/#services' },
-      { label: 'Team',     href: '/#about'     },
-      { label: 'Careers',  href: '/contact'  },
+      { label: 'About',    href: '/about'    },
+      { label: 'Team',     href: '/team'     },
+      { label: 'Careers',  href: '/careers'  },
+      { label: 'Contact',  href: '/contact'  },
     ],
   },
   {
     heading: 'Solutions',
     links: [
-      { label: 'Inbound Support', href: '/#services' },
-      { label: 'Outbound Sales',  href: '/#services' },
-      { label: 'Live Chat',       href: '/#services' },
-      { label: 'Back Office',     href: '/#services' },
+      { label: 'Inbound Support', href: '/services#inbound-voice'   },
+      { label: 'Outbound Sales',  href: '/services#outbound-sales'  },
+      { label: 'Live Chat',       href: '/services#live-chat-email' },
+      { label: 'Back Office',     href: '/services#back-office'     },
     ],
   },
   {
     heading: 'Resources',
     links: [
-      { label: 'Blog',        href: '/#industries'    },
-      { label: 'Case Studies', href: '/#industries'   },
-      { label: 'Contact',     href: '/contact' },
-      { label: 'Support',     href: '/contact' },
+      { label: 'Blog',         href: '/blog'         },
+      { label: 'Case Studies', href: '/case-studies' },
+      { label: 'Industries',   href: '/industries'   },
+      { label: 'Pricing',      href: '/solutions#pricing' },
     ],
   },
 ]
@@ -87,8 +88,8 @@ const socials = [
 
 function FooterLink({ label, href }: { label: string; href: string }) {
   return (
-    <a
-      href={href}
+    <Link
+      to={href}
       style={{
         fontSize: 14,
         color: LINK,
@@ -99,7 +100,7 @@ function FooterLink({ label, href }: { label: string; href: string }) {
       onMouseLeave={(e) => { const el = e.currentTarget as HTMLElement; el.style.color = LINK; el.style.paddingLeft = '0' }}
     >
       {label}
-    </a>
+    </Link>
   )
 }
 

@@ -767,7 +767,7 @@ export function Industries() {
               ))}
             </div>
 
-            <Link className="cc-in-cta" to="/contact">
+            <Link className="cc-in-cta" to="/contact#write">
               <span>Talk about {active.short}</span>
               <ArrowRight size={18} strokeWidth={2.3} aria-hidden />
             </Link>

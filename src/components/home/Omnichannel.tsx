@@ -458,11 +458,11 @@ export function Omnichannel() {
           whileInView="show"
           viewport={VIEWPORT}
         >
-          <MotionLink className="cc-oc-btn primary gl-shine" to="/contact" variants={popUp}>
+          <MotionLink className="cc-oc-btn primary gl-shine" to="/contact#write" variants={popUp}>
             <span>Book a Free Call</span>
             <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
           </MotionLink>
-          <MotionLink className="cc-oc-btn ghost" to="/#services" variants={popUp}>
+          <MotionLink className="cc-oc-btn ghost" to="/services" variants={popUp}>
             See Our Channels
           </MotionLink>
         </motion.div>

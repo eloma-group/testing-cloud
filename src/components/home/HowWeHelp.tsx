@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import type { CSSProperties, ReactNode } from 'react'
 import {
@@ -759,10 +760,10 @@ export function HowWeHelp() {
                   <span className="cc-hw-metric">{it.metric}</span>
                 </button>
 
-                <a className="cc-hw-view" href="#services" tabIndex={active === i ? 0 : -1}>
+                <Link className="cc-hw-view" to="/services" tabIndex={active === i ? 0 : -1}>
                   View {it.short}
                   <ArrowUpRight size={15} strokeWidth={2.4} aria-hidden />
-                </a>
+                </Link>
               </motion.div>
             ))}
           </motion.div>

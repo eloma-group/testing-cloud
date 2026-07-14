@@ -126,7 +126,7 @@ export function Header() {
           {/* Right side */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <Link
-              to="/contact"
+              to="/contact#write"
               className="cc-hd-cta gl-shine"
               style={{
                 display: 'inline-flex',
@@ -220,7 +220,7 @@ export function Header() {
             </Link>
           ))}
           <Link
-            to="/contact"
+            to="/contact#write"
             onClick={() => setMobileOpen(false)}
             style={{
               marginTop: 28,

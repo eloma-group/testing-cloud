@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion'
 import { ArrowUpRight } from 'lucide-react'
@@ -153,7 +153,7 @@ const SERVICES: Service[] = [
    Nothing spins - the reference reads as a printed stamp, not a widget. */
 function Seal() {
   return (
-    <Link className="cc-sv-seal" to="/contact" aria-label="Get in touch about our services">
+    <Link className="cc-sv-seal" to="/contact#write" aria-label="Get in touch about our services">
       <span className="cc-sv-seal-text" aria-hidden>
         Get in
         <br />
@@ -169,11 +169,28 @@ function Seal() {
   )
 }
 
+const AUTOPLAY_MS = 3000
+
 export function Services() {
   const reduce = useReducedMotion() ?? false
   const [active, setActive] = useState(0)
+  const [inView, setInView] = useState(false)
+  const [paused, setPaused] = useState(false)
   const cur = SERVICES[active]
   const warmed = useRef(false)
+
+  /* The spread advances on its own, but only while it is on screen and nobody
+     is reading it - hovering or tabbing into the section holds the current
+     service. `active` is a dependency so a manual pick restarts the clock
+     rather than being cut short by a tick already in flight. */
+  useEffect(() => {
+    if (reduce || paused || !inView) return
+    const id = window.setInterval(
+      () => setActive(i => (i + 1) % SERVICES.length),
+      AUTOPLAY_MS,
+    )
+    return () => window.clearInterval(id)
+  }, [reduce, paused, inView, active])
 
   /* Warm the image cache for the other slides once the section is in
      view, so switching services never shows an empty tile. */
@@ -445,43 +462,58 @@ export function Services() {
           color: ${TEXT}; margin-left: 0.12em;
         }
 
-        /* ── dot navigation, under the card ── */
+        /* ── service navigation, under the card ──
+              Bare dots were near-invisible on the cream foot of the section and
+              said nothing about where you were going. These are labelled tabs
+              sitting in a raised rail: the rail gives the inactive tabs an edge
+              to read against, the active one takes the terracotta gloss. ── */
         .cc-sv-nav {
           display: flex; flex-direction: column; align-items: center;
           gap: clamp(10px, 1vw, 15px);
           margin-top: clamp(24px, 2.8vw, 44px);
         }
-        .cc-sv-dots { display: flex; align-items: center; }
-        /* the button is a 44px touch target; the dot inside it is the visual */
-        .cc-sv-dot {
-          width: 44px; height: 44px; padding: 0; border: 0; background: none;
-          cursor: pointer; display: grid; place-items: center; border-radius: 100px;
-        }
-        /* scale, never width - width would relayout the row on every click */
-        .cc-sv-dot i {
-          display: block; width: 10px; height: 10px; border-radius: 100px;
-          background: linear-gradient(168deg, #FFFFFF, #E9E5DC);
+        .cc-sv-tabs {
+          display: flex; align-items: center; justify-content: center;
+          flex-wrap: wrap; gap: clamp(3px, 0.35vw, 6px);
+          padding: clamp(4px, 0.45vw, 7px); border-radius: 100px; max-width: 100%;
+          background: linear-gradient(168deg, #FFFFFF 0%, #F3EEE4 100%);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 0 0 1px rgba(26,33,29,0.16),
-            0 1px 2px rgba(26,33,29,0.14);
-          transition: transform .5s cubic-bezier(.16,1,.3,1), background .35s ease, box-shadow .35s ease;
-          will-change: transform;
+            inset 0 0 0 1px rgba(26,33,29,0.12),
+            0 10px 24px -16px rgba(28,36,31,0.5);
         }
-        .cc-sv-dot:hover i { transform: scale(1.2); }
-        .cc-sv-dot.is-active i {
-          transform: scale(1.5);
-          background: ${GLOSS};
-          box-shadow: ${ACCENT_RIM},
-            0 1px 2px rgba(156,67,36,0.4),
-            0 6px 14px -4px rgba(156,67,36,0.55);
-        }
-        .cc-sv-dot:focus-visible { outline: 2px solid ${ACCENT}; outline-offset: -9px; }
-
-        .cc-sv-nav-label {
-          margin: 0; display: inline-flex; align-items: baseline; gap: 10px;
+        .cc-sv-tab {
+          display: inline-flex; align-items: center; gap: 9px;
+          min-height: 44px; padding: 0 clamp(12px, 1.1vw, 18px);
+          border: 0; border-radius: 100px; cursor: pointer; background: transparent;
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 2.2px; color: #8B948F;
+          font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 1.6px;
+          color: #5C6863;              /* opaque, ~5.9:1 on the rail - readable at rest */
+          white-space: nowrap;
+          transition: color .3s ease, background .35s ease, box-shadow .35s ease;
+        }
+        .cc-sv-tab em {
+          font-style: normal; font-family: 'Poppins', sans-serif; font-weight: 700;
+          font-size: clamp(13px, 0.95vw, 16px); letter-spacing: -0.02em;
+          color: #8B948F; transition: color .3s ease;
+        }
+        .cc-sv-tab:hover {
+          color: ${TEXT}; background: #FFFFFF;
+          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.10), 0 4px 10px -6px rgba(28,36,31,0.45);
+        }
+        .cc-sv-tab:hover em { color: ${ACCENT_INK}; }
+        .cc-sv-tab.is-active {
+          color: #FFFFFF; background: ${GLOSS};
+          box-shadow: ${ACCENT_RIM}, 0 8px 18px -8px rgba(156,67,36,0.65);
+        }
+        .cc-sv-tab.is-active em { color: rgba(255,255,255,0.78); }
+        .cc-sv-tab:focus-visible { outline: 2px solid ${ACCENT_INK}; outline-offset: 2px; }
+
+        /* the counter is the fallback label once the tabs collapse to numbers */
+        .cc-sv-nav-label {
+          margin: 0; display: none; align-items: baseline; gap: 10px;
+          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 2.2px; color: #6C7873;
         }
         .cc-sv-nav-label b {
           font-family: 'Poppins', sans-serif; font-weight: 700;
@@ -497,6 +529,15 @@ export function Services() {
           .cc-sv-grid { grid-template-rows: clamp(200px, 27vw, 320px) clamp(185px, 25vw, 300px); }
           .cc-sv-display { font-size: clamp(30px, 5.4vw, 60px); }
           .cc-sv-note { flex-basis: clamp(150px, 24vw, 220px); }
+        }
+
+        /* Below ~1280 the six names stop fitting on one rail, so the tabs fall
+           back to their numbers and the counter underneath carries the label. */
+        @media (max-width: 1279px) {
+          .cc-sv-tab { padding: 0; width: 44px; justify-content: center; gap: 0; }
+          .cc-sv-tab span { display: none; }
+          .cc-sv-tab em { font-size: 15px; }
+          .cc-sv-nav-label { display: inline-flex; }
         }
 
         /* ── mobile: single column spread, note stacks over the type ── */
@@ -526,15 +567,24 @@ export function Services() {
 
         @media (max-width: 560px) {
           .cc-sv-cap { right: clamp(90px, 34vw, 130px); font-size: 14px; }
-          .cc-sv-dot { width: 40px; }
+          .cc-sv-tab { width: 46px; }        /* stays over the 44px touch target */
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .cc-sv-arrow, .cc-sv-seal, .cc-sv-dot i { transition: none; }
+          .cc-sv-arrow, .cc-sv-seal, .cc-sv-tab { transition: none; }
         }
       `}</style>
 
-      <motion.div className="cc-sv-inner" onViewportEnter={preload} viewport={{ once: true, margin: '200px' }}>
+      <motion.div
+        className="cc-sv-inner"
+        viewport={{ amount: 0.2, margin: '120px' }}
+        onViewportEnter={() => { preload(); setInView(true) }}
+        onViewportLeave={() => setInView(false)}
+        onMouseEnter={() => setPaused(true)}
+        onMouseLeave={() => setPaused(false)}
+        onFocusCapture={() => setPaused(true)}
+        onBlurCapture={() => setPaused(false)}
+      >
         <div className="cc-sv-head">
           <div>
             <motion.p className="cc-sv-eyebrow" variants={fadeUp} initial="hidden" whileInView="show" viewport={VIEWPORT}>
@@ -566,7 +616,7 @@ export function Services() {
                   <span className="cc-sv-pill">{cur.tag}</span>
                   <span className="cc-sv-scrim" aria-hidden />
                   <figcaption className="cc-sv-cap">{cur.caption}</figcaption>
-                  <Link className="cc-sv-arrow" to="/contact" aria-label={`Talk to us about ${cur.title}`}>
+                  <Link className="cc-sv-arrow" to="/contact#write" aria-label={`Talk to us about ${cur.title}`}>
                     <ArrowUpRight size={20} strokeWidth={2.2} aria-hidden />
                   </Link>
                 </motion.figure>
@@ -630,19 +680,20 @@ export function Services() {
           </div>
         </motion.div>
 
-        {/* ── dot navigation: the six services, under the card ── */}
+        {/* ── navigation: the six services, under the card ── */}
         <motion.div className="cc-sv-nav" variants={fadeUp} initial="hidden" whileInView="show" viewport={VIEWPORT}>
-          <div className="cc-sv-dots">
+          <div className="cc-sv-tabs">
             {SERVICES.map((s, i) => (
               <button
                 key={s.title}
                 type="button"
-                className={`cc-sv-dot${active === i ? ' is-active' : ''}`}
+                className={`cc-sv-tab${active === i ? ' is-active' : ''}`}
                 aria-pressed={active === i}
                 aria-label={`${s.n} - ${s.title}`}
                 onClick={() => setActive(i)}
               >
-                <i aria-hidden />
+                <em aria-hidden>{s.n}</em>
+                <span aria-hidden>{s.nav}</span>
               </button>
             ))}
           </div>

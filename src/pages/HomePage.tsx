@@ -6,6 +6,7 @@ import { HowWeHelp }    from '../components/home/HowWeHelp'
 import { BrandPromise } from '../components/home/BrandPromise'
 import { AboutUs }      from '../components/home/AboutUs'
 import { Omnichannel }  from '../components/home/Omnichannel'
+import { Spotlight }    from '../components/home/Spotlight'
 import { Engagement }   from '../components/home/Engagement'
 import { Footer }       from '../components/Footer'
 
@@ -20,6 +21,7 @@ export function HomePage() {
         <HowWeHelp />
         <BrandPromise />
         <AboutUs />
+        <Spotlight />
         <Omnichannel />
         <Engagement />
       </main>

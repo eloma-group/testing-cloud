@@ -1,7 +1,15 @@
 import { useEffect } from 'react'
 import { BrowserRouter, Routes, Route, Navigate, useLocation } from 'react-router-dom'
-import { HomePage } from './pages/HomePage'
-import { ContactPage } from './pages/ContactPage'
+import { HomePage }        from './pages/HomePage'
+import { AboutPage }       from './pages/AboutPage'
+import { ServicesPage }    from './pages/ServicesPage'
+import { SolutionsPage }   from './pages/SolutionsPage'
+import { IndustriesPage }  from './pages/IndustriesPage'
+import { BlogPage }        from './pages/BlogPage'
+import { CaseStudiesPage } from './pages/CaseStudiesPage'
+import { TeamPage }        from './pages/TeamPage'
+import { CareersPage }     from './pages/CareersPage'
+import { ContactPage }     from './pages/ContactPage'
 
 type Lenis = {
   scrollTo: (target: number | string | HTMLElement, opts?: Record<string, unknown>) => void
@@ -44,9 +52,17 @@ function App() {
     <BrowserRouter>
       <ScrollManager />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="/contact" element={<ContactPage />} />
-        <Route path="*" element={<Navigate to="/" replace />} />
+        <Route path="/"             element={<HomePage />} />
+        <Route path="/about"        element={<AboutPage />} />
+        <Route path="/services"     element={<ServicesPage />} />
+        <Route path="/solutions"    element={<SolutionsPage />} />
+        <Route path="/industries"   element={<IndustriesPage />} />
+        <Route path="/blog"         element={<BlogPage />} />
+        <Route path="/case-studies" element={<CaseStudiesPage />} />
+        <Route path="/team"         element={<TeamPage />} />
+        <Route path="/careers"      element={<CareersPage />} />
+        <Route path="/contact"      element={<ContactPage />} />
+        <Route path="*"             element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

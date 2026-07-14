@@ -904,7 +904,9 @@ export function ContactPage() {
           </div>
 
           {/* ══════════ the letter ══════════ */}
-          <div className="cc-lt">
+          {/* #write is where every CTA on the site lands: the form itself,
+              not the top of the page */}
+          <div className="cc-lt" id="write">
             <motion.dl
               className="cc-lt-margin"
               variants={staggerParent(0.08)}

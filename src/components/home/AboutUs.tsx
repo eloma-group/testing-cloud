@@ -333,14 +333,14 @@ export function AboutUs() {
             </motion.div>
 
             <motion.div className="cc-au-ctas" {...fade(0.26)}>
-              <Link className="cc-au-cta" to="/contact">
+              <Link className="cc-au-cta" to="/contact#write">
                 Book a Free Call
                 <ArrowRight size={16} strokeWidth={2.6} aria-hidden />
               </Link>
-              <a className="cc-au-ghost" href="#services">
+              <Link className="cc-au-ghost" to="/services">
                 Our Services
                 <i aria-hidden><ArrowUpRight size={17} strokeWidth={2.4} /></i>
-              </a>
+              </Link>
             </motion.div>
           </div>
 

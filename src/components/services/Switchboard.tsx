@@ -1,0 +1,268 @@
+import { useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
+import { Band, SectionHead } from '../page/PageKit'
+import { EASE } from '../../lib/anim'
+import { SERVICES } from '../../data/services'
+
+const ACCENT = '#D2704A'
+const SAGE   = '#4E9E77'
+
+/* ──────────────────────────────────────────────────────────────
+   The Switchboard - the services section.
+
+   The oldest object in this industry: a panel of jacks, and a cord
+   patched from the line you want to the desk that answers it. Choose
+   a jack and the cord is drawn across to the card, as a real cable
+   with a plug on each end.
+
+   The cord is an SVG path animated on pathLength, and it carries
+   vector-effect: non-scaling-stroke so the cable keeps an even weight
+   even though the viewBox is stretched to whatever width the column
+   happens to be.
+   ────────────────────────────────────────────────────────────── */
+
+export function Switchboard() {
+  const reduce = useReducedMotion() ?? false
+  const [live, setLive] = useState(0)
+  const s = SERVICES[live]
+
+  /* where the cord leaves the panel: the centre of the live jack, as a
+     percentage down the board */
+  const y = ((live + 0.5) / SERVICES.length) * 100
+  const cord = `M0,${y} C34,${y} 58,50 100,50`
+
+  return (
+    <Band tone="ink" label="Services">
+      <style>{`
+        .sw {
+          display: grid;
+          grid-template-columns: clamp(190px, 20vw, 280px) clamp(56px, 7vw, 130px) minmax(0, 1fr);
+          align-items: stretch;
+        }
+
+        /* ── the panel of jacks ── */
+        .sw-panel {
+          display: grid; border-radius: 18px; overflow: hidden;
+          background: #141416;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 0 0 1px #2A2A2A;
+        }
+        .sw-jack {
+          position: relative; isolation: isolate; cursor: pointer; border: 0; background: none;
+          display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center;
+          gap: clamp(10px, 1.2vw, 15px); text-align: left;
+          padding: clamp(12px, 1.5vw, 18px) clamp(13px, 1.5vw, 19px);
+          border-bottom: 1px solid #232325;
+        }
+        .sw-jack:last-child { border-bottom: 0; }
+        .sw-jack::before {
+          content: ''; position: absolute; inset: 0; z-index: -1;
+          background: linear-gradient(90deg, rgba(210,112,74,0.18), rgba(210,112,74,0.02));
+          transform: scaleX(0); transform-origin: left; will-change: transform;
+          transition: transform .7s cubic-bezier(.16,1,.3,1);
+        }
+        .sw-jack:hover::before, .sw-jack.on::before, .sw-jack:focus-visible::before { transform: scaleX(1); }
+
+        /* the socket itself */
+        .sw-socket {
+          position: relative; flex: none; width: 26px; height: 26px; border-radius: 50%;
+          background: radial-gradient(circle at 40% 34%, #2C2C31, #0B0B0C 70%);
+          box-shadow: inset 0 0 0 1px #3A3A42, inset 0 2px 4px rgba(0,0,0,0.9);
+          will-change: transform; transition: transform .5s cubic-bezier(.16,1,.3,1);
+        }
+        /* the hole */
+        .sw-socket::before {
+          content: ''; position: absolute; inset: 8px; border-radius: 50%;
+          background: #060607; box-shadow: inset 0 1px 2px rgba(0,0,0,1);
+          transition: background .45s ease, box-shadow .45s ease;
+        }
+        .sw-jack.on .sw-socket { transform: scale(1.06); }
+        .sw-jack.on .sw-socket::before {
+          background: radial-gradient(circle at 38% 32%, #F5BB9C, ${ACCENT} 60%, #9C4324);
+          box-shadow: 0 0 14px rgba(210,112,74,0.9);
+        }
+
+        .sw-jack em {
+          display: block; font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
+          font-variant-numeric: tabular-nums; font-size: 10px; letter-spacing: 1.6px;
+          color: #5F5D62; margin-bottom: 3px; transition: color .45s ease;
+        }
+        .sw-jack.on em { color: #F09A72; }
+        .sw-jack b {
+          display: block; font-family: 'Inter', sans-serif; font-weight: 700;
+          font-size: clamp(12px, 1vw, 15px); line-height: 1.25; color: #BDBDBD;
+          transition: color .45s ease;
+        }
+        .sw-jack.on b, .sw-jack:hover b { color: #fff; }
+
+        /* ── the cord ── */
+        .sw-cord { position: relative; }
+        .sw-cord svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+        .sw-cord path {
+          fill: none; stroke: ${ACCENT}; stroke-width: 2.5; stroke-linecap: round;
+          vector-effect: non-scaling-stroke;
+          filter: drop-shadow(0 3px 8px rgba(210,112,74,0.5));
+        }
+
+        /* ── the desk that answers ── */
+        .sw-card {
+          position: relative; overflow: hidden; border-radius: 18px;
+          background: #181818;
+          background-image: linear-gradient(168deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2A2A2A,
+                      0 40px 80px -44px rgba(0,0,0,0.8);
+        }
+        .sw-card-top {
+          position: relative; aspect-ratio: 21 / 9; overflow: hidden;
+        }
+        .sw-card-top img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .sw-card-top::after {
+          content: ''; position: absolute; inset: 0; pointer-events: none;
+          background: linear-gradient(180deg, rgba(15,15,16,0.35) 0%, transparent 40%, rgba(24,24,24,0.95) 100%);
+        }
+        .sw-plug {
+          position: absolute; z-index: 2; top: clamp(14px, 1.6vw, 20px); left: clamp(14px, 1.6vw, 20px);
+          display: inline-flex; align-items: center; gap: 8px;
+          padding: 8px 14px; border-radius: 100px;
+          background: rgba(15,15,16,0.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
+          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: 10px; letter-spacing: 1.8px; color: #fff;
+        }
+        .sw-plug i {
+          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${SAGE};
+        }
+        .sw-plug i::after {
+          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${SAGE};
+          animation: sw-ping 2.4s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
+        }
+        @keyframes sw-ping {
+          0%        { transform: scale(1);   opacity: .6; }
+          70%, 100% { transform: scale(2.9); opacity: 0; }
+        }
+
+        .sw-card-body { padding: clamp(22px, 2.6vw, 40px); }
+        .sw-card-body h3 {
+          margin: 0 0 clamp(12px, 1.4vw, 16px);
+          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-size: clamp(24px, 2.5vw, 46px); line-height: 1.06; color: #fff;
+        }
+        .sw-card-body .line {
+          margin: 0 0 clamp(16px, 1.8vw, 24px);
+          font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+          font-size: clamp(16px, 1.4vw, 25px); line-height: 1.45; color: ${ACCENT};
+        }
+        .sw-card-body .body {
+          margin: 0 0 clamp(18px, 2vw, 26px); padding-bottom: clamp(18px, 2vw, 26px);
+          border-bottom: 1px solid #2A2A2A;
+          font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85;
+          color: #BDBDBD;
+        }
+        .sw-does { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(18px, 2vw, 26px); }
+        .sw-does span {
+          display: inline-flex; align-items: center;
+          padding: 7px 12px; border-radius: 100px;
+          background: rgba(210,112,74,0.13); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.3);
+          font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px);
+          color: #F09A72;
+        }
+        .sw-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 22px); }
+        .sw-figs b {
+          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-size: clamp(22px, 2.1vw, 38px); line-height: 1; letter-spacing: -0.02em; color: #fff;
+        }
+        .sw-figs span {
+          display: block; margin-top: 7px; font-family: 'Inter', sans-serif; font-weight: 600;
+          font-size: clamp(11px, 0.86vw, 13px); line-height: 1.5; color: #858387;
+        }
+
+        /* ── responsive: no room for a cable, so the panel becomes a rail ── */
+        @media (max-width: 900px) {
+          .sw { grid-template-columns: minmax(0, 1fr); gap: clamp(20px, 3vw, 28px); }
+          .sw-cord { display: none; }
+          .sw-panel { grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr);
+                      overflow-x: auto; overscroll-behavior-x: contain; }
+          .sw-jack { border-bottom: 0; border-right: 1px solid #232325; }
+        }
+        @media (max-width: 560px) {
+          .sw-figs { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+          .sw-card-top { aspect-ratio: 16 / 9; }
+        }
+        @media (prefers-reduced-motion: reduce) { .sw-plug i::after { animation: none; } }
+      `}</style>
+
+      <SectionHead
+        eyebrow="The switchboard"
+        title={<>Patch a line, <span className="serif">reach the desk.</span></>}
+        lead="The oldest object in this business, and still the clearest way to show it. Choose a line on the panel and the cord is patched across to the desk that answers it."
+      />
+
+      <div className="sw">
+        <div className="sw-panel" role="tablist" aria-label="Services">
+          {SERVICES.map((item, i) => (
+            <button
+              key={item.id}
+              /* the anchor the footer links to: /services#inbound-voice */
+              id={item.id}
+              type="button"
+              role="tab"
+              aria-selected={live === i}
+              aria-controls="sw-card"
+              className={`sw-jack${live === i ? ' on' : ''}`}
+              onClick={() => setLive(i)}
+            >
+              <span className="sw-socket" aria-hidden />
+              <span>
+                <em>{item.n}</em>
+                <b>{item.name}</b>
+              </span>
+            </button>
+          ))}
+        </div>
+
+        {/* the cord, drawn from the live jack across to the desk */}
+        <div className="sw-cord" aria-hidden>
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+            <motion.path
+              key={s.id}
+              d={cord}
+              initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+              animate={{ pathLength: 1, opacity: 1 }}
+              transition={{ duration: 0.8, ease: EASE }}
+            />
+          </svg>
+        </div>
+
+        <motion.article
+          className="sw-card"
+          id="sw-card"
+          role="tabpanel"
+          key={s.id}
+          initial={reduce ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: EASE, delay: 0.12 }}
+        >
+          <div className="sw-card-top">
+            <img src={s.img} alt={s.alt} width={1200} height={515} decoding="async" />
+            <span className="sw-plug"><i aria-hidden /> Patched - {s.channel}</span>
+          </div>
+
+          <div className="sw-card-body">
+            <h3>{s.name}</h3>
+            <p className="line">{s.line}</p>
+            <p className="body">{s.body}</p>
+            <div className="sw-does">
+              {s.does.map((d) => <span key={d}>{d}</span>)}
+            </div>
+            <div className="sw-figs">
+              {s.figs.map(([v, l]) => (
+                <div key={l}>
+                  <b>{v}</b>
+                  <span>{l}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.article>
+      </div>
+    </Band>
+  )
+}
