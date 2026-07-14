@@ -5,11 +5,11 @@ import { ArrowUpRight, MapPin, Clock3 } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
-const SAGE       = '#4E9E77'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
+const LIVE       = '#2EBAC6'
 
 /* ──────────────────────────────────────────────────────────────
    Careers: an honest job ad.
@@ -138,24 +138,24 @@ export function CareersPage() {
         .cr-fig {
           position: relative; width: 100%; max-width: 560px; justify-self: end;
           border-radius: 20px; overflow: hidden;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 40px 78px -44px rgba(20,20,22,0.34);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 40px 78px -44px rgba(26,22,44,0.34);
         }
         .cr-fig-top {
           display: flex; align-items: center; justify-content: space-between; gap: 12px;
           padding: clamp(17px, 1.9vw, 24px) clamp(19px, 2.1vw, 28px);
-          border-bottom: 1px solid rgba(26,33,29,0.12);
+          border-bottom: 1px solid rgba(22,20,31,0.12);
         }
         .cr-fig-top b {
           display: inline-flex; align-items: center; gap: 9px;
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14px); color: ${TEXT};
         }
         .cr-fig-top b i {
-          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${SAGE};
+          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
         }
         .cr-fig-top b i::after {
-          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${SAGE};
+          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${LIVE};
           animation: cr-ping 2.4s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
         }
         @keyframes cr-ping {
@@ -170,7 +170,7 @@ export function CareersPage() {
         .cr-fig-row {
           display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px;
           padding: clamp(13px, 1.5vw, 18px) clamp(19px, 2.1vw, 28px);
-          border-bottom: 1px solid rgba(26,33,29,0.08);
+          border-bottom: 1px solid rgba(22,20,31,0.08);
         }
         .cr-fig-row:last-child { border-bottom: 0; }
         .cr-fig-row b {
@@ -184,8 +184,8 @@ export function CareersPage() {
         .cr-fig-row span {
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 9.5px; letter-spacing: 1.4px; color: ${ACCENT};
-          padding: 6px 11px; border-radius: 100px; background: rgba(210,112,74,0.1);
-          box-shadow: inset 0 0 0 1px rgba(210,112,74,0.24); white-space: nowrap;
+          padding: 6px 11px; border-radius: 100px; background: rgba(153,142,255,0.1);
+          box-shadow: inset 0 0 0 1px rgba(153,142,255,0.24); white-space: nowrap;
         }
 
         /* ══════════ the board ══════════ */
@@ -194,32 +194,32 @@ export function CareersPage() {
           cursor: pointer; border: 0; background: none;
           display: inline-flex; align-items: center; gap: 9px;
           min-height: 44px; padding: 11px clamp(16px, 1.6vw, 22px); border-radius: 100px;
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.16);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16);
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14.5px);
           color: ${MUTED}; will-change: transform;
           transition: color .4s ease, box-shadow .4s ease, background .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
         }
-        .cr-pill:hover { color: ${TEXT}; box-shadow: inset 0 0 0 1px rgba(26,33,29,0.34); }
+        .cr-pill:hover { color: ${TEXT}; box-shadow: inset 0 0 0 1px rgba(22,20,31,0.34); }
         .cr-pill.on {
           color: #fff; transform: translateY(-2px);
-          background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3),
-                      0 12px 24px -12px rgba(156,67,36,0.65);
+          background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3),
+                      0 12px 24px -12px rgba(74,61,191,0.65);
         }
         .cr-pill em { font-style: normal; font-weight: 800; font-variant-numeric: tabular-nums; font-size: 11px; opacity: 0.7; }
 
-        .cr-board { border-top: 1px solid rgba(26,33,29,0.14); }
+        .cr-board { border-top: 1px solid rgba(22,20,31,0.14); }
         .cr-row {
           position: relative; isolation: isolate; width: 100%; text-align: left; cursor: pointer;
           border: 0; background: none; color: inherit; display: grid;
           grid-template-columns: minmax(0, 1fr) auto auto auto;
           gap: clamp(14px, 2vw, 32px); align-items: center;
           padding: clamp(19px, 2.2vw, 30px) clamp(10px, 1.2vw, 20px);
-          border-bottom: 1px solid rgba(26,33,29,0.14);
+          border-bottom: 1px solid rgba(22,20,31,0.14);
         }
         .cr-row::before {
           content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 10px;
-          background: linear-gradient(90deg, rgba(210,112,74,0.12), rgba(210,112,74,0.01));
+          background: linear-gradient(90deg, rgba(153,142,255,0.12), rgba(153,142,255,0.01));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
@@ -234,22 +234,22 @@ export function CareersPage() {
         .cr-row-t em {
           display: block; margin-top: 5px; font-style: normal; font-family: 'Inter', sans-serif;
           font-weight: 700; text-transform: uppercase; font-size: 10px; letter-spacing: 1.6px;
-          color: rgba(26,33,29,0.4); transform: none;
+          color: rgba(22,20,31,0.4); transform: none;
         }
         .cr-row-m {
           display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(12px, 0.95vw, 14.5px);
           color: ${MUTED};
         }
-        .cr-row-m svg { color: rgba(26,33,29,0.35); flex: none; transition: color .45s ease; }
+        .cr-row-m svg { color: rgba(22,20,31,0.35); flex: none; transition: color .45s ease; }
         .cr-row:hover .cr-row-m svg, .cr-row.on .cr-row-m svg { color: ${ACCENT}; }
         .cr-row-x {
           position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%;
           display: grid; place-items: center; color: ${TEXT};
-          border: 1px solid rgba(26,33,29,0.18); will-change: transform;
+          border: 1px solid rgba(22,20,31,0.18); will-change: transform;
           transition: transform .6s cubic-bezier(.16,1,.3,1), background .4s ease, color .4s ease, border-color .4s ease;
         }
-        .cr-row:hover .cr-row-x { border-color: rgba(210,112,74,0.5); }
+        .cr-row:hover .cr-row-x { border-color: rgba(153,142,255,0.5); }
         .cr-row.on .cr-row-x { background: ${ACCENT}; border-color: transparent; color: #fff; transform: rotate(45deg); }
         .cr-row-x i { position: absolute; background: currentColor; border-radius: 2px; }
         .cr-row-x i:first-child { width: 13px; height: 1.8px; }
@@ -257,7 +257,7 @@ export function CareersPage() {
 
         /* the role, unrolled */
         .cr-open {
-          display: grid; grid-template-rows: 0fr; border-bottom: 1px solid rgba(26,33,29,0.14);
+          display: grid; grid-template-rows: 0fr; border-bottom: 1px solid rgba(22,20,31,0.14);
           transition: grid-template-rows .75s cubic-bezier(.16,1,.3,1);
         }
         .cr-open.on { grid-template-rows: 1fr; }
@@ -281,7 +281,7 @@ export function CareersPage() {
         /* the paragraph nobody else writes */
         .cr-hard {
           margin: 0; padding: clamp(16px, 1.8vw, 22px); border-radius: 14px;
-          background: rgba(210,112,74,0.07); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.2);
+          background: rgba(153,142,255,0.07); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.2);
         }
         .cr-hard b {
           display: block; margin-bottom: 8px; font-family: 'Inter', sans-serif; font-weight: 800;
@@ -300,7 +300,7 @@ export function CareersPage() {
         .cr-pay {
           display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
           padding: clamp(15px, 1.7vw, 20px); border-radius: 14px; margin-bottom: clamp(18px, 2vw, 26px);
-          background: rgba(26,33,29,0.04); box-shadow: inset 0 0 0 1px rgba(26,33,29,0.1);
+          background: rgba(22,20,31,0.04); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
         }
         .cr-pay b {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -313,10 +313,10 @@ export function CareersPage() {
 
         /* ══════════ what the job is really like ══════════ */
         .cr-real { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
-        .cr-real article { position: relative; padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid #2A2A2A; }
+        .cr-real article { position: relative; padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid #2F2A42; }
         .cr-real article::before {
           content: ''; position: absolute; top: -2px; left: 0; width: 30%; height: 2px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT});
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .cr-real h3 {
           margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.026em;
@@ -331,12 +331,12 @@ export function CareersPage() {
         .cr-steps {
           display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(14px, 1.6vw, 26px);
           margin-top: clamp(34px, 4vw, 58px); padding-top: clamp(26px, 3vw, 40px);
-          border-top: 1px solid #2A2A2A;
+          border-top: 1px solid #2F2A42;
         }
         .cr-step em {
           display: block; margin-bottom: 10px; font-style: normal; font-family: 'Inter', sans-serif;
           font-weight: 800; font-variant-numeric: tabular-nums; font-size: 11px; letter-spacing: 1.8px;
-          color: #F09A72;
+          color: #C3BCFF;
         }
         .cr-step b {
           display: block; margin-bottom: 7px; font-family: 'Inter', sans-serif; font-weight: 700;

@@ -5,16 +5,17 @@ import { ArrowRight, Package, Ticket, CalendarCheck, Truck, ShieldCheck, Plane }
 import type { LucideIcon } from 'lucide-react'
 import { MaskReveal } from '../../lib/anim'
 
-const TEXT   = '#2E3A34'
-const ACCENT = '#D2704A'
-const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
-const CREAM  = '#F6F2EA'
-const SAGE   = '#4E9E77'
-const MUTED  = '#63706A'
+const TEXT   = '#16141F'
+const ACCENT = '#998EFF'
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const WASH  = '#F4F2FD'
+const LIVE   = '#2EBAC6'
+const LIVE_INK   = '#0E7C88'   /* the label beside a live dot - teal itself is only 2.2:1 on white */
+const MUTED  = '#5E5B6B'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
-const GLOSS      = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
-const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
+const GLOSS      = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
+const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
 
 const SPREAD = 19      // degrees between spokes on the dial
 const DWELL  = 6200    // ms each sector holds before the dial turns itself
@@ -80,9 +81,9 @@ const SECTORS: Sector[] = [
 /* ──────────────────────────────────────────────────────────────
    The dial's centre holds an isometric diorama per sector: a
    tilted plate carrying that sector's work, with floating chips
-   above it. All six share one material system - cream plates,
-   sage hairlines, terracotta as the only saturated colour - so
-   they read as one family rather than six illustrations.
+   above it. All six share one material system - pale plates, ink
+   hairlines, violet as the only saturated colour - so they read as
+   one family rather than six illustrations.
    Every scene animates on transform / opacity only.
    ────────────────────────────────────────────────────────────── */
 function Scene({ s, on }: { s: Sector; on: boolean }) {
@@ -119,13 +120,13 @@ function Scene({ s, on }: { s: Sector; on: boolean }) {
           {s.scene === 'move' && (
             <svg className="cc-route" viewBox="0 0 100 100" aria-hidden>
               <path d="M12,78 C34,72 30,40 52,34 C72,28 74,14 88,18" fill="none"
-                    stroke="rgba(26,33,29,0.28)" strokeWidth="2.2" strokeDasharray="5 5" strokeLinecap="round" />
+                    stroke="rgba(22,20,31,0.28)" strokeWidth="2.2" strokeDasharray="5 5" strokeLinecap="round" />
               <circle className="cc-route-dot halo" r="8" />
               <circle className="cc-route-dot" r="4.4" fill={ACCENT} />
               <circle className="stop" cx="12" cy="78" r="3.4" />
               <circle className="stop" cx="88" cy="18" r="3.4" />
-              <rect x="40" y="60" width="16" height="12" rx="2" fill="rgba(20,20,22,0.10)" />
-              <rect x="62" y="44" width="11" height="8" rx="2" fill="rgba(26,33,29,0.12)" />
+              <rect x="40" y="60" width="16" height="12" rx="2" fill="rgba(26,22,44,0.10)" />
+              <rect x="62" y="44" width="11" height="8" rx="2" fill="rgba(22,20,31,0.12)" />
             </svg>
           )}
 
@@ -140,9 +141,9 @@ function Scene({ s, on }: { s: Sector; on: boolean }) {
 
           {s.scene === 'travel' && (
             <svg className="cc-arc" viewBox="0 0 100 100" aria-hidden>
-              <circle cx="14" cy="74" r="13" fill="none" stroke="rgba(20,20,22,0.16)" strokeWidth="1.2" />
-              <circle cx="86" cy="52" r="10" fill="none" stroke="rgba(20,20,22,0.16)" strokeWidth="1.2" />
-              <path d="M14,74 Q50,6 86,52" fill="none" stroke="rgba(26,33,29,0.26)" strokeWidth="2.2" strokeDasharray="4 6" strokeLinecap="round" />
+              <circle cx="14" cy="74" r="13" fill="none" stroke="rgba(26,22,44,0.16)" strokeWidth="1.2" />
+              <circle cx="86" cy="52" r="10" fill="none" stroke="rgba(26,22,44,0.16)" strokeWidth="1.2" />
+              <path d="M14,74 Q50,6 86,52" fill="none" stroke="rgba(22,20,31,0.26)" strokeWidth="2.2" strokeDasharray="4 6" strokeLinecap="round" />
               <circle className="cc-arc-dot halo" r="8" />
               <circle className="cc-arc-dot" r="4.2" fill={ACCENT} />
               <circle className="stop" cx="14" cy="74" r="3.6" />
@@ -222,17 +223,17 @@ export function Industries() {
   return (
     <section className="cc-in" id="industries" aria-label="Industries we serve">
       <style>{`
-        /* picks the cream up off the section above, climbs back to white, and
-           settles into cream again at the foot */
+        /* picks the wash up off the section above, climbs back to white, and
+           settles into the wash again at the foot */
         .cc-in {
           position: relative; isolation: isolate; overflow: hidden;
-          background: linear-gradient(180deg, #EFE8DC 0%, #FDFBF7 26%, #FFFFFF 52%, ${CREAM} 100%);
+          background: linear-gradient(180deg, #E3DEF8 0%, #FBFAFE 26%, #FFFFFF 52%, ${WASH} 100%);
           color: ${TEXT};
           padding: clamp(72px, 10vw, 150px) clamp(24px, 4vw, 64px) clamp(72px, 9vw, 140px);
         }
         .cc-in::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background: radial-gradient(54% 46% at 84% 12%, rgba(210,112,74,0.12), transparent 70%);
+          background: radial-gradient(54% 46% at 84% 12%, rgba(153,142,255,0.12), transparent 70%);
         }
         .cc-in-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
         @media (min-width: 1920px) { .cc-in-inner { max-width: 1900px; } }
@@ -243,7 +244,7 @@ export function Industries() {
           display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.72fr);
           gap: clamp(24px, 4vw, 72px); align-items: end;
           padding-bottom: clamp(22px, 2.6vw, 36px);
-          border-bottom: 1px solid rgba(26,33,29,0.16);
+          border-bottom: 1px solid rgba(22,20,31,0.16);
         }
         .cc-in-eyebrow {
           display: inline-flex; align-items: center; gap: 10px;
@@ -265,7 +266,7 @@ export function Industries() {
           font-family: Georgia, 'Times New Roman', serif; font-variant-numeric: tabular-nums;
         }
         .cc-in-count b { font-size: clamp(34px, 3.4vw, 58px); line-height: 1; font-weight: 400; color: ${ACCENT}; }
-        .cc-in-count span { font-size: clamp(15px, 1.2vw, 20px); color: rgba(26,33,29,0.42); }
+        .cc-in-count span { font-size: clamp(15px, 1.2vw, 20px); color: rgba(22,20,31,0.42); }
         .cc-in-note {
           font-family: 'Inter', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.7;
           color: ${MUTED}; margin: 0; max-width: 34ch;
@@ -283,7 +284,7 @@ export function Industries() {
         .cc-in-code {
           display: inline-flex; align-items: center; gap: 9px;
           font-family: 'Inter', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 1.8px;
-          color: ${ACCENT_INK}; border: 1px solid rgba(210,112,74,0.4); border-radius: 5px;
+          color: ${ACCENT_INK}; border: 1px solid rgba(153,142,255,0.4); border-radius: 5px;
           padding: 7px 12px; margin-bottom: clamp(16px, 2vw, 24px);
         }
         .cc-in-name {
@@ -304,14 +305,14 @@ export function Industries() {
           background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.68));
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 0 0 1px rgba(26,33,29,0.1),
-            0 8px 20px -14px rgba(26,33,29,0.5);
+            inset 0 0 0 1px rgba(22,20,31,0.1),
+            0 8px 20px -14px rgba(22,20,31,0.5);
         }
 
         .cc-in-stats {
           display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
           gap: clamp(14px, 2vw, 30px);
-          border-top: 1px solid rgba(26,33,29,0.14); padding-top: clamp(20px, 2.2vw, 28px);
+          border-top: 1px solid rgba(22,20,31,0.14); padding-top: clamp(20px, 2.2vw, 28px);
         }
         .cc-in-stat b {
           display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -353,28 +354,28 @@ export function Industries() {
 
         .cc-in-disc {
           position: relative; width: 88%; aspect-ratio: 1; border-radius: 50%;
-          background: radial-gradient(circle at 34% 24%, #FFFFFF 0%, #F7F4EC 38%, #EBE6DB 74%, #DFD8C9 100%);
+          background: radial-gradient(circle at 34% 24%, #FFFFFF 0%, #F5F3FD 38%, #E6E2F9 74%, #D5CFF2 100%);
           box-shadow:
             inset 0 2px 2px rgba(255,255,255,1),
-            inset 0 0 0 1px rgba(26,33,29,0.10),
+            inset 0 0 0 1px rgba(22,20,31,0.10),
             inset 0 0 0 9px rgba(255,255,255,0.6),
-            inset 0 -24px 40px -24px rgba(26,33,29,0.28),
-            0 20px 40px -24px rgba(26,33,29,0.35),
-            0 70px 100px -50px rgba(26,33,29,0.5);
+            inset 0 -24px 40px -24px rgba(22,20,31,0.28),
+            0 20px 40px -24px rgba(22,20,31,0.35),
+            0 70px 100px -50px rgba(22,20,31,0.5);
           display: grid; place-items: center; overflow: hidden;
         }
-        /* the specular arc across the top of the glass, plus the warm bounce */
+        /* the specular arc across the top of the glass, plus the violet bounce */
         .cc-in-disc::after {
           content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: 50%;
           background:
             radial-gradient(46% 30% at 36% 12%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
-            radial-gradient(58% 48% at 50% 8%, rgba(210,112,74,0.12), transparent 70%);
+            radial-gradient(58% 48% at 50% 8%, rgba(153,142,255,0.12), transparent 70%);
         }
 
         /* progress ring, drawn just outside the disc */
         .cc-in-ring { position: absolute; inset: -3.2%; width: auto; height: auto; transform: rotate(-90deg); pointer-events: none; }
         .cc-in-ring circle { fill: none; stroke-width: 0.9; }
-        .cc-in-ring .bg { stroke: rgba(26,33,29,0.12); }
+        .cc-in-ring .bg { stroke: rgba(22,20,31,0.12); }
         .cc-in-ring .fg { stroke: ${ACCENT}; stroke-linecap: round; }
 
         /* gauge ticks around the rim - they turn with the dial, and stay inside it */
@@ -386,7 +387,7 @@ export function Industries() {
         }
         .cc-in-ticks i::after {
           content: ''; position: absolute; right: 0; top: 0; width: 9px; height: 1px;
-          background: rgba(26,33,29,0.22);
+          background: rgba(22,20,31,0.22);
         }
         .cc-in-ticks i.on::after { width: 18px; height: 2px; background: ${ACCENT}; top: -0.5px; }
 
@@ -398,12 +399,12 @@ export function Industries() {
         .cc-in-picker::before {
           content: ''; position: absolute; left: 0; top: 50%; width: 26px; height: 2px;
           transform: translate(calc(-100% - 4px), -50%);
-          background: linear-gradient(90deg, rgba(210,112,74,0), ${ACCENT});
+          background: linear-gradient(90deg, rgba(153,142,255,0), ${ACCENT});
         }
         .cc-in-picker::after {
           content: ''; position: absolute; left: -4px; top: 50%; width: 9px; height: 9px;
           transform: translate(-50%, -50%); border-radius: 50%; background: ${ACCENT};
-          box-shadow: 0 0 0 4px rgba(210,112,74,0.2);
+          box-shadow: 0 0 0 4px rgba(153,142,255,0.2);
         }
         .cc-in-opt {
           position: absolute; left: 0; right: 0; top: 50%;
@@ -415,7 +416,7 @@ export function Industries() {
         .cc-in-opt button {
           display: flex; align-items: center; gap: 10px; width: 100%;
           min-height: 44px; padding: 6px 0; border: 0; background: none; cursor: pointer;
-          text-align: left; color: rgba(26,33,29,0.5);
+          text-align: left; color: rgba(22,20,31,0.5);
           font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
           font-size: clamp(14px, 1.05vw, 18px); line-height: 1.2;
           transition: color .45s ease;
@@ -442,31 +443,31 @@ export function Industries() {
         }
         .cc-plate {
           position: absolute; inset: 0; border-radius: 12px;
-          background: linear-gradient(150deg, #FFFFFF 0%, #F2EEE5 55%, #E7E2D6 100%);
+          background: linear-gradient(150deg, #FFFFFF 0%, #EEEBFB 55%, #E2DDF8 100%);
           box-shadow:
-            inset 0 0 0 1px rgba(26,33,29,0.14),
-            0 2px 0 2px rgba(20,20,22,0.06),
-            30px 30px 60px -18px rgba(26,33,29,0.42);
+            inset 0 0 0 1px rgba(22,20,31,0.14),
+            0 2px 0 2px rgba(26,22,44,0.06),
+            30px 30px 60px -18px rgba(22,20,31,0.42);
           overflow: hidden;
         }
         /* a faint floor grid, shared by all six plates, so they read as one set */
         .cc-plate::before {
           content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
           background:
-            repeating-linear-gradient(0deg, rgba(26,33,29,0.06) 0 1px, transparent 1px 12.5%),
-            repeating-linear-gradient(90deg, rgba(26,33,29,0.06) 0 1px, transparent 1px 12.5%);
+            repeating-linear-gradient(0deg, rgba(22,20,31,0.06) 0 1px, transparent 1px 12.5%),
+            repeating-linear-gradient(90deg, rgba(22,20,31,0.06) 0 1px, transparent 1px 12.5%);
         }
 
         /* floating chips, shared by every scene */
         .cc-chip {
           position: absolute; border-radius: 10px;
-          background: linear-gradient(160deg, #FFFFFF 0%, #FBFAF6 55%, #F0EDE5 100%);
+          background: linear-gradient(160deg, #FFFFFF 0%, #FAF9FE 55%, #EDEAFB 100%);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(26,33,29,0.08),
-            inset 0 0 0 1px rgba(26,33,29,0.09),
-            0 2px 4px rgba(26,33,29,0.16),
-            0 18px 30px -14px rgba(26,33,29,0.5);
+            inset 0 -1px 0 rgba(22,20,31,0.08),
+            inset 0 0 0 1px rgba(22,20,31,0.09),
+            0 2px 4px rgba(22,20,31,0.16),
+            0 18px 30px -14px rgba(22,20,31,0.5);
           will-change: transform;
         }
         /* the two blank chips carry a line of "content" so they read as cards, not blobs */
@@ -474,10 +475,10 @@ export function Industries() {
           content: ''; position: absolute; left: 18%; right: 30%; top: 34%; height: 10%;
           border-radius: 100px; background: rgba(255,255,255,0.75);
         }
-        .cc-chip.c::after { background: rgba(26,33,29,0.16); right: 24%; }
+        .cc-chip.c::after { background: rgba(22,20,31,0.16); right: 24%; }
         .cc-chip.c::before {
           content: ''; position: absolute; left: 18%; right: 46%; top: 58%; height: 10%;
-          border-radius: 100px; background: rgba(210,112,74,0.5);
+          border-radius: 100px; background: rgba(153,142,255,0.5);
         }
         .cc-chip.a {
           top: -18%; left: 8%; width: 34%; aspect-ratio: 1; display: grid; place-items: center;
@@ -487,12 +488,12 @@ export function Industries() {
         .cc-chip.b {
           top: 16%; left: -20%; width: 22%; aspect-ratio: 1.6;
           background: ${GLOSS}; transform: translateZ(38px);
-          box-shadow: ${ACCENT_RIM}, 0 18px 34px -16px rgba(156,67,36,0.9);
+          box-shadow: ${ACCENT_RIM}, 0 18px 34px -16px rgba(74,61,191,0.9);
           animation: cc-float 6.2s cubic-bezier(.4,0,.6,1) infinite .5s;
         }
         .cc-chip.c {
           bottom: -14%; right: 4%; width: 26%; aspect-ratio: 2.2;
-          background: linear-gradient(150deg, #fff, #EFEBE2); transform: translateZ(30px);
+          background: linear-gradient(150deg, #fff, #EAE6FA); transform: translateZ(30px);
           animation: cc-float 7s cubic-bezier(.4,0,.6,1) infinite 1.1s;
         }
         @keyframes cc-float {
@@ -509,17 +510,17 @@ export function Industries() {
           grid-auto-rows: 1fr; gap: 7%;
         }
         .cc-grid9 i {
-          border-radius: 4px; background: rgba(26,33,29,0.07); box-shadow: inset 0 0 0 1px rgba(26,33,29,0.05);
+          border-radius: 4px; background: rgba(22,20,31,0.07); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.05);
         }
         .cc-grid9 i.lit {
-          background: rgba(210,112,74,0.3); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.55);
+          background: rgba(153,142,255,0.3); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.55);
           animation: cc-blink 3.4s cubic-bezier(.4,0,.6,1) infinite;
           animation-delay: calc(var(--i) * 0.28s);
         }
         @keyframes cc-blink { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
         .cc-beam {
           position: absolute; left: 0; right: 0; top: 0; height: 26%;
-          background: linear-gradient(180deg, transparent, rgba(210,112,74,0.28), transparent);
+          background: linear-gradient(180deg, transparent, rgba(153,142,255,0.28), transparent);
           animation: cc-sweep 3.6s cubic-bezier(.65,0,.35,1) infinite; will-change: transform;
         }
         @keyframes cc-sweep { 0% { transform: translateY(-30%); } 100% { transform: translateY(400%); } }
@@ -529,18 +530,18 @@ export function Industries() {
         .cc-stack .l {
           position: absolute; left: 0; right: 0; height: 22%; border-radius: 6px;
           background: #fff;
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.16), 0 6px 12px -6px rgba(26,33,29,0.5);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16), 0 6px 12px -6px rgba(22,20,31,0.5);
         }
         .cc-stack .l::after {
           content: ''; position: absolute; left: 10%; right: 42%; top: 38%; height: 12%;
-          border-radius: 100px; background: rgba(20,20,22,0.16);
+          border-radius: 100px; background: rgba(26,22,44,0.16);
         }
         .cc-stack .l1 { bottom: 0; transform: translateZ(0); }
         .cc-stack .l2 { bottom: 34%; transform: translateZ(18px); }
         .cc-stack .l3 { bottom: 68%; transform: translateZ(36px); }
         .cc-ticket {
           position: absolute; left: 18%; bottom: 6%; width: 26%; height: 14%; border-radius: 4px;
-          background: ${ACCENT}; box-shadow: 0 10px 20px -8px rgba(210,112,74,0.9);
+          background: ${ACCENT}; box-shadow: 0 10px 20px -8px rgba(153,142,255,0.9);
           animation: cc-rise 4.2s cubic-bezier(.5,0,.2,1) infinite; will-change: transform;
         }
         @keyframes cc-rise {
@@ -555,8 +556,8 @@ export function Industries() {
           position: absolute; inset: 16%; display: grid; grid-template-columns: repeat(4, 1fr);
           grid-auto-rows: 1fr; gap: 8%;
         }
-        .cc-cal i { border-radius: 3px; background: rgba(26,33,29,0.07); }
-        .cc-cal i:nth-child(3n) { background: rgba(20,20,22,0.10); }
+        .cc-cal i { border-radius: 3px; background: rgba(22,20,31,0.07); }
+        .cc-cal i:nth-child(3n) { background: rgba(26,22,44,0.10); }
         .cc-cal i.lit {
           background: ${ACCENT};
           animation: cc-book 3.8s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
@@ -569,8 +570,8 @@ export function Industries() {
 
         /* scene: logistics - a delivery running its route */
         .cc-route, .cc-arc { position: absolute; inset: 8%; width: 84%; height: 84%; overflow: visible; }
-        .cc-route .stop, .cc-arc .stop { fill: rgba(26,33,29,0.3); }
-        .cc-route .halo, .cc-arc .halo { fill: rgba(210,112,74,0.22); }
+        .cc-route .stop, .cc-arc .stop { fill: rgba(22,20,31,0.3); }
+        .cc-route .halo, .cc-arc .halo { fill: rgba(153,142,255,0.22); }
         .cc-route-dot {
           offset-path: path('M12,78 C34,72 30,40 52,34 C72,28 74,14 88,18');
           animation: cc-drive 4.6s cubic-bezier(.5,0,.5,1) infinite; will-change: transform;
@@ -585,7 +586,7 @@ export function Industries() {
         .cc-cards { position: absolute; inset: 18%; transform-style: preserve-3d; }
         .cc-cards .c {
           position: absolute; inset: 0; border-radius: 7px; background: #fff;
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.09);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.09);
         }
         .cc-cards .c1 { transform: translate3d(-8%, 8%, 0) rotate(-4deg); opacity: .55; }
         .cc-cards .c2 { transform: translate3d(-3%, 3%, 12px) rotate(-2deg); opacity: .8; }
@@ -624,21 +625,21 @@ export function Industries() {
           -webkit-backdrop-filter: blur(8px) saturate(1.3);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(20,20,22,0.03),
-            inset 0 0 0 1px rgba(26,33,29,0.07),
-            0 1px 3px rgba(20,20,22,0.06),
-            0 30px 50px -26px rgba(26,33,29,0.55);
+            inset 0 -1px 0 rgba(26,22,44,0.03),
+            inset 0 0 0 1px rgba(22,20,31,0.07),
+            0 1px 3px rgba(26,22,44,0.06),
+            0 30px 50px -26px rgba(22,20,31,0.55);
         }
         .cc-in-console .live {
           display: inline-flex; align-items: center; gap: 7px;
           font-family: 'Inter', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 1.6px;
-          text-transform: uppercase; color: ${SAGE};
+          text-transform: uppercase; color: ${LIVE_INK};
         }
         .cc-in-console .live i {
-          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${SAGE};
+          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
         }
         .cc-in-console .live i::after {
-          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${SAGE};
+          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${LIVE};
           animation: cc-ping 2.4s cubic-bezier(.16,1,.3,1) infinite;
         }
         @keyframes cc-ping { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
@@ -649,7 +650,7 @@ export function Industries() {
         .cc-in-console .fig b { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(18px, 1.5vw, 24px); line-height: 1; }
         .cc-in-console .fig span {
           font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase; font-weight: 700;
-          color: rgba(26,33,29,0.45); white-space: nowrap;
+          color: rgba(22,20,31,0.45); white-space: nowrap;
         }
         .cc-in-console .bars { display: flex; align-items: flex-end; gap: 3px; height: 26px; }
         .cc-in-console .bars i {
@@ -687,12 +688,12 @@ export function Industries() {
             flex: none; min-height: 44px; padding: 11px 18px; border-radius: 100px; cursor: pointer;
             border: 0; color: ${TEXT};
             background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.7));
-            box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,33,29,0.14);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(22,20,31,0.14);
             font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap;
           }
           .cc-in-rail button.on {
             background: ${GLOSS}; color: #fff;
-            box-shadow: ${ACCENT_RIM}, 0 10px 22px -12px rgba(156,67,36,0.7);
+            box-shadow: ${ACCENT_RIM}, 0 10px 22px -12px rgba(74,61,191,0.7);
           }
           .cc-in-stats { grid-template-columns: minmax(0, 1fr); gap: 16px; }
           .cc-in-stat { display: flex; align-items: baseline; gap: 14px; }

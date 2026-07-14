@@ -4,10 +4,10 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
 
 /* ──────────────────────────────────────────────────────────────
    Blog: a magazine, not a content marketing dump.
@@ -119,9 +119,9 @@ export function BlogPage() {
         .bl-fig {
           position: relative; width: 100%; max-width: 560px; justify-self: end;
           border-radius: 20px; overflow: hidden;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 40px 78px -44px rgba(20,20,22,0.34);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 40px 78px -44px rgba(26,22,44,0.34);
           will-change: transform;
           animation: bl-float 10s cubic-bezier(.4,0,.6,1) infinite;
         }
@@ -132,7 +132,7 @@ export function BlogPage() {
         .bl-fig-top {
           display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
           padding: clamp(18px, 2vw, 26px) clamp(20px, 2.2vw, 30px);
-          border-bottom: 1px solid rgba(26,33,29,0.12);
+          border-bottom: 1px solid rgba(22,20,31,0.12);
         }
         .bl-fig-top b {
           font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
@@ -145,13 +145,13 @@ export function BlogPage() {
         .bl-fig-body { padding: clamp(20px, 2.2vw, 30px); display: grid; gap: clamp(14px, 1.6vw, 20px); }
         .bl-fig-row {
           display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: baseline;
-          padding-bottom: clamp(14px, 1.6vw, 20px); border-bottom: 1px dashed rgba(26,33,29,0.18);
+          padding-bottom: clamp(14px, 1.6vw, 20px); border-bottom: 1px dashed rgba(22,20,31,0.18);
         }
         .bl-fig-row:last-child { border-bottom: 0; padding-bottom: 0; }
         .bl-fig-row em {
           font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
           font-variant-numeric: tabular-nums; font-size: 11px; letter-spacing: 1.5px;
-          color: rgba(26,33,29,0.32);
+          color: rgba(22,20,31,0.32);
         }
         .bl-fig-row b {
           display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -167,15 +167,15 @@ export function BlogPage() {
           position: relative; isolation: isolate; overflow: hidden; display: grid;
           grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
           border-radius: 22px; text-decoration: none; color: inherit;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 30px 62px -34px rgba(20,20,22,0.3);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 30px 62px -34px rgba(26,22,44,0.3);
           will-change: transform; transition: transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease;
         }
         .bl-lead:hover {
           transform: translateY(-5px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 44px 84px -40px rgba(20,20,22,0.4);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 44px 84px -40px rgba(26,22,44,0.4);
         }
         .bl-lead-body {
           padding: clamp(28px, 3.2vw, 56px); display: flex; flex-direction: column; justify-content: center;
@@ -184,7 +184,7 @@ export function BlogPage() {
           display: inline-flex; align-items: center; gap: 8px; align-self: flex-start;
           margin-bottom: clamp(16px, 1.8vw, 24px);
           padding: 7px 13px; border-radius: 100px;
-          background: rgba(210,112,74,0.1); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.26);
+          background: rgba(153,142,255,0.1); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.26);
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: ${ACCENT_INK};
         }
@@ -199,11 +199,11 @@ export function BlogPage() {
         }
         .bl-meta {
           display: flex; flex-wrap: wrap; align-items: center; gap: clamp(10px, 1.2vw, 16px);
-          padding-top: clamp(18px, 2vw, 26px); border-top: 1px solid rgba(26,33,29,0.12);
+          padding-top: clamp(18px, 2vw, 26px); border-top: 1px solid rgba(22,20,31,0.12);
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(12px, 0.92vw, 14px);
           color: ${MUTED};
         }
-        .bl-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(26,33,29,0.25); }
+        .bl-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(22,20,31,0.25); }
         .bl-meta .go {
           margin-left: auto; display: inline-flex; align-items: center; gap: 8px;
           font-weight: 700; color: ${ACCENT_INK};
@@ -231,17 +231,17 @@ export function BlogPage() {
           cursor: pointer; border: 0; background: none;
           display: inline-flex; align-items: center; gap: 9px;
           min-height: 44px; padding: 11px clamp(16px, 1.6vw, 22px); border-radius: 100px;
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.16);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16);
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14.5px);
           color: ${MUTED}; will-change: transform;
           transition: color .4s ease, box-shadow .4s ease, background .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
         }
-        .bl-pill:hover { color: ${TEXT}; box-shadow: inset 0 0 0 1px rgba(26,33,29,0.34); }
+        .bl-pill:hover { color: ${TEXT}; box-shadow: inset 0 0 0 1px rgba(22,20,31,0.34); }
         .bl-pill.on {
           color: #fff; transform: translateY(-2px);
-          background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3),
-                      0 12px 24px -12px rgba(156,67,36,0.65);
+          background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3),
+                      0 12px 24px -12px rgba(74,61,191,0.65);
         }
         .bl-pill em {
           font-style: normal; font-weight: 800; font-variant-numeric: tabular-nums;
@@ -253,15 +253,15 @@ export function BlogPage() {
         .bl-card {
           position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column;
           border-radius: 18px; text-decoration: none; color: inherit;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 2px rgba(20,20,22,0.05), 0 10px 24px -14px rgba(20,20,22,0.18);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 2px rgba(26,22,44,0.05), 0 10px 24px -14px rgba(26,22,44,0.18);
           will-change: transform; transition: transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease;
         }
         .bl-card:hover {
           transform: translateY(-6px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 30px 58px -28px rgba(20,20,22,0.32);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 30px 58px -28px rgba(26,22,44,0.32);
         }
         .bl-card-shot { position: relative; aspect-ratio: 16 / 10; overflow: hidden; }
         .bl-card-shot img {
@@ -271,12 +271,12 @@ export function BlogPage() {
         .bl-card:hover .bl-card-shot img { transform: scale(1.06); }
         .bl-card-shot::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(180deg, rgba(15,15,16,0.34) 0%, transparent 46%);
+          background: linear-gradient(180deg, rgba(20,17,31,0.34) 0%, transparent 46%);
         }
         .bl-card-shot .bl-tag {
           position: absolute; z-index: 2; top: 14px; left: 14px; margin: 0;
           background: rgba(255,255,255,0.94);
-          box-shadow: inset 0 0 0 1px rgba(20,20,22,0.08), 0 8px 20px -12px rgba(20,20,22,0.6);
+          box-shadow: inset 0 0 0 1px rgba(26,22,44,0.08), 0 8px 20px -12px rgba(26,22,44,0.6);
         }
         .bl-card-body { padding: clamp(20px, 2.2vw, 30px); display: flex; flex-direction: column; flex: 1; }
         .bl-card-body h3 {
@@ -311,13 +311,13 @@ export function BlogPage() {
         .bl-form { display: grid; gap: 14px; }
         .bl-form label {
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: 10px; letter-spacing: 1.8px; color: #F09A72;
+          font-size: 10px; letter-spacing: 1.8px; color: #C3BCFF;
         }
         .bl-form-row { display: flex; flex-wrap: wrap; gap: 12px; }
         .bl-form input {
           flex: 1; min-width: 220px; min-height: 52px;
           border: 0; outline: none; border-radius: 100px; padding: 15px 22px;
-          background: #141416; box-shadow: inset 0 0 0 1px #2A2A2A;
+          background: #191527; box-shadow: inset 0 0 0 1px #2F2A42;
           font-family: 'Inter', sans-serif; font-size: 15px; color: #fff;
           transition: box-shadow .4s ease;
         }
@@ -421,7 +421,7 @@ export function BlogPage() {
       </Band>
 
       {/* ══════════ everything else ══════════ */}
-      <Band tone="cream" label="All writing">
+      <Band tone="wash" label="All writing">
         <SectionHead
           eyebrow="The archive"
           title={<>Everything else <span className="serif">we have written.</span></>}

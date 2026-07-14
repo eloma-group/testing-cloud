@@ -5,10 +5,10 @@ import type { LucideIcon } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
 
 /* ──────────────────────────────────────────────────────────────
    Industries: six sectors, each given a full page-width slab.
@@ -104,9 +104,9 @@ export function IndustriesPage() {
           position: relative; overflow: hidden; aspect-ratio: 1 / 1; border-radius: 16px;
           display: grid; align-content: space-between;
           padding: clamp(13px, 1.5vw, 20px);
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 2px rgba(20,20,22,0.05), 0 14px 30px -18px rgba(20,20,22,0.22);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 2px rgba(26,22,44,0.05), 0 14px 30px -18px rgba(26,22,44,0.22);
           will-change: transform;
           animation: in-float 8s cubic-bezier(.4,0,.6,1) infinite;
         }
@@ -122,7 +122,7 @@ export function IndustriesPage() {
         }
         .in-fig-cell i {
           display: grid; place-items: center; width: 38px; height: 38px; border-radius: 11px;
-          background: rgba(210,112,74,0.11); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.26);
+          background: rgba(153,142,255,0.11); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.26);
           color: ${ACCENT};
         }
         .in-fig-cell b {
@@ -142,12 +142,12 @@ export function IndustriesPage() {
           display: grid; grid-template-columns: clamp(96px, 10vw, 172px) minmax(0, 1.15fr) minmax(0, 0.85fr);
           gap: clamp(18px, 2.6vw, 52px); align-items: start;
           padding: clamp(30px, 3.4vw, 56px) clamp(10px, 1.4vw, 22px);
-          border-bottom: 1px solid rgba(26,33,29,0.14);
+          border-bottom: 1px solid rgba(22,20,31,0.14);
         }
-        .in-slab:first-child { border-top: 1px solid rgba(26,33,29,0.14); }
+        .in-slab:first-child { border-top: 1px solid rgba(22,20,31,0.14); }
         .in-slab::before {
           content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 14px;
-          background: linear-gradient(90deg, rgba(210,112,74,0.1), rgba(210,112,74,0.01));
+          background: linear-gradient(90deg, rgba(153,142,255,0.1), rgba(153,142,255,0.01));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .75s cubic-bezier(.16,1,.3,1);
         }
@@ -157,19 +157,19 @@ export function IndustriesPage() {
         .in-mark { display: grid; gap: 14px; justify-items: start; }
         .in-mark i {
           display: grid; place-items: center; width: 52px; height: 52px; border-radius: 15px;
-          background: rgba(210,112,74,0.11); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.26);
+          background: rgba(153,142,255,0.11); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.26);
           color: ${ACCENT}; will-change: transform;
           transition: transform .55s cubic-bezier(.16,1,.3,1), background .45s ease, color .45s ease, box-shadow .45s ease;
         }
         .in-slab:hover .in-mark i {
           transform: rotate(-7deg);
-          background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
+          background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
           color: #fff;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 14px 26px -12px rgba(156,67,36,0.8);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 14px 26px -12px rgba(74,61,191,0.8);
         }
         .in-mark b {
           font-family: 'Inter', sans-serif; font-weight: 800; font-size: clamp(10px, 0.8vw, 12px);
-          letter-spacing: 2px; text-transform: uppercase; color: rgba(26,33,29,0.36);
+          letter-spacing: 2px; text-transform: uppercase; color: rgba(22,20,31,0.36);
           transition: color .5s ease;
         }
         .in-slab:hover .in-mark b { color: ${ACCENT_INK}; }
@@ -188,8 +188,8 @@ export function IndustriesPage() {
         /* what actually goes wrong in this sector */
         .in-breaks {
           margin: 0 0 clamp(18px, 2vw, 26px); padding: clamp(14px, 1.6vw, 20px);
-          border-radius: 12px; background: rgba(26,33,29,0.04);
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.08);
+          border-radius: 12px; background: rgba(22,20,31,0.04);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.08);
           font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.8; color: ${MUTED};
         }
         .in-breaks b {
@@ -200,7 +200,7 @@ export function IndustriesPage() {
         .in-runs span {
           display: inline-flex; align-items: center; gap: 6px;
           padding: 7px 13px; border-radius: 100px;
-          background: rgba(210,112,74,0.09); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.24);
+          background: rgba(153,142,255,0.09); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.24);
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 14px);
           color: ${ACCENT_INK};
         }
@@ -210,17 +210,17 @@ export function IndustriesPage() {
         .in-words { display: grid; gap: 10px; }
         .in-k {
           margin: 0; font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: 10px; letter-spacing: 1.8px; color: rgba(26,33,29,0.4);
+          font-size: 10px; letter-spacing: 1.8px; color: rgba(22,20,31,0.4);
         }
         .in-words-row { display: flex; flex-wrap: wrap; gap: 7px; }
         .in-words-row code {
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(11px, 0.88vw, 13px);
           padding: 6px 11px; border-radius: 7px; color: ${TEXT};
-          background: rgba(26,33,29,0.05); box-shadow: inset 0 0 0 1px rgba(26,33,29,0.1);
+          background: rgba(22,20,31,0.05); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
         }
         .in-figs {
-          display: grid; gap: 1px; background: rgba(26,33,29,0.12);
-          border-radius: 13px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(26,33,29,0.12);
+          display: grid; gap: 1px; background: rgba(22,20,31,0.12);
+          border-radius: 13px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(22,20,31,0.12);
         }
         .in-figs div {
           display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
@@ -238,10 +238,10 @@ export function IndustriesPage() {
 
         /* ══════════ what every sector gets ══════════ */
         .in-common { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
-        .in-common article { padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid #2A2A2A; position: relative; }
+        .in-common article { padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid #2F2A42; position: relative; }
         .in-common article::before {
           content: ''; position: absolute; top: -2px; left: 0; width: 34%; height: 2px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT});
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .in-common h3 {
           margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.025em;
@@ -256,7 +256,7 @@ export function IndustriesPage() {
         .in-none {
           display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
           margin-top: clamp(36px, 4vw, 60px); padding-top: clamp(26px, 3vw, 40px);
-          border-top: 1px solid #2A2A2A;
+          border-top: 1px solid #2F2A42;
         }
         .in-none p {
           margin: 0; max-width: 54ch; font-family: 'Inter', sans-serif;

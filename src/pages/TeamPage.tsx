@@ -5,11 +5,11 @@ import { ArrowUpRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
-const SAGE       = '#4E9E77'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
+const LIVE       = '#2EBAC6'
 
 /* ──────────────────────────────────────────────────────────────
    Team: the people, not the org chart.
@@ -146,8 +146,8 @@ export function TeamPage() {
           position: relative; margin: 0 clamp(-18px, -1.6vw, -12px);
           width: clamp(88px, 11vw, 168px); aspect-ratio: 3 / 4;
           border-radius: 16px; overflow: hidden;
-          box-shadow: inset 0 0 0 1px rgba(20,20,22,0.08),
-                      0 26px 52px -28px rgba(20,20,22,0.5);
+          box-shadow: inset 0 0 0 1px rgba(26,22,44,0.08),
+                      0 26px 52px -28px rgba(26,22,44,0.5);
           will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
@@ -173,12 +173,12 @@ export function TeamPage() {
           display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
           gap: clamp(14px, 1.6vw, 22px);
           padding: clamp(14px, 1.6vw, 20px) clamp(10px, 1.2vw, 16px);
-          border-bottom: 1px solid rgba(26,33,29,0.14);
+          border-bottom: 1px solid rgba(22,20,31,0.14);
         }
-        .tm-row:first-child { border-top: 1px solid rgba(26,33,29,0.14); }
+        .tm-row:first-child { border-top: 1px solid rgba(22,20,31,0.14); }
         .tm-row::before {
           content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 12px;
-          background: linear-gradient(90deg, rgba(210,112,74,0.13), rgba(210,112,74,0.01));
+          background: linear-gradient(90deg, rgba(153,142,255,0.13), rgba(153,142,255,0.01));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
@@ -186,7 +186,7 @@ export function TeamPage() {
         /* the thumbnail: greyscale until it is the one being read */
         .tm-row-shot {
           flex: none; width: clamp(52px, 5vw, 74px); aspect-ratio: 1; border-radius: 14px;
-          overflow: hidden; box-shadow: inset 0 0 0 1px rgba(20,20,22,0.1);
+          overflow: hidden; box-shadow: inset 0 0 0 1px rgba(26,22,44,0.1);
           will-change: transform; transition: transform .6s cubic-bezier(.16,1,.3,1), box-shadow .5s ease;
         }
         .tm-row-shot img {
@@ -194,7 +194,7 @@ export function TeamPage() {
           filter: grayscale(1) contrast(1.04); transition: filter .6s ease;
         }
         .tm-row:hover .tm-row-shot, .tm-row.on .tm-row-shot { transform: scale(1.05); }
-        .tm-row.on .tm-row-shot { box-shadow: 0 0 0 2px ${ACCENT}, 0 12px 26px -12px rgba(156,67,36,0.7); }
+        .tm-row.on .tm-row-shot { box-shadow: 0 0 0 2px ${ACCENT}, 0 12px 26px -12px rgba(74,61,191,0.7); }
         .tm-row:hover .tm-row-shot img, .tm-row.on .tm-row-shot img { filter: none; }
 
         .tm-row b {
@@ -210,7 +210,7 @@ export function TeamPage() {
         }
         .tm-row .city {
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(9px, 0.72vw, 11px); letter-spacing: 1.6px; color: rgba(26,33,29,0.35);
+          font-size: clamp(9px, 0.72vw, 11px); letter-spacing: 1.6px; color: rgba(22,20,31,0.35);
           white-space: nowrap; transition: color .45s ease;
         }
         .tm-row:hover .city, .tm-row.on .city { color: ${ACCENT_INK}; }
@@ -218,15 +218,15 @@ export function TeamPage() {
         /* the person, pulled into the frame */
         .tm-card {
           position: sticky; top: 92px; overflow: hidden; border-radius: 20px;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 30px 62px -34px rgba(20,20,22,0.3);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 30px 62px -34px rgba(26,22,44,0.3);
         }
         .tm-card-shot { position: relative; aspect-ratio: 4 / 3; overflow: hidden; }
         .tm-card-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .tm-card-shot::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(180deg, transparent 40%, rgba(15,15,16,0.6) 100%);
+          background: linear-gradient(180deg, transparent 40%, rgba(20,17,31,0.6) 100%);
         }
         .tm-card-name {
           position: absolute; z-index: 2; left: clamp(18px, 2vw, 28px); bottom: clamp(16px, 1.8vw, 24px);
@@ -234,16 +234,16 @@ export function TeamPage() {
         .tm-card-name b {
           display: block; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           font-size: clamp(26px, 2.4vw, 44px); line-height: 1; color: #fff;
-          text-shadow: 0 2px 20px rgba(15,15,16,0.5);
+          text-shadow: 0 2px 20px rgba(20,17,31,0.5);
         }
         .tm-card-name span {
           display: block; margin-top: 8px; font-family: 'Inter', sans-serif; font-weight: 700;
-          text-transform: uppercase; font-size: 10px; letter-spacing: 1.8px; color: #F5BB9C;
+          text-transform: uppercase; font-size: 10px; letter-spacing: 1.8px; color: #D6D0FF;
         }
         .tm-card-body { padding: clamp(22px, 2.4vw, 36px); }
         .tm-card-line {
           margin: 0 0 clamp(16px, 1.8vw, 22px); padding-left: clamp(14px, 1.4vw, 18px);
-          border-left: 2px solid rgba(210,112,74,0.4);
+          border-left: 2px solid rgba(153,142,255,0.4);
           font-family: Georgia, 'Times New Roman', serif; font-style: italic;
           font-size: clamp(15px, 1.3vw, 22px); line-height: 1.5; color: ${ACCENT_INK};
         }
@@ -253,7 +253,7 @@ export function TeamPage() {
         }
         .tm-card-meta {
           display: flex; flex-wrap: wrap; gap: clamp(12px, 1.4vw, 22px);
-          padding-top: clamp(16px, 1.8vw, 22px); border-top: 1px solid rgba(26,33,29,0.12);
+          padding-top: clamp(16px, 1.8vw, 22px); border-top: 1px solid rgba(22,20,31,0.12);
         }
         .tm-card-meta div { flex: 1; min-width: 110px; }
         .tm-card-meta b {
@@ -268,10 +268,10 @@ export function TeamPage() {
         /* ══════════ the desks ══════════ */
         .tm-desks {
           display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
-          background: #2A2A2A; border-radius: 18px; overflow: hidden; box-shadow: inset 0 0 0 1px #2A2A2A;
+          background: #2F2A42; border-radius: 18px; overflow: hidden; box-shadow: inset 0 0 0 1px #2F2A42;
         }
         .tm-desk {
-          background-color: #181818;
+          background-color: #211C33;
           background-image: linear-gradient(168deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
           padding: clamp(22px, 2.6vw, 38px);
         }
@@ -280,8 +280,8 @@ export function TeamPage() {
           font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
           font-size: clamp(17px, 1.5vw, 26px); color: #fff;
         }
-        .tm-desk b i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #45413F; }
-        .tm-desk b i.live { background: ${SAGE}; box-shadow: 0 0 12px rgba(78,158,119,0.7); }
+        .tm-desk b i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #3E3852; }
+        .tm-desk b i.live { background: ${LIVE}; box-shadow: 0 0 12px rgba(46,186,198,0.7); }
         .tm-desk time {
           display: block; margin: clamp(14px, 1.6vw, 20px) 0 clamp(10px, 1.2vw, 14px);
           font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px, 3.2vw, 56px);
@@ -293,21 +293,21 @@ export function TeamPage() {
         }
         .tm-desk-m {
           display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(16px, 1.8vw, 22px);
-          padding-top: clamp(14px, 1.6vw, 18px); border-top: 1px solid #2A2A2A;
+          padding-top: clamp(14px, 1.6vw, 18px); border-top: 1px solid #2F2A42;
         }
         .tm-desk-m span {
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12.5px; color: #BDBDBD;
         }
         .tm-desk-m span + span::before {
-          content: '·'; margin-right: 10px; color: #45413F;
+          content: '·'; margin-right: 10px; color: #3E3852;
         }
 
         /* ══════════ how the floor is built ══════════ */
         .tm-how { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(18px, 2vw, 32px); }
-        .tm-how article { position: relative; padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid rgba(26,33,29,0.16); }
+        .tm-how article { position: relative; padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid rgba(22,20,31,0.16); }
         .tm-how article::before {
           content: ''; position: absolute; top: -2px; left: 0; width: 34%; height: 2px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT});
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .tm-how h3 {
           margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.025em;
@@ -320,7 +320,7 @@ export function TeamPage() {
         .tm-hire {
           display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
           margin-top: clamp(34px, 4vw, 58px); padding-top: clamp(26px, 3vw, 40px);
-          border-top: 1px solid rgba(26,33,29,0.16);
+          border-top: 1px solid rgba(22,20,31,0.16);
         }
         .tm-hire p {
           margin: 0; max-width: 54ch; font-family: 'Inter', sans-serif;

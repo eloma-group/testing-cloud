@@ -5,11 +5,12 @@ import { ArrowUpRight, Quote } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
-const SAGE       = '#4E9E77'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
+const LIVE       = '#2EBAC6'
+const LIVE_INK   = '#0E7C88'   /* the label beside a live dot - teal itself is only 2.2:1 on white */
 
 /* ──────────────────────────────────────────────────────────────
    Case studies: the results, and what they cost.
@@ -151,15 +152,15 @@ export function CaseStudiesPage() {
         .cs-fig {
           position: relative; width: 100%; max-width: 560px; justify-self: end;
           border-radius: 20px; overflow: hidden;
-          background-color: #181818;
+          background-color: #211C33;
           background-image: linear-gradient(168deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2A2A2A,
-                      0 44px 84px -44px rgba(20,20,22,0.6);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2F2A42,
+                      0 44px 84px -44px rgba(26,22,44,0.6);
         }
         .cs-fig-top {
           display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
           padding: clamp(18px, 2vw, 26px) clamp(20px, 2.2vw, 30px);
-          border-bottom: 1px solid #2A2A2A;
+          border-bottom: 1px solid #2F2A42;
         }
         .cs-fig-top b {
           font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
@@ -167,13 +168,13 @@ export function CaseStudiesPage() {
         }
         .cs-fig-top span {
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: 10px; letter-spacing: 1.7px; color: #F09A72;
+          font-size: 10px; letter-spacing: 1.7px; color: #C3BCFF;
         }
         .cs-fig-rows { display: grid; }
         .cs-fig-row {
           display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 14px;
           padding: clamp(15px, 1.7vw, 21px) clamp(20px, 2.2vw, 30px);
-          border-bottom: 1px solid #2A2A2A;
+          border-bottom: 1px solid #2F2A42;
         }
         .cs-fig-row:last-child { border-bottom: 0; }
         .cs-fig-row b {
@@ -201,9 +202,9 @@ export function CaseStudiesPage() {
         /* ══════════ the featured case ══════════ */
         .cs-hero-case {
           position: relative; overflow: hidden; border-radius: 22px;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 34px 68px -36px rgba(20,20,22,0.32);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 34px 68px -36px rgba(26,22,44,0.32);
         }
         .cs-shot { position: relative; aspect-ratio: 21 / 9; overflow: hidden; }
         .cs-shot img {
@@ -213,7 +214,7 @@ export function CaseStudiesPage() {
         .cs-hero-case:hover .cs-shot img { transform: scale(1.04); }
         .cs-shot::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(180deg, rgba(15,15,16,0.5) 0%, transparent 40%, rgba(15,15,16,0.55) 100%);
+          background: linear-gradient(180deg, rgba(20,17,31,0.5) 0%, transparent 40%, rgba(20,17,31,0.55) 100%);
         }
         .cs-shot-tags {
           position: absolute; z-index: 2; top: clamp(16px, 1.8vw, 24px); left: clamp(16px, 1.8vw, 24px);
@@ -223,7 +224,7 @@ export function CaseStudiesPage() {
           display: inline-flex; align-items: center; gap: 7px;
           padding: 8px 14px; border-radius: 100px;
           background: rgba(255,255,255,0.94);
-          box-shadow: inset 0 0 0 1px rgba(20,20,22,0.08), 0 8px 20px -12px rgba(20,20,22,0.6);
+          box-shadow: inset 0 0 0 1px rgba(26,22,44,0.08), 0 8px 20px -12px rgba(26,22,44,0.6);
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.7px; color: ${ACCENT_INK};
         }
@@ -233,7 +234,7 @@ export function CaseStudiesPage() {
           position: absolute; z-index: 2; left: clamp(16px, 1.8vw, 26px); bottom: clamp(16px, 1.8vw, 26px);
           font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           font-size: clamp(24px, 3vw, 54px); line-height: 1; color: #fff;
-          text-shadow: 0 2px 24px rgba(15,15,16,0.6);
+          text-shadow: 0 2px 24px rgba(20,17,31,0.6);
         }
 
         .cs-case-body {
@@ -251,7 +252,7 @@ export function CaseStudiesPage() {
         }
         .cs-found {
           margin: 0 0 clamp(22px, 2.4vw, 32px); padding-bottom: clamp(22px, 2.4vw, 32px);
-          border-bottom: 1px solid rgba(26,33,29,0.12);
+          border-bottom: 1px solid rgba(22,20,31,0.12);
           font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.85; color: ${MUTED};
         }
         .cs-did { list-style: none; display: grid; gap: 12px; margin: 0; padding: 0; }
@@ -266,8 +267,8 @@ export function CaseStudiesPage() {
 
         /* the numbers that moved */
         .cs-moved {
-          display: grid; gap: 1px; background: rgba(26,33,29,0.12);
-          border-radius: 16px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(26,33,29,0.12);
+          display: grid; gap: 1px; background: rgba(22,20,31,0.12);
+          border-radius: 16px; overflow: hidden; box-shadow: inset 0 0 0 1px rgba(22,20,31,0.12);
           align-content: start;
         }
         .cs-moved div {
@@ -286,29 +287,29 @@ export function CaseStudiesPage() {
         .cs-moved span em {
           display: block; margin-top: 4px; font-style: normal; font-weight: 500;
           font-size: clamp(11px, 0.85vw, 12.5px); color: ${MUTED};
-          text-decoration: line-through; text-decoration-color: rgba(99,112,106,0.5);
+          text-decoration: line-through; text-decoration-color: rgba(94,91,107,0.5);
         }
 
         /* the quote */
         .cs-quote {
           position: relative; margin-top: clamp(20px, 2.2vw, 28px);
           border-radius: 16px; padding: clamp(20px, 2.2vw, 30px);
-          background: rgba(210,112,74,0.07); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.2);
+          background: rgba(153,142,255,0.07); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.2);
         }
-        .cs-quote svg { color: rgba(210,112,74,0.4); margin-bottom: 10px; }
+        .cs-quote svg { color: rgba(153,142,255,0.4); margin-bottom: 10px; }
         .cs-quote p {
           margin: 0 0 16px; font-family: Georgia, 'Times New Roman', serif; font-style: italic;
           font-size: clamp(15px, 1.3vw, 22px); line-height: 1.55; color: ${TEXT};
         }
         .cs-quote footer {
           display: flex; align-items: center; gap: 11px;
-          padding-top: 14px; border-top: 1px solid rgba(210,112,74,0.24);
+          padding-top: 14px; border-top: 1px solid rgba(153,142,255,0.24);
         }
         .cs-quote footer i {
           display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%;
-          background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
+          background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
           color: #fff; font-family: Georgia, serif; font-style: normal; font-size: 14px;
-          box-shadow: 0 8px 18px -10px rgba(156,67,36,0.8);
+          box-shadow: 0 8px 18px -10px rgba(74,61,191,0.8);
         }
         .cs-quote footer b {
           display: block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px; color: ${TEXT};
@@ -318,25 +319,25 @@ export function CaseStudiesPage() {
         }
 
         /* ══════════ the rest, as an index that opens ══════════ */
-        .cs-list { border-top: 1px solid rgba(26,33,29,0.14); }
+        .cs-list { border-top: 1px solid rgba(22,20,31,0.14); }
         .cs-row {
           position: relative; isolation: isolate; width: 100%; text-align: left; cursor: pointer;
           border: 0; background: none; color: inherit; display: grid;
           grid-template-columns: clamp(66px, 7vw, 110px) minmax(0, 1fr) auto auto;
           gap: clamp(14px, 2vw, 34px); align-items: center;
           padding: clamp(20px, 2.3vw, 32px) clamp(10px, 1.2vw, 20px);
-          border-bottom: 1px solid rgba(26,33,29,0.14);
+          border-bottom: 1px solid rgba(22,20,31,0.14);
         }
         .cs-row::before {
           content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 10px;
-          background: linear-gradient(90deg, rgba(210,112,74,0.12), rgba(210,112,74,0.01));
+          background: linear-gradient(90deg, rgba(153,142,255,0.12), rgba(153,142,255,0.01));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
         .cs-row:hover::before, .cs-row.on::before, .cs-row:focus-visible::before { transform: scaleX(1); }
         .cs-row-sec {
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 1.8px; color: rgba(26,33,29,0.35);
+          font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 1.8px; color: rgba(22,20,31,0.35);
           transition: color .45s ease;
         }
         .cs-row:hover .cs-row-sec, .cs-row.on .cs-row-sec { color: ${ACCENT_INK}; }
@@ -354,10 +355,10 @@ export function CaseStudiesPage() {
         .cs-row-x {
           position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%;
           display: grid; place-items: center; color: ${TEXT};
-          border: 1px solid rgba(26,33,29,0.18); will-change: transform;
+          border: 1px solid rgba(22,20,31,0.18); will-change: transform;
           transition: transform .6s cubic-bezier(.16,1,.3,1), background .4s ease, color .4s ease, border-color .4s ease;
         }
-        .cs-row:hover .cs-row-x { border-color: rgba(210,112,74,0.5); }
+        .cs-row:hover .cs-row-x { border-color: rgba(153,142,255,0.5); }
         .cs-row.on .cs-row-x { background: ${ACCENT}; border-color: transparent; color: #fff; transform: rotate(45deg); }
         .cs-row-x i { position: absolute; background: currentColor; border-radius: 2px; }
         .cs-row-x i:first-child { width: 13px; height: 1.8px; }
@@ -365,7 +366,7 @@ export function CaseStudiesPage() {
 
         /* the panel that unrolls under a row */
         .cs-open {
-          display: grid; grid-template-rows: 0fr; border-bottom: 1px solid rgba(26,33,29,0.14);
+          display: grid; grid-template-rows: 0fr; border-bottom: 1px solid rgba(22,20,31,0.14);
           transition: grid-template-rows .75s cubic-bezier(.16,1,.3,1);
         }
         .cs-open.on { grid-template-rows: 1fr; }
@@ -399,7 +400,7 @@ export function CaseStudiesPage() {
         .cs-fine-q b { font-weight: 400; font-style: italic; color: ${ACCENT}; }
         .cs-fine-note {
           display: grid; gap: 16px; padding-left: clamp(18px, 2vw, 28px);
-          border-left: 2px solid #2A2A2A;
+          border-left: 2px solid #2F2A42;
         }
         .cs-fine-note p {
           margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px);
@@ -408,9 +409,9 @@ export function CaseStudiesPage() {
         .cs-fine-note p b { color: #fff; font-weight: 600; }
         .cs-fine-dot {
           display: inline-flex; align-items: center; gap: 9px; margin-top: 6px;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; color: ${SAGE};
+          font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; color: ${LIVE_INK};
         }
-        .cs-fine-dot i { width: 7px; height: 7px; border-radius: 50%; background: ${SAGE}; }
+        .cs-fine-dot i { width: 7px; height: 7px; border-radius: 50%; background: ${LIVE}; }
 
         /* ══════════ responsive ══════════ */
         @media (max-width: 1180px) {
@@ -541,7 +542,7 @@ export function CaseStudiesPage() {
       </Band>
 
       {/* ══════════ the rest ══════════ */}
-      <Band tone="cream" label="More cases">
+      <Band tone="wash" label="More cases">
         <SectionHead
           eyebrow="The rest"
           title={<>Three more, <span className="serif">opened up.</span></>}

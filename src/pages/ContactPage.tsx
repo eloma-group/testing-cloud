@@ -6,18 +6,18 @@ import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
 
-const TEXT   = '#2E3A34'
-const ACCENT = '#D2704A'
-const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
-const CREAM  = '#F6F2EA'
-const PAPER  = '#FFFDFA'
-const SAGE   = '#4E9E77'
-const MUTED  = '#63706A'
+const TEXT   = '#16141F'
+const ACCENT = '#998EFF'
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const WASH  = '#F4F2FD'
+const PAPER  = '#FDFCFF'
+const LIVE   = '#2EBAC6'
+const MUTED  = '#5E5B6B'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
-const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
-const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
-const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
+const GLOSS       = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(74,61,191,0.34), 0 12px 24px -10px rgba(74,61,191,0.5), 0 30px 54px -26px rgba(74,61,191,0.62)'
 
 const VOLUMES  = ['under 500', '500 to 2,000', '2,000 to 10,000', 'over 10,000']
 const CHANNELS = ['voice', 'live chat', 'email', 'WhatsApp', 'back office']
@@ -218,14 +218,14 @@ export function ContactPage() {
         <style>{`
           .cc-ct {
             position: relative; isolation: isolate; overflow: hidden;
-            background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 34%, ${CREAM} 76%, #EFE8DC 100%);
+            background: linear-gradient(180deg, #FFFFFF 0%, #FBFAFE 34%, ${WASH} 76%, #E3DEF8 100%);
             color: ${TEXT};
             padding: calc(64px + clamp(40px, 6vw, 92px)) clamp(24px, 4vw, 64px) clamp(64px, 9vw, 130px);
           }
-          /* one hue: a single terracotta bloom behind the envelope */
+          /* one hue: a single violet bloom behind the envelope */
           .cc-ct::before {
             content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-            background: radial-gradient(46% 38% at 92% 0%, rgba(210,112,74,0.13), transparent 70%);
+            background: radial-gradient(46% 38% at 92% 0%, rgba(153,142,255,0.13), transparent 70%);
           }
           .cc-ct-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
           @media (min-width: 1920px) { .cc-ct-inner { max-width: 1900px; } }
@@ -236,7 +236,7 @@ export function ContactPage() {
             display: grid; grid-template-columns: minmax(0, 1.06fr) minmax(0, 0.94fr);
             gap: clamp(30px, 4vw, 80px); align-items: center;
             padding-bottom: clamp(40px, 5vw, 80px); margin-bottom: clamp(40px, 5vw, 76px);
-            border-bottom: 1px solid rgba(26,33,29,0.16);
+            border-bottom: 1px solid rgba(22,20,31,0.16);
           }
           .cc-ct-eyebrow {
             display: inline-flex; align-items: center; gap: 10px;
@@ -262,13 +262,13 @@ export function ContactPage() {
             background: linear-gradient(168deg, rgba(255,255,255,0.96), rgba(255,255,255,0.65));
             box-shadow:
               inset 0 1px 0 rgba(255,255,255,1),
-              inset 0 0 0 1px rgba(20,20,22,0.09),
-              0 8px 18px -14px rgba(26,33,29,0.6);
+              inset 0 0 0 1px rgba(26,22,44,0.09),
+              0 8px 18px -14px rgba(22,20,31,0.6);
             font-family: 'Inter', sans-serif; font-weight: 700; font-size: 12px; color: ${TEXT};
           }
-          .cc-ct-live i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${SAGE}; }
+          .cc-ct-live i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE}; }
           .cc-ct-live i::after {
-            content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${SAGE};
+            content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${LIVE};
             animation: cc-ct-ping 2.4s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
           }
           @keyframes cc-ct-ping {
@@ -280,7 +280,7 @@ export function ContactPage() {
             display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
             gap: clamp(12px, 1.6vw, 26px);
             margin-top: clamp(26px, 3vw, 40px); padding-top: clamp(20px, 2.4vw, 30px);
-            border-top: 1px solid rgba(26,33,29,0.14);
+            border-top: 1px solid rgba(22,20,31,0.14);
           }
           .cc-ct-promise b {
             display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -304,17 +304,17 @@ export function ContactPage() {
           /* the letter peeking out from behind the envelope */
           .cc-ct-env-paper {
             position: absolute; left: 8%; right: 8%; top: -7%; height: 62%;
-            border-radius: 8px 8px 0 0; background: linear-gradient(180deg, #FFFFFF, #F6F2E9);
-            box-shadow: 0 -14px 34px -18px rgba(26,33,29,0.5), inset 0 0 0 1px rgba(26,33,29,0.08);
+            border-radius: 8px 8px 0 0; background: linear-gradient(180deg, #FFFFFF, #F4F2FD);
+            box-shadow: 0 -14px 34px -18px rgba(22,20,31,0.5), inset 0 0 0 1px rgba(22,20,31,0.08);
             padding: clamp(14px, 1.6vw, 22px) clamp(16px, 1.8vw, 26px);
             display: grid; align-content: start; gap: clamp(7px, 0.8vw, 10px);
             will-change: transform; transition: transform .8s cubic-bezier(.16,1,.3,1);
           }
           .cc-ct-env:hover .cc-ct-env-paper { transform: translateY(-14px); }
           .cc-ct-env-paper i {
-            height: 7px; border-radius: 100px; background: rgba(26,33,29,0.1);
+            height: 7px; border-radius: 100px; background: rgba(22,20,31,0.1);
           }
-          .cc-ct-env-paper i:nth-child(1) { width: 46%; background: rgba(210,112,74,0.4); }
+          .cc-ct-env-paper i:nth-child(1) { width: 46%; background: rgba(153,142,255,0.4); }
           .cc-ct-env-paper i:nth-child(3) { width: 88%; }
           .cc-ct-env-paper i:nth-child(4) { width: 72%; }
           .cc-ct-env-paper i:nth-child(5) { width: 80%; }
@@ -322,20 +322,20 @@ export function ContactPage() {
           /* the envelope body */
           .cc-ct-env-body {
             position: absolute; inset: 22% 0 0 0; border-radius: 12px;
-            background: linear-gradient(160deg, #FBF7EF 0%, #F1EBDF 60%, #E8E1D2 100%);
+            background: linear-gradient(160deg, #F8F6FE 0%, #EBE7FA 60%, #DFDAF6 100%);
             box-shadow:
               inset 0 1px 0 rgba(255,255,255,0.9),
-              inset 0 0 0 1px rgba(26,33,29,0.09),
-              0 1px 3px rgba(20,20,22,0.05),
-              0 60px 100px -48px rgba(26,33,29,0.45);
+              inset 0 0 0 1px rgba(22,20,31,0.09),
+              0 1px 3px rgba(26,22,44,0.05),
+              0 60px 100px -48px rgba(22,20,31,0.45);
             overflow: hidden;
           }
           /* the flap, folded down over the letter */
           .cc-ct-env-flap {
             position: absolute; inset: 0 0 auto 0; height: 62%;
-            background: linear-gradient(175deg, #F6F1E6, #EAE3D4);
+            background: linear-gradient(175deg, #F2EFFC, #E1DCF7);
             clip-path: polygon(0 0, 100% 0, 50% 100%);
-            box-shadow: inset 0 -1px 0 rgba(26,33,29,0.12);
+            box-shadow: inset 0 -1px 0 rgba(22,20,31,0.12);
           }
           /* the address, written on the envelope */
           .cc-ct-env-to {
@@ -344,7 +344,7 @@ export function ContactPage() {
           }
           .cc-ct-env-to small {
             font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-            font-size: 9.5px; letter-spacing: 1.8px; color: rgba(26,33,29,0.4);
+            font-size: 9.5px; letter-spacing: 1.8px; color: rgba(22,20,31,0.4);
           }
           .cc-ct-env-to b {
             font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -359,11 +359,11 @@ export function ContactPage() {
             position: absolute; right: clamp(18px, 2vw, 30px); bottom: clamp(18px, 2vw, 30px);
             width: clamp(74px, 8vw, 108px); aspect-ratio: 1; border-radius: 50%;
             display: grid; place-items: center; text-align: center; transform: rotate(-9deg);
-            border: 2px dashed rgba(26,33,29,0.28); color: rgba(26,33,29,0.5);
+            border: 2px dashed rgba(22,20,31,0.28); color: rgba(22,20,31,0.5);
           }
           .cc-ct-mark::before {
             content: ''; position: absolute; inset: 7px; border-radius: 50%;
-            border: 1px solid rgba(26,33,29,0.18);
+            border: 1px solid rgba(22,20,31,0.18);
           }
           .cc-ct-mark b {
             font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
@@ -378,8 +378,8 @@ export function ContactPage() {
           }
           .cc-ct-seal-disc {
             position: absolute; inset: 18%; border-radius: 50%;
-            background: radial-gradient(circle at 34% 30%, #E09873, ${ACCENT} 55%, #9C4324 100%);
-            box-shadow: 0 20px 36px -16px rgba(156,67,36,0.9), inset 0 -3px 8px rgba(0,0,0,0.2);
+            background: radial-gradient(circle at 34% 30%, #B3AAFF, ${ACCENT} 55%, #4A3DBF 100%);
+            box-shadow: 0 20px 36px -16px rgba(74,61,191,0.9), inset 0 -3px 8px rgba(0,0,0,0.2);
           }
           .cc-ct-seal-disc::after {
             content: ''; position: absolute; inset: 14%; border-radius: 50%;
@@ -404,9 +404,9 @@ export function ContactPage() {
           .cc-ct-stampsq {
             position: absolute; z-index: 2; right: clamp(18px, 2vw, 30px); top: clamp(16px, 1.8vw, 26px);
             width: clamp(56px, 6vw, 84px); aspect-ratio: 0.82; border-radius: 4px;
-            background: linear-gradient(160deg, ${ACCENT}, #A85434);
+            background: linear-gradient(160deg, ${ACCENT}, #6A5BE8);
             display: grid; place-items: center; transform: rotate(4deg);
-            box-shadow: 0 14px 26px -12px rgba(156,67,36,0.9);
+            box-shadow: 0 14px 26px -12px rgba(74,61,191,0.9);
             color: rgba(255,255,255,0.92); text-align: center;
           }
           .cc-ct-stampsq::before {
@@ -424,7 +424,7 @@ export function ContactPage() {
           }
           .cc-lt-margin {
             position: sticky; top: 96px;
-            border-right: 1px solid rgba(26,33,29,0.14); padding-right: clamp(16px, 2vw, 32px);
+            border-right: 1px solid rgba(22,20,31,0.14); padding-right: clamp(16px, 2vw, 32px);
             display: grid; gap: clamp(20px, 2.4vw, 30px);
           }
           .cc-lt-margin dt {
@@ -448,15 +448,15 @@ export function ContactPage() {
             min-height: clamp(520px, 46vw, 760px);
             display: flex; flex-direction: column;
             box-shadow:
-              inset 0 0 0 1px rgba(20,20,22,0.07),
-              0 1px 3px rgba(20,20,22,0.05),
-              0 18px 40px -22px rgba(20,20,22,0.16),
-              0 44px 78px -48px rgba(20,20,22,0.20);
+              inset 0 0 0 1px rgba(26,22,44,0.07),
+              0 1px 3px rgba(26,22,44,0.05),
+              0 18px 40px -22px rgba(26,22,44,0.16),
+              0 44px 78px -48px rgba(26,22,44,0.20);
           }
           /* the ruled paper the letter is written on */
           .cc-lt-sheet::after {
             content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: 16px;
-            background: repeating-linear-gradient(180deg, transparent 0 63px, rgba(26,33,29,0.032) 63px 64px);
+            background: repeating-linear-gradient(180deg, transparent 0 63px, rgba(22,20,31,0.032) 63px 64px);
             -webkit-mask-image: linear-gradient(180deg, transparent 8%, #000 24%, #000 82%, transparent 96%);
                     mask-image: linear-gradient(180deg, transparent 8%, #000 24%, #000 82%, transparent 96%);
           }
@@ -464,13 +464,13 @@ export function ContactPage() {
           .cc-lt-sheet::before {
             content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
             border-radius: 16px 16px 0 0;
-            background: linear-gradient(90deg, #F09A72, ${ACCENT} 40%, rgba(210,112,74,0.35));
+            background: linear-gradient(90deg, #C3BCFF, ${ACCENT} 40%, rgba(153,142,255,0.35));
             box-shadow: 0 1px 0 rgba(255,255,255,0.6);
           }
           .cc-lt-head {
             display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 10px;
             padding-bottom: clamp(18px, 2vw, 24px); margin-bottom: clamp(22px, 2.6vw, 34px);
-            border-bottom: 1px solid rgba(26,33,29,0.12);
+            border-bottom: 1px solid rgba(22,20,31,0.12);
           }
           .cc-lt-head b {
             display: inline-flex; align-items: center; gap: 9px;
@@ -494,24 +494,24 @@ export function ContactPage() {
           .cc-lt-nb { white-space: nowrap; }
           .cc-lt-fill {
             font: inherit; color: ${ACCENT}; background: transparent; border: 0; outline: none;
-            border-bottom: 2px solid rgba(210,112,74,0.38); padding: 0 5px 2px;
+            border-bottom: 2px solid rgba(153,142,255,0.38); padding: 0 5px 2px;
             min-width: 4ch; max-width: min(100%, 38ch);
             transition: border-color .35s ease, background .35s ease;
           }
-          .cc-lt-fill::placeholder { color: rgba(26,33,29,0.3); font-style: italic; }
-          .cc-lt-fill:focus { border-color: ${ACCENT}; background: rgba(210,112,74,0.07); }
-          .cc-lt-fill.bad { border-color: #C05A4E; background: rgba(192,90,78,0.07); }
+          .cc-lt-fill::placeholder { color: rgba(22,20,31,0.3); font-style: italic; }
+          .cc-lt-fill:focus { border-color: ${ACCENT}; background: rgba(153,142,255,0.07); }
+          .cc-lt-fill.bad { border-color: #E5484D; background: rgba(229,72,77,0.07); }
           .cc-lt-pick {
             font: inherit; color: ${ACCENT}; background: transparent; cursor: pointer; border: 0;
-            border-bottom: 2px dashed rgba(210,112,74,0.5); padding: 0 5px 2px;
+            border-bottom: 2px dashed rgba(153,142,255,0.5); padding: 0 5px 2px;
             transition: border-color .3s ease, background .3s ease;
           }
-          .cc-lt-pick:hover { border-bottom-style: solid; background: rgba(210,112,74,0.07); }
-          .cc-lt-pick.empty { color: rgba(26,33,29,0.3); font-style: italic; }
+          .cc-lt-pick:hover { border-bottom-style: solid; background: rgba(153,142,255,0.07); }
+          .cc-lt-pick.empty { color: rgba(22,20,31,0.3); font-style: italic; }
           .cc-lt-menu {
             position: absolute; z-index: 20; left: 0; top: calc(100% + 10px); min-width: 230px;
             background: ${PAPER}; border-radius: 12px; padding: 6px;
-            box-shadow: 0 34px 64px -26px rgba(26,33,29,0.5), inset 0 0 0 1px rgba(26,33,29,0.1);
+            box-shadow: 0 34px 64px -26px rgba(22,20,31,0.5), inset 0 0 0 1px rgba(22,20,31,0.1);
             display: grid; will-change: transform, opacity;
             animation: cc-lt-pop .3s cubic-bezier(.34,1.56,.64,1) both;
           }
@@ -527,17 +527,17 @@ export function ContactPage() {
           }
           .cc-lt-menu button i {
             flex: none; width: 7px; height: 7px; border-radius: 50%;
-            box-shadow: inset 0 0 0 1px rgba(26,33,29,0.25);
+            box-shadow: inset 0 0 0 1px rgba(22,20,31,0.25);
             transition: background .3s ease, box-shadow .3s ease;
           }
-          .cc-lt-menu button:hover { background: rgba(210,112,74,0.1); color: ${ACCENT_INK}; }
+          .cc-lt-menu button:hover { background: rgba(153,142,255,0.1); color: ${ACCENT_INK}; }
           .cc-lt-menu button.on { color: ${ACCENT_INK}; }
           .cc-lt-menu button.on i { background: ${ACCENT}; box-shadow: none; }
 
           /* the postscript: room to say whatever the sentences did not cover */
           .cc-lt-ps {
             margin: clamp(28px, 3.2vw, 46px) 0 0; padding-top: clamp(22px, 2.4vw, 32px);
-            border-top: 1px dashed rgba(26,33,29,0.2);
+            border-top: 1px dashed rgba(22,20,31,0.2);
           }
           .cc-lt-ps-k {
             display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 8px;
@@ -549,7 +549,7 @@ export function ContactPage() {
           .cc-lt-ps-k span {
             font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
             font-size: 10px; letter-spacing: 1.6px; color: ${ACCENT_INK};
-            padding: 5px 10px; border-radius: 100px; background: rgba(210,112,74,0.12);
+            padding: 5px 10px; border-radius: 100px; background: rgba(153,142,255,0.12);
           }
           .cc-lt-ps-hint {
             margin: 0 0 clamp(14px, 1.6vw, 20px);
@@ -560,29 +560,29 @@ export function ContactPage() {
           .cc-lt-ps-box textarea {
             width: 100%; min-height: clamp(120px, 12vw, 168px); resize: vertical;
             border: 0; outline: none; border-radius: 12px;
-            background: rgba(210,112,74,0.05);
-            box-shadow: inset 0 0 0 1px rgba(26,33,29,0.12);
+            background: rgba(153,142,255,0.05);
+            box-shadow: inset 0 0 0 1px rgba(22,20,31,0.12);
             padding: clamp(14px, 1.5vw, 20px);
             font-family: Georgia, 'Times New Roman', serif;
             font-size: clamp(16px, 1.25vw, 20px); line-height: 1.75; color: ${TEXT};
             transition: box-shadow .4s ease, background .4s ease;
           }
-          .cc-lt-ps-box textarea::placeholder { color: rgba(26,33,29,0.3); font-style: italic; }
+          .cc-lt-ps-box textarea::placeholder { color: rgba(22,20,31,0.3); font-style: italic; }
           .cc-lt-ps-box textarea:focus {
-            background: rgba(210,112,74,0.08);
+            background: rgba(153,142,255,0.08);
             box-shadow: inset 0 0 0 2px ${ACCENT};
           }
           .cc-lt-ps-count {
             position: absolute; right: 14px; bottom: 12px; pointer-events: none;
             font-family: 'Inter', sans-serif; font-weight: 700; font-size: 11px;
-            letter-spacing: 1px; color: rgba(26,33,29,0.32); font-variant-numeric: tabular-nums;
+            letter-spacing: 1px; color: rgba(22,20,31,0.32); font-variant-numeric: tabular-nums;
           }
 
           /* the signature line */
           .cc-lt-sign {
             display: flex; flex-wrap: wrap; align-items: center; gap: clamp(14px, 2vw, 24px);
             margin-top: auto; padding-top: clamp(24px, 2.8vw, 36px);
-            border-top: 1px solid rgba(26,33,29,0.12);
+            border-top: 1px solid rgba(22,20,31,0.12);
           }
           .cc-lt-seal {
             position: relative; overflow: hidden; cursor: pointer; border: 0;
@@ -602,7 +602,7 @@ export function ContactPage() {
           }
           .cc-lt-seal:hover {
             transform: translateY(-3px);
-            box-shadow: ${ACCENT_RIM}, 0 16px 28px -10px rgba(156,67,36,0.6), 0 38px 66px -26px rgba(156,67,36,0.78);
+            box-shadow: ${ACCENT_RIM}, 0 16px 28px -10px rgba(74,61,191,0.6), 0 38px 66px -26px rgba(74,61,191,0.78);
           }
           .cc-lt-seal:hover::after { transform: translateX(110%); }
           .cc-lt-seal svg { transition: transform .45s cubic-bezier(.16,1,.3,1); }
@@ -611,13 +611,13 @@ export function ContactPage() {
             flex: 1; min-width: 220px; margin: 0;
             font-family: 'Inter', sans-serif; font-size: clamp(12px, 0.9vw, 14px); line-height: 1.65; color: ${MUTED};
           }
-          .cc-lt-fine b { color: #C05A4E; font-weight: 700; }
+          .cc-lt-fine b { color: #E5484D; font-weight: 700; }
 
           /* the stamp that lands when the letter is sealed */
           .cc-lt-stamp {
             display: grid; place-items: center; width: 92px; height: 92px; border-radius: 50%;
             margin-bottom: clamp(22px, 2.6vw, 32px);
-            background: radial-gradient(circle at 34% 28%, #EFAF8C, ${ACCENT} 52%, #9C4324 100%);
+            background: radial-gradient(circle at 34% 28%, #C9C2FF, ${ACCENT} 52%, #4A3DBF 100%);
             color: #fff; text-align: center;
             font-family: 'Inter', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 1.4px;
             text-transform: uppercase; line-height: 1.3;
@@ -625,7 +625,7 @@ export function ContactPage() {
               inset 0 0 0 2px rgba(255,255,255,0.4),
               inset 0 2px 2px rgba(255,255,255,0.4),
               inset 0 -3px 8px rgba(0,0,0,0.2),
-              0 26px 48px -22px rgba(156,67,36,1);
+              0 26px 48px -22px rgba(74,61,191,1);
             animation: cc-lt-stamp .6s cubic-bezier(.34,1.56,.64,1) both; will-change: transform, opacity;
           }
           @keyframes cc-lt-stamp {
@@ -640,19 +640,19 @@ export function ContactPage() {
           }
           .cc-lt-sent p b { color: ${ACCENT}; font-weight: 400; }
           .cc-lt-again {
-            cursor: pointer; border: 1px solid rgba(26,33,29,0.2); background: transparent; color: ${TEXT};
+            cursor: pointer; border: 1px solid rgba(22,20,31,0.2); background: transparent; color: ${TEXT};
             min-height: 48px; padding: 13px 24px; border-radius: 100px;
             font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px;
             transition: background .35s ease, color .35s ease, border-color .35s ease;
           }
-          .cc-lt-again:hover { background: ${TEXT}; color: ${CREAM}; border-color: ${TEXT}; }
+          .cc-lt-again:hover { background: ${TEXT}; color: ${WASH}; border-color: ${TEXT}; }
 
           /* ══════════ or take a slot ══════════ */
           .cc-ct-band { margin-top: clamp(56px, 7vw, 110px); }
           .cc-ct-band-head {
             display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between;
             gap: 14px; padding-bottom: clamp(18px, 2vw, 26px); margin-bottom: clamp(20px, 2.4vw, 32px);
-            border-bottom: 1px solid rgba(26,33,29,0.16);
+            border-bottom: 1px solid rgba(22,20,31,0.16);
           }
           .cc-ct-band-head h2 {
             font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
@@ -665,25 +665,25 @@ export function ContactPage() {
           }
 
           /* ── straight answers: an index that opens ── */
-          .cc-ct-qa { border-top: 1px solid rgba(26,33,29,0.14); }
+          .cc-ct-qa { border-top: 1px solid rgba(22,20,31,0.14); }
           .cc-ct-q {
             position: relative; width: 100%; text-align: left; cursor: pointer; border: 0;
             background: none; color: inherit; display: grid;
             grid-template-columns: clamp(40px, 4vw, 68px) minmax(0, 1fr) auto;
             gap: clamp(14px, 2vw, 32px); align-items: center; isolation: isolate;
             padding: clamp(18px, 2.1vw, 30px) clamp(10px, 1.2vw, 20px);
-            border-bottom: 1px solid rgba(26,33,29,0.14);
+            border-bottom: 1px solid rgba(22,20,31,0.14);
           }
           .cc-ct-q::before {
             content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 8px;
-            background: linear-gradient(90deg, rgba(210,112,74,0.12), rgba(210,112,74,0.01));
+            background: linear-gradient(90deg, rgba(153,142,255,0.12), rgba(153,142,255,0.01));
             transform: scaleX(0); transform-origin: left; will-change: transform;
             transition: transform .7s cubic-bezier(.16,1,.3,1);
           }
           .cc-ct-q:hover::before, .cc-ct-q.on::before, .cc-ct-q:focus-visible::before { transform: scaleX(1); }
           .cc-ct-q-n {
             font-family: 'Inter', sans-serif; font-weight: 700; font-variant-numeric: tabular-nums;
-            font-size: clamp(11px, 0.85vw, 14px); letter-spacing: 1.6px; color: rgba(26,33,29,0.35);
+            font-size: clamp(11px, 0.85vw, 14px); letter-spacing: 1.6px; color: rgba(22,20,31,0.35);
             transition: color .4s ease;
           }
           .cc-ct-q:hover .cc-ct-q-n, .cc-ct-q.on .cc-ct-q-n { color: ${ACCENT_INK}; }
@@ -698,11 +698,11 @@ export function ContactPage() {
           .cc-ct-q-x {
             position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%;
             display: grid; place-items: center; color: ${TEXT};
-            border: 1px solid rgba(26,33,29,0.18); will-change: transform;
+            border: 1px solid rgba(22,20,31,0.18); will-change: transform;
             transition: transform .6s cubic-bezier(.16,1,.3,1), background .4s ease,
                         color .4s ease, border-color .4s ease;
           }
-          .cc-ct-q:hover .cc-ct-q-x { border-color: rgba(210,112,74,0.5); }
+          .cc-ct-q:hover .cc-ct-q-x { border-color: rgba(153,142,255,0.5); }
           .cc-ct-q.on .cc-ct-q-x {
             background: ${ACCENT}; border-color: transparent; color: #fff; transform: rotate(45deg);
           }
@@ -714,7 +714,7 @@ export function ContactPage() {
 
           /* the answer, which unrolls under the question */
           .cc-ct-a {
-            display: grid; grid-template-rows: 0fr; border-bottom: 1px solid rgba(26,33,29,0.14);
+            display: grid; grid-template-rows: 0fr; border-bottom: 1px solid rgba(22,20,31,0.14);
             transition: grid-template-rows .7s cubic-bezier(.16,1,.3,1);
           }
           .cc-ct-a.on { grid-template-rows: 1fr; }
@@ -733,7 +733,7 @@ export function ContactPage() {
           .cc-ct-tail {
             display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
             gap: clamp(28px, 4vw, 72px); margin-top: clamp(56px, 7vw, 110px);
-            padding-top: clamp(28px, 3.4vw, 48px); border-top: 1px solid rgba(26,33,29,0.16);
+            padding-top: clamp(28px, 3.4vw, 48px); border-top: 1px solid rgba(22,20,31,0.16);
           }
           .cc-ct-k {
             font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
@@ -744,26 +744,26 @@ export function ContactPage() {
           .cc-ct-line {
             display: grid; grid-template-columns: 46px minmax(0, 1fr) auto; align-items: center; gap: clamp(12px, 1.4vw, 20px);
             padding: clamp(15px, 1.7vw, 20px) clamp(8px, 1vw, 14px);
-            border-bottom: 1px solid rgba(26,33,29,0.12);
+            border-bottom: 1px solid rgba(22,20,31,0.12);
             text-decoration: none; color: inherit; position: relative; isolation: isolate;
           }
-          .cc-ct-direct .cc-ct-line:first-of-type { border-top: 1px solid rgba(26,33,29,0.12); }
+          .cc-ct-direct .cc-ct-line:first-of-type { border-top: 1px solid rgba(22,20,31,0.12); }
           .cc-ct-line::before {
             content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 8px;
-            background: linear-gradient(90deg, rgba(210,112,74,0.14), rgba(210,112,74,0.02));
+            background: linear-gradient(90deg, rgba(153,142,255,0.14), rgba(153,142,255,0.02));
             transform: scaleX(0); transform-origin: left; will-change: transform;
             transition: transform .65s cubic-bezier(.16,1,.3,1);
           }
           .cc-ct-line:hover::before, .cc-ct-line:focus-visible::before { transform: scaleX(1); }
           .cc-ct-ic {
             display: grid; place-items: center; width: 46px; height: 46px; border-radius: 13px;
-            color: ${ACCENT}; background: rgba(210,112,74,0.12);
-            box-shadow: inset 0 0 0 1px rgba(210,112,74,0.3); will-change: transform;
+            color: ${ACCENT}; background: rgba(153,142,255,0.12);
+            box-shadow: inset 0 0 0 1px rgba(153,142,255,0.3); will-change: transform;
             transition: transform .55s cubic-bezier(.16,1,.3,1), background .4s ease, color .4s ease;
           }
           .cc-ct-line:hover .cc-ct-ic {
             background: ${GLOSS}; color: #fff; transform: rotate(-6deg);
-            box-shadow: ${ACCENT_RIM}, 0 12px 24px -12px rgba(156,67,36,0.8);
+            box-shadow: ${ACCENT_RIM}, 0 12px 24px -12px rgba(74,61,191,0.8);
           }
           .cc-ct-line b {
             display: block; font-family: 'Inter', sans-serif; font-weight: 700;
@@ -773,11 +773,11 @@ export function ContactPage() {
             display: block; margin-top: 4px; font-style: normal;
             font-family: 'Inter', sans-serif; font-size: clamp(12px, 0.9vw, 14px); color: ${MUTED};
           }
-          .cc-ct-line svg.go { color: rgba(26,33,29,0.3); transition: transform .5s cubic-bezier(.16,1,.3,1), color .4s ease; }
+          .cc-ct-line svg.go { color: rgba(22,20,31,0.3); transition: transform .5s cubic-bezier(.16,1,.3,1), color .4s ease; }
           .cc-ct-line:hover svg.go { color: ${ACCENT}; transform: translate(3px, -3px); }
 
           /* the desks, and what time it is on each of them */
-          .cc-ct-desks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: rgba(26,33,29,0.12); border: 1px solid rgba(26,33,29,0.12); border-radius: 14px; overflow: hidden; }
+          .cc-ct-desks { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: rgba(22,20,31,0.12); border: 1px solid rgba(22,20,31,0.12); border-radius: 14px; overflow: hidden; }
           .cc-ct-desk {
             background: linear-gradient(168deg, rgba(255,255,255,0.96), rgba(255,255,255,0.7));
             box-shadow: inset 0 1px 0 rgba(255,255,255,1);
@@ -787,8 +787,8 @@ export function ContactPage() {
             display: flex; align-items: center; gap: 8px;
             font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px); color: ${TEXT};
           }
-          .cc-ct-desk b i { width: 7px; height: 7px; border-radius: 50%; background: rgba(26,33,29,0.2); }
-          .cc-ct-desk b i.on { background: ${SAGE}; }
+          .cc-ct-desk b i { width: 7px; height: 7px; border-radius: 50%; background: rgba(22,20,31,0.2); }
+          .cc-ct-desk b i.on { background: ${LIVE}; }
           .cc-ct-desk time {
             display: block; margin-top: 8px;
             font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 1.8vw, 30px);
@@ -806,7 +806,7 @@ export function ContactPage() {
             .cc-lt { grid-template-columns: minmax(0, 1fr); }
             .cc-lt-margin {
               position: static; border-right: 0; padding-right: 0;
-              border-bottom: 1px solid rgba(26,33,29,0.14); padding-bottom: clamp(20px, 3vw, 28px);
+              border-bottom: 1px solid rgba(22,20,31,0.14); padding-bottom: clamp(20px, 3vw, 28px);
               grid-template-columns: repeat(3, minmax(0, 1fr));
             }
             .cc-ct-slots { grid-template-columns: repeat(2, minmax(0, 1fr)); }

@@ -6,11 +6,11 @@ import type { LucideIcon } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
-const SAGE       = '#4E9E77'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
+const LIVE_INK   = '#0E7C88'   /* teal is only 2.2:1 on white, so the type takes the deep one */
 
 /* ──────────────────────────────────────────────────────────────
    Solutions: the page that starts from the problem.
@@ -141,9 +141,9 @@ export function SolutionsPage() {
           position: relative; overflow: hidden; border-radius: 14px;
           display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 14px;
           padding: clamp(15px, 1.7vw, 21px) clamp(16px, 1.8vw, 24px);
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 2px rgba(20,20,22,0.05), 0 14px 30px -18px rgba(20,20,22,0.24);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 2px rgba(26,22,44,0.05), 0 14px 30px -18px rgba(26,22,44,0.24);
           will-change: transform;
           animation: so-rise 7s cubic-bezier(.4,0,.6,1) infinite;
         }
@@ -157,7 +157,7 @@ export function SolutionsPage() {
         }
         .so-layer i.k {
           display: grid; place-items: center; flex: none; width: 38px; height: 38px; border-radius: 11px;
-          background: rgba(210,112,74,0.11); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.26);
+          background: rgba(153,142,255,0.11); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.26);
           color: ${ACCENT};
         }
         .so-layer b {
@@ -176,9 +176,9 @@ export function SolutionsPage() {
         .so-tot {
           margin-top: 6px; border-radius: 14px; padding: clamp(16px, 1.8vw, 22px) clamp(16px, 1.8vw, 24px);
           display: flex; align-items: center; justify-content: space-between; gap: 14px;
-          background-color: #181818;
+          background-color: #211C33;
           background-image: linear-gradient(168deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2A2A2A;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2F2A42;
         }
         .so-tot b {
           font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
@@ -196,20 +196,20 @@ export function SolutionsPage() {
           position: relative; isolation: isolate; overflow: hidden;
           display: flex; flex-direction: column;
           border-radius: 20px; padding: clamp(24px, 2.8vw, 42px);
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 2px rgba(20,20,22,0.05), 0 10px 24px -14px rgba(20,20,22,0.18);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 2px rgba(26,22,44,0.05), 0 10px 24px -14px rgba(26,22,44,0.18);
           will-change: transform;
           transition: transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease;
         }
         .so-prob:hover {
           transform: translateY(-5px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 28px 54px -26px rgba(20,20,22,0.3);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 28px 54px -26px rgba(26,22,44,0.3);
         }
         .so-prob::after {
           content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT} 45%, rgba(210,112,74,0.3));
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT} 45%, rgba(153,142,255,0.3));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .8s cubic-bezier(.16,1,.3,1);
         }
@@ -220,19 +220,19 @@ export function SolutionsPage() {
         }
         .so-prob-ic {
           display: grid; place-items: center; flex: none; width: 46px; height: 46px; border-radius: 13px;
-          background: rgba(210,112,74,0.11); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.26);
+          background: rgba(153,142,255,0.11); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.26);
           color: ${ACCENT}; will-change: transform;
           transition: transform .55s cubic-bezier(.16,1,.3,1), background .45s ease, color .45s ease, box-shadow .45s ease;
         }
         .so-prob:hover .so-prob-ic {
           transform: rotate(-6deg);
-          background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
+          background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
           color: #fff;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 12px 24px -12px rgba(156,67,36,0.8);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 12px 24px -12px rgba(74,61,191,0.8);
         }
         .so-prob-n {
           font-family: 'Inter', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
-          font-size: 12px; letter-spacing: 2px; color: rgba(26,33,29,0.3);
+          font-size: 12px; letter-spacing: 2px; color: rgba(22,20,31,0.3);
         }
         .so-prob h3 {
           margin: 0 0 clamp(12px, 1.4vw, 16px); font-family: 'Poppins', sans-serif; font-weight: 600;
@@ -240,7 +240,7 @@ export function SolutionsPage() {
         }
         .so-prob blockquote {
           margin: 0 0 clamp(16px, 1.8vw, 22px); padding-left: clamp(14px, 1.4vw, 18px);
-          border-left: 2px solid rgba(210,112,74,0.4);
+          border-left: 2px solid rgba(153,142,255,0.4);
           font-family: Georgia, 'Times New Roman', serif; font-style: italic;
           font-size: clamp(15px, 1.25vw, 21px); line-height: 1.55; color: ${ACCENT_INK};
         }
@@ -252,12 +252,12 @@ export function SolutionsPage() {
         .so-prob-moves span {
           display: inline-flex; align-items: center; gap: 6px;
           padding: 7px 12px; border-radius: 100px;
-          background: rgba(26,33,29,0.05); box-shadow: inset 0 0 0 1px rgba(26,33,29,0.1);
+          background: rgba(22,20,31,0.05); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px); color: ${TEXT};
         }
         .so-prob-proof {
           display: flex; align-items: baseline; gap: 12px; margin-top: auto;
-          padding-top: clamp(16px, 1.8vw, 22px); border-top: 1px dashed rgba(26,33,29,0.2);
+          padding-top: clamp(16px, 1.8vw, 22px); border-top: 1px dashed rgba(22,20,31,0.2);
         }
         .so-prob-proof b {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -274,17 +274,17 @@ export function SolutionsPage() {
           position: relative; cursor: pointer; border: 0; background: none;
           display: inline-flex; align-items: center; gap: 10px;
           min-height: 48px; padding: 13px clamp(18px, 1.8vw, 26px); border-radius: 100px;
-          box-shadow: inset 0 0 0 1px #2A2A2A;
+          box-shadow: inset 0 0 0 1px #2F2A42;
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
           color: #BDBDBD;
           transition: color .4s ease, box-shadow .4s ease, background .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
           will-change: transform;
         }
-        .so-tab:hover { color: #fff; box-shadow: inset 0 0 0 1px #45413F; }
+        .so-tab:hover { color: #fff; box-shadow: inset 0 0 0 1px #3E3852; }
         .so-tab.on {
-          color: #fff; background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3),
-                      0 14px 28px -12px rgba(156,67,36,0.7);
+          color: #fff; background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3),
+                      0 14px 28px -12px rgba(74,61,191,0.7);
           transform: translateY(-2px);
         }
         .so-tab em {
@@ -295,16 +295,16 @@ export function SolutionsPage() {
         .so-plan { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: clamp(24px, 3.4vw, 62px); align-items: start; }
         .so-price {
           border-radius: 20px; padding: clamp(26px, 3vw, 46px);
-          background-color: #181818;
+          background-color: #211C33;
           background-image: linear-gradient(168deg, rgba(255,255,255,0.06), rgba(255,255,255,0));
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2A2A2A;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2F2A42;
         }
         .so-price-badge {
           display: inline-flex; align-items: center; gap: 8px; margin-bottom: clamp(18px, 2vw, 26px);
           padding: 7px 13px; border-radius: 100px;
-          background: rgba(210,112,74,0.16); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.34);
+          background: rgba(153,142,255,0.16); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.34);
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: 10px; letter-spacing: 1.8px; color: #F09A72;
+          font-size: 10px; letter-spacing: 1.8px; color: #C3BCFF;
         }
         .so-price h3 {
           margin: 0 0 clamp(14px, 1.6vw, 20px); font-family: 'Poppins', sans-serif; font-weight: 600;
@@ -313,7 +313,7 @@ export function SolutionsPage() {
         .so-price-fig {
           display: flex; align-items: baseline; flex-wrap: wrap; gap: 10px;
           padding-bottom: clamp(18px, 2vw, 26px); margin-bottom: clamp(18px, 2vw, 26px);
-          border-bottom: 1px solid #2A2A2A;
+          border-bottom: 1px solid #2F2A42;
         }
         .so-price-fig b {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -326,8 +326,8 @@ export function SolutionsPage() {
           margin: 0 0 clamp(22px, 2.4vw, 32px); font-family: 'Inter', sans-serif;
           font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85; color: #BDBDBD;
         }
-        .so-price-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #2A2A2A; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px #2A2A2A; }
-        .so-price-meta div { background: #141416; padding: clamp(14px, 1.6vw, 20px); }
+        .so-price-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #2F2A42; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px #2F2A42; }
+        .so-price-meta div { background: #191527; padding: clamp(14px, 1.6vw, 20px); }
         .so-price-meta b {
           display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
           font-size: clamp(18px, 1.6vw, 27px); line-height: 1; color: #fff;
@@ -341,18 +341,18 @@ export function SolutionsPage() {
         .so-has { display: grid; }
         .so-has-k {
           margin: 0 0 clamp(16px, 2vw, 24px); font-family: 'Inter', sans-serif; font-weight: 800;
-          text-transform: uppercase; font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2px; color: #F09A72;
+          text-transform: uppercase; font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2px; color: #C3BCFF;
         }
         .so-has-row {
           display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center; gap: 14px;
           padding: clamp(14px, 1.6vw, 19px) clamp(6px, 0.8vw, 12px);
-          border-bottom: 1px solid #2A2A2A;
+          border-bottom: 1px solid #2F2A42;
         }
-        .so-has-row:first-of-type { border-top: 1px solid #2A2A2A; }
+        .so-has-row:first-of-type { border-top: 1px solid #2F2A42; }
         .so-has-row i {
           display: grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 50%;
-          background: rgba(78,158,119,0.15); box-shadow: inset 0 0 0 1px rgba(78,158,119,0.34);
-          color: ${SAGE};
+          background: rgba(46,186,198,0.15); box-shadow: inset 0 0 0 1px rgba(46,186,198,0.34);
+          color: ${LIVE_INK};
         }
         .so-has-row span {
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(14px, 1.08vw, 17px); color: #fff;
@@ -368,10 +368,10 @@ export function SolutionsPage() {
 
         /* ══════════ what stays yours ══════════ */
         .so-keeps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 1.8vw, 28px); }
-        .so-keep { padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid rgba(26,33,29,0.16); position: relative; }
+        .so-keep { padding-top: clamp(20px, 2.2vw, 28px); border-top: 2px solid rgba(22,20,31,0.16); position: relative; }
         .so-keep::before {
           content: ''; position: absolute; top: -2px; left: 0; width: 34%; height: 2px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT});
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .so-keep h3 {
           margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.025em;

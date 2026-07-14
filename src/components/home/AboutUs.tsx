@@ -4,15 +4,15 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight } from 'lucide-react'
 import { MaskReveal, useParallax } from '../../lib/anim'
 
-const TEXT   = '#2E3A34'
-const ACCENT = '#D2704A'
-const CREAM  = '#F6F2EA'
-const MUTED  = '#63706A'
-const INK    = '#1A211D'
+const TEXT   = '#16141F'
+const ACCENT = '#998EFF'
+const WASH  = '#F4F2FD'
+const MUTED  = '#5E5B6B'
+const INK    = '#14111F'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
-const GLOSS      = 'linear-gradient(168deg, #F09A72 0%, #D2704A 46%, #9C4324 100%)'
-const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
+const GLOSS      = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 46%, #4A3DBF 100%)'
+const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
 
 const TILES = [
   { src: '/images/about/tile-1.webp', alt: 'Close up of a headset microphone beside an agent laptop' },
@@ -46,7 +46,7 @@ export function AboutUs() {
       <style>{`
         .cc-au {
           position: relative;
-          background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 44%, ${CREAM} 82%, #EFE8DC 100%);
+          background: linear-gradient(180deg, #FFFFFF 0%, #FBFAFE 44%, ${WASH} 82%, #E3DEF8 100%);
           overflow: hidden;
         }
         .cc-au-inner {
@@ -55,11 +55,11 @@ export function AboutUs() {
           margin: 0 auto;
           padding: clamp(56px, 8vw, 130px) clamp(24px, 4vw, 64px) clamp(48px, 6vw, 96px);
         }
-        /* warm pool of light behind the product, so it reads as lit, not pasted */
+        /* pool of violet light behind the product, so it reads as lit, not pasted */
         .cc-au-inner::before {
           content: ''; position: absolute; z-index: 0; pointer-events: none;
           top: 2%; right: -4%; width: min(52vw, 700px); aspect-ratio: 1;
-          background: radial-gradient(closest-side, rgba(210,112,74,0.20), transparent 72%);
+          background: radial-gradient(closest-side, rgba(153,142,255,0.20), transparent 72%);
         }
 
         /* ── stage: copy | product | tile rail ── */
@@ -108,7 +108,7 @@ export function AboutUs() {
         }
         .cc-au-lede i {
           flex: none; width: 2px; border-radius: 2px;
-          background: linear-gradient(180deg, ${ACCENT}, rgba(210,112,74,0));
+          background: linear-gradient(180deg, ${ACCENT}, rgba(153,142,255,0));
           transform-origin: top; will-change: transform;
         }
         .cc-au-lede p {
@@ -124,23 +124,23 @@ export function AboutUs() {
         .cc-au-cta {
           display: inline-flex; align-items: center; justify-content: center; gap: 10px;
           min-height: 52px; padding: 15px clamp(24px, 2.4vw, 36px);
-          background: linear-gradient(168deg, #46534A 0%, ${TEXT} 48%, ${INK} 100%);
-          color: #FBF9F5; text-decoration: none; border-radius: 4px;
+          background: linear-gradient(168deg, #38324F 0%, ${TEXT} 48%, ${INK} 100%);
+          color: #FAF9FE; text-decoration: none; border-radius: 4px;
           font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
             inset 0 -1px 0 rgba(0,0,0,0.28),
-            0 2px 4px rgba(26,33,29,0.22),
-            0 14px 26px -12px rgba(26,33,29,0.5);
+            0 2px 4px rgba(22,20,31,0.22),
+            0 14px 26px -12px rgba(22,20,31,0.5);
           transition: transform .45s cubic-bezier(.16,1,.3,1), background .35s ease, box-shadow .35s ease;
           will-change: transform;
         }
         .cc-au-cta:hover {
-          background: ${GLOSS}; color: #FFF7F2; transform: translateY(-3px);
+          background: ${GLOSS}; color: #FFFFFF; transform: translateY(-3px);
           box-shadow: ${ACCENT_RIM},
-            0 3px 6px rgba(156,67,36,0.4),
-            0 18px 32px -12px rgba(156,67,36,0.72);
+            0 3px 6px rgba(74,61,191,0.4),
+            0 18px 32px -12px rgba(74,61,191,0.72);
         }
         .cc-au-cta svg { transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform; }
         .cc-au-cta:hover svg { transform: translateX(4px); }
@@ -161,8 +161,8 @@ export function AboutUs() {
           will-change: transform;
         }
         .cc-au-ghost:hover i {
-          background: ${GLOSS}; color: #FFF7F2; transform: translate(2px, -2px) scale(1.06);
-          box-shadow: ${ACCENT_RIM}, 0 10px 20px -8px rgba(156,67,36,0.65);
+          background: ${GLOSS}; color: #FFFFFF; transform: translate(2px, -2px) scale(1.06);
+          box-shadow: ${ACCENT_RIM}, 0 10px 20px -8px rgba(74,61,191,0.65);
         }
 
         /* ── hero product ──
@@ -171,8 +171,8 @@ export function AboutUs() {
            context, which isolates the blend group and resurrects the white plate. */
         .cc-au-hero img {
           display: block; width: 100%; height: auto; pointer-events: none;
-          filter: drop-shadow(0 26px 34px rgba(46, 58, 52, 0.18))
-                  drop-shadow(0 4px 8px rgba(46, 58, 52, 0.10));
+          filter: drop-shadow(0 26px 34px rgba(22,20,31, 0.18))
+                  drop-shadow(0 4px 8px rgba(22,20,31, 0.10));
           will-change: transform;
         }
 
@@ -192,11 +192,11 @@ export function AboutUs() {
         .cc-au-tile {
           width: clamp(74px, 7vw, 112px); aspect-ratio: 1;
           border-radius: clamp(10px, 0.9vw, 16px); overflow: hidden;
-          background: ${CREAM};
+          background: ${WASH};
           box-shadow:
             inset 0 0 0 1px rgba(255,255,255,0.6),
-            0 1px 3px rgba(20,20,22,0.05),
-            0 16px 30px -14px rgba(26,33,29,0.45);
+            0 1px 3px rgba(26,22,44,0.05),
+            0 16px 30px -14px rgba(22,20,31,0.45);
           transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease;
           will-change: transform;
         }
@@ -205,8 +205,8 @@ export function AboutUs() {
           transform: translateY(-4px) scale(1.03);
           box-shadow:
             inset 0 0 0 1px rgba(255,255,255,0.6),
-            0 3px 6px rgba(26,33,29,0.18),
-            0 24px 42px -14px rgba(26,33,29,0.55);
+            0 3px 6px rgba(22,20,31,0.18),
+            0 24px 42px -14px rgba(22,20,31,0.55);
         }
 
         /* ── foot: rotated label + alt product + copy ── */
@@ -220,12 +220,12 @@ export function AboutUs() {
           writing-mode: vertical-rl; transform: rotate(180deg);
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
           font-size: clamp(13px, 1vw, 17px); letter-spacing: 0.14em;
-          color: rgba(46,58,52,0.42); white-space: nowrap; margin: 0;
+          color: rgba(22,20,31,0.42); white-space: nowrap; margin: 0;
         }
         .cc-au-alt {
           width: clamp(150px, 15vw, 240px); height: auto; display: block;
           pointer-events: none;
-          filter: drop-shadow(0 16px 22px rgba(46, 58, 52, 0.16));
+          filter: drop-shadow(0 16px 22px rgba(22,20,31, 0.16));
         }
         .cc-au-foot h3 {
           font-family: 'Poppins', sans-serif; font-weight: 900; text-transform: uppercase;
@@ -245,7 +245,7 @@ export function AboutUs() {
           gap: clamp(20px, 3vw, 56px);
           margin-top: clamp(44px, 6vw, 96px);
           padding-top: clamp(26px, 3vw, 44px);
-          border-top: 1px solid rgba(26,33,29,0.13);
+          border-top: 1px solid rgba(22,20,31,0.13);
         }
         .cc-au-stat b {
           display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;

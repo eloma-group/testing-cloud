@@ -5,11 +5,11 @@ import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/
 import { Switchboard } from '../components/services/Switchboard'
 import { staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, small labels */
-const MUTED      = '#63706A'
-const SAGE       = '#4E9E77'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, small labels */
+const MUTED      = '#5E5B6B'
+const LIVE       = '#2EBAC6'
 
 /* The six services themselves live in src/data/services.ts and are drawn
    by the Switchboard: a panel of jacks, and a cord patched across to the
@@ -33,24 +33,24 @@ export function ServicesPage() {
         .sv-fig {
           position: relative; width: 100%; max-width: 620px; justify-self: end;
           border-radius: 20px; overflow: hidden;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 40px 78px -44px rgba(20,20,22,0.34);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 40px 78px -44px rgba(26,22,44,0.34);
         }
         .sv-fig-top {
           display: flex; align-items: center; justify-content: space-between; gap: 12px;
           padding: clamp(16px, 1.8vw, 22px) clamp(18px, 2vw, 26px);
-          border-bottom: 1px solid rgba(26,33,29,0.1);
+          border-bottom: 1px solid rgba(22,20,31,0.1);
         }
         .sv-fig-top b {
           display: inline-flex; align-items: center; gap: 9px;
           font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14px); color: ${TEXT};
         }
         .sv-fig-top b i {
-          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${SAGE};
+          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
         }
         .sv-fig-top b i::after {
-          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${SAGE};
+          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${LIVE};
           animation: sv-ping 2.4s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
         }
         @keyframes sv-ping {
@@ -66,13 +66,13 @@ export function ServicesPage() {
           display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center;
           gap: clamp(10px, 1.2vw, 16px);
           padding: clamp(13px, 1.5vw, 18px) clamp(18px, 2vw, 26px);
-          border-bottom: 1px solid rgba(26,33,29,0.08);
+          border-bottom: 1px solid rgba(22,20,31,0.08);
         }
         .sv-fig-row:last-child { border-bottom: 0; }
         .sv-fig-row em {
           font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
           font-variant-numeric: tabular-nums; font-size: 11px; letter-spacing: 1.4px;
-          color: rgba(26,33,29,0.32);
+          color: rgba(22,20,31,0.32);
         }
         .sv-fig-row b {
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(13px, 1.05vw, 16px); color: ${TEXT};
@@ -83,11 +83,11 @@ export function ServicesPage() {
         }
         .sv-fig-bar {
           height: 4px; margin: 0 clamp(18px, 2vw, 26px) clamp(18px, 2vw, 26px);
-          border-radius: 100px; background: rgba(26,33,29,0.08); overflow: hidden;
+          border-radius: 100px; background: rgba(22,20,31,0.08); overflow: hidden;
         }
         .sv-fig-bar i {
           display: block; height: 100%; width: 100%; border-radius: 100px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT});
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
           transform-origin: left; will-change: transform;
           animation: sv-drain 5.5s cubic-bezier(.4,0,.6,1) infinite;
         }
@@ -98,17 +98,17 @@ export function ServicesPage() {
         }
 
         /* ══════════ how a team gets on the floor ══════════
-           Set on paper, not ink: the switchboard above is already obsidian,
+           Set on paper, not ink: the switchboard above is already ink,
            and three dark bands in a row would turn the whole lower page black.
            The dark now lands once, on the switchboard, and reads as an accent. */
         .sv-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(16px, 1.8vw, 28px); }
         .sv-step {
           position: relative; padding-top: clamp(20px, 2.2vw, 30px);
-          border-top: 2px solid rgba(26,33,29,0.16);
+          border-top: 2px solid rgba(22,20,31,0.16);
         }
         .sv-step::before {
           content: ''; position: absolute; top: -2px; left: 0; width: 34%; height: 2px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT});
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .sv-step em {
           display: block; margin-bottom: clamp(12px, 1.4vw, 18px); font-style: normal;
@@ -127,7 +127,7 @@ export function ServicesPage() {
         .sv-out {
           display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
           gap: 20px; margin-top: clamp(36px, 4vw, 60px); padding-top: clamp(26px, 3vw, 40px);
-          border-top: 1px solid rgba(26,33,29,0.16);
+          border-top: 1px solid rgba(22,20,31,0.16);
         }
         .sv-out p {
           margin: 0; max-width: 52ch; font-family: 'Inter', sans-serif;
@@ -224,7 +224,7 @@ export function ServicesPage() {
       </Band>
 
       <CTABand
-        tone="cream"
+        tone="wash"
         title={<>Six services, <span className="serif">one conversation.</span></>}
         lead="Tell us which queue hurts most. We will tell you what it takes to hold it, and what it costs, on the same call."
       />

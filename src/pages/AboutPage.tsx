@@ -4,10 +4,10 @@ import { ArrowUpRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'
-const MUTED      = '#63706A'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'
+const MUTED      = '#5E5B6B'
 
 /* ──────────────────────────────────────────────────────────────
    About: the story, told as a printed feature.
@@ -96,20 +96,20 @@ export function AboutPage() {
         .ab-fig figure { position: absolute; margin: 0; will-change: transform; }
         .ab-fig .a {
           inset: 0 22% 16% 0; z-index: 1;
-          box-shadow: inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 40px 80px -44px rgba(20,20,22,0.5);
+          box-shadow: inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 40px 80px -44px rgba(26,22,44,0.5);
           animation: ab-drift 11s cubic-bezier(.4,0,.6,1) infinite;
         }
         .ab-fig .b {
           inset: 30% 0 0 40%; z-index: 3;
-          box-shadow: inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 44px 84px -40px rgba(20,20,22,0.55);
+          box-shadow: inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 44px 84px -40px rgba(26,22,44,0.55);
           animation: ab-drift 11s cubic-bezier(.4,0,.6,1) infinite reverse;
         }
         .ab-fig .c {
           inset: 4% 4% 62% 62%; z-index: 2;
-          box-shadow: inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 26px 52px -30px rgba(20,20,22,0.45);
+          box-shadow: inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 26px 52px -30px rgba(26,22,44,0.45);
         }
         @keyframes ab-drift {
           0%, 100% { transform: translate3d(0, 0, 0); }
@@ -123,8 +123,8 @@ export function AboutPage() {
         }
         .ab-seal-disc {
           position: absolute; inset: 19%; border-radius: 50%;
-          background: radial-gradient(circle at 34% 30%, #E09873, ${ACCENT} 55%, #9C4324 100%);
-          box-shadow: 0 22px 40px -16px rgba(156,67,36,0.9), inset 0 -3px 8px rgba(0,0,0,0.2);
+          background: radial-gradient(circle at 34% 30%, #B3AAFF, ${ACCENT} 55%, #4A3DBF 100%);
+          box-shadow: 0 22px 40px -16px rgba(74,61,191,0.9), inset 0 -3px 8px rgba(0,0,0,0.2);
         }
         .ab-seal-disc::after {
           content: ''; position: absolute; inset: 15%; border-radius: 50%;
@@ -156,7 +156,7 @@ export function AboutPage() {
         }
         .ab-say-q b { font-weight: 400; color: ${ACCENT}; font-style: italic; }
         .ab-say-note {
-          border-left: 2px solid rgba(210,112,74,0.4); padding-left: clamp(16px, 1.8vw, 26px);
+          border-left: 2px solid rgba(153,142,255,0.4); padding-left: clamp(16px, 1.8vw, 26px);
           display: grid; gap: 16px;
         }
         .ab-say-note p {
@@ -165,13 +165,13 @@ export function AboutPage() {
         }
         .ab-say-sig {
           display: flex; align-items: center; gap: 12px; margin-top: 8px;
-          padding-top: 18px; border-top: 1px solid rgba(26,33,29,0.14);
+          padding-top: 18px; border-top: 1px solid rgba(22,20,31,0.14);
         }
         .ab-say-sig span {
           display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 50%;
-          background: linear-gradient(168deg, #F09A72 0%, ${ACCENT} 48%, #9C4324 100%);
+          background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
           color: #fff; font-family: Georgia, serif; font-size: 16px;
-          box-shadow: 0 10px 22px -12px rgba(156,67,36,0.8);
+          box-shadow: 0 10px 22px -12px rgba(74,61,191,0.8);
         }
         .ab-say-sig b {
           display: block; font-family: 'Inter', sans-serif; font-weight: 700;
@@ -189,12 +189,12 @@ export function AboutPage() {
           display: grid; grid-template-columns: clamp(70px, 8vw, 132px) minmax(0, 1fr);
           gap: clamp(18px, 3vw, 54px); align-items: start;
           padding: clamp(26px, 3vw, 44px) clamp(10px, 1.2vw, 18px);
-          border-bottom: 1px solid rgba(26,33,29,0.14);
+          border-bottom: 1px solid rgba(22,20,31,0.14);
         }
-        .ab-yr:first-child { border-top: 1px solid rgba(26,33,29,0.14); }
+        .ab-yr:first-child { border-top: 1px solid rgba(22,20,31,0.14); }
         .ab-yr::before {
           content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 10px;
-          background: linear-gradient(90deg, rgba(210,112,74,0.1), rgba(210,112,74,0.01));
+          background: linear-gradient(90deg, rgba(153,142,255,0.1), rgba(153,142,255,0.01));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
@@ -202,7 +202,7 @@ export function AboutPage() {
         .ab-yr-y {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
           font-size: clamp(24px, 2.4vw, 42px); line-height: 1; letter-spacing: -0.02em;
-          color: rgba(26,33,29,0.32); font-variant-numeric: tabular-nums;
+          color: rgba(22,20,31,0.32); font-variant-numeric: tabular-nums;
           transition: color .5s ease;
         }
         .ab-yr:hover .ab-yr-y { color: ${ACCENT}; }
@@ -223,21 +223,21 @@ export function AboutPage() {
         .ab-led-card {
           position: relative; isolation: isolate; overflow: hidden;
           border-radius: 18px; padding: clamp(24px, 2.6vw, 40px);
-          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 2px rgba(20,20,22,0.05), 0 8px 20px -12px rgba(20,20,22,0.16);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 2px rgba(26,22,44,0.05), 0 8px 20px -12px rgba(26,22,44,0.16);
           will-change: transform;
           transition: transform .6s cubic-bezier(.16,1,.3,1), box-shadow .6s ease;
         }
         .ab-led-card:hover {
           transform: translateY(-5px);
-          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(20,20,22,0.07),
-                      0 1px 3px rgba(20,20,22,0.06), 0 24px 48px -24px rgba(20,20,22,0.28);
+          box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(26,22,44,0.07),
+                      0 1px 3px rgba(26,22,44,0.06), 0 24px 48px -24px rgba(26,22,44,0.28);
         }
         /* the accent lip along the top, drawn on hover */
         .ab-led-card::after {
           content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-          background: linear-gradient(90deg, #F09A72, ${ACCENT} 45%, rgba(210,112,74,0.3));
+          background: linear-gradient(90deg, #C3BCFF, ${ACCENT} 45%, rgba(153,142,255,0.3));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .8s cubic-bezier(.16,1,.3,1);
         }
@@ -253,18 +253,18 @@ export function AboutPage() {
         }
         .ab-led-card p {
           margin: 0; padding-top: clamp(12px, 1.4vw, 18px);
-          border-top: 1px dashed rgba(26,33,29,0.2);
+          border-top: 1px dashed rgba(22,20,31,0.2);
           font-family: 'Inter', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.8; color: ${MUTED};
         }
 
         /* ══════════ the floor, counted ══════════ */
         .ab-floor {
           display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
-          gap: 1px; background: #2A2A2A; border-radius: 18px; overflow: hidden;
-          box-shadow: inset 0 0 0 1px #2A2A2A;
+          gap: 1px; background: #2F2A42; border-radius: 18px; overflow: hidden;
+          box-shadow: inset 0 0 0 1px #2F2A42;
         }
         .ab-floor-cell {
-          background-color: #181818;
+          background-color: #211C33;
           background-image: linear-gradient(168deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
           padding: clamp(24px, 2.8vw, 44px);
         }
@@ -284,12 +284,12 @@ export function AboutPage() {
           position: relative; isolation: isolate; overflow: hidden; text-decoration: none;
           display: flex; align-items: center; justify-content: space-between; gap: 18px;
           border-radius: 16px; padding: clamp(22px, 2.4vw, 34px);
-          background-color: #181818; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2A2A2A;
+          background-color: #211C33; box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2F2A42;
           will-change: transform; transition: transform .6s cubic-bezier(.16,1,.3,1);
         }
         .ab-door::before {
           content: ''; position: absolute; inset: 0; z-index: -1;
-          background: linear-gradient(120deg, rgba(210,112,74,0.24), rgba(210,112,74,0.02));
+          background: linear-gradient(120deg, rgba(153,142,255,0.24), rgba(153,142,255,0.02));
           opacity: 0; transition: opacity .55s ease;
         }
         .ab-door:hover { transform: translateY(-4px); }
@@ -418,7 +418,7 @@ export function AboutPage() {
       </Band>
 
       {/* ══════════ the years ══════════ */}
-      <Band tone="cream" label="Our story">
+      <Band tone="wash" label="Our story">
         <SectionHead
           eyebrow="The story"
           title={<>Ten years, told <span className="serif">honestly.</span></>}

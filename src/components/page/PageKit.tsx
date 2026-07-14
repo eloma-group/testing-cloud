@@ -19,16 +19,16 @@ import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../../lib/ani
    or opacity.
    ────────────────────────────────────────────────────────────── */
 
-const TEXT       = '#2E3A34'
-const ACCENT     = '#D2704A'
-const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
-const CREAM      = '#F6F2EA'
-const MUTED      = '#63706A'
-const INK        = '#0F0F10'
+const TEXT       = '#16141F'
+const ACCENT     = '#998EFF'
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const WASH      = '#F4F2FD'
+const MUTED      = '#5E5B6B'
+const INK        = '#14111F'
 
-const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
-const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
-const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
+const GLOSS       = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(74,61,191,0.34), 0 12px 24px -10px rgba(74,61,191,0.5), 0 30px 54px -26px rgba(74,61,191,0.62)'
 
 /* ══════════════════ the shared stylesheet ══════════════════ */
 const KIT_CSS = `
@@ -44,12 +44,12 @@ const KIT_CSS = `
     position: relative; isolation: isolate;
     padding: clamp(56px, 7vw, 124px) clamp(24px, 4vw, 64px);
   }
-  .pg-band.paper { background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 60%, ${CREAM} 100%); }
+  .pg-band.paper { background: linear-gradient(180deg, #FFFFFF 0%, #FBFAFE 60%, ${WASH} 100%); }
   .pg-band.white { background: #FFFFFF; }
-  .pg-band.cream { background: linear-gradient(180deg, ${CREAM} 0%, #FDFBF7 55%, #FFFFFF 100%); }
+  .pg-band.wash { background: linear-gradient(180deg, ${WASH} 0%, #FBFAFE 55%, #FFFFFF 100%); }
   .pg-band.ink {
     background-color: ${INK};
-    background-image: linear-gradient(180deg, #181818 0%, #121213 46%, ${INK} 100%);
+    background-image: linear-gradient(180deg, #211C33 0%, #191527 46%, ${INK} 100%);
     color: #FFFFFF;
   }
   /* grain over the ink, so the gradient never bands into visible steps */
@@ -68,13 +68,13 @@ const KIT_CSS = `
   /* ══════════════════ the hero ══════════════════ */
   .pg-hero {
     position: relative; isolation: isolate; overflow: clip;
-    background: linear-gradient(180deg, #FFFFFF 0%, #FDFBF7 46%, ${CREAM} 100%);
+    background: linear-gradient(180deg, #FFFFFF 0%, #FBFAFE 46%, ${WASH} 100%);
     padding: calc(64px + clamp(36px, 5vw, 84px)) clamp(24px, 4vw, 64px) clamp(44px, 5.5vw, 88px);
   }
-  /* the one hue: a single terracotta bloom, top right, felt not seen */
+  /* the one hue: a single violet bloom, top right, felt not seen */
   .pg-hero::before {
     content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-    background: radial-gradient(48% 40% at 94% -4%, rgba(210,112,74,0.15), transparent 70%);
+    background: radial-gradient(48% 40% at 94% -4%, rgba(153,142,255,0.15), transparent 70%);
   }
   @media (min-width: 1920px) { .pg-hero { padding-top: calc(78px + clamp(36px, 5vw, 84px)); } }
   @media (min-width: 2560px) { .pg-hero { padding-top: calc(92px + clamp(36px, 5vw, 84px)); } }
@@ -93,7 +93,7 @@ const KIT_CSS = `
   .pg-crumb a { color: ${MUTED}; transition: color .25s ease; }
   .pg-crumb a:hover { color: ${ACCENT_INK}; }
   .pg-crumb b { color: ${TEXT}; font-weight: 600; }
-  .pg-crumb svg { color: rgba(26,33,29,0.3); flex: none; }
+  .pg-crumb svg { color: rgba(22,20,31,0.3); flex: none; }
 
   .pg-eyebrow {
     display: inline-flex; align-items: center; gap: 10px; margin: 0 0 clamp(14px, 1.8vw, 22px);
@@ -124,7 +124,7 @@ const KIT_CSS = `
   .pg-stats {
     display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 26px);
     margin-top: clamp(26px, 3vw, 40px); padding-top: clamp(20px, 2.4vw, 30px);
-    border-top: 1px solid rgba(26,33,29,0.14);
+    border-top: 1px solid rgba(22,20,31,0.14);
   }
   .pg-stat b {
     display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
@@ -140,9 +140,9 @@ const KIT_CSS = `
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
     gap: clamp(18px, 3vw, 60px); align-items: end;
     padding-bottom: clamp(20px, 2.4vw, 32px); margin-bottom: clamp(28px, 3.4vw, 52px);
-    border-bottom: 1px solid rgba(26,33,29,0.16);
+    border-bottom: 1px solid rgba(22,20,31,0.16);
   }
-  .pg-band.ink .pg-head { border-bottom-color: #2A2A2A; }
+  .pg-band.ink .pg-head { border-bottom-color: #2F2A42; }
   .pg-head.solo { grid-template-columns: minmax(0, 1fr); }
   .pg-head h2 {
     font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
@@ -161,7 +161,7 @@ const KIT_CSS = `
     line-height: 1.8; color: ${MUTED}; max-width: 46ch;
   }
   .pg-band.ink .pg-head-lead { color: #BDBDBD; }
-  .pg-band.ink .pg-eyebrow { color: #F09A72; }
+  .pg-band.ink .pg-eyebrow { color: #C3BCFF; }
 
   /* ══════════════════ buttons ══════════════════ */
   .pg-btn {
@@ -183,20 +183,20 @@ const KIT_CSS = `
   }
   .pg-btn:hover {
     transform: translateY(-3px);
-    box-shadow: ${ACCENT_RIM}, 0 16px 28px -10px rgba(156,67,36,0.6), 0 38px 66px -26px rgba(156,67,36,0.78);
+    box-shadow: ${ACCENT_RIM}, 0 16px 28px -10px rgba(74,61,191,0.6), 0 38px 66px -26px rgba(74,61,191,0.78);
   }
   .pg-btn:hover::after { transform: translateX(110%); }
   .pg-btn svg { transition: transform .45s cubic-bezier(.16,1,.3,1); }
   .pg-btn:hover svg { transform: translateX(4px); }
 
   .pg-btn.ghost {
-    background: transparent; color: ${TEXT}; box-shadow: inset 0 0 0 1px rgba(26,33,29,0.22);
+    background: transparent; color: ${TEXT}; box-shadow: inset 0 0 0 1px rgba(22,20,31,0.22);
   }
   .pg-btn.ghost:hover {
-    background: ${TEXT}; color: ${CREAM};
-    box-shadow: inset 0 0 0 1px ${TEXT}, 0 18px 36px -20px rgba(26,33,29,0.7);
+    background: ${TEXT}; color: ${WASH};
+    box-shadow: inset 0 0 0 1px ${TEXT}, 0 18px 36px -20px rgba(22,20,31,0.7);
   }
-  .pg-band.ink .pg-btn.ghost { color: #fff; box-shadow: inset 0 0 0 1px #2A2A2A; }
+  .pg-band.ink .pg-btn.ghost { color: #fff; box-shadow: inset 0 0 0 1px #2F2A42; }
   .pg-band.ink .pg-btn.ghost:hover {
     background: #fff; color: ${INK}; box-shadow: inset 0 0 0 1px #fff;
   }
@@ -206,7 +206,7 @@ const KIT_CSS = `
     display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
     gap: clamp(28px, 4vw, 72px); align-items: center;
   }
-  /* The call is written light, and turns obsidian only when the band it sits
+  /* The call is written light, and turns to ink only when the band it sits
      in is the ink one. That way a page whose last section is already dark can
      keep the dark close, and a page that would otherwise stack three black
      sections in a row can end on paper instead. */
@@ -234,25 +234,25 @@ const KIT_CSS = `
     display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center;
     gap: clamp(12px, 1.4vw, 20px);
     padding: clamp(16px, 1.8vw, 22px) clamp(10px, 1.2vw, 16px);
-    border-bottom: 1px solid rgba(26,33,29,0.16);
+    border-bottom: 1px solid rgba(22,20,31,0.16);
   }
-  .pg-cta-row:first-child { border-top: 1px solid rgba(26,33,29,0.16); }
-  .pg-band.ink.pg-cta .pg-cta-row { border-bottom-color: #2A2A2A; }
-  .pg-band.ink.pg-cta .pg-cta-row:first-child { border-top-color: #2A2A2A; }
+  .pg-cta-row:first-child { border-top: 1px solid rgba(22,20,31,0.16); }
+  .pg-band.ink.pg-cta .pg-cta-row { border-bottom-color: #2F2A42; }
+  .pg-band.ink.pg-cta .pg-cta-row:first-child { border-top-color: #2F2A42; }
   .pg-cta-row::before {
     content: ''; position: absolute; inset: 0; z-index: -1; border-radius: 8px;
-    background: linear-gradient(90deg, rgba(210,112,74,0.13), rgba(210,112,74,0.01));
+    background: linear-gradient(90deg, rgba(153,142,255,0.13), rgba(153,142,255,0.01));
     transform: scaleX(0); transform-origin: left; will-change: transform;
     transition: transform .65s cubic-bezier(.16,1,.3,1);
   }
   .pg-band.ink.pg-cta .pg-cta-row::before {
-    background: linear-gradient(90deg, rgba(210,112,74,0.18), rgba(210,112,74,0.02));
+    background: linear-gradient(90deg, rgba(153,142,255,0.18), rgba(153,142,255,0.02));
   }
   .pg-cta-row:hover::before, .pg-cta-row:focus-visible::before { transform: scaleX(1); }
   .pg-cta-row em {
     font-style: normal; font-family: 'Inter', sans-serif; font-weight: 700;
     font-variant-numeric: tabular-nums; font-size: clamp(11px, 0.85vw, 13px); letter-spacing: 1.6px;
-    color: rgba(26,33,29,0.4); transition: color .4s ease;
+    color: rgba(22,20,31,0.4); transition: color .4s ease;
   }
   .pg-band.ink.pg-cta .pg-cta-row em { color: #858387; }
   .pg-cta-row:hover em { color: ${ACCENT_INK}; }
@@ -265,7 +265,7 @@ const KIT_CSS = `
   .pg-band.ink.pg-cta .pg-cta-row b { color: #fff; }
   .pg-cta-row:hover b { transform: translateX(6px); }
   .pg-cta-row svg {
-    color: rgba(26,33,29,0.35);
+    color: rgba(22,20,31,0.35);
     transition: transform .5s cubic-bezier(.16,1,.3,1), color .4s ease;
   }
   .pg-band.ink.pg-cta .pg-cta-row svg { color: #858387; }
@@ -382,7 +382,7 @@ export function Band({
   label,
   children,
 }: {
-  tone?: 'paper' | 'white' | 'cream' | 'ink'
+  tone?: 'paper' | 'white' | 'wash' | 'ink'
   id?: string
   className?: string
   label?: string
@@ -430,14 +430,14 @@ const NEXT: [string, string, string][] = [
 export function CTABand({
   title,
   lead,
-  /* obsidian by default. Pages whose last section is already dark pass
+  /* ink by default. Pages whose last section is already dark pass
      nothing; a page that would otherwise run three black bands together
      passes "paper" and closes on light instead. */
   tone = 'ink',
 }: {
   title?: ReactNode
   lead?: ReactNode
-  tone?: 'ink' | 'paper' | 'cream'
+  tone?: 'ink' | 'paper' | 'wash'
 }) {
   const reduce = useReducedMotion() ?? false
 

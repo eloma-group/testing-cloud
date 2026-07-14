@@ -4,8 +4,8 @@ import { Band, SectionHead } from '../page/PageKit'
 import { EASE } from '../../lib/anim'
 import { SERVICES } from '../../data/services'
 
-const ACCENT = '#D2704A'
-const SAGE   = '#4E9E77'
+const ACCENT = '#998EFF'
+const LIVE   = '#2EBAC6'
 
 /* ──────────────────────────────────────────────────────────────
    The Switchboard - the services section.
@@ -43,20 +43,20 @@ export function Switchboard() {
         /* ── the panel of jacks ── */
         .sw-panel {
           display: grid; border-radius: 18px; overflow: hidden;
-          background: #141416;
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 0 0 1px #2A2A2A;
+          background: #191527;
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), inset 0 0 0 1px #2F2A42;
         }
         .sw-jack {
           position: relative; isolation: isolate; cursor: pointer; border: 0; background: none;
           display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: center;
           gap: clamp(10px, 1.2vw, 15px); text-align: left;
           padding: clamp(12px, 1.5vw, 18px) clamp(13px, 1.5vw, 19px);
-          border-bottom: 1px solid #232325;
+          border-bottom: 1px solid #201C30;
         }
         .sw-jack:last-child { border-bottom: 0; }
         .sw-jack::before {
           content: ''; position: absolute; inset: 0; z-index: -1;
-          background: linear-gradient(90deg, rgba(210,112,74,0.18), rgba(210,112,74,0.02));
+          background: linear-gradient(90deg, rgba(153,142,255,0.18), rgba(153,142,255,0.02));
           transform: scaleX(0); transform-origin: left; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
@@ -65,28 +65,28 @@ export function Switchboard() {
         /* the socket itself */
         .sw-socket {
           position: relative; flex: none; width: 26px; height: 26px; border-radius: 50%;
-          background: radial-gradient(circle at 40% 34%, #2C2C31, #0B0B0C 70%);
-          box-shadow: inset 0 0 0 1px #3A3A42, inset 0 2px 4px rgba(0,0,0,0.9);
+          background: radial-gradient(circle at 40% 34%, #29243B, #0F0D19 70%);
+          box-shadow: inset 0 0 0 1px #363048, inset 0 2px 4px rgba(0,0,0,0.9);
           will-change: transform; transition: transform .5s cubic-bezier(.16,1,.3,1);
         }
         /* the hole */
         .sw-socket::before {
           content: ''; position: absolute; inset: 8px; border-radius: 50%;
-          background: #060607; box-shadow: inset 0 1px 2px rgba(0,0,0,1);
+          background: #0A0812; box-shadow: inset 0 1px 2px rgba(0,0,0,1);
           transition: background .45s ease, box-shadow .45s ease;
         }
         .sw-jack.on .sw-socket { transform: scale(1.06); }
         .sw-jack.on .sw-socket::before {
-          background: radial-gradient(circle at 38% 32%, #F5BB9C, ${ACCENT} 60%, #9C4324);
-          box-shadow: 0 0 14px rgba(210,112,74,0.9);
+          background: radial-gradient(circle at 38% 32%, #D6D0FF, ${ACCENT} 60%, #4A3DBF);
+          box-shadow: 0 0 14px rgba(153,142,255,0.9);
         }
 
         .sw-jack em {
           display: block; font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
           font-variant-numeric: tabular-nums; font-size: 10px; letter-spacing: 1.6px;
-          color: #5F5D62; margin-bottom: 3px; transition: color .45s ease;
+          color: #5E5B6B; margin-bottom: 3px; transition: color .45s ease;
         }
-        .sw-jack.on em { color: #F09A72; }
+        .sw-jack.on em { color: #C3BCFF; }
         .sw-jack b {
           display: block; font-family: 'Inter', sans-serif; font-weight: 700;
           font-size: clamp(12px, 1vw, 15px); line-height: 1.25; color: #BDBDBD;
@@ -100,15 +100,15 @@ export function Switchboard() {
         .sw-cord path {
           fill: none; stroke: ${ACCENT}; stroke-width: 2.5; stroke-linecap: round;
           vector-effect: non-scaling-stroke;
-          filter: drop-shadow(0 3px 8px rgba(210,112,74,0.5));
+          filter: drop-shadow(0 3px 8px rgba(153,142,255,0.5));
         }
 
         /* ── the desk that answers ── */
         .sw-card {
           position: relative; overflow: hidden; border-radius: 18px;
-          background: #181818;
+          background: #211C33;
           background-image: linear-gradient(168deg, rgba(255,255,255,0.05), rgba(255,255,255,0));
-          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2A2A2A,
+          box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2F2A42,
                       0 40px 80px -44px rgba(0,0,0,0.8);
         }
         .sw-card-top {
@@ -117,21 +117,21 @@ export function Switchboard() {
         .sw-card-top img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .sw-card-top::after {
           content: ''; position: absolute; inset: 0; pointer-events: none;
-          background: linear-gradient(180deg, rgba(15,15,16,0.35) 0%, transparent 40%, rgba(24,24,24,0.95) 100%);
+          background: linear-gradient(180deg, rgba(20,17,31,0.35) 0%, transparent 40%, rgba(33,28,51,0.95) 100%);
         }
         .sw-plug {
           position: absolute; z-index: 2; top: clamp(14px, 1.6vw, 20px); left: clamp(14px, 1.6vw, 20px);
           display: inline-flex; align-items: center; gap: 8px;
           padding: 8px 14px; border-radius: 100px;
-          background: rgba(15,15,16,0.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
+          background: rgba(20,17,31,0.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
           font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: #fff;
         }
         .sw-plug i {
-          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${SAGE};
+          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
         }
         .sw-plug i::after {
-          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${SAGE};
+          content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${LIVE};
           animation: sw-ping 2.4s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
         }
         @keyframes sw-ping {
@@ -152,7 +152,7 @@ export function Switchboard() {
         }
         .sw-card-body .body {
           margin: 0 0 clamp(18px, 2vw, 26px); padding-bottom: clamp(18px, 2vw, 26px);
-          border-bottom: 1px solid #2A2A2A;
+          border-bottom: 1px solid #2F2A42;
           font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85;
           color: #BDBDBD;
         }
@@ -160,9 +160,9 @@ export function Switchboard() {
         .sw-does span {
           display: inline-flex; align-items: center;
           padding: 7px 12px; border-radius: 100px;
-          background: rgba(210,112,74,0.13); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.3);
+          background: rgba(153,142,255,0.13); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.3);
           font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px);
-          color: #F09A72;
+          color: #C3BCFF;
         }
         .sw-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 22px); }
         .sw-figs b {
@@ -180,7 +180,7 @@ export function Switchboard() {
           .sw-cord { display: none; }
           .sw-panel { grid-auto-flow: column; grid-auto-columns: minmax(150px, 1fr);
                       overflow-x: auto; overscroll-behavior-x: contain; }
-          .sw-jack { border-bottom: 0; border-right: 1px solid #232325; }
+          .sw-jack { border-bottom: 0; border-right: 1px solid #201C30; }
         }
         @media (max-width: 560px) {
           .sw-figs { grid-template-columns: minmax(0, 1fr); gap: 14px; }

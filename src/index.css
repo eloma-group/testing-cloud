@@ -3,115 +3,114 @@
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 
-  --color-cc-text:   #2E3A34;
-  --color-cc-accent: #D2704A;
-  --color-cc-dark:   #3E4A42;
-  --color-cc-cream:  #F6F2EA;
-  --color-cc-ink:    #0F0F10;
-  --color-cc-muted:  #63706A;
+  --color-cc-text:   #16141F;
+  --color-cc-accent: #998EFF;
+  --color-cc-dark:   #2F2B3D;
+  --color-cc-wash:   #F4F2FD;
+  --color-cc-ink:    #14111F;
+  --color-cc-muted:  #5E5B6B;
 }
 
 /* ──────────────────────────────────────────────────────────────
-   The page is WHITE. Cream is a tint, not a paint.
+   The page is WHITE. Lavender is a tint, not a paint.
 
-   The previous system painted every surface cream (#F4F1EB) and
-   then floated cream cards on it, roughly 2% apart in luminance.
-   Nothing was ever the brightest thing on screen, so nothing read
-   as lit - which is the definition of matte. Worse, two hues were
-   running at once: terracotta AND a sage-green wash, and two warm
-   hues at low chroma average out to mud.
+   Everything here follows one reference: ~90% of the surface is
+   greyscale, ~10% is a single accent hue, and the accent is solid on
+   small objects and a gradient on large ones.
 
-   The fix is the one Aave uses:
-
-     1. White is the base. Cream only ever appears as the far stop
-        of a gradient, so a section drifts from white into a tint
-        rather than sitting flat in one.
-     2. One accent hue. Terracotta, and nothing else. Green survives
-        only on live-status dots, where it means something.
-     3. The accent is ~10% of the surface. Solid on small objects
-        (buttons, dots, icons), gradient on large ones (blooms,
-        washes, seals) - flat colour over a big area reads cheap.
-     4. Cards are pure white with a hairline and a shadow you have
-        to look for. Contrast comes from the card being brighter
-        than the wash under it, not from a heavy drop shadow.
-     5. Dark sections are obsidian, not sage. #0F0F10 with #181818
-        surfaces, the way the footer now reads.
+     1. White is the base. The lavender tints only ever appear as the
+        far stop of a gradient, so a section drifts from white into a
+        wash rather than sitting flat in one. The next section restarts
+        at white, which is what makes the seams read as soft bands.
+     2. One accent hue. Violet, and nothing else. Teal survives only on
+        live-status dots, where it means something.
+     3. The accent is never a flat fill over a large area - that reads
+        cheap. Large areas get --gl-bloom; small objects get the solid.
+     4. Two violets, not one. --cc-accent clears 2.6:1 on white, which
+        is fine for display type and for fills, and fails for a 10px
+        label. Small text uses --cc-accent-ink (4.8:1). Picking the
+        wrong one is the single easiest mistake to make in here.
+     5. Dark sections are deep indigo, never #000. A pure black next to
+        a violet accent kills it; #14111F carries a little of the same
+        hue, so the accent reads as light falling into the dark.
+     6. Cards are pure white with a hairline and a shadow you have to
+        look for. The contrast is the card being brighter than the wash
+        under it, not a heavy drop shadow.
    ────────────────────────────────────────────────────────────── */
 :root {
-  /* ── the light side: white, then four cream tints ── */
+  /* ── the light side: white, then the lavender ramp ── */
   --cc-white:     #FFFFFF;
-  --cc-cream-1:   #FCFAF6;   /* barely tinted - a white that is not clinical */
-  --cc-cream-2:   #F6F2EA;   /* the cream */
-  --cc-cream-3:   #EFE8DC;   /* deep - gradient ends and seams only */
-  --cc-cream-4:   #E5DCCC;   /* deepest - never a fill, only an edge */
+  --cc-wash-1:    #FAF9FE;   /* barely tinted - a white that is not clinical */
+  --cc-wash-2:    #F4F2FD;   /* the wash */
+  --cc-wash-3:    #EDEAFB;   /* deep - gradient ends and seams */
+  --cc-wash-4:    #E3DEF8;   /* deeper - the foot of a section */
+  --cc-wash-5:    #D8D2F4;   /* deepest - never a fill, only an edge */
 
-  --cc-text:      #2E3A34;
-  --cc-dark:      #3E4A42;
+  --cc-text:      #16141F;   /* near-black, with the same violet cast */
+  --cc-dark:      #2F2B3D;
 
-  /* Opaque and clear of 4.5:1. The old rgba(46,58,52,0.55) landed
-     around 3.4:1 on cream and was half the reason type read washed out. */
-  --cc-muted:     #63706A;
-  --cc-faint:     #828C87;
+  /* Opaque, and clear of 4.5:1 on white. */
+  --cc-muted:     #5E5B6B;
+  --cc-faint:     #858387;
 
-  /* ── obsidian: the dark half of the rhythm ── */
-  --cc-ink:       #0F0F10;   /* the base */
-  --cc-ink-2:     #141416;   /* a section within it */
-  --cc-ink-3:     #181818;   /* a raised surface - only just lighter, on purpose */
-  --cc-ink-4:     #202021;   /* the lit top edge of that surface */
-  --cc-line:      #2A2A2A;   /* hairline borders on ink */
+  /* ── deep indigo: the dark half of the rhythm. Not black. ── */
+  --cc-ink:       #14111F;   /* the base */
+  --cc-ink-2:     #191527;   /* a section within it */
+  --cc-ink-3:     #211C33;   /* a raised surface - only just lighter, on purpose */
+  --cc-ink-4:     #2A2540;   /* the lit top edge of that surface */
+  --cc-line:      #2F2A42;   /* every hairline on ink */
 
-  /* type on ink, straight off the reference */
+  /* type on ink */
   --cc-on-ink:        #FFFFFF;
   --cc-on-ink-muted:  #BDBDBD;
   --cc-on-ink-faint:  #858387;
 
-  /* ── terracotta, refined ──
-     The old #CE7F5C sat at 52% saturation, which is the chroma of
-     unglazed clay - it disappeared against cream. This is the same
-     hue with the chroma raised, so it has something to say on white. */
-  --cc-accent:     #D2704A;
-  --cc-accent-hi:  #F09A72;   /* the lit edge */
-  --cc-accent-mid: #C25C36;   /* the body of a button - white type clears 4.3:1 here */
-  --cc-accent-lo:  #9C4324;   /* the edge turned away from the light */
-  /* text-safe on white (5.3:1). Eyebrows, links, small labels use THIS,
-     never --cc-accent, which only clears 3:1 and is for fills and display type. */
-  --cc-accent-ink: #A85434;
+  /* ── violet ── */
+  --cc-accent:     #998EFF;   /* fills, seals, display type. 2.6:1 - not for small text */
+  --cc-accent-hi:  #C3BCFF;   /* the lit edge */
+  --cc-accent-mid: #7566EE;   /* the body of a button - white type clears 4.3:1 here */
+  --cc-accent-lo:  #4A3DBF;   /* the edge turned away from the light */
+  --cc-accent-ink: #6A5BE8;   /* text-safe on white (4.8:1). Eyebrows, links, small labels */
 
-  /* accent as a channel triple, so washes can be written inline */
-  --cc-accent-rgb: 210, 112, 74;
+  /* the accent as a channel triple, so washes can be written inline */
+  --cc-accent-rgb: 153, 142, 255;
+
+  /* ── live: the one colour that is not violet, because it means something ── */
+  --cc-live:      #2EBAC6;
+  --cc-live-ink:  #0E7C88;   /* the label beside the dot (4.9:1) */
 
   /* ── shadows: present, but you have to look for them ──
-     Tinted with the ink hue, never neutral grey. A tight contact
-     shadow (the object touching the page) plus one soft ambient. */
-  --sh-1: 0 1px 2px rgba(20,20,22,0.05);
-  --sh-2: 0 1px 2px rgba(20,20,22,0.05),
-          0 8px 20px -12px rgba(20,20,22,0.16);
-  --sh-3: 0 1px 3px rgba(20,20,22,0.06),
-          0 16px 34px -18px rgba(20,20,22,0.18),
-          0 40px 70px -44px rgba(20,20,22,0.22);
-  --sh-accent: 0 1px 3px rgba(156,67,36,0.20),
-               0 10px 22px -12px rgba(156,67,36,0.34),
-               0 26px 46px -28px rgba(156,67,36,0.38);
+     Tinted with the ink hue, never neutral grey. A tight contact shadow
+     (the object touching the page) plus one soft ambient. */
+  --sh-1: 0 1px 2px rgba(26,22,44,0.05);
+  --sh-2: 0 1px 2px rgba(26,22,44,0.05),
+          0 8px 20px -12px rgba(26,22,44,0.16);
+  --sh-3: 0 1px 3px rgba(26,22,44,0.06),
+          0 16px 34px -18px rgba(26,22,44,0.18),
+          0 40px 70px -44px rgba(26,22,44,0.22);
+  --sh-accent: 0 1px 3px rgba(74,61,191,0.20),
+               0 10px 22px -12px rgba(74,61,191,0.34),
+               0 26px 46px -28px rgba(74,61,191,0.38);
 
   /* ── rims: a hairline, and a white lip along the top edge ── */
   --rim-light: inset 0 1px 0 rgba(255,255,255,1),
-               inset 0 0 0 1px rgba(20,20,22,0.07);
+               inset 0 0 0 1px rgba(26,22,44,0.07);
   --rim-ink:   inset 0 1px 0 rgba(255,255,255,0.08),
-               inset 0 0 0 1px #2A2A2A;
+               inset 0 0 0 1px #2F2A42;
   --rim-accent: inset 0 1px 0 rgba(255,255,255,0.42),
-                inset 0 -1px 0 rgba(84,34,16,0.26);
+                inset 0 -1px 0 rgba(40,32,100,0.26);
 
   /* ── surfaces ── */
-  --gl-pane:   linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FBF8F3 100%);
-  --gl-pane-2: linear-gradient(168deg, #FFFFFF 0%, #FCFAF6 50%, #F4EFE6 100%);
-  --gl-ink:    linear-gradient(180deg, #181818 0%, #121213 46%, #0F0F10 100%);
+  --gl-pane:   linear-gradient(168deg, #FFFFFF 0%, #FFFFFF 55%, #FAF9FE 100%);
+  --gl-pane-2: linear-gradient(168deg, #FFFFFF 0%, #FAF9FE 50%, #F0EDFC 100%);
+  --gl-ink:    linear-gradient(180deg, #211C33 0%, #191527 46%, #14111F 100%);
   --gl-ink-surface: linear-gradient(168deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 40%, rgba(255,255,255,0) 100%);
   --gl-accent: linear-gradient(168deg, var(--cc-accent-hi) 0%, var(--cc-accent) 46%, var(--cc-accent-lo) 100%);
 
-  /* The big soft accent bloom. This is the "gradient purple" move: a wash
-     of the accent hue at very low alpha over a large area, so the colour is
-     felt rather than seen. Never use a flat accent fill this big. */
-  --gl-bloom: radial-gradient(closest-side, rgba(210,112,74,0.14), rgba(210,112,74,0) 72%);
+  /* The big soft violet bloom. This is the move the reference makes over and
+     over: the accent hue at very low alpha across a large area, so the colour
+     is felt rather than seen. Never a flat accent fill this big. */
+  --gl-bloom: radial-gradient(closest-side, rgba(153,142,255,0.16), rgba(153,142,255,0) 72%);
 
   /* Dark gradients band on 8-bit panels and banding reads as cheap.
      A 2% noise film over the ink hides it. */
@@ -157,7 +156,7 @@ a {
 }
 
 ::selection {
-  background: rgba(210, 112, 74, 0.22);
+  background: rgba(153, 142, 255, 0.28);
   color: var(--cc-text);
 }
 
@@ -219,7 +218,7 @@ a {
     );
 }
 
-/* A full-bleed obsidian section: the dark half of the light/dark rhythm. */
+/* A full-bleed indigo section: the dark half of the light/dark rhythm. */
 .gl-panel {
   position: relative;
   isolation: isolate;
@@ -255,7 +254,7 @@ a {
 }
 .gl-panel > * { position: relative; z-index: 1; }
 
-/* Terracotta - buttons, seals, anything that should carry the accent. */
+/* Violet - buttons, seals, anything that should carry the accent. */
 .gl-accent {
   background-image: var(--gl-accent);
   color: #FFFFFF;

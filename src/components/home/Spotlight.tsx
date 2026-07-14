@@ -4,15 +4,15 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, Clock, Users } from 'lucide-react'
 import { MaskReveal, fadeUp, useParallax, VIEWPORT, EASE } from '../../lib/anim'
 
-const TEXT   = '#2E3A34'
-const ACCENT = '#D2704A'
-const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
-const CREAM  = '#F6F2EA'
-const MUTED  = '#63706A'
+const TEXT   = '#16141F'
+const ACCENT = '#998EFF'
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const WASH  = '#F4F2FD'
+const MUTED  = '#5E5B6B'
 
-const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
-const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
-const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 14px 26px -10px rgba(156,67,36,0.5)'
+const GLOSS       = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(74,61,191,0.34), 0 14px 26px -10px rgba(74,61,191,0.5)'
 
 /* ──────────────────────────────────────────────────────────────
    The brand spread. One person cut out of her background, standing
@@ -35,19 +35,19 @@ export function Spotlight() {
   return (
     <section className="cc-sl" aria-label="Always-on support">
       <style>{`
-        /* Omnichannel closes on #EFE8DC and Engagement opens on it, so this
+        /* Omnichannel closes on #E3DEF8 and Engagement opens on it, so this
            section has to leave and arrive at the same value - the seam stays a
-           band of cream, never a colour change. */
+           band of wash, never a colour change. */
         .cc-sl {
           position: relative; isolation: isolate;
-          background: linear-gradient(180deg, #EFE8DC 0%, #F9F6F0 15%, #FFFFFF 48%, ${CREAM} 86%, #EFE8DC 100%);
+          background: linear-gradient(180deg, #E3DEF8 0%, #F7F5FD 15%, #FFFFFF 48%, ${WASH} 86%, #E3DEF8 100%);
           color: ${TEXT};
           padding: clamp(48px, 8vw, 140px) clamp(24px, 4vw, 64px);
           overflow: hidden;
         }
         .cc-sl::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background: radial-gradient(52% 44% at 6% 92%, rgba(210,112,74,0.10), transparent 70%);
+          background: radial-gradient(52% 44% at 6% 92%, rgba(153,142,255,0.10), transparent 70%);
         }
         .cc-sl-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
 
@@ -59,11 +59,11 @@ export function Spotlight() {
         .cc-sl-scene {
           position: relative; overflow: hidden;
           border-radius: clamp(22px, 2.2vw, 38px);
-          background: radial-gradient(124% 94% at 50% 4%, #FFFFFF 0%, #FCFAF5 40%, #F4EEE4 74%, #EAE2D4 100%);
+          background: radial-gradient(124% 94% at 50% 4%, #FFFFFF 0%, #FAF9FE 40%, #F0EDFC 74%, #E1DCF7 100%);
           box-shadow:
-            inset 0 0 0 1px rgba(20,20,22,0.07),
-            0 1px 3px rgba(20,20,22,0.05),
-            0 30px 66px -38px rgba(20,20,22,0.24);
+            inset 0 0 0 1px rgba(26,22,44,0.07),
+            0 1px 3px rgba(26,22,44,0.05),
+            0 30px 66px -38px rgba(26,22,44,0.24);
           display: grid;
           grid-template-columns: minmax(0, 1.02fr) minmax(0, 1.28fr) minmax(0, 1fr);
           grid-template-rows: minmax(0, 1fr) auto;
@@ -78,17 +78,17 @@ export function Spotlight() {
         .cc-sl-glow {
           left: 50%; bottom: -6%; width: min(64%, 780px); aspect-ratio: 1;
           transform: translateX(-50%);
-          background: radial-gradient(circle at 50% 50%, rgba(210,112,74,0.20) 0%, rgba(210,112,74,0.08) 40%, transparent 68%);
+          background: radial-gradient(circle at 50% 50%, rgba(153,142,255,0.20) 0%, rgba(153,142,255,0.08) 40%, transparent 68%);
         }
         .cc-sl-ring {
           right: -7%; top: -14%; width: min(44%, 620px); aspect-ratio: 1; border-radius: 50%;
           box-shadow:
-            inset 0 0 0 1px rgba(210,112,74,0.20),
-            0 0 0 1px rgba(46,58,52,0.05);
+            inset 0 0 0 1px rgba(153,142,255,0.20),
+            0 0 0 1px rgba(22,20,31,0.05);
         }
         .cc-sl-ring::after {
           content: ''; position: absolute; inset: 14%; border-radius: 50%;
-          box-shadow: inset 0 0 0 1px rgba(46,58,52,0.07);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.07);
         }
 
         /* the wordmark she stands in front of */
@@ -98,7 +98,7 @@ export function Spotlight() {
           font-family: 'Poppins', sans-serif; font-weight: 900; text-transform: uppercase;
           font-size: clamp(96px, 19vw, 330px); line-height: 0.78; letter-spacing: -0.05em;
           white-space: nowrap;
-          background: linear-gradient(180deg, rgba(46,58,52,0.20) 0%, rgba(46,58,52,0.06) 62%, rgba(46,58,52,0.02) 100%);
+          background: linear-gradient(180deg, rgba(22,20,31,0.20) 0%, rgba(22,20,31,0.06) 62%, rgba(22,20,31,0.02) 100%);
           -webkit-background-clip: text; background-clip: text; color: transparent;
         }
 
@@ -115,7 +115,7 @@ export function Spotlight() {
         }
         .cc-sl-subject img {
           width: 100%; height: auto; display: block;
-          filter: drop-shadow(0 26px 34px rgba(28,36,31,0.26));
+          filter: drop-shadow(0 26px 34px rgba(22,20,31,0.26));
         }
 
         /* ── left: the pitch ── */
@@ -155,12 +155,12 @@ export function Spotlight() {
           color: #fff; background: ${GLOSS};
           box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
         }
-        .cc-sl-btn.solid:hover { transform: translateY(-2px); box-shadow: ${ACCENT_RIM}, 0 4px 8px rgba(156,67,36,0.36), 0 20px 34px -12px rgba(156,67,36,0.6); }
+        .cc-sl-btn.solid:hover { transform: translateY(-2px); box-shadow: ${ACCENT_RIM}, 0 4px 8px rgba(74,61,191,0.36), 0 20px 34px -12px rgba(74,61,191,0.6); }
         .cc-sl-btn.ghost {
           color: ${TEXT}; background: #FFFFFF;
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.12), 0 8px 18px -12px rgba(28,36,31,0.5);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.12), 0 8px 18px -12px rgba(22,20,31,0.5);
         }
-        .cc-sl-btn.ghost:hover { transform: translateY(-2px); color: ${ACCENT_INK}; box-shadow: inset 0 0 0 1px rgba(210,112,74,0.4), 0 12px 24px -12px rgba(28,36,31,0.5); }
+        .cc-sl-btn.ghost:hover { transform: translateY(-2px); color: ${ACCENT_INK}; box-shadow: inset 0 0 0 1px rgba(153,142,255,0.4), 0 12px 24px -12px rgba(22,20,31,0.5); }
         .cc-sl-btn svg { flex-shrink: 0; }
 
         /* ── bottom centre: the two cards, over her ── */
@@ -191,20 +191,20 @@ export function Spotlight() {
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.9),
             inset 0 0 0 1px rgba(255,255,255,0.5),
-            0 20px 38px -24px rgba(28,36,31,0.55);
+            0 20px 38px -24px rgba(22,20,31,0.55);
         }
         /* the frost is never as light as paper, so the copy on it goes full ink */
         .cc-sl-card.glass p { color: ${TEXT}; }
         .cc-sl-card.solid {
           background: #FFFFFF;
           box-shadow:
-            inset 0 0 0 1px rgba(26,33,29,0.07),
-            0 20px 38px -24px rgba(28,36,31,0.5);
+            inset 0 0 0 1px rgba(22,20,31,0.07),
+            0 20px 38px -24px rgba(22,20,31,0.5);
         }
         .cc-sl-chip {
           width: 34px; height: 34px; border-radius: 11px; display: grid; place-items: center;
-          color: ${ACCENT_INK}; background: rgba(210,112,74,0.12);
-          box-shadow: inset 0 0 0 1px rgba(210,112,74,0.2);
+          color: ${ACCENT_INK}; background: rgba(153,142,255,0.12);
+          box-shadow: inset 0 0 0 1px rgba(153,142,255,0.2);
           margin-bottom: 10px;
         }
         .cc-sl-card h3 {
@@ -225,12 +225,12 @@ export function Spotlight() {
         .cc-sl-crew {
           display: inline-flex; align-items: center; gap: 12px;
           padding: 8px 16px 8px 8px; border-radius: 100px; background: #FFFFFF;
-          box-shadow: inset 0 0 0 1px rgba(26,33,29,0.07), 0 16px 32px -22px rgba(28,36,31,0.5);
+          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.07), 0 16px 32px -22px rgba(22,20,31,0.5);
         }
         .cc-sl-faces { display: flex; }
         .cc-sl-faces img {
           width: 36px; height: 36px; border-radius: 50%; display: block; object-fit: cover;
-          box-shadow: 0 0 0 2px #FFFFFF, 0 1px 3px rgba(28,36,31,0.28);
+          box-shadow: 0 0 0 2px #FFFFFF, 0 1px 3px rgba(22,20,31,0.28);
         }
         .cc-sl-faces img + img { margin-left: -11px; }
         .cc-sl-crew span {
@@ -241,7 +241,7 @@ export function Spotlight() {
         /* the live dot: a slow, linear pulse, transform and opacity only */
         .cc-sl-live {
           width: 8px; height: 8px; border-radius: 50%; background: ${ACCENT}; flex-shrink: 0;
-          box-shadow: 0 0 0 3px rgba(210,112,74,0.18);
+          box-shadow: 0 0 0 3px rgba(153,142,255,0.18);
           animation: cc-sl-beat 2.4s linear infinite;
         }
         @keyframes cc-sl-beat {
@@ -255,11 +255,11 @@ export function Spotlight() {
         .cc-sl-meter {
           display: flex; align-items: center; gap: clamp(12px, 1.2vw, 20px);
           padding-top: clamp(12px, 1.2vw, 18px);
-          border-top: 1px solid rgba(46,58,52,0.14);
+          border-top: 1px solid rgba(22,20,31,0.14);
         }
         .cc-sl-dial { position: relative; flex-shrink: 0; width: clamp(84px, 7.6vw, 116px); aspect-ratio: 1; }
         .cc-sl-dial svg { width: 100%; height: 100%; display: block; transform: rotate(-90deg); }
-        .cc-sl-dial .track { fill: none; stroke: rgba(46,58,52,0.10); stroke-width: 7; }
+        .cc-sl-dial .track { fill: none; stroke: rgba(22,20,31,0.10); stroke-width: 7; }
         .cc-sl-dial .arc   { fill: none; stroke: url(#cc-sl-arc); stroke-width: 7; stroke-linecap: round; }
         .cc-sl-dial b {
           position: absolute; inset: 0; display: grid; place-items: center;
@@ -457,9 +457,9 @@ export function Spotlight() {
                 <svg viewBox="0 0 120 120" aria-hidden focusable="false">
                   <defs>
                     <linearGradient id="cc-sl-arc" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stopColor="#F09A72" />
+                      <stop offset="0%" stopColor="#C3BCFF" />
                       <stop offset="55%" stopColor={ACCENT} />
-                      <stop offset="100%" stopColor="#9C4324" />
+                      <stop offset="100%" stopColor="#4A3DBF" />
                     </linearGradient>
                   </defs>
                   <circle className="track" cx="60" cy="60" r="52" />

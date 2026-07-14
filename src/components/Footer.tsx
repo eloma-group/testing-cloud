@@ -1,22 +1,24 @@
 import { Link } from 'react-router-dom'
 import { Phone, Mail, MapPin } from 'lucide-react'
 
-const ACCENT = '#D2704A'
-const ACCENT_GLOSS = 'linear-gradient(168deg, #F09A72 0%, #D2704A 46%, #9C4324 100%)'
+const ACCENT = '#998EFF'
+const ACCENT_GLOSS = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 46%, #4A3DBF 100%)'
 
-/* Obsidian, not sage.
+/* Deep indigo - deliberately not #000.
 
-   The previous footer was a dark green (#38423B down to #1A211D) - a tinted
-   dark, which on a warm page reads as more of the same warmth rather than as
-   a break from it. The reference does the opposite: the dark section is a
-   near-neutral black, and that neutrality is what makes the one accent colour
-   in it look lit. Surfaces sit only a few points above the base (#181818 on
-   #0F0F10), and every division is a #2A2A2A hairline rather than a shadow. */
-const INK     = '#0F0F10'   // the base
-const SURFACE = '#181818'   // a raised surface - only just lighter, on purpose
-const LINE    = '#2A2A2A'   // every hairline in here
+   A pure black under a violet accent flattens it: there is no hue in the
+   surface for the accent to relate to, so the violet sits on top of the black
+   rather than glowing out of it. #14111F carries a trace of the same hue, and
+   that is what lets the bloom at the seam read as light.
 
-const DARK_GLOSS = 'linear-gradient(180deg, #181818 0%, #121213 46%, #0F0F10 100%)'
+   Everything else follows the reference: surfaces sit only a few points above
+   the base (#211C33 on #14111F), and every division is a #2F2A42 hairline
+   rather than a shadow. */
+const INK     = '#14111F'   // the base
+const SURFACE = '#211C33'   // a raised surface - only just lighter, on purpose
+const LINE    = '#2F2A42'   // every hairline in here
+
+const DARK_GLOSS = 'linear-gradient(180deg, #211C33 0%, #191527 46%, #14111F 100%)'
 const GRAIN = "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E\")"
 
 /* type on ink, straight off the reference: white, then two greys */
@@ -116,12 +118,12 @@ export function Footer() {
       }}
     >
       {/* The one place the accent gets to be a gradient over a large area:
-          a soft bloom at the seam, so the terracotta reads as light falling
+          a soft bloom at the seam, so the violet reads as light falling
           into the black rather than as paint sitting on it. */}
       <div style={{
         position: 'absolute', top: 0, left: '50%', transform: 'translateX(-50%)',
         width: '68%', height: 340,
-        background: `radial-gradient(ellipse at top, rgba(210,112,74,0.20) 0%, transparent 66%)`,
+        background: `radial-gradient(ellipse at top, rgba(153,142,255,0.20) 0%, transparent 66%)`,
         pointerEvents: 'none', zIndex: 0,
       }} />
       {/* grain film - keeps the ink gradient from banding into visible steps */}
@@ -131,7 +133,7 @@ export function Footer() {
         opacity: 0.04, mixBlendMode: 'overlay',
         pointerEvents: 'none', zIndex: 0,
       }} />
-      {/* the seam where the cream above meets the black - an edge, not a colour change */}
+      {/* the seam where the wash above meets the ink - an edge, not a colour change */}
       <div style={{
         position: 'absolute', top: 0, left: 0, right: 0, height: 1,
         background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.16), transparent)',
@@ -156,8 +158,8 @@ export function Footer() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 22 }}>
                 <span style={{
                   width: 10, height: 10, borderRadius: '50%',
-                  background: 'radial-gradient(circle at 32% 28%, #F5BB9C, #D2704A 58%, #9C4324)',
-                  boxShadow: '0 0 14px rgba(210,112,74,0.55)',
+                  background: 'radial-gradient(circle at 32% 28%, #D6D0FF, #998EFF 58%, #4A3DBF)',
+                  boxShadow: '0 0 14px rgba(153,142,255,0.55)',
                 }} />
                 <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>
                   Nexa
@@ -211,7 +213,7 @@ export function Footer() {
                     onMouseEnter={(e) => {
                       const el = e.currentTarget as HTMLElement
                       el.style.background = ACCENT_GLOSS
-                      el.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.4), 0 10px 24px -10px rgba(210,112,74,0.7)'
+                      el.style.boxShadow = 'inset 0 1px 0 rgba(255,255,255,0.4), 0 10px 24px -10px rgba(153,142,255,0.7)'
                       el.style.transform = 'translateY(-3px)'
                     }}
                     onMouseLeave={(e) => {

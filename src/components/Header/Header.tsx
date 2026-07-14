@@ -4,12 +4,12 @@ import { Menu, X } from 'lucide-react'
 import { navItems } from '../../data/navItems'
 import { useScrollY } from '../../hooks/useScrollY'
 
-const TEXT = '#2E3A34'
+const TEXT = '#16141F'
 
-/* the glossy terracotta the whole site's buttons wear */
-const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 48%, #9C4324 100%)'
-const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
-const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
+/* the glossy violet the whole site's buttons wear */
+const GLOSS       = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(74,61,191,0.34), 0 12px 24px -10px rgba(74,61,191,0.5), 0 30px 54px -26px rgba(74,61,191,0.62)'
 
 export function Header() {
   const scrollY = useScrollY()
@@ -17,7 +17,7 @@ export function Header() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const isHome = pathname === '/'
 
-  // Transparent while the hero (100vh) is still in view; solid cream after.
+  // Transparent while the hero (100vh) is still in view; solid white after.
   /* only the home page has a dark hero for the header to sit over */
   const overHero =
     isHome && scrollY < (typeof window !== 'undefined' ? window.innerHeight - 64 : 700)
@@ -38,8 +38,8 @@ export function Header() {
           height: '64px',
           display: 'flex',
           alignItems: 'center',
-          /* White glass, not a cream slab. The page under it is white now, so a
-             cream bar would read as a stripe rather than as the page continuing. */
+          /* White glass, not a tinted slab. The page under it is white now, so a
+             tinted bar would read as a stripe rather than as the page continuing. */
           background: transparent
             ? 'transparent'
             : 'rgba(255,255,255,0.82)',
@@ -47,7 +47,7 @@ export function Header() {
           WebkitBackdropFilter: transparent ? 'none' : 'blur(16px) saturate(1.5)',
           boxShadow: transparent
             ? 'none'
-            : '0 1px 0 rgba(20,20,22,0.07)',
+            : '0 1px 0 rgba(26,22,44,0.07)',
           transition: 'background 0.3s ease, box-shadow 0.3s ease, backdrop-filter 0.3s ease',
         }}
       >
@@ -85,8 +85,8 @@ export function Header() {
                 width: 9,
                 height: 9,
                 borderRadius: '50%',
-                background: 'radial-gradient(circle at 32% 28%, #F5BB9C, #D2704A 58%, #9C4324)',
-                boxShadow: '0 1px 3px rgba(156,67,36,0.55)',
+                background: 'radial-gradient(circle at 32% 28%, #D6D0FF, #998EFF 58%, #4A3DBF)',
+                boxShadow: '0 1px 3px rgba(74,61,191,0.55)',
                 flexShrink: 0,
               }}
             />
@@ -149,7 +149,7 @@ export function Header() {
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLElement
                 el.style.transform = 'translateY(-2px)'
-                el.style.boxShadow = `${ACCENT_RIM}, 0 14px 26px -10px rgba(156,67,36,0.6), 0 34px 60px -24px rgba(156,67,36,0.7)`
+                el.style.boxShadow = `${ACCENT_RIM}, 0 14px 26px -10px rgba(74,61,191,0.6), 0 34px 60px -24px rgba(74,61,191,0.7)`
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLElement
@@ -193,7 +193,7 @@ export function Header() {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'linear-gradient(180deg, #FFFFFF 0%, #FCFAF6 52%, #F6F2EA 100%)',
+          background: 'linear-gradient(180deg, #FFFFFF 0%, #FAF9FE 52%, #F4F2FD 100%)',
           zIndex: 49,
           overflowY: 'auto',
           transform: mobileOpen ? 'translateX(0)' : 'translateX(100%)',
@@ -209,7 +209,7 @@ export function Header() {
               style={{
                 display: 'block',
                 padding: '18px 0',
-                borderBottom: '1px solid rgba(26,33,29,0.08)',
+                borderBottom: '1px solid rgba(22,20,31,0.08)',
                 fontSize: '17px',
                 fontWeight: 500,
                 fontFamily: "'Poppins', sans-serif",

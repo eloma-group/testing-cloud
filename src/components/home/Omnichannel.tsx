@@ -6,16 +6,16 @@ import { MaskReveal, staggerParent, popUp, VIEWPORT } from '../../lib/anim'
 
 const MotionLink = motion.create(Link)
 
-const TEXT   = '#2E3A34'
-const ACCENT = '#D2704A'
-const ACCENT_INK = '#A85434'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
-const CREAM  = '#F6F2EA'
-const MUTED  = '#63706A'
+const TEXT   = '#16141F'
+const ACCENT = '#998EFF'
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const WASH  = '#F4F2FD'
+const MUTED  = '#5E5B6B'
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 
-const GLOSS       = 'linear-gradient(168deg, #F09A72 0%, #D2704A 46%, #9C4324 100%)'
-const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(84,34,16,0.3)'
-const ACCENT_CAST = '0 2px 4px rgba(156,67,36,0.34), 0 12px 24px -10px rgba(156,67,36,0.5), 0 30px 54px -26px rgba(156,67,36,0.62)'
+const GLOSS       = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 46%, #4A3DBF 100%)'
+const ACCENT_RIM  = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
+const ACCENT_CAST = '0 2px 4px rgba(74,61,191,0.34), 0 12px 24px -10px rgba(74,61,191,0.5), 0 30px 54px -26px rgba(74,61,191,0.62)'
 
 /* channel tiles that light up one after another on the left screen */
 const CHANNELS: { Icon: LucideIcon; label: string }[] = [
@@ -141,14 +141,14 @@ export function Omnichannel() {
         /* the widest white in the page: the hands read as cut out of paper */
         .cc-oc {
           position: relative; isolation: isolate;
-          background: radial-gradient(140% 96% at 50% 4%, #FFFFFF 0%, #FCFAF6 48%, ${CREAM} 80%, #EFE8DC 100%);
+          background: radial-gradient(140% 96% at 50% 4%, #FFFFFF 0%, #FAF9FE 48%, ${WASH} 80%, #E3DEF8 100%);
           color: ${TEXT}; overflow: hidden;
           padding: clamp(80px, 11vw, 170px) clamp(24px, 4vw, 64px) clamp(56px, 8vw, 120px);
           text-align: center;
         }
         .cc-oc::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background: radial-gradient(48% 42% at 50% 34%, rgba(210,112,74,0.10), transparent 68%);
+          background: radial-gradient(48% 42% at 50% 34%, rgba(153,142,255,0.10), transparent 68%);
         }
         .cc-oc-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
         @media (min-width: 1920px) { .cc-oc-inner { max-width: 1900px; } }
@@ -182,10 +182,10 @@ export function Omnichannel() {
         .cc-oc-screen {
           position: absolute; z-index: 2; overflow: hidden;
           container-type: size;
-          background: linear-gradient(168deg, #FFFFFF 0%, #FDFCFA 46%, #F3F1EB 100%);
+          background: linear-gradient(168deg, #FFFFFF 0%, #FDFCFF 46%, #F3F1FD 100%);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 0 0 1px rgba(26,33,29,0.06);
+            inset 0 0 0 1px rgba(22,20,31,0.06);
         }
         /* the reflection sliding down the glass - what makes a screen read as glass */
         .cc-oc-screen::after {
@@ -208,9 +208,9 @@ export function Omnichannel() {
         /* skeleton bars - stand in for copy, so the screens stay iconographic */
         .cc-oc-sk {
           height: 2.6cqh; min-height: 3px; border-radius: 100px;
-          background: rgba(26,33,29,0.16); display: block;
+          background: rgba(22,20,31,0.16); display: block;
         }
-        .cc-oc-sk.faint { background: rgba(26,33,29,0.09); }
+        .cc-oc-sk.faint { background: rgba(22,20,31,0.09); }
 
         /* status bar */
         .cc-oc-appbar { display: flex; align-items: center; gap: 3cqw; }
@@ -230,7 +230,7 @@ export function Omnichannel() {
         }
         .cc-oc-appbar-dots { margin-left: auto; display: flex; gap: 1.4cqw; }
         .cc-oc-appbar-dots i {
-          width: 1.6cqw; aspect-ratio: 1; border-radius: 50%; background: rgba(26,33,29,0.18);
+          width: 1.6cqw; aspect-ratio: 1; border-radius: 50%; background: rgba(22,20,31,0.18);
         }
 
         /* ── left screen: channel tiles lighting up in sequence ── */
@@ -247,18 +247,18 @@ export function Omnichannel() {
         .cc-oc-tile-box {
           position: relative; width: 100%; aspect-ratio: 1; border-radius: 26%;
           display: grid; place-items: center;
-          background: rgba(26,33,29,0.05); box-shadow: inset 0 0 0 1px rgba(26,33,29,0.07);
+          background: rgba(22,20,31,0.05); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.07);
         }
         .cc-oc-tile-box::before {
           content: ''; position: absolute; inset: 0; border-radius: inherit; opacity: 0;
-          background: linear-gradient(160deg, rgba(210,112,74,0.24), rgba(210,112,74,0.10));
-          box-shadow: inset 0 0 0 1px rgba(210,112,74,0.42);
+          background: linear-gradient(160deg, rgba(153,142,255,0.24), rgba(153,142,255,0.10));
+          box-shadow: inset 0 0 0 1px rgba(153,142,255,0.42);
           will-change: opacity;
           animation: cc-oc-glow 7.2s cubic-bezier(.16,1,.3,1) infinite;
           animation-delay: calc(var(--i) * 1.8s);
         }
         .cc-oc-tile-box .ic { position: absolute; width: 46%; height: 46%; }
-        .cc-oc-tile-box .ic.off { color: rgba(26,33,29,0.42); }
+        .cc-oc-tile-box .ic.off { color: rgba(22,20,31,0.42); }
         .cc-oc-tile-box .ic.on {
           color: ${ACCENT}; opacity: 0; will-change: opacity;
           animation: cc-oc-glow 7.2s cubic-bezier(.16,1,.3,1) infinite;
@@ -279,11 +279,11 @@ export function Omnichannel() {
         /* the queue bar sweeping under the tiles */
         .cc-oc-track {
           position: relative; height: 2.6cqh; min-height: 3px; border-radius: 100px;
-          background: rgba(26,33,29,0.08); overflow: hidden;
+          background: rgba(22,20,31,0.08); overflow: hidden;
         }
         .cc-oc-track span {
           position: absolute; inset: 0; width: 32%; border-radius: 100px;
-          background: linear-gradient(90deg, rgba(210,112,74,0.25), ${ACCENT});
+          background: linear-gradient(90deg, rgba(153,142,255,0.25), ${ACCENT});
           will-change: transform;
           animation: cc-oc-sweep 7.2s cubic-bezier(.65,0,.35,1) infinite;
         }
@@ -312,8 +312,8 @@ export function Omnichannel() {
         .cc-oc-orb-core {
           position: relative; width: 66%; aspect-ratio: 1; border-radius: 50%;
           display: grid; place-items: center; color: #fff;
-          background: linear-gradient(150deg, ${ACCENT}, #A85434);
-          box-shadow: 0 4cqh 6cqh -3cqh rgba(210,112,74,0.75);
+          background: linear-gradient(150deg, ${ACCENT}, #6A5BE8);
+          box-shadow: 0 4cqh 6cqh -3cqh rgba(153,142,255,0.75);
           will-change: transform;
           animation: cc-oc-breathe 3s cubic-bezier(.4,0,.6,1) infinite;
         }
@@ -338,12 +338,12 @@ export function Omnichannel() {
         .cc-oc-chip {
           display: flex; align-items: center; gap: 2.5cqw;
           padding: 3.2cqh 3.4cqw; border-radius: 100px;
-          background: rgba(210,112,74,0.10); box-shadow: inset 0 0 0 1px rgba(210,112,74,0.3);
+          background: rgba(153,142,255,0.10); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.3);
           will-change: transform, opacity;
           animation: cc-oc-chip-in 7.2s cubic-bezier(.16,1,.3,1) infinite;
         }
         .cc-oc-chip .ic { flex: none; width: 4.6cqw; height: auto; aspect-ratio: 1; color: ${ACCENT}; }
-        .cc-oc-chip .cc-oc-sk { background: rgba(210,112,74,0.34); }
+        .cc-oc-chip .cc-oc-sk { background: rgba(153,142,255,0.34); }
         @keyframes cc-oc-chip-in {
           0%, 6%    { transform: translateY(28%); opacity: 0; }
           14%, 88%  { transform: translateY(0);   opacity: 1; }
@@ -394,28 +394,28 @@ export function Omnichannel() {
         .cc-oc-btn.primary:hover {
           transform: translateY(-3px);
           box-shadow: ${ACCENT_RIM},
-            0 3px 6px rgba(156,67,36,0.4),
-            0 18px 30px -10px rgba(156,67,36,0.68),
-            0 44px 70px -26px rgba(156,67,36,0.8);
+            0 3px 6px rgba(74,61,191,0.4),
+            0 18px 30px -10px rgba(74,61,191,0.68),
+            0 44px 70px -26px rgba(74,61,191,0.8);
         }
-        /* a glass pill on cream that fills to ink on hover */
+        /* a glass pill on the wash that fills to ink on hover */
         .cc-oc-btn.ghost {
           color: ${TEXT}; border: 0;
           background: linear-gradient(168deg, rgba(255,255,255,0.9), rgba(255,255,255,0.45));
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(20,20,22,0.03),
-            inset 0 0 0 1.5px rgba(26,33,29,0.18),
-            0 2px 4px rgba(26,33,29,0.10);
+            inset 0 -1px 0 rgba(26,22,44,0.03),
+            inset 0 0 0 1.5px rgba(22,20,31,0.18),
+            0 2px 4px rgba(22,20,31,0.10);
         }
         .cc-oc-btn.ghost:hover {
-          color: ${CREAM}; transform: translateY(-3px);
-          background: linear-gradient(168deg, #38423B, #262F29 60%, #1A211D);
+          color: ${WASH}; transform: translateY(-3px);
+          background: linear-gradient(168deg, #262138, #1D1930 60%, #14111F);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
             inset 0 -1px 0 rgba(0,0,0,0.4),
-            0 2px 4px rgba(26,33,29,0.24),
-            0 18px 34px -16px rgba(26,33,29,0.7);
+            0 2px 4px rgba(22,20,31,0.24),
+            0 18px 34px -16px rgba(22,20,31,0.7);
         }
         .cc-oc-btn svg { transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform; }
         .cc-oc-btn.primary:hover svg { transform: translateX(4px); }
