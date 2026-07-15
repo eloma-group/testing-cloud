@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { Switchboard } from '../components/services/Switchboard'
+import { BrandPromise } from '../components/home/BrandPromise'
 import { staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
 
 const TEXT       = '#16141F'
@@ -184,8 +184,8 @@ export function ServicesPage() {
         }
       />
 
-      {/* ══════════ the six services ══════════ */}
-      <Switchboard />
+      {/* ══════════ our promise ══════════ */}
+      <BrandPromise />
 
       {/* ══════════ onboarding ══════════ */}
       <Band tone="paper" label="How a team gets on the floor">

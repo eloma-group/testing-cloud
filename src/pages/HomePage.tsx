@@ -1,9 +1,9 @@
 import { Header }       from '../components/Header/Header'
 import { Hero }         from '../components/home/Hero'
 import { Services }     from '../components/home/Services'
+import { Switchboard }  from '../components/services/Switchboard'
 import { Industries }   from '../components/home/Industries'
 import { HowWeHelp }    from '../components/home/HowWeHelp'
-import { BrandPromise } from '../components/home/BrandPromise'
 import { AboutUs }      from '../components/home/AboutUs'
 import { Omnichannel }  from '../components/home/Omnichannel'
 import { Spotlight }    from '../components/home/Spotlight'
@@ -17,9 +17,9 @@ export function HomePage() {
       <main>
         <Hero />
         <Services />
+        <Switchboard />
         <Industries />
         <HowWeHelp />
-        <BrandPromise />
         <AboutUs />
         <Spotlight />
         <Omnichannel />

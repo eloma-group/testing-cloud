@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
-import { Band, SectionHead } from '../page/PageKit'
-import { EASE } from '../../lib/anim'
+import { EASE, MaskReveal } from '../../lib/anim'
 import { SERVICES } from '../../data/services'
 
 const ACCENT = '#998EFF'
@@ -19,6 +18,10 @@ const LIVE   = '#2EBAC6'
    vector-effect: non-scaling-stroke so the cable keeps an even weight
    even though the viewBox is stretched to whatever width the column
    happens to be.
+
+   Portable by design: the ink band shell and section head are baked
+   in here, not borrowed from the page kit, so the section drops onto
+   the home page (outside PageShell) without losing its dark ground.
    ────────────────────────────────────────────────────────────── */
 
 export function Switchboard() {
@@ -32,8 +35,59 @@ export function Switchboard() {
   const cord = `M0,${y} C34,${y} 58,50 100,50`
 
   return (
-    <Band tone="ink" label="Services">
+    <section className="sw-band" aria-label="Services">
       <style>{`
+        /* ── the ink band shell (portable: no dependency on the page kit) ── */
+        .sw-band {
+          position: relative; isolation: isolate;
+          background-color: #14111F;
+          background-image: linear-gradient(180deg, #211C33 0%, #191527 46%, #14111F 100%);
+          color: #FFFFFF;
+          padding: clamp(56px, 7vw, 124px) clamp(24px, 4vw, 64px);
+        }
+        /* grain over the ink, so the gradient never bands into visible steps */
+        .sw-band::before {
+          content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+          background-size: 140px 140px; opacity: 0.04; mix-blend-mode: overlay;
+        }
+        /* the seam where ink meets paper reads as an edge, not a colour change */
+        .sw-band::after {
+          content: ''; position: absolute; left: 0; right: 0; top: 0; height: 1px; z-index: 5;
+          pointer-events: none;
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14) 50%, transparent);
+        }
+        .sw-in { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
+        @media (min-width: 1920px) { .sw-in { max-width: 1900px; } }
+        @media (min-width: 2560px) { .sw-in { max-width: 2400px; } }
+
+        /* ── section head ── */
+        .sw-head {
+          display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+          gap: clamp(18px, 3vw, 60px); align-items: end;
+          padding-bottom: clamp(20px, 2.4vw, 32px); margin-bottom: clamp(28px, 3.4vw, 52px);
+          border-bottom: 1px solid #2F2A42;
+        }
+        .sw-eyebrow {
+          display: inline-flex; align-items: center; gap: 10px; margin: 0 0 clamp(14px, 1.8vw, 22px);
+          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: #C3BCFF;
+        }
+        .sw-eyebrow i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
+        .sw-head h2 {
+          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-size: clamp(30px, 3.6vw, 62px); line-height: 1.04; margin: 0; color: #FFFFFF; max-width: 16ch;
+        }
+        .sw-head h2 .serif {
+          font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-style: italic;
+          letter-spacing: -0.02em;
+        }
+        .sw-head-lead {
+          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
+          line-height: 1.8; color: #BDBDBD; max-width: 46ch;
+        }
+        @media (max-width: 1024px) { .sw-head { grid-template-columns: minmax(0, 1fr); align-items: start; } }
+
         .sw {
           display: grid;
           grid-template-columns: clamp(190px, 20vw, 280px) clamp(56px, 7vw, 130px) minmax(0, 1fr);
@@ -189,80 +243,87 @@ export function Switchboard() {
         @media (prefers-reduced-motion: reduce) { .sw-plug i::after { animation: none; } }
       `}</style>
 
-      <SectionHead
-        eyebrow="The switchboard"
-        title={<>Patch a line, <span className="serif">reach the desk.</span></>}
-        lead="The oldest object in this business, and still the clearest way to show it. Choose a line on the panel and the cord is patched across to the desk that answers it."
-      />
-
-      <div className="sw">
-        <div className="sw-panel" role="tablist" aria-label="Services">
-          {SERVICES.map((item, i) => (
-            <button
-              key={item.id}
-              /* the anchor the footer links to: /services#inbound-voice */
-              id={item.id}
-              type="button"
-              role="tab"
-              aria-selected={live === i}
-              aria-controls="sw-card"
-              className={`sw-jack${live === i ? ' on' : ''}`}
-              onClick={() => setLive(i)}
-            >
-              <span className="sw-socket" aria-hidden />
-              <span>
-                <em>{item.n}</em>
-                <b>{item.name}</b>
-              </span>
-            </button>
-          ))}
+      <div className="sw-in">
+        <div className="sw-head">
+          <div>
+            <p className="sw-eyebrow"><i aria-hidden /> The switchboard</p>
+            <MaskReveal as="h2">Patch a line, <span className="serif">reach the desk.</span></MaskReveal>
+          </div>
+          <p className="sw-head-lead">
+            The oldest object in this business, and still the clearest way to show it. Choose a line
+            on the panel and the cord is patched across to the desk that answers it.
+          </p>
         </div>
 
-        {/* the cord, drawn from the live jack across to the desk */}
-        <div className="sw-cord" aria-hidden>
-          <svg viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
-            <motion.path
-              key={s.id}
-              d={cord}
-              initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-              animate={{ pathLength: 1, opacity: 1 }}
-              transition={{ duration: 0.8, ease: EASE }}
-            />
-          </svg>
+        <div className="sw">
+          <div className="sw-panel" role="tablist" aria-label="Services">
+            {SERVICES.map((item, i) => (
+              <button
+                key={item.id}
+                /* the anchor the footer links to: /services#inbound-voice */
+                id={item.id}
+                type="button"
+                role="tab"
+                aria-selected={live === i}
+                aria-controls="sw-card"
+                className={`sw-jack${live === i ? ' on' : ''}`}
+                onClick={() => setLive(i)}
+              >
+                <span className="sw-socket" aria-hidden />
+                <span>
+                  <em>{item.n}</em>
+                  <b>{item.name}</b>
+                </span>
+              </button>
+            ))}
+          </div>
+
+          {/* the cord, drawn from the live jack across to the desk */}
+          <div className="sw-cord" aria-hidden>
+            <svg viewBox="0 0 100 100" preserveAspectRatio="none" focusable="false">
+              <motion.path
+                key={s.id}
+                d={cord}
+                initial={reduce ? false : { pathLength: 0, opacity: 0 }}
+                animate={{ pathLength: 1, opacity: 1 }}
+                transition={{ duration: 0.8, ease: EASE }}
+              />
+            </svg>
+          </div>
+
+          <motion.article
+            className="sw-card"
+            id="sw-card"
+            role="tabpanel"
+            key={s.id}
+            initial={reduce ? false : { opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: EASE, delay: 0.12 }}
+          >
+            <div className="sw-card-top">
+              <img src={s.img} alt={s.alt} width={1200} height={515} decoding="async" />
+              <span className="sw-plug"><i aria-hidden /> Patched - {s.channel}</span>
+            </div>
+
+            <div className="sw-card-body">
+              <h3>{s.name}</h3>
+              <p className="line">{s.line}</p>
+              <p className="body">{s.body}</p>
+              <div className="sw-does">
+                {s.does.map((d) => <span key={d}>{d}</span>)}
+              </div>
+              <div className="sw-figs">
+                {s.figs.map(([v, l]) => (
+                  <div key={l}>
+                    <b>{v}</b>
+                    <span>{l}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </motion.article>
         </div>
-
-        <motion.article
-          className="sw-card"
-          id="sw-card"
-          role="tabpanel"
-          key={s.id}
-          initial={reduce ? false : { opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: EASE, delay: 0.12 }}
-        >
-          <div className="sw-card-top">
-            <img src={s.img} alt={s.alt} width={1200} height={515} decoding="async" />
-            <span className="sw-plug"><i aria-hidden /> Patched - {s.channel}</span>
-          </div>
-
-          <div className="sw-card-body">
-            <h3>{s.name}</h3>
-            <p className="line">{s.line}</p>
-            <p className="body">{s.body}</p>
-            <div className="sw-does">
-              {s.does.map((d) => <span key={d}>{d}</span>)}
-            </div>
-            <div className="sw-figs">
-              {s.figs.map(([v, l]) => (
-                <div key={l}>
-                  <b>{v}</b>
-                  <span>{l}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </motion.article>
       </div>
-    </Band>
+    </section>
   )
 }
