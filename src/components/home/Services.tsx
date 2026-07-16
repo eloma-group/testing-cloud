@@ -1,7 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { motion, AnimatePresence, useReducedMotion, useScroll, useTransform } from 'framer-motion'
-import { ArrowUpRight } from 'lucide-react'
 import { MaskReveal, fadeUp, VIEWPORT, EASE } from '../../lib/anim'
 
 const TEXT   = '#16141F'
@@ -349,29 +347,6 @@ export function Services() {
           font-size: 2.9em; line-height: 0.8; padding: 0.04em 0.1em 0 0; color: ${ACCENT_INK};
         }
 
-        /* ── the round CTA, riding the object's left shoulder ── */
-        .cc-sv-cta {
-          position: absolute; z-index: 5; left: 37%; top: 52%;
-          transform: translate(-50%, -50%);
-          width: clamp(78px, 7.4vw, 112px); height: clamp(78px, 7.4vw, 112px);
-          border-radius: 100px; text-decoration: none;
-          display: grid; place-items: center; gap: 2px;
-          color: #fff; background: ${GLOSS};
-          box-shadow: ${ACCENT_RIM}, 0 6px 14px -6px rgba(74,61,191,0.5), 0 22px 44px -20px rgba(74,61,191,0.75);
-          transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .35s ease;
-          will-change: transform;
-        }
-        .cc-sv-cta:hover {
-          transform: translate(-50%, -50%) scale(1.07);
-          box-shadow: ${ACCENT_RIM}, 0 8px 18px -6px rgba(74,61,191,0.55), 0 30px 60px -22px rgba(74,61,191,0.85);
-        }
-        .cc-sv-cta span {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(8px, 0.62vw, 10px); letter-spacing: 1.6px; text-align: center;
-          line-height: 1.25;
-        }
-        .cc-sv-cta:focus-visible { outline: 2px solid ${ACCENT_INK}; outline-offset: 4px; }
-
         /* ── the counter, closing the bottom-right corner ── */
         .cc-sv-count {
           position: absolute; z-index: 4; right: 0; bottom: 0;
@@ -445,7 +420,6 @@ export function Services() {
           .cc-sv-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 0.6fr) minmax(0, 0.82fr); }
           .cc-sv-object-p { width: clamp(280px, 40vw, 420px); }
           .cc-sv-row { padding-top: clamp(146px, 16vw, 200px); }
-          .cc-sv-cta { left: 34%; }
         }
 
         /* Below ~1280 the six names stop fitting on one rail, so the tabs fall
@@ -476,11 +450,6 @@ export function Services() {
           .cc-sv-h2 { max-width: 16ch; }
           .cc-sv-right { justify-content: flex-start; padding-bottom: 0; }
           .cc-sv-shot { aspect-ratio: 16 / 10; }
-          .cc-sv-cta {
-            position: relative; left: auto; top: auto; transform: none;
-            justify-self: center; margin: 0 auto;
-          }
-          .cc-sv-cta:hover { transform: scale(1.07); }
           .cc-sv-count { position: static; justify-content: flex-end; margin-top: -8px; }
         }
 
@@ -495,7 +464,7 @@ export function Services() {
 
         @media (prefers-reduced-motion: reduce) {
           .cc-sv-object-float { animation: none; }
-          .cc-sv-cta, .cc-sv-tab, .cc-sv-tile { transition: none; }
+          .cc-sv-tab, .cc-sv-tile { transition: none; }
         }
       `}</style>
 
@@ -595,11 +564,6 @@ export function Services() {
             </div>
 
           </div>
-
-          <Link className="cc-sv-cta" to="/contact#write" aria-label="Get in touch about our services">
-            <ArrowUpRight size={20} strokeWidth={2.2} aria-hidden />
-            <span aria-hidden>Get in<br />touch</span>
-          </Link>
 
           <p className="cc-sv-count" aria-live="polite">
             <b>{cur.n}</b> <i>/ 06</i>
