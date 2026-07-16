@@ -364,26 +364,26 @@ export function Omnichannel() {
         /* ── copy ── */
         .cc-oc-eyebrow {
           display: inline-flex; align-items: center; gap: 12px; justify-content: center;
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
           color: ${ACCENT_INK}; margin: 0 0 clamp(14px, 1.6vw, 20px);
         }
         .cc-oc-eyebrow::before, .cc-oc-eyebrow::after { content: ''; width: clamp(22px, 3vw, 44px); height: 1px; background: ${ACCENT}; opacity: 0.55; }
         .cc-oc-title {
-          font-family: 'Poppins', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(34px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -0.03em;
           margin: 0 auto; color: ${TEXT}; max-width: 18ch;
         }
         .cc-oc-title .accent { color: ${ACCENT}; }
         .cc-oc-lead {
-          font-family: 'Inter', sans-serif; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.7;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.7;
           color: ${MUTED}; max-width: 60ch; margin: clamp(16px, 2vw, 26px) auto 0;
         }
         .cc-oc-cta { display: inline-flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: clamp(28px, 3.4vw, 44px); }
         .cc-oc-btn {
           display: inline-flex; align-items: center; justify-content: center; gap: 10px;
           min-height: 58px; padding: 17px clamp(30px, 3.2vw, 46px); border-radius: 100px;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 17px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 17px);
           text-decoration: none; letter-spacing: 0.2px; cursor: pointer;
           transition: transform .45s cubic-bezier(.16,1,.3,1), background .35s ease, color .35s ease; will-change: transform;
         }

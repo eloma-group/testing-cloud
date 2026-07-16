@@ -161,13 +161,13 @@ export function Footer() {
                   background: 'radial-gradient(circle at 32% 28%, #D6D0FF, #998EFF 58%, #4A3DBF)',
                   boxShadow: '0 0 14px rgba(153,142,255,0.55)',
                 }} />
-                <span style={{ fontFamily: "'Poppins', sans-serif", fontWeight: 600, fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>
+                <span style={{ fontFamily: "'Universal Sans', sans-serif", fontWeight: 600, fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>
                   Nexa
                 </span>
               </div>
 
               <h2 style={{
-                fontFamily: "'Poppins', sans-serif", fontWeight: 600,
+                fontFamily: "'Universal Sans', sans-serif", fontWeight: 600,
                 fontSize: 'clamp(28px, 3.4vw, 44px)', lineHeight: 1.05, letterSpacing: '-0.02em',
                 color: '#fff', margin: '0 0 18px', maxWidth: 12 + 'ch',
               }}>

@@ -178,19 +178,19 @@ export function HowWeHelp() {
         }
         .cc-hw-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
           color: ${ACCENT_INK}; margin: 0 0 clamp(14px, 1.6vw, 22px);
         }
         .cc-hw-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-hw-title {
-          font-family: 'Poppins', sans-serif; font-weight: 500;
+          font-family: 'Universal Sans', sans-serif; font-weight: 500;
           font-size: clamp(42px, 6.4vw, 98px); line-height: 0.98; letter-spacing: -0.03em;
           margin: 0; color: ${TEXT};
         }
         .cc-hw-title .accent { color: ${ACCENT}; }
         .cc-hw-lead {
-          font-family: 'Inter', sans-serif; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.72;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.2vw, 18px); line-height: 1.72;
           color: ${MUTED}; max-width: 42ch; margin: 0; padding-bottom: 6px;
         }
 
@@ -211,7 +211,7 @@ export function HowWeHelp() {
         /* the numeral, sunk into the page behind everything */
         .cc-hw-num {
           position: absolute; z-index: 0; top: clamp(10px, 3vw, 60px); left: 0;
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.06em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.06em;
           font-size: clamp(160px, 22vw, 400px); line-height: 0.8;
           color: rgba(22,20,31,0.06);
           pointer-events: none; user-select: none; will-change: transform;
@@ -267,7 +267,7 @@ export function HowWeHelp() {
 
         .cc-hw-meta {
           display: flex; align-items: center; gap: 12px; margin: 0 0 clamp(12px, 1.4vw, 20px);
-          font-family: 'Inter', sans-serif; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2.4px;
         }
         .cc-hw-meta .rule { width: clamp(24px, 3vw, 48px); height: 1px; background: ${ACCENT}; opacity: 0.7; }
@@ -281,7 +281,7 @@ export function HowWeHelp() {
           margin-left: 0; margin-right: clamp(-260px, -16vw, -70px);
         }
         .cc-hw-name {
-          margin: 0; font-family: 'Poppins', sans-serif; font-weight: 500;
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-weight: 500;
           font-size: clamp(44px, 6.6vw, 128px); line-height: 0.9; letter-spacing: -0.042em;
           color: ${TEXT};
         }
@@ -309,13 +309,13 @@ export function HowWeHelp() {
         .cc-hw-plate.is-flip .cc-hw-meta { justify-content: flex-end; }
         .cc-hw-note p {
           flex: 0 1 26ch; min-width: 0; margin: 0;
-          font-family: 'Inter', sans-serif;
+          font-family: 'Universal Sans', sans-serif;
           font-size: clamp(15px, 1.1vw, 18px); line-height: 1.7; color: ${MUTED};
         }
         .cc-hw-metric {
           flex: 0 0 auto !important;
           display: inline-flex; align-items: center; gap: 9px; white-space: nowrap;
-          font-family: 'Inter', sans-serif; font-weight: 700 !important;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700 !important;
           font-size: clamp(13px, 0.95vw, 16px) !important; color: ${TEXT} !important;
         }
         .cc-hw-metric::before {
@@ -328,7 +328,7 @@ export function HowWeHelp() {
           flex: none; display: inline-flex; align-items: center; gap: 10px;
           min-height: 44px; padding: 12px 20px; border-radius: 100px;
           text-decoration: none; color: ${TEXT};
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.9vw, 14px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.9vw, 14px);
           box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16);
           transition: color .35s ease, background .4s ease, box-shadow .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
           will-change: transform;

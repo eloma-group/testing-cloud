@@ -163,11 +163,11 @@ export function CaseStudiesPage() {
           border-bottom: 1px solid #2F2A42;
         }
         .cs-fig-top b {
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em;
           font-size: clamp(15px, 1.2vw, 19px); color: #fff;
         }
         .cs-fig-top span {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.7px; color: #C3BCFF;
         }
         .cs-fig-rows { display: grid; }
@@ -178,11 +178,11 @@ export function CaseStudiesPage() {
         }
         .cs-fig-row:last-child { border-bottom: 0; }
         .cs-fig-row b {
-          display: block; font-family: 'Inter', sans-serif; font-weight: 600;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(13px, 1.05vw, 16px); color: #fff;
         }
         .cs-fig-row em {
-          display: block; margin-top: 4px; font-style: normal; font-family: 'Inter', sans-serif;
+          display: block; margin-top: 4px; font-style: normal; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(11px, 0.88vw, 13px); color: #858387;
           text-decoration: line-through; text-decoration-color: rgba(133,131,135,0.55);
         }
@@ -225,14 +225,14 @@ export function CaseStudiesPage() {
           padding: 8px 14px; border-radius: 100px;
           background: rgba(255,255,255,0.94);
           box-shadow: inset 0 0 0 1px rgba(26,22,44,0.08), 0 8px 20px -12px rgba(26,22,44,0.6);
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.7px; color: ${ACCENT_INK};
         }
         .cs-tag i { width: 5px; height: 5px; border-radius: 50%; background: ${ACCENT}; }
         /* the client name, laid over the photo */
         .cs-shot-name {
           position: absolute; z-index: 2; left: clamp(16px, 1.8vw, 26px); bottom: clamp(16px, 1.8vw, 26px);
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           font-size: clamp(24px, 3vw, 54px); line-height: 1; color: #fff;
           text-shadow: 0 2px 24px rgba(20,17,31,0.6);
         }
@@ -243,22 +243,22 @@ export function CaseStudiesPage() {
           padding: clamp(26px, 3.2vw, 54px);
         }
         .cs-case-body h3 {
-          margin: 0 0 clamp(16px, 1.8vw, 24px); font-family: 'Poppins', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(16px, 1.8vw, 24px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
           letter-spacing: -0.032em; font-size: clamp(24px, 2.6vw, 48px); line-height: 1.06; color: ${TEXT};
         }
         .cs-k {
-          margin: 0 0 10px; font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          margin: 0 0 10px; font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: ${ACCENT_INK};
         }
         .cs-found {
           margin: 0 0 clamp(22px, 2.4vw, 32px); padding-bottom: clamp(22px, 2.4vw, 32px);
           border-bottom: 1px solid rgba(22,20,31,0.12);
-          font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.85; color: ${MUTED};
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px); line-height: 1.85; color: ${MUTED};
         }
         .cs-did { list-style: none; display: grid; gap: 12px; margin: 0; padding: 0; }
         .cs-did li {
           display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start;
-          font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.7; color: ${TEXT};
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.7; color: ${TEXT};
         }
         .cs-did li i {
           flex: none; margin-top: 8px; width: 6px; height: 6px; border-radius: 50%;
@@ -281,7 +281,7 @@ export function CaseStudiesPage() {
           font-size: clamp(24px, 2.3vw, 42px); line-height: 1; letter-spacing: -0.025em; color: ${ACCENT};
         }
         .cs-moved span {
-          text-align: right; font-family: 'Inter', sans-serif; font-weight: 600;
+          text-align: right; font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(12px, 0.95vw, 15px); line-height: 1.4; color: ${TEXT};
         }
         .cs-moved span em {
@@ -312,10 +312,10 @@ export function CaseStudiesPage() {
           box-shadow: 0 8px 18px -10px rgba(74,61,191,0.8);
         }
         .cs-quote footer b {
-          display: block; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 14px; color: ${TEXT};
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: 14px; color: ${TEXT};
         }
         .cs-quote footer span {
-          display: block; margin-top: 2px; font-family: 'Inter', sans-serif; font-size: 12.5px; color: ${MUTED};
+          display: block; margin-top: 2px; font-family: 'Universal Sans', sans-serif; font-size: 12.5px; color: ${MUTED};
         }
 
         /* ══════════ the rest, as an index that opens ══════════ */
@@ -336,13 +336,13 @@ export function CaseStudiesPage() {
         }
         .cs-row:hover::before, .cs-row.on::before, .cs-row:focus-visible::before { transform: scaleX(1); }
         .cs-row-sec {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 1.8px; color: rgba(22,20,31,0.35);
           transition: color .45s ease;
         }
         .cs-row:hover .cs-row-sec, .cs-row.on .cs-row-sec { color: ${ACCENT_INK}; }
         .cs-row-t {
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.028em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.028em;
           font-size: clamp(18px, 1.75vw, 32px); line-height: 1.16; color: ${TEXT}; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1), color .45s ease;
         }
@@ -383,7 +383,7 @@ export function CaseStudiesPage() {
         .cs-open-grid > figure { margin: 0; border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; }
         .cs-open-grid > figure img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .cs-open-grid p {
-          margin: 0 0 clamp(16px, 1.8vw, 22px); font-family: 'Inter', sans-serif;
+          margin: 0 0 clamp(16px, 1.8vw, 22px); font-family: 'Universal Sans', sans-serif;
           font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85; color: ${MUTED};
         }
 
@@ -403,13 +403,13 @@ export function CaseStudiesPage() {
           border-left: 2px solid #2F2A42;
         }
         .cs-fine-note p {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px);
           line-height: 1.85; color: #BDBDBD;
         }
         .cs-fine-note p b { color: #fff; font-weight: 600; }
         .cs-fine-dot {
           display: inline-flex; align-items: center; gap: 9px; margin-top: 6px;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px; color: ${LIVE_INK};
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: 13px; color: ${LIVE_INK};
         }
         .cs-fine-dot i { width: 7px; height: 7px; border-radius: 50%; background: ${LIVE}; }
 

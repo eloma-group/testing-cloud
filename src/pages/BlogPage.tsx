@@ -135,11 +135,11 @@ export function BlogPage() {
           border-bottom: 1px solid rgba(22,20,31,0.12);
         }
         .bl-fig-top b {
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em;
           font-size: clamp(15px, 1.2vw, 19px); color: ${TEXT};
         }
         .bl-fig-top span {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.7px; color: ${ACCENT_INK};
         }
         .bl-fig-body { padding: clamp(20px, 2.2vw, 30px); display: grid; gap: clamp(14px, 1.6vw, 20px); }
@@ -149,7 +149,7 @@ export function BlogPage() {
         }
         .bl-fig-row:last-child { border-bottom: 0; padding-bottom: 0; }
         .bl-fig-row em {
-          font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
+          font-style: normal; font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-variant-numeric: tabular-nums; font-size: 11px; letter-spacing: 1.5px;
           color: rgba(22,20,31,0.32);
         }
@@ -158,7 +158,7 @@ export function BlogPage() {
           font-size: clamp(16px, 1.35vw, 23px); line-height: 1.3; color: ${TEXT};
         }
         .bl-fig-row span {
-          display: block; margin-top: 5px; font-family: 'Inter', sans-serif;
+          display: block; margin-top: 5px; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(11px, 0.88vw, 13px); color: ${MUTED};
         }
 
@@ -185,22 +185,22 @@ export function BlogPage() {
           margin-bottom: clamp(16px, 1.8vw, 24px);
           padding: 7px 13px; border-radius: 100px;
           background: rgba(153,142,255,0.1); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.26);
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: ${ACCENT_INK};
         }
         .bl-tag i { width: 5px; height: 5px; border-radius: 50%; background: ${ACCENT}; }
         .bl-lead h3 {
-          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Poppins', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
           letter-spacing: -0.032em; font-size: clamp(26px, 2.9vw, 54px); line-height: 1.06; color: ${TEXT};
         }
         .bl-lead p {
-          margin: 0 0 clamp(22px, 2.4vw, 32px); font-family: 'Inter', sans-serif;
+          margin: 0 0 clamp(22px, 2.4vw, 32px); font-family: 'Universal Sans', sans-serif;
           font-size: clamp(14px, 1.08vw, 17px); line-height: 1.85; color: ${MUTED}; max-width: 56ch;
         }
         .bl-meta {
           display: flex; flex-wrap: wrap; align-items: center; gap: clamp(10px, 1.2vw, 16px);
           padding-top: clamp(18px, 2vw, 26px); border-top: 1px solid rgba(22,20,31,0.12);
-          font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(12px, 0.92vw, 14px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(12px, 0.92vw, 14px);
           color: ${MUTED};
         }
         .bl-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(22,20,31,0.25); }
@@ -232,7 +232,7 @@ export function BlogPage() {
           display: inline-flex; align-items: center; gap: 9px;
           min-height: 44px; padding: 11px clamp(16px, 1.6vw, 22px); border-radius: 100px;
           box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16);
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14.5px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14.5px);
           color: ${MUTED}; will-change: transform;
           transition: color .4s ease, box-shadow .4s ease, background .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
         }
@@ -280,11 +280,11 @@ export function BlogPage() {
         }
         .bl-card-body { padding: clamp(20px, 2.2vw, 30px); display: flex; flex-direction: column; flex: 1; }
         .bl-card-body h3 {
-          margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.028em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.028em;
           font-size: clamp(19px, 1.6vw, 28px); line-height: 1.16; color: ${TEXT};
         }
         .bl-card-body p {
-          margin: 0 0 clamp(18px, 2vw, 26px); font-family: 'Inter', sans-serif;
+          margin: 0 0 clamp(18px, 2vw, 26px); font-family: 'Universal Sans', sans-serif;
           font-size: clamp(13px, 1vw, 15.5px); line-height: 1.8; color: ${MUTED};
         }
         .bl-card-body .bl-meta { margin-top: auto; }
@@ -295,7 +295,7 @@ export function BlogPage() {
           gap: clamp(24px, 3.4vw, 62px); align-items: center;
         }
         .bl-sub h2 {
-          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Poppins', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
           letter-spacing: -0.032em; font-size: clamp(28px, 3.2vw, 58px); line-height: 1.04; color: #fff;
           max-width: 16ch;
         }
@@ -305,12 +305,12 @@ export function BlogPage() {
         }
         /* classed, not a bare p: it would otherwise outrank the .pg-eyebrow above it */
         .bl-sub-lead {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
           line-height: 1.8; color: #BDBDBD; max-width: 48ch;
         }
         .bl-form { display: grid; gap: 14px; }
         .bl-form label {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: #C3BCFF;
         }
         .bl-form-row { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -318,13 +318,13 @@ export function BlogPage() {
           flex: 1; min-width: 220px; min-height: 52px;
           border: 0; outline: none; border-radius: 100px; padding: 15px 22px;
           background: #191527; box-shadow: inset 0 0 0 1px #2F2A42;
-          font-family: 'Inter', sans-serif; font-size: 15px; color: #fff;
+          font-family: 'Universal Sans', sans-serif; font-size: 15px; color: #fff;
           transition: box-shadow .4s ease;
         }
         .bl-form input::placeholder { color: #858387; }
         .bl-form input:focus { box-shadow: inset 0 0 0 2px ${ACCENT}; }
         .bl-form small {
-          font-family: 'Inter', sans-serif; font-size: 12.5px; line-height: 1.7; color: #858387;
+          font-family: 'Universal Sans', sans-serif; font-size: 12.5px; line-height: 1.7; color: #858387;
         }
 
         /* ══════════ responsive ══════════ */

@@ -81,7 +81,7 @@ export function AboutUs() {
         .cc-au-head { margin: 0; }
         .cc-au-h {
           display: block;
-          font-family: 'Poppins', sans-serif; font-weight: 900; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 900; text-transform: uppercase;
           font-size: clamp(52px, 7.4vw, 124px); line-height: 0.9; letter-spacing: -0.045em;
           color: ${TEXT}; margin: 0;
         }
@@ -90,7 +90,7 @@ export function AboutUs() {
           gap: clamp(12px, 1.6vw, 26px); margin-top: clamp(2px, 0.4vw, 8px);
         }
         .cc-au-h-note {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 2.2px; line-height: 1.7;
           color: ${MUTED}; margin: 0; max-width: 16ch;
         }
@@ -112,7 +112,7 @@ export function AboutUs() {
           transform-origin: top; will-change: transform;
         }
         .cc-au-lede p {
-          font-family: 'Inter', sans-serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 400;
           font-size: clamp(14px, 1.15vw, 17px); line-height: 1.8; color: ${MUTED}; margin: 0;
         }
 
@@ -126,7 +126,7 @@ export function AboutUs() {
           min-height: 52px; padding: 15px clamp(24px, 2.4vw, 36px);
           background: linear-gradient(168deg, #38324F 0%, ${TEXT} 48%, ${INK} 100%);
           color: #FAF9FE; text-decoration: none; border-radius: 4px;
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
@@ -149,7 +149,7 @@ export function AboutUs() {
           display: inline-flex; align-items: center; gap: 12px;
           min-height: 52px; padding: 4px; background: none; border: 0;
           color: ${TEXT}; text-decoration: none;
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
         }
         .cc-au-ghost i {
@@ -228,12 +228,12 @@ export function AboutUs() {
           filter: drop-shadow(0 16px 22px rgba(22,20,31, 0.16));
         }
         .cc-au-foot h3 {
-          font-family: 'Poppins', sans-serif; font-weight: 900; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 900; text-transform: uppercase;
           font-size: clamp(24px, 2.4vw, 40px); line-height: 0.98; letter-spacing: -0.04em;
           color: ${TEXT}; margin: 0 0 clamp(10px, 1.1vw, 16px);
         }
         .cc-au-foot p {
-          font-family: 'Inter', sans-serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 400;
           font-size: clamp(14px, 1.05vw, 16px); line-height: 1.8; color: ${MUTED};
           margin: 0; max-width: 38ch;
         }
@@ -253,7 +253,7 @@ export function AboutUs() {
         }
         .cc-au-stat span {
           display: block; margin-top: 8px;
-          font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(13px, 0.95vw, 15px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 0.95vw, 15px);
           line-height: 1.6; color: ${MUTED};
         }
 

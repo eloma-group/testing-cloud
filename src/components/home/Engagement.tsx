@@ -125,19 +125,19 @@ export function Engagement() {
         }
         .cc-en-eyebrow {
           display: inline-flex; align-items: center; gap: 10px;
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: ${ACCENT_INK};
           margin: 0 0 clamp(14px, 1.8vw, 22px);
         }
         .cc-en-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .cc-en-title {
-          font-family: 'Poppins', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(34px, 5vw, 80px); line-height: 1.02; letter-spacing: -0.03em;
           margin: 0; max-width: 15ch;
         }
         .cc-en-title .accent { color: ${ACCENT}; }
         .cc-en-lead {
-          font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.1vw, 17px); line-height: 1.78;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.1vw, 17px); line-height: 1.78;
           color: ${MUTED}; margin: 0; max-width: 40ch;
         }
 
@@ -212,7 +212,7 @@ export function Engagement() {
         }
         .cc-en-tag {
           display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 100px;
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(9px, 0.68vw, 11px); letter-spacing: 1.4px; white-space: nowrap;
           border: 1px solid rgba(22,20,31,0.16); color: ${MUTED};
           transition: background .45s ease, color .45s ease, border-color .45s ease;
@@ -222,26 +222,26 @@ export function Engagement() {
           box-shadow: ${ACCENT_RIM}, 0 12px 24px -12px rgba(74,61,191,0.9);
         }
         .cc-en-name {
-          font-family: 'Poppins', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(22px, 2vw, 36px); line-height: 1.08; letter-spacing: -0.03em;
           margin: 0 0 10px; color: ${TEXT}; transition: color .45s ease;
         }
         .cc-en-col.model.on .cc-en-name { color: ${ACCENT}; }
         .cc-en-desc {
-          font-family: 'Inter', sans-serif; font-size: clamp(13px, 0.98vw, 16px); line-height: 1.65;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 0.98vw, 16px); line-height: 1.65;
           color: ${MUTED}; margin: 0; max-width: 30ch;
         }
 
         /* row labels */
         .cc-en-k {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.75vw, 12px); letter-spacing: 1.7px; color: rgba(22,20,31,0.42);
         }
         .cc-en-col.label .cc-en-cell.head .cc-en-k { color: ${ACCENT_INK}; }
 
         /* values */
         .cc-en-v {
-          font-family: 'Inter', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(14px, 1.05vw, 17px); line-height: 1.55; color: ${TEXT};
           display: flex; align-items: baseline; gap: 10px; will-change: transform;
           transition: transform .6s cubic-bezier(.16,1,.3,1), color .45s ease;
@@ -270,7 +270,7 @@ export function Engagement() {
         .cc-en-cta {
           display: inline-flex; align-items: center; justify-content: space-between; gap: 12px;
           min-height: 52px; padding: 14px 20px; border-radius: 100px; text-decoration: none;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
           color: ${TEXT}; border: 1px solid rgba(22,20,31,0.2); background: transparent;
           will-change: transform;
           transition: transform .5s cubic-bezier(.16,1,.3,1), background .4s ease,
@@ -292,7 +292,7 @@ export function Engagement() {
           border-top: 1px solid rgba(22,20,31,0.16);
         }
         .cc-en-foot p {
-          font-family: 'Inter', sans-serif; font-size: clamp(15px, 1.15vw, 19px); line-height: 1.7;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.15vw, 19px); line-height: 1.7;
           color: ${MUTED}; margin: 0; max-width: 58ch;
         }
         .cc-en-foot p b { color: ${TEXT}; font-weight: 700; }
@@ -301,7 +301,7 @@ export function Engagement() {
           display: inline-flex; align-items: center; justify-content: center; gap: 10px;
           min-height: 58px; padding: 17px clamp(30px, 3.2vw, 46px); border-radius: 100px;
           background: ${GLOSS}; color: #fff; text-decoration: none;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 17px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 17px);
           box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
           transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease; will-change: transform;
         }
@@ -341,7 +341,7 @@ export function Engagement() {
           .cc-en-v { flex-direction: column; align-items: flex-start; gap: 6px; }
           .cc-en-v::before { display: none; }
           .cc-en-v-k {
-            display: block; font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+            display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: 10px; letter-spacing: 1.6px; color: rgba(22,20,31,0.42);
           }
           .cc-en-cta { width: 100%; }

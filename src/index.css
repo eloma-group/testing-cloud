@@ -1,7 +1,19 @@
 @import "tailwindcss";
 
+/* Universal Sans (Display, Trial) - the single site typeface.
+   Only one static weight ships in the trial, so it is declared once and the
+   browser synthesizes heavier weights (see font-synthesis-weight below), which
+   is what keeps the display headings reading bolder than the body. */
+@font-face {
+  font-family: 'Universal Sans';
+  src: url('/fonts/UniversalSans-Display.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @theme {
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Universal Sans', system-ui, -apple-system, sans-serif;
 
   --color-cc-text:   #16141F;
   --color-cc-accent: #998EFF;
@@ -129,16 +141,17 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* Never let the browser fake a weight it does not have - a synthesized
-     800/900 is just a smeared 700, and it is what made headings look muddy. */
-  font-synthesis-weight: none;
+  /* Universal Sans ships a single static weight in the trial, so the heavier
+     weights the design asks for have to be synthesized - without this every
+     heading would flatten to the one 450 weight and lose its hierarchy. */
+  font-synthesis-weight: auto;
   text-size-adjust: 100%;
 }
 
 body {
   background-color: var(--cc-white);
   color: var(--cc-text);
-  font-family: 'Inter', system-ui, sans-serif;
+  font-family: 'Universal Sans', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
   font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;

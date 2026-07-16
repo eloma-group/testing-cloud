@@ -140,7 +140,7 @@ export function AboutPage() {
         }
         @keyframes ab-spin { to { transform: rotate(360deg); } }
         .ab-seal-ring text {
-          font-family: 'Inter', sans-serif; font-weight: 800; font-size: 8px; letter-spacing: 2.5px;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 8px; letter-spacing: 2.5px;
           text-transform: uppercase; fill: ${TEXT}; opacity: 0.55;
         }
 
@@ -160,7 +160,7 @@ export function AboutPage() {
           display: grid; gap: 16px;
         }
         .ab-say-note p {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
           line-height: 1.85; color: ${MUTED};
         }
         .ab-say-sig {
@@ -174,11 +174,11 @@ export function AboutPage() {
           box-shadow: 0 10px 22px -12px rgba(74,61,191,0.8);
         }
         .ab-say-sig b {
-          display: block; font-family: 'Inter', sans-serif; font-weight: 700;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
           font-size: 15px; color: ${TEXT};
         }
         .ab-say-sig em {
-          display: block; font-style: normal; font-family: 'Inter', sans-serif;
+          display: block; font-style: normal; font-family: 'Universal Sans', sans-serif;
           font-size: 13px; color: ${MUTED}; margin-top: 2px;
         }
 
@@ -207,14 +207,14 @@ export function AboutPage() {
         }
         .ab-yr:hover .ab-yr-y { color: ${ACCENT}; }
         .ab-yr h3 {
-          margin: 0 0 10px; font-family: 'Poppins', sans-serif; font-weight: 600;
+          margin: 0 0 10px; font-family: 'Universal Sans', sans-serif; font-weight: 600;
           letter-spacing: -0.025em; font-size: clamp(19px, 1.75vw, 30px); line-height: 1.2;
           color: ${TEXT}; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
         }
         .ab-yr:hover h3 { transform: translateX(clamp(4px, 0.6vw, 10px)); }
         .ab-yr p {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
           line-height: 1.8; color: ${MUTED}; max-width: 72ch;
         }
 
@@ -244,17 +244,17 @@ export function AboutPage() {
         .ab-led-card:hover::after { transform: scaleX(1); }
         .ab-led-n {
           display: block; margin-bottom: clamp(14px, 1.6vw, 20px);
-          font-family: 'Inter', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
           font-size: 12px; letter-spacing: 2px; color: ${ACCENT_INK};
         }
         .ab-led-card h3 {
-          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Poppins', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
           letter-spacing: -0.028em; font-size: clamp(20px, 1.9vw, 34px); line-height: 1.14; color: ${TEXT};
         }
         .ab-led-card p {
           margin: 0; padding-top: clamp(12px, 1.4vw, 18px);
           border-top: 1px dashed rgba(22,20,31,0.2);
-          font-family: 'Inter', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.8; color: ${MUTED};
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.8; color: ${MUTED};
         }
 
         /* ══════════ the floor, counted ══════════ */
@@ -274,7 +274,7 @@ export function AboutPage() {
         }
         .ab-floor-cell span {
           display: block; margin-top: clamp(10px, 1.2vw, 16px);
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 1.8px; color: #858387;
         }
 
@@ -295,11 +295,11 @@ export function AboutPage() {
         .ab-door:hover { transform: translateY(-4px); }
         .ab-door:hover::before { opacity: 1; }
         .ab-door b {
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em;
           font-size: clamp(17px, 1.5vw, 26px); color: #fff;
         }
         .ab-door em {
-          display: block; margin-top: 6px; font-style: normal; font-family: 'Inter', sans-serif;
+          display: block; margin-top: 6px; font-style: normal; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(12px, 0.95vw, 15px); color: #BDBDBD;
         }
         .ab-door svg { flex: none; color: ${ACCENT}; transition: transform .5s cubic-bezier(.16,1,.3,1); }

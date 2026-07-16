@@ -44,7 +44,7 @@ export function ServicesPage() {
         }
         .sv-fig-top b {
           display: inline-flex; align-items: center; gap: 9px;
-          font-family: 'Inter', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14px); color: ${TEXT};
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14px); color: ${TEXT};
         }
         .sv-fig-top b i {
           position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
@@ -58,7 +58,7 @@ export function ServicesPage() {
           70%, 100% { transform: scale(2.8); opacity: 0; }
         }
         .sv-fig-top span {
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.6px; color: ${MUTED};
         }
         .sv-fig-rows { display: grid; }
@@ -70,12 +70,12 @@ export function ServicesPage() {
         }
         .sv-fig-row:last-child { border-bottom: 0; }
         .sv-fig-row em {
-          font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
+          font-style: normal; font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-variant-numeric: tabular-nums; font-size: 11px; letter-spacing: 1.4px;
           color: rgba(22,20,31,0.32);
         }
         .sv-fig-row b {
-          font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(13px, 1.05vw, 16px); color: ${TEXT};
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 1.05vw, 16px); color: ${TEXT};
         }
         .sv-fig-row time {
           font-family: Georgia, 'Times New Roman', serif; font-size: clamp(15px, 1.3vw, 21px);
@@ -112,15 +112,15 @@ export function ServicesPage() {
         }
         .sv-step em {
           display: block; margin-bottom: clamp(12px, 1.4vw, 18px); font-style: normal;
-          font-family: 'Inter', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
           font-size: 12px; letter-spacing: 2px; color: ${ACCENT_INK};
         }
         .sv-step h3 {
-          margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.025em;
           font-size: clamp(18px, 1.6vw, 28px); line-height: 1.16; color: ${TEXT};
         }
         .sv-step p {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(13px, 1vw, 16px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
           line-height: 1.8; color: ${MUTED};
         }
 
@@ -130,7 +130,7 @@ export function ServicesPage() {
           border-top: 1px solid rgba(22,20,31,0.16);
         }
         .sv-out p {
-          margin: 0; max-width: 52ch; font-family: 'Inter', sans-serif;
+          margin: 0; max-width: 52ch; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(14px, 1.05vw, 17px); line-height: 1.8; color: ${MUTED};
         }
         .sv-out p b { color: ${TEXT}; font-weight: 700; }

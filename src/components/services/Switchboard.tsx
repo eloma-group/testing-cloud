@@ -70,12 +70,12 @@ export function Switchboard() {
         }
         .sw-eyebrow {
           display: inline-flex; align-items: center; gap: 10px; margin: 0 0 clamp(14px, 1.8vw, 22px);
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: #C3BCFF;
         }
         .sw-eyebrow i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .sw-head h2 {
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           font-size: clamp(30px, 3.6vw, 62px); line-height: 1.04; margin: 0; color: #FFFFFF; max-width: 16ch;
         }
         .sw-head h2 .serif {
@@ -83,7 +83,7 @@ export function Switchboard() {
           letter-spacing: -0.02em;
         }
         .sw-head-lead {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
           line-height: 1.8; color: #BDBDBD; max-width: 46ch;
         }
         @media (max-width: 1024px) { .sw-head { grid-template-columns: minmax(0, 1fr); align-items: start; } }
@@ -136,13 +136,13 @@ export function Switchboard() {
         }
 
         .sw-jack em {
-          display: block; font-style: normal; font-family: 'Inter', sans-serif; font-weight: 800;
+          display: block; font-style: normal; font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-variant-numeric: tabular-nums; font-size: 10px; letter-spacing: 1.6px;
           color: #5E5B6B; margin-bottom: 3px; transition: color .45s ease;
         }
         .sw-jack.on em { color: #C3BCFF; }
         .sw-jack b {
-          display: block; font-family: 'Inter', sans-serif; font-weight: 700;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
           font-size: clamp(12px, 1vw, 15px); line-height: 1.25; color: #BDBDBD;
           transition: color .45s ease;
         }
@@ -178,7 +178,7 @@ export function Switchboard() {
           display: inline-flex; align-items: center; gap: 8px;
           padding: 8px 14px; border-radius: 100px;
           background: rgba(20,17,31,0.72); box-shadow: inset 0 0 0 1px rgba(255,255,255,0.16);
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: #fff;
         }
         .sw-plug i {
@@ -196,7 +196,7 @@ export function Switchboard() {
         .sw-card-body { padding: clamp(22px, 2.6vw, 40px); }
         .sw-card-body h3 {
           margin: 0 0 clamp(12px, 1.4vw, 16px);
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           font-size: clamp(24px, 2.5vw, 46px); line-height: 1.06; color: #fff;
         }
         .sw-card-body .line {
@@ -207,7 +207,7 @@ export function Switchboard() {
         .sw-card-body .body {
           margin: 0 0 clamp(18px, 2vw, 26px); padding-bottom: clamp(18px, 2vw, 26px);
           border-bottom: 1px solid #2F2A42;
-          font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85;
           color: #BDBDBD;
         }
         .sw-does { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(18px, 2vw, 26px); }
@@ -215,7 +215,7 @@ export function Switchboard() {
           display: inline-flex; align-items: center;
           padding: 7px 12px; border-radius: 100px;
           background: rgba(153,142,255,0.13); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.3);
-          font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px);
           color: #C3BCFF;
         }
         .sw-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 22px); }
@@ -224,7 +224,7 @@ export function Switchboard() {
           font-size: clamp(22px, 2.1vw, 38px); line-height: 1; letter-spacing: -0.02em; color: #fff;
         }
         .sw-figs span {
-          display: block; margin-top: 7px; font-family: 'Inter', sans-serif; font-weight: 600;
+          display: block; margin-top: 7px; font-family: 'Universal Sans', sans-serif; font-weight: 600;
           font-size: clamp(11px, 0.86vw, 13px); line-height: 1.5; color: #858387;
         }
 

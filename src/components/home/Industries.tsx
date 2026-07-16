@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, Package, Ticket, CalendarCheck, Truck, ShieldCheck, Plane } from 'lucide-react'
+import { Package, Ticket, CalendarCheck, Truck, ShieldCheck, Plane } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { MaskReveal } from '../../lib/anim'
 
 const TEXT   = '#16141F'
 const ACCENT = '#998EFF'
-const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, links, small labels */
+const ACCENT_INK = '#6A5BE8'   /* text-safe on white (5.3:1) - eyebrows, small labels */
 const WASH  = '#F4F2FD'
 const LIVE   = '#2EBAC6'
 const LIVE_INK   = '#0E7C88'   /* the label beside a live dot - teal itself is only 2.2:1 on white */
@@ -17,8 +16,12 @@ const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const GLOSS      = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
 const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
 
-const SPREAD = 19      // degrees between spokes on the dial
-const DWELL  = 6200    // ms each sector holds before the dial turns itself
+/* the six tiles are pinned around the floor at 60deg apart, starting at the top */
+const RING = [-90, -30, 30, 90, 150, 210]
+const R    = 23        // ring radius, in floor-em - tiles ring wider around the dais
+const TILT = 54        // floor rotateX
+const SPIN = 26        // floor rotateZ (labels counter-rotate by this to stay horizontal)
+const DWELL = 6200     // ms each sector holds before the dial turns itself
 
 type Sector = {
   code: string
@@ -30,136 +33,52 @@ type Sector = {
   queue: number
   answer: string
   Icon: LucideIcon
-  scene: 'ecom' | 'saas' | 'care' | 'move' | 'fin' | 'travel'
 }
 
 const SECTORS: Sector[] = [
   {
-    code: 'E-COM', name: 'E-commerce and Retail', short: 'e-commerce', scene: 'ecom', Icon: Package,
-    desc: 'Order tracking, returns and refunds answered in minutes, right the way through peak season.',
-    runs: ['Order tracking', 'Returns', 'Refunds', 'Where is my order'],
-    stats: [['5', 'Days to peak cover'], ['92', 'Percent fixed first time'], ['4', 'Channels live']],
-    queue: 34, answer: '0:18',
-  },
-  {
-    code: 'SAAS', name: 'SaaS and Technology', short: 'SaaS', scene: 'saas', Icon: Ticket,
-    desc: 'Tier 1 and tier 2 tickets triaged, resolved and escalated inside your own stack, not ours.',
-    runs: ['Tier 1', 'Tier 2 triage', 'Onboarding', 'Bug intake'],
-    stats: [['2', 'Tiers held in house'], ['86', 'Percent closed without dev'], ['24', 'Hours a day']],
-    queue: 21, answer: '0:24',
-  },
-  {
-    code: 'CARE', name: 'Healthcare and Clinics', short: 'healthcare', scene: 'care', Icon: CalendarCheck,
-    desc: 'Appointment booking, reminders and patient queries, handled by agents trained to slow down.',
-    runs: ['Bookings', 'Reminders', 'Patient queries', 'Referrals'],
-    stats: [['15', 'Second answer'], ['31', 'Percent fewer no shows'], ['100', 'Percent confidential']],
-    queue: 12, answer: '0:15',
-  },
-  {
-    code: 'MOVE', name: 'Logistics and Delivery', short: 'logistics', scene: 'move', Icon: Truck,
-    desc: 'Delivery exceptions, driver support and live status chased down before the customer asks twice.',
-    runs: ['Exceptions', 'Driver support', 'Live status', 'Claims'],
-    stats: [['24', 'Hour exception desk'], ['38', 'Percent fewer chase calls'], ['7', 'Days a week']],
-    queue: 47, answer: '0:21',
-  },
-  {
-    code: 'FIN', name: 'Fintech and Insurance', short: 'fintech', scene: 'fin', Icon: ShieldCheck,
+    code: 'FIN', name: 'Fintech and Insurance', short: 'fintech', Icon: ShieldCheck,
     desc: 'Account queries, claims intake and verification, with an audit trail sitting under every case.',
     runs: ['Account queries', 'Claims intake', 'Verification', 'Disputes'],
     stats: [['100', 'Percent audited notes'], ['4', 'Eyes on every claim'], ['0', 'Cases left open']],
     queue: 19, answer: '0:26',
   },
   {
-    code: 'TRVL', name: 'Travel and Hospitality', short: 'travel', scene: 'travel', Icon: Plane,
+    code: 'SAAS', name: 'SaaS and Technology', short: 'SaaS', Icon: Ticket,
+    desc: 'Tier 1 and tier 2 tickets triaged, resolved and escalated inside your own stack, not ours.',
+    runs: ['Tier 1', 'Tier 2 triage', 'Onboarding', 'Bug intake'],
+    stats: [['2', 'Tiers held in house'], ['86', 'Percent closed without dev'], ['24', 'Hours a day']],
+    queue: 21, answer: '0:24',
+  },
+  {
+    code: 'CARE', name: 'Healthcare and Clinics', short: 'healthcare', Icon: CalendarCheck,
+    desc: 'Appointment booking, reminders and patient queries, handled by agents trained to slow down.',
+    runs: ['Bookings', 'Reminders', 'Patient queries', 'Referrals'],
+    stats: [['15', 'Second answer'], ['31', 'Percent fewer no shows'], ['100', 'Percent confidential']],
+    queue: 12, answer: '0:15',
+  },
+  {
+    code: 'MOVE', name: 'Logistics and Delivery', short: 'logistics', Icon: Truck,
+    desc: 'Delivery exceptions, driver support and live status chased down before the customer asks twice.',
+    runs: ['Exceptions', 'Driver support', 'Live status', 'Claims'],
+    stats: [['24', 'Hour exception desk'], ['38', 'Percent fewer chase calls'], ['7', 'Days a week']],
+    queue: 47, answer: '0:21',
+  },
+  {
+    code: 'TRVL', name: 'Travel and Hospitality', short: 'travel', Icon: Plane,
     desc: 'Bookings, changes and cancellations answered in the language your guests actually speak.',
     runs: ['Bookings', 'Changes', 'Cancellations', 'Disruption'],
     stats: [['6', 'Languages from day one'], ['19', 'Second answer'], ['365', 'Days covered']],
     queue: 28, answer: '0:19',
   },
+  {
+    code: 'E-COM', name: 'E-commerce and Retail', short: 'e-commerce', Icon: Package,
+    desc: 'Order tracking, returns and refunds answered in minutes, right the way through peak season.',
+    runs: ['Order tracking', 'Returns', 'Refunds', 'Where is my order'],
+    stats: [['5', 'Days to peak cover'], ['92', 'Percent fixed first time'], ['4', 'Channels live']],
+    queue: 34, answer: '0:18',
+  },
 ]
-
-/* ──────────────────────────────────────────────────────────────
-   The dial's centre holds an isometric diorama per sector: a
-   tilted plate carrying that sector's work, with floating chips
-   above it. All six share one material system - pale plates, ink
-   hairlines, violet as the only saturated colour - so they read as
-   one family rather than six illustrations.
-   Every scene animates on transform / opacity only.
-   ────────────────────────────────────────────────────────────── */
-function Scene({ s, on }: { s: Sector; on: boolean }) {
-  return (
-    <div className={`cc-sc${on ? ' on' : ''}`} aria-hidden={!on}>
-      <div className="cc-iso">
-        <div className="cc-plate">
-          {s.scene === 'ecom' && (
-            <>
-              <div className="cc-grid9">
-                {Array.from({ length: 9 }).map((_, i) => (
-                  <i key={i} className={i === 2 || i === 4 || i === 7 ? 'lit' : undefined} style={{ ['--i' as string]: i }} />
-                ))}
-              </div>
-              <span className="cc-beam" />
-            </>
-          )}
-
-          {s.scene === 'saas' && (
-            <div className="cc-stack">
-              <span className="l l1" /><span className="l l2" /><span className="l l3" />
-              <span className="cc-ticket" />
-            </div>
-          )}
-
-          {s.scene === 'care' && (
-            <div className="cc-cal">
-              {Array.from({ length: 12 }).map((_, i) => (
-                <i key={i} className={i === 6 ? 'lit' : undefined} style={{ ['--i' as string]: i }} />
-              ))}
-            </div>
-          )}
-
-          {s.scene === 'move' && (
-            <svg className="cc-route" viewBox="0 0 100 100" aria-hidden>
-              <path d="M12,78 C34,72 30,40 52,34 C72,28 74,14 88,18" fill="none"
-                    stroke="rgba(22,20,31,0.28)" strokeWidth="2.2" strokeDasharray="5 5" strokeLinecap="round" />
-              <circle className="cc-route-dot halo" r="8" />
-              <circle className="cc-route-dot" r="4.4" fill={ACCENT} />
-              <circle className="stop" cx="12" cy="78" r="3.4" />
-              <circle className="stop" cx="88" cy="18" r="3.4" />
-              <rect x="40" y="60" width="16" height="12" rx="2" fill="rgba(26,22,44,0.10)" />
-              <rect x="62" y="44" width="11" height="8" rx="2" fill="rgba(22,20,31,0.12)" />
-            </svg>
-          )}
-
-          {s.scene === 'fin' && (
-            <div className="cc-cards">
-              <span className="c c1" /><span className="c c2" /><span className="c c3" />
-              <span className="cc-ticks">
-                <i style={{ ['--i' as string]: 0 }} /><i style={{ ['--i' as string]: 1 }} /><i style={{ ['--i' as string]: 2 }} />
-              </span>
-            </div>
-          )}
-
-          {s.scene === 'travel' && (
-            <svg className="cc-arc" viewBox="0 0 100 100" aria-hidden>
-              <circle cx="14" cy="74" r="13" fill="none" stroke="rgba(26,22,44,0.16)" strokeWidth="1.2" />
-              <circle cx="86" cy="52" r="10" fill="none" stroke="rgba(26,22,44,0.16)" strokeWidth="1.2" />
-              <path d="M14,74 Q50,6 86,52" fill="none" stroke="rgba(22,20,31,0.26)" strokeWidth="2.2" strokeDasharray="4 6" strokeLinecap="round" />
-              <circle className="cc-arc-dot halo" r="8" />
-              <circle className="cc-arc-dot" r="4.2" fill={ACCENT} />
-              <circle className="stop" cx="14" cy="74" r="3.6" />
-              <circle className="stop" cx="86" cy="52" r="3.6" />
-            </svg>
-          )}
-        </div>
-
-        {/* the chip that floats above the plate, one per sector */}
-        <div className="cc-chip a"><s.Icon size={20} strokeWidth={1.9} aria-hidden /></div>
-        <div className="cc-chip b" />
-        <div className="cc-chip c" />
-      </div>
-    </div>
-  )
-}
 
 export function Industries() {
   const reduce = useReducedMotion() ?? false
@@ -167,7 +86,7 @@ export function Industries() {
   const [paused, setPaused] = useState(false)
   const [queue, setQueue] = useState(SECTORS[0].queue)
   const startRef = useRef(0)
-  const progRef = useRef<SVGCircleElement>(null)
+  const progRef = useRef<HTMLSpanElement>(null)
 
   const active = SECTORS[sel]
 
@@ -177,16 +96,15 @@ export function Industries() {
     setQueue(SECTORS[i].queue)
   }, [])
 
-  /* auto-advance on a progress ring; hovering the stage takes the dial off the clock */
+  /* auto-advance on a progress bar; hovering the floor takes the dial off the clock */
   useEffect(() => {
     if (reduce) return
     let raf = 0
-    const CIRC = 2 * Math.PI * 47
     startRef.current = performance.now()
     const tick = (now: number) => {
       if (!paused) {
         const p = Math.min(1, (now - startRef.current) / DWELL)
-        if (progRef.current) progRef.current.style.strokeDashoffset = String(CIRC * (1 - p))
+        if (progRef.current) progRef.current.style.transform = `scaleX(${p})`
         if (p >= 1) {
           setSel((s) => {
             const next = (s + 1) % SECTORS.length
@@ -223,18 +141,21 @@ export function Industries() {
   return (
     <section className="cc-in" id="industries" aria-label="Industries we serve">
       <style>{`
-        /* picks the wash up off the section above, climbs back to white, and
-           settles into the wash again at the foot */
+        /* picks the wash up off the section above, climbs to white, settles into wash again */
         .cc-in {
           position: relative; isolation: isolate; overflow: hidden;
-          background: linear-gradient(180deg, #E3DEF8 0%, #FBFAFE 26%, #FFFFFF 52%, ${WASH} 100%);
+          background: linear-gradient(180deg, #E3DEF8 0%, #FBFAFE 24%, #FFFFFF 54%, ${WASH} 100%);
           color: ${TEXT};
           padding: clamp(72px, 10vw, 150px) clamp(24px, 4vw, 64px) clamp(72px, 9vw, 140px);
         }
         .cc-in::before {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
-          background: radial-gradient(54% 46% at 84% 12%, rgba(153,142,255,0.12), transparent 70%);
+          background: radial-gradient(52% 42% at 50% 40%, rgba(153,142,255,0.10), transparent 72%);
         }
+        /* the honeycomb, extremely faint, behind everything */
+        .cc-in-hex { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.5; }
+        .cc-in-hex polygon { fill: none; stroke: rgba(22,20,31,0.05); stroke-width: 0.6; }
+
         .cc-in-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
         @media (min-width: 1920px) { .cc-in-inner { max-width: 1900px; } }
         @media (min-width: 2560px) { .cc-in-inner { max-width: 2400px; } }
@@ -248,14 +169,14 @@ export function Industries() {
         }
         .cc-in-eyebrow {
           display: inline-flex; align-items: center; gap: 10px;
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: ${ACCENT_INK};
           margin: 0 0 clamp(14px, 1.8vw, 22px);
         }
         .cc-in-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .cc-in-title {
-          font-family: 'Poppins', sans-serif; font-weight: 600;
-          font-size: clamp(34px, 5vw, 80px); line-height: 1.02; letter-spacing: -0.03em;
+          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-size: clamp(40px, 6.4vw, 118px); line-height: 0.98; letter-spacing: -0.03em;
           margin: 0; max-width: 15ch;
         }
         .cc-in-title .accent { color: ${ACCENT}; }
@@ -268,420 +189,335 @@ export function Industries() {
         .cc-in-count b { font-size: clamp(34px, 3.4vw, 58px); line-height: 1; font-weight: 400; color: ${ACCENT}; }
         .cc-in-count span { font-size: clamp(15px, 1.2vw, 20px); color: rgba(22,20,31,0.42); }
         .cc-in-note {
-          font-family: 'Inter', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.7;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.7;
           color: ${MUTED}; margin: 0; max-width: 34ch;
         }
 
-        /* ── body: panel + dial ── */
-        .cc-in-body {
-          display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
-          gap: clamp(28px, 4vw, 76px); align-items: center;
-          padding-top: clamp(32px, 4vw, 64px);
+        /* ══════════ the stage: one isometric floor, with flat UI floating over it ══════════ */
+        .cc-in-stage {
+          position: relative; margin-top: clamp(24px, 3vw, 48px);
+          min-height: clamp(560px, 50vw, 840px);
         }
 
-        /* ---- left panel ---- */
-        .cc-in-panel { position: relative; }
-        .cc-in-code {
-          display: inline-flex; align-items: center; gap: 9px;
-          font-family: 'Inter', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 1.8px;
-          color: ${ACCENT_INK}; border: 1px solid rgba(153,142,255,0.4); border-radius: 5px;
-          padding: 7px 12px; margin-bottom: clamp(16px, 2vw, 24px);
+        /* the perspective box; the floor scales off a single clamped unit so every
+           tile, wall and offset (all written in em) moves together across breakpoints */
+        .cc-in-scene {
+          position: absolute; inset: 0; display: grid; place-items: center;
+          perspective: 1600px; perspective-origin: 50% 42%;
+          transform: translateY(-4%); pointer-events: none;
+        }
+        .cc-in-floor {
+          position: relative; width: 74em; height: 74em; font-size: clamp(5px, 1.32vw, 13.5px);
+          transform-style: preserve-3d;
+          transform: rotateX(${TILT}deg) rotateZ(-${SPIN}deg);
+        }
+        .cc-in-floor > * { pointer-events: auto; }
+
+        /* the central raised platform - a brushed-steel slab that tucks under the front
+           tiles (it paints before them in the DOM, so the tiles occlude its near edge) */
+        .cc-in-dais {
+          position: absolute; top: 50%; left: 50%; width: 34em; height: 34em; margin: -17em 0 0 -17em;
+          border-radius: 9em; transform-style: preserve-3d; pointer-events: none;
+        }
+        .cc-in-dais .side {
+          position: absolute; inset: 0; border-radius: 9em; transform: translateZ(-3em);
+          background: linear-gradient(160deg, #C0C5CC, #979DA6);
+          box-shadow: 0 4em 4.4em -1em rgba(22,20,31,0.42);
+        }
+        .cc-in-dais .top {
+          position: absolute; inset: 0; border-radius: 9em;
+          background: radial-gradient(circle at 42% 30%, #FDFEFE 0%, #E4E8ED 60%, #CDD2D9 100%);
+          box-shadow:
+            inset 0 0.24em 0.3em rgba(255,255,255,1),
+            inset 0 0 0 0.16em rgba(255,255,255,0.7),
+            inset 0 -3em 4em -2em rgba(22,20,31,0.2);
+        }
+        /* a shallow recessed well in the middle, where the cards sit */
+        .cc-in-dais .top::after {
+          content: ''; position: absolute; inset: 16%; border-radius: 5em;
+          background: radial-gradient(circle at 50% 36%, #EEF1F4, #DBE0E6 70%, #C9CFD6);
+          box-shadow:
+            inset 0 0.2em 0.6em rgba(22,20,31,0.14),
+            inset 0 -0.3em 0.4em rgba(255,255,255,0.7);
+        }
+
+        /* the two neon tracks - a purple/teal ring hugging the cards, low over the platform
+           so it stays clear of the tile labels and the turn-for-sector text */
+        .cc-in-arcs {
+          position: absolute; top: 50%; left: 50%; width: 39em; height: 39em; margin: -19.5em 0 0 -19.5em;
+          transform: translateZ(3em); overflow: visible; pointer-events: none;
+        }
+        .cc-in-arcs path { fill: none; stroke-width: 2.6; stroke-linecap: round; }
+
+        /* the "turn for sector" hints, lying flat on the platform, outside the ring */
+        .cc-in-turn {
+          position: absolute; left: 50%; top: 50%;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 1.7em; letter-spacing: 0.28em;
+          text-transform: uppercase; color: rgba(22,20,31,0.26); white-space: nowrap; pointer-events: none;
+        }
+        .cc-in-turn.l { transform: translate(-112%, 11.5em); }
+        .cc-in-turn.r { transform: translate(12%, 11.5em); }
+
+        /* ---- the six chunky metal tiles ---- */
+        .cc-in-tile {
+          position: absolute; top: 50%; left: 50%; width: 18em; height: 18em; margin: -9em 0 0 -9em;
+          transform-style: preserve-3d; border: 0; padding: 0; background: none; cursor: pointer;
+          transition: transform 1s cubic-bezier(.16,1,.3,1);
+        }
+        .cc-in-tile .face, .cc-in-tile .wall {
+          position: absolute; inset: 0; border-radius: 2.8em;
+        }
+        /* the extrusion: three stacked walls of brushed steel give the block real thickness */
+        .cc-in-tile .wall { background: linear-gradient(150deg, #BBC1C8, #969CA5); }
+        .cc-in-tile .w3 { transform: translateZ(-3.4em); background: linear-gradient(150deg, #A5ABB4, #7E858E);
+          box-shadow: 0 4.4em 4.4em -1.6em rgba(22,20,31,0.5); }
+        .cc-in-tile .w2 { transform: translateZ(-2.2em); background: linear-gradient(150deg, #C2C7CE, #9EA5AE); }
+        .cc-in-tile .w1 { transform: translateZ(-1.1em); background: linear-gradient(150deg, #D6DAE0, #B2B8C0); }
+        .cc-in-tile .face {
+          transform-style: preserve-3d;      /* keeps the label a true 3D layer, so it lies flat, not slanted */
+          /* banded reflection = anisotropic brushed aluminium, not a flat matte panel */
+          background: linear-gradient(125deg,
+            #F7F9FB 0%, #D6DBE2 20%, #EEF1F4 38%, #C4CAD2 55%, #EAEDF0 74%, #C9CFD7 90%, #E0E4E9 100%);
+          /* thin crisp bevels (px, so they stay sharp) read as machined metal, not a soft cushion */
+          box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.85),
+            inset 0 2px 1px rgba(255,255,255,1),
+            inset 0 -3px 3px rgba(22,20,31,0.18),
+            inset 2px 0 3px rgba(255,255,255,0.4),
+            inset -2px 0 4px rgba(22,20,31,0.08);
+          transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s ease;
+        }
+        /* fine brushed grain across the plate */
+        .cc-in-tile .face::before {
+          content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+          background: repeating-linear-gradient(116deg,
+            rgba(255,255,255,0.12) 0 1.5px, rgba(22,20,31,0.04) 1.5px 3.5px);
+          opacity: 0.5;
+        }
+        /* a crisp diagonal glare travelling across the metal */
+        .cc-in-tile .face::after {
+          content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+          background: linear-gradient(122deg,
+            rgba(255,255,255,0.92) 0%, rgba(255,255,255,0) 24%,
+            rgba(255,255,255,0) 60%, rgba(255,255,255,0.6) 86%, rgba(255,255,255,0) 100%);
+          opacity: 0.85;
+        }
+        /* the label rides above the plate and counter-rotates the floor's spin,
+           so it stays horizontal and readable while lying on the tilted surface */
+        .cc-in-tile .label {
+          position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+          gap: 0.5em; text-align: center; padding: 1.4em;
+          transform: translateZ(0.4em) rotate(${SPIN}deg); transform-origin: center;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 1.75em; line-height: 1.1;
+          letter-spacing: -0.01em; color: rgba(22,20,31,0.82);
+          transition: color .45s ease;
+        }
+        .cc-in-tile .label svg { width: 1.7em; height: 1.7em; flex: none; color: rgba(22,20,31,0.42); opacity: 0.85; }
+        .cc-in-tile .dot {
+          position: absolute; bottom: 1.6em; left: 50%; width: 0.9em; height: 0.9em; margin-left: -0.45em;
+          border-radius: 50%; background: ${ACCENT_INK}; transform: translateZ(0.5em) rotate(${SPIN}deg);
+          box-shadow: 0 0 0.9em rgba(106,91,232,0.8);
+        }
+        .cc-in-tile:hover .face { transform: translateZ(0.8em); }
+        .cc-in-tile:hover .label { color: ${TEXT}; }
+        .cc-in-tile.on { transform: translate3d(var(--tx), var(--ty), 2em) scale(var(--sc, 1)) !important; }
+        .cc-in-tile.on .face {
+          background: linear-gradient(125deg,
+            #FFFFFF 0%, #E2E7EC 20%, #F6F8FA 40%, #CFD5DC 56%, #F1F3F6 76%, #D5DAE1 100%);
+          box-shadow:
+            inset 0 0 0 1px rgba(255,255,255,0.95),
+            inset 0 0 0 3px rgba(153,142,255,0.55),
+            inset 0 2px 1px rgba(255,255,255,1),
+            inset 0 -3px 3px rgba(22,20,31,0.14),
+            0 3em 4em -1.4em rgba(74,61,191,0.4);
+        }
+        .cc-in-tile.on .label { color: ${TEXT}; }
+        .cc-in-tile.on .label svg { color: ${ACCENT_INK}; opacity: 1; }
+
+        /* ---- the central control knob, sat at the front lip of the dais ---- */
+        .cc-in-knob {
+          position: absolute; top: 50%; left: 50%; width: 12.5em; height: 12.5em; margin: -6.25em 0 0 -6.25em;
+          border-radius: 50%; transform-style: preserve-3d;
+          transition: transform 1s cubic-bezier(.16,1,.3,1);
+        }
+        .cc-in-knob .base {
+          position: absolute; inset: 0; border-radius: 50%; transform: translateZ(-2.6em);
+          background: linear-gradient(#8F959E, #767C85); box-shadow: 0 3.4em 4em -1em rgba(22,20,31,0.5);
+        }
+        .cc-in-knob .base2 {
+          position: absolute; inset: 8%; border-radius: 50%; transform: translateZ(-1.3em);
+          background: linear-gradient(#AAB0B9, #878E97);
+        }
+        .cc-in-knob .rim {
+          position: absolute; inset: 0; border-radius: 50%;
+          background: conic-gradient(from 0deg, #EEF0F3, #C4CAD1, #F5F7F9, #C4CAD1, #EEF0F3);
+          box-shadow: inset 0 0.3em 0.5em rgba(255,255,255,0.9), inset 0 0 0 0.14em rgba(255,255,255,0.7);
+          display: grid; place-items: center;
+        }
+        .cc-in-knob .cap {
+          width: 66%; height: 66%; border-radius: 50%;
+          background: radial-gradient(circle at 42% 34%, #FFFFFF, #DCE0E5 72%, #C4CAD1);
+          box-shadow: inset 0 0 1.4em rgba(22,20,31,0.16);
+          display: grid; place-items: center;
+        }
+        .cc-in-knob .cap i {
+          width: 22%; height: 22%; border-radius: 50%;
+          background: #F3F5F7; box-shadow: inset 0 0 0 0.12em rgba(22,20,31,0.1);
+        }
+        .cc-in-knob .notch {
+          position: absolute; top: 0.9em; left: 50%; width: 0.7em; height: 2.4em; margin-left: -0.35em;
+          border-radius: 100px; background: ${ACCENT_INK}; box-shadow: 0 0 0.8em rgba(106,91,232,0.8);
+        }
+
+        /* ══════════ flat UI floating over the floor ══════════ */
+
+        /* the active sector, written at the top */
+        .cc-in-head {
+          position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+          width: min(560px, 92%); text-align: center; z-index: 5;
         }
         .cc-in-name {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
-          font-size: clamp(32px, 3.6vw, 64px); line-height: 1.08; letter-spacing: -0.02em;
-          margin: 0 0 clamp(14px, 1.6vw, 20px); color: ${TEXT}; min-height: 1.08em;
+          font-size: clamp(30px, 3.6vw, 60px); line-height: 1.04; letter-spacing: -0.02em;
+          margin: 0 0 clamp(10px, 1.2vw, 16px); color: ${TEXT};
         }
         .cc-in-desc {
-          font-family: 'Inter', sans-serif; font-size: clamp(15px, 1.15vw, 18px); line-height: 1.78;
-          color: ${MUTED}; margin: 0 0 clamp(22px, 2.4vw, 32px); max-width: 42ch;
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.15vw, 17px); line-height: 1.7;
+          color: ${MUTED}; margin: 0 auto clamp(14px, 1.6vw, 20px); max-width: 46ch;
         }
         .cc-in-swap { will-change: transform, opacity; }
-
-        .cc-in-runs { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 0 clamp(24px, 2.6vw, 36px); padding: 0; list-style: none; }
-        .cc-in-runs li {
-          font-family: 'Inter', sans-serif; font-weight: 600; font-size: clamp(12px, 0.95vw, 14px);
-          padding: 9px 15px; border-radius: 100px; color: ${TEXT};
-          background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.68));
+        .cc-in-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin: 0; padding: 0; list-style: none; }
+        .cc-in-pills li {
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 13px);
+          padding: 7px 13px; border-radius: 100px; color: ${TEXT};
+          background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.7));
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
             inset 0 0 0 1px rgba(22,20,31,0.1),
             0 8px 20px -14px rgba(22,20,31,0.5);
         }
 
-        .cc-in-stats {
-          display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: clamp(14px, 2vw, 30px);
-          border-top: 1px solid rgba(22,20,31,0.14); padding-top: clamp(20px, 2.2vw, 28px);
+        /* the three glass stat cards rising off the dial */
+        /* the cards sit in the gap between the back tiles' labels and the knob, over the
+           platform - low enough to clear the tile labels above, short enough to clear the knob */
+        .cc-in-cards {
+          position: absolute; top: 39%; left: 50%; transform: translateX(-50%);
+          display: flex; gap: clamp(10px, 1vw, 16px); z-index: 6; pointer-events: none;
         }
+        .cc-in-stat {
+          width: clamp(84px, 7.4vw, 128px); height: clamp(104px, 8.8vw, 142px); border-radius: 18px;
+          display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+          padding: 10px; will-change: transform, opacity;
+          background: linear-gradient(155deg, rgba(255,255,255,0.62), rgba(232,242,244,0.34));
+          backdrop-filter: blur(11px) saturate(1.4); -webkit-backdrop-filter: blur(11px) saturate(1.4);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.95),
+            inset 0 0 0 1px rgba(255,255,255,0.6),
+            0 26px 44px -22px rgba(22,20,31,0.5);
+        }
+        .cc-in-stat:nth-child(2) { transform: translateY(-16px); }
         .cc-in-stat b {
-          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
-          font-size: clamp(26px, 2.4vw, 44px); line-height: 1; letter-spacing: -0.02em;
-          font-variant-numeric: tabular-nums; color: ${TEXT};
+          font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-variant-numeric: tabular-nums;
+          font-size: clamp(26px, 2.7vw, 42px); line-height: 1; color: ${TEXT};
         }
         .cc-in-stat span {
-          display: block; margin-top: 8px; font-family: 'Inter', sans-serif; font-weight: 600;
-          font-size: clamp(12px, 0.9vw, 14px); line-height: 1.5; color: ${MUTED};
-        }
-        .cc-in-cta {
-          display: inline-flex; align-items: center; gap: 10px; margin-top: clamp(24px, 2.6vw, 34px);
-          min-height: 48px; font-family: 'Inter', sans-serif; font-weight: 700;
-          font-size: clamp(14px, 1.05vw, 16px); color: ${TEXT}; text-decoration: none;
-        }
-        .cc-in-cta span { position: relative; padding-bottom: 3px; }
-        .cc-in-cta span::after {
-          content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: ${ACCENT};
-          transform: scaleX(1); transform-origin: right; transition: transform .5s cubic-bezier(.16,1,.3,1);
-        }
-        .cc-in-cta:hover span::after { transform: scaleX(0); }
-        .cc-in-cta svg { color: ${ACCENT}; transition: transform .5s cubic-bezier(.16,1,.3,1); }
-        .cc-in-cta:hover svg { transform: translateX(5px); }
-
-        /* ---- right: the dial ----
-           The dial reads left-to-right: the disc (with the diorama), a needle,
-           then a 3D picker wheel carrying the sector names. The names stay
-           horizontal and inside the column - a radial text wheel cannot hold
-           names this long without running off the section. */
-        .cc-in-stage {
-          position: relative;
-          display: grid; grid-template-columns: minmax(0, 1fr) clamp(190px, 17vw, 280px);
-          gap: clamp(14px, 2vw, 34px); align-items: center;
-        }
-        .cc-in-dial {
-          position: relative; aspect-ratio: 1; display: grid; place-items: center;
-          max-width: 520px; justify-self: end; width: 100%;
+          margin-top: 9px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-size: clamp(9px, 0.72vw, 11px); line-height: 1.35; letter-spacing: 0.4px;
+          text-transform: uppercase; color: rgba(22,20,31,0.5);
         }
 
-        .cc-in-disc {
-          position: relative; width: 88%; aspect-ratio: 1; border-radius: 50%;
-          background: radial-gradient(circle at 34% 24%, #FFFFFF 0%, #F5F3FD 38%, #E6E2F9 74%, #D5CFF2 100%);
-          box-shadow:
-            inset 0 2px 2px rgba(255,255,255,1),
-            inset 0 0 0 1px rgba(22,20,31,0.10),
-            inset 0 0 0 9px rgba(255,255,255,0.6),
-            inset 0 -24px 40px -24px rgba(22,20,31,0.28),
-            0 20px 40px -24px rgba(22,20,31,0.35),
-            0 70px 100px -50px rgba(22,20,31,0.5);
-          display: grid; place-items: center; overflow: hidden;
-        }
-        /* the specular arc across the top of the glass, plus the violet bounce */
-        .cc-in-disc::after {
-          content: ''; position: absolute; inset: 0; pointer-events: none; border-radius: 50%;
-          background:
-            radial-gradient(46% 30% at 36% 12%, rgba(255,255,255,0.9), rgba(255,255,255,0) 70%),
-            radial-gradient(58% 48% at 50% 8%, rgba(153,142,255,0.12), transparent 70%);
-        }
-
-        /* progress ring, drawn just outside the disc */
-        .cc-in-ring { position: absolute; inset: -3.2%; width: auto; height: auto; transform: rotate(-90deg); pointer-events: none; }
-        .cc-in-ring circle { fill: none; stroke-width: 0.9; }
-        .cc-in-ring .bg { stroke: rgba(22,20,31,0.12); }
-        .cc-in-ring .fg { stroke: ${ACCENT}; stroke-linecap: round; }
-
-        /* gauge ticks around the rim - they turn with the dial, and stay inside it */
-        .cc-in-ticks { position: absolute; inset: -3.2%; pointer-events: none; }
-        .cc-in-ticks i {
-          position: absolute; top: 50%; left: 50%; width: 50%; height: 1px;
-          transform-origin: 0 50%; transform: rotate(var(--a));
-          transition: transform 1.05s cubic-bezier(.16,1,.3,1);
-        }
-        .cc-in-ticks i::after {
-          content: ''; position: absolute; right: 0; top: 0; width: 9px; height: 1px;
-          background: rgba(22,20,31,0.22);
-        }
-        .cc-in-ticks i.on::after { width: 18px; height: 2px; background: ${ACCENT}; top: -0.5px; }
-
-        /* the picker: a cylinder of names turning behind the needle */
-        .cc-in-picker {
-          position: relative; height: clamp(260px, 24vw, 360px);
-          perspective: 900px; perspective-origin: 0% 50%;
-        }
-        .cc-in-picker::before {
-          content: ''; position: absolute; left: 0; top: 50%; width: 26px; height: 2px;
-          transform: translate(calc(-100% - 4px), -50%);
-          background: linear-gradient(90deg, rgba(153,142,255,0), ${ACCENT});
-        }
-        .cc-in-picker::after {
-          content: ''; position: absolute; left: -4px; top: 50%; width: 9px; height: 9px;
-          transform: translate(-50%, -50%); border-radius: 50%; background: ${ACCENT};
-          box-shadow: 0 0 0 4px rgba(153,142,255,0.2);
-        }
-        .cc-in-opt {
-          position: absolute; left: 0; right: 0; top: 50%;
-          transform-style: preserve-3d; will-change: transform, opacity;
-          transform: translateY(-50%) rotateX(var(--a)) translateZ(clamp(120px, 11vw, 168px));
-          transition: transform 1.05s cubic-bezier(.16,1,.3,1), opacity .8s ease;
-          backface-visibility: hidden;
-        }
-        .cc-in-opt button {
-          display: flex; align-items: center; gap: 10px; width: 100%;
-          min-height: 44px; padding: 6px 0; border: 0; background: none; cursor: pointer;
-          text-align: left; color: rgba(22,20,31,0.5);
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
-          font-size: clamp(14px, 1.05vw, 18px); line-height: 1.2;
-          transition: color .45s ease;
-        }
-        .cc-in-opt button::before {
-          content: ''; flex: none; width: 12px; height: 1px; background: currentColor; opacity: .5;
-          transition: width .55s cubic-bezier(.16,1,.3,1), background .45s ease, opacity .45s ease;
-        }
-        .cc-in-opt button:hover { color: ${TEXT}; }
-        .cc-in-opt.on button { color: ${TEXT}; font-weight: 700; }
-        .cc-in-opt.on button::before { width: 26px; background: ${ACCENT}; opacity: 1; }
-
-        /* ---- the diorama that sits in the disc ---- */
-        .cc-sc {
-          position: absolute; inset: 0; display: grid; place-items: center;
-          opacity: 0; transform: scale(0.9); pointer-events: none;
-          transition: opacity .7s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);
-          will-change: transform, opacity;
-        }
-        .cc-sc.on { opacity: 1; transform: scale(1); }
-        .cc-iso {
-          position: relative; width: 66%; aspect-ratio: 1;
-          transform: rotateX(54deg) rotateZ(-42deg); transform-style: preserve-3d;
-        }
-        .cc-plate {
-          position: absolute; inset: 0; border-radius: 12px;
-          background: linear-gradient(150deg, #FFFFFF 0%, #EEEBFB 55%, #E2DDF8 100%);
-          box-shadow:
-            inset 0 0 0 1px rgba(22,20,31,0.14),
-            0 2px 0 2px rgba(26,22,44,0.06),
-            30px 30px 60px -18px rgba(22,20,31,0.42);
-          overflow: hidden;
-        }
-        /* a faint floor grid, shared by all six plates, so they read as one set */
-        .cc-plate::before {
-          content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.5;
-          background:
-            repeating-linear-gradient(0deg, rgba(22,20,31,0.06) 0 1px, transparent 1px 12.5%),
-            repeating-linear-gradient(90deg, rgba(22,20,31,0.06) 0 1px, transparent 1px 12.5%);
-        }
-
-        /* floating chips, shared by every scene */
-        .cc-chip {
-          position: absolute; border-radius: 10px;
-          background: linear-gradient(160deg, #FFFFFF 0%, #FAF9FE 55%, #EDEAFB 100%);
+        /* the right helper panel */
+        .cc-in-panel {
+          position: absolute; top: 22%; right: 0; width: clamp(220px, 20vw, 292px); z-index: 5;
+          padding: clamp(18px, 1.6vw, 24px); border-radius: 18px;
+          background: linear-gradient(160deg, rgba(255,255,255,0.72), rgba(255,255,255,0.44));
+          backdrop-filter: blur(12px) saturate(1.3); -webkit-backdrop-filter: blur(12px) saturate(1.3);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(22,20,31,0.08),
-            inset 0 0 0 1px rgba(22,20,31,0.09),
-            0 2px 4px rgba(22,20,31,0.16),
-            0 18px 30px -14px rgba(22,20,31,0.5);
-          will-change: transform;
+            inset 0 0 0 1px rgba(255,255,255,0.65),
+            0 30px 54px -26px rgba(22,20,31,0.5);
         }
-        /* the two blank chips carry a line of "content" so they read as cards, not blobs */
-        .cc-chip.b::after, .cc-chip.c::after {
-          content: ''; position: absolute; left: 18%; right: 30%; top: 34%; height: 10%;
-          border-radius: 100px; background: rgba(255,255,255,0.75);
+        .cc-in-panel .pcount {
+          display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;
+          font-family: Georgia, 'Times New Roman', serif; font-variant-numeric: tabular-nums;
         }
-        .cc-chip.c::after { background: rgba(22,20,31,0.16); right: 24%; }
-        .cc-chip.c::before {
-          content: ''; position: absolute; left: 18%; right: 46%; top: 58%; height: 10%;
-          border-radius: 100px; background: rgba(153,142,255,0.5);
+        .cc-in-panel .pcount b { font-size: clamp(30px, 2.6vw, 46px); line-height: 1; color: ${TEXT}; }
+        .cc-in-panel .pcount span { font-size: clamp(13px, 1vw, 16px); color: rgba(22,20,31,0.42); }
+        .cc-in-panel p {
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.95vw, 14px); line-height: 1.7;
+          color: ${MUTED}; margin: 0;
         }
-        .cc-chip.a {
-          top: -18%; left: 8%; width: 34%; aspect-ratio: 1; display: grid; place-items: center;
-          color: ${ACCENT}; transform: translateZ(58px);
-          animation: cc-float 5.4s cubic-bezier(.4,0,.6,1) infinite;
+        .cc-in-track {
+          margin-top: 16px; height: 3px; border-radius: 100px; overflow: hidden;
+          background: rgba(22,20,31,0.12);
         }
-        .cc-chip.b {
-          top: 16%; left: -20%; width: 22%; aspect-ratio: 1.6;
-          background: ${GLOSS}; transform: translateZ(38px);
-          box-shadow: ${ACCENT_RIM}, 0 18px 34px -16px rgba(74,61,191,0.9);
-          animation: cc-float 6.2s cubic-bezier(.4,0,.6,1) infinite .5s;
-        }
-        .cc-chip.c {
-          bottom: -14%; right: 4%; width: 26%; aspect-ratio: 2.2;
-          background: linear-gradient(150deg, #fff, #EAE6FA); transform: translateZ(30px);
-          animation: cc-float 7s cubic-bezier(.4,0,.6,1) infinite 1.1s;
-        }
-        @keyframes cc-float {
-          0%, 100% { transform: translateZ(var(--z, 40px)) translate3d(0, 0, 0); }
-          50%      { transform: translateZ(var(--z, 40px)) translate3d(0, -7%, 14px); }
-        }
-        .cc-chip.a { --z: 58px; }
-        .cc-chip.b { --z: 38px; }
-        .cc-chip.c { --z: 30px; }
-
-        /* scene: e-commerce - a pick grid being scanned */
-        .cc-grid9 {
-          position: absolute; inset: 16%; display: grid; grid-template-columns: repeat(3, 1fr);
-          grid-auto-rows: 1fr; gap: 7%;
-        }
-        .cc-grid9 i {
-          border-radius: 4px; background: rgba(22,20,31,0.07); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.05);
-        }
-        .cc-grid9 i.lit {
-          background: rgba(153,142,255,0.3); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.55);
-          animation: cc-blink 3.4s cubic-bezier(.4,0,.6,1) infinite;
-          animation-delay: calc(var(--i) * 0.28s);
-        }
-        @keyframes cc-blink { 0%, 100% { opacity: 0.45; } 50% { opacity: 1; } }
-        .cc-beam {
-          position: absolute; left: 0; right: 0; top: 0; height: 26%;
-          background: linear-gradient(180deg, transparent, rgba(153,142,255,0.28), transparent);
-          animation: cc-sweep 3.6s cubic-bezier(.65,0,.35,1) infinite; will-change: transform;
-        }
-        @keyframes cc-sweep { 0% { transform: translateY(-30%); } 100% { transform: translateY(400%); } }
-
-        /* scene: saas - a ticket rising through stacked tiers */
-        .cc-stack { position: absolute; inset: 14%; transform-style: preserve-3d; }
-        .cc-stack .l {
-          position: absolute; left: 0; right: 0; height: 22%; border-radius: 6px;
-          background: #fff;
-          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16), 0 6px 12px -6px rgba(22,20,31,0.5);
-        }
-        .cc-stack .l::after {
-          content: ''; position: absolute; left: 10%; right: 42%; top: 38%; height: 12%;
-          border-radius: 100px; background: rgba(26,22,44,0.16);
-        }
-        .cc-stack .l1 { bottom: 0; transform: translateZ(0); }
-        .cc-stack .l2 { bottom: 34%; transform: translateZ(18px); }
-        .cc-stack .l3 { bottom: 68%; transform: translateZ(36px); }
-        .cc-ticket {
-          position: absolute; left: 18%; bottom: 6%; width: 26%; height: 14%; border-radius: 4px;
-          background: ${ACCENT}; box-shadow: 0 10px 20px -8px rgba(153,142,255,0.9);
-          animation: cc-rise 4.2s cubic-bezier(.5,0,.2,1) infinite; will-change: transform;
-        }
-        @keyframes cc-rise {
-          0%       { transform: translate3d(0, 0, 4px); opacity: 0; }
-          14%      { opacity: 1; }
-          55%      { transform: translate3d(30%, -170%, 24px); opacity: 1; }
-          85%, 100%{ transform: translate3d(56%, -330%, 44px); opacity: 0; }
+        .cc-in-prog {
+          display: block; height: 100%; border-radius: 100px; background: ${ACCENT};
+          transform-origin: left center; transform: scaleX(0); will-change: transform;
         }
 
-        /* scene: healthcare - a booking slot filling in the diary */
-        .cc-cal {
-          position: absolute; inset: 16%; display: grid; grid-template-columns: repeat(4, 1fr);
-          grid-auto-rows: 1fr; gap: 8%;
-        }
-        .cc-cal i { border-radius: 3px; background: rgba(22,20,31,0.07); }
-        .cc-cal i:nth-child(3n) { background: rgba(26,22,44,0.10); }
-        .cc-cal i.lit {
-          background: ${ACCENT};
-          animation: cc-book 3.8s cubic-bezier(.16,1,.3,1) infinite; will-change: transform, opacity;
-        }
-        @keyframes cc-book {
-          0%, 12%   { transform: scale(0.4); opacity: 0; }
-          30%, 76%  { transform: scale(1);   opacity: 1; }
-          92%, 100% { transform: scale(1.5); opacity: 0; }
-        }
-
-        /* scene: logistics - a delivery running its route */
-        .cc-route, .cc-arc { position: absolute; inset: 8%; width: 84%; height: 84%; overflow: visible; }
-        .cc-route .stop, .cc-arc .stop { fill: rgba(22,20,31,0.3); }
-        .cc-route .halo, .cc-arc .halo { fill: rgba(153,142,255,0.22); }
-        .cc-route-dot {
-          offset-path: path('M12,78 C34,72 30,40 52,34 C72,28 74,14 88,18');
-          animation: cc-drive 4.6s cubic-bezier(.5,0,.5,1) infinite; will-change: transform;
-        }
-        @keyframes cc-drive {
-          0%       { offset-distance: 0%; opacity: 0; }
-          8%, 88%  { opacity: 1; }
-          100%     { offset-distance: 100%; opacity: 0; }
-        }
-
-        /* scene: fintech - a case stack being signed off */
-        .cc-cards { position: absolute; inset: 18%; transform-style: preserve-3d; }
-        .cc-cards .c {
-          position: absolute; inset: 0; border-radius: 7px; background: #fff;
-          box-shadow: inset 0 0 0 1px rgba(22,20,31,0.09);
-        }
-        .cc-cards .c1 { transform: translate3d(-8%, 8%, 0) rotate(-4deg); opacity: .55; }
-        .cc-cards .c2 { transform: translate3d(-3%, 3%, 12px) rotate(-2deg); opacity: .8; }
-        .cc-cards .c3 { transform: translateZ(26px); }
-        .cc-ticks { position: absolute; inset: 24% 20%; display: grid; gap: 14%; transform: translateZ(28px); }
-        .cc-ticks i {
-          height: 12%; min-height: 3px; border-radius: 100px; background: ${ACCENT};
-          transform-origin: left center; transform: scaleX(0);
-          animation: cc-sign 4.4s cubic-bezier(.16,1,.3,1) infinite;
-          animation-delay: calc(var(--i) * 0.4s); will-change: transform;
-        }
-        @keyframes cc-sign {
-          0%, 6%    { transform: scaleX(0); }
-          26%, 78%  { transform: scaleX(1); }
-          94%, 100% { transform: scaleX(0); }
-        }
-
-        /* scene: travel - a route arcing between two cities */
-        .cc-arc-dot {
-          offset-path: path('M14,74 Q50,6 86,52');
-          animation: cc-fly 5s cubic-bezier(.45,0,.35,1) infinite; will-change: transform;
-        }
-        @keyframes cc-fly {
-          0%      { offset-distance: 0%; opacity: 0; }
-          10%, 86%{ opacity: 1; }
-          100%    { offset-distance: 100%; opacity: 0; }
-        }
-
-        /* ---- the live console: the floor, while you are reading ---- */
+        /* the live console, bottom-right, glass */
         .cc-in-console {
-          position: absolute; left: 0; bottom: 4%; z-index: 3;
+          position: absolute; right: 0; bottom: 3%; z-index: 6;
           display: flex; align-items: center; gap: clamp(14px, 1.4vw, 22px);
-          padding: clamp(12px, 1.1vw, 16px) clamp(16px, 1.5vw, 22px); border-radius: 12px;
+          padding: clamp(12px, 1.1vw, 16px) clamp(16px, 1.5vw, 22px); border-radius: 14px;
           background: linear-gradient(168deg, rgba(255,255,255,0.97), rgba(255,255,255,0.82));
-          backdrop-filter: blur(8px) saturate(1.3);
-          -webkit-backdrop-filter: blur(8px) saturate(1.3);
+          backdrop-filter: blur(8px) saturate(1.3); -webkit-backdrop-filter: blur(8px) saturate(1.3);
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 -1px 0 rgba(26,22,44,0.03),
             inset 0 0 0 1px rgba(22,20,31,0.07),
-            0 1px 3px rgba(26,22,44,0.06),
             0 30px 50px -26px rgba(22,20,31,0.55);
         }
         .cc-in-console .live {
           display: inline-flex; align-items: center; gap: 7px;
-          font-family: 'Inter', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 1.6px;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 1.6px;
           text-transform: uppercase; color: ${LIVE_INK};
         }
-        .cc-in-console .live i {
-          position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
-        }
+        .cc-in-console .live i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE}; }
         .cc-in-console .live i::after {
           content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid ${LIVE};
           animation: cc-ping 2.4s cubic-bezier(.16,1,.3,1) infinite;
         }
         @keyframes cc-ping { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
-        .cc-in-console .fig {
-          font-family: 'Inter', sans-serif; font-variant-numeric: tabular-nums;
-          display: flex; flex-direction: column; gap: 3px;
-        }
+        .cc-in-console .fig { display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums; }
         .cc-in-console .fig b { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(18px, 1.5vw, 24px); line-height: 1; }
         .cc-in-console .fig span {
-          font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase; font-weight: 700;
-          color: rgba(22,20,31,0.45); white-space: nowrap;
+          font-family: 'Universal Sans', sans-serif; font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase;
+          font-weight: 700; color: rgba(22,20,31,0.45); white-space: nowrap;
         }
         .cc-in-console .bars { display: flex; align-items: flex-end; gap: 3px; height: 26px; }
         .cc-in-console .bars i {
-          width: 4px; border-radius: 100px; background: ${ACCENT}; opacity: 0.8;
-          transform-origin: bottom; height: 100%;
-          transform: scaleY(var(--h)); will-change: transform;
-          animation: cc-bar 1.3s cubic-bezier(.4,0,.6,1) infinite alternate;
-          animation-delay: var(--d);
+          width: 4px; border-radius: 100px; background: ${ACCENT}; opacity: 0.8; height: 100%;
+          transform-origin: bottom; transform: scaleY(var(--h)); will-change: transform;
+          animation: cc-bar 1.3s cubic-bezier(.4,0,.6,1) infinite alternate; animation-delay: var(--d);
         }
-        @keyframes cc-bar {
-          from { transform: scaleY(calc(var(--h) * 0.3)); }
-          to   { transform: scaleY(var(--h)); }
-        }
+        @keyframes cc-bar { from { transform: scaleY(calc(var(--h) * 0.3)); } to { transform: scaleY(var(--h)); } }
 
-        /* mobile rail replaces the wheel */
+        /* the mobile rail: on small screens the floor is retired for a tap list */
         .cc-in-rail { display: none; }
 
         /* ── responsive ── */
         @media (max-width: 1180px) {
           .cc-in-mast { grid-template-columns: minmax(0, 1fr); align-items: start; }
-          .cc-in-body { grid-template-columns: minmax(0, 1fr); gap: clamp(32px, 5vw, 48px); }
-          .cc-in-stage { order: -1; max-width: 720px; margin: 0 auto; width: 100%; }
+          .cc-in-panel { display: none; }
         }
         @media (max-width: 860px) {
-          .cc-in-picker, .cc-in-ticks { display: none; }
-          .cc-in-stage { grid-template-columns: minmax(0, 1fr); max-width: 460px; }
-          .cc-in-disc { width: 100%; }
-          .cc-in-console { left: 50%; transform: translateX(-50%); bottom: 0; }
+          .cc-in-scene, .cc-in-console.floating { display: none; }
+          .cc-in-stage {
+            position: static; min-height: 0; display: flex; flex-direction: column;
+            align-items: stretch; gap: clamp(22px, 4vw, 32px);
+          }
+          .cc-in-head, .cc-in-cards, .cc-in-console {
+            position: static; transform: none; width: 100%;
+          }
+          .cc-in-head { text-align: left; }
+          .cc-in-desc { margin-left: 0; }
+          .cc-in-pills { justify-content: flex-start; }
+          .cc-in-cards { justify-content: flex-start; flex-wrap: wrap; }
+          .cc-in-stat:nth-child(2) { transform: none; }
+          .cc-in-console { align-self: flex-start; width: auto; bottom: auto; }
           .cc-in-rail {
-            display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none;
-            margin: clamp(18px, 3vw, 26px) 0 0; padding-bottom: 4px;
+            display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
           }
           .cc-in-rail::-webkit-scrollbar { display: none; }
           .cc-in-rail button {
@@ -689,26 +525,51 @@ export function Industries() {
             border: 0; color: ${TEXT};
             background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.7));
             box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(22,20,31,0.14);
-            font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap;
+            font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap;
           }
           .cc-in-rail button.on {
             background: ${GLOSS}; color: #fff;
             box-shadow: ${ACCENT_RIM}, 0 10px 22px -12px rgba(74,61,191,0.7);
           }
-          .cc-in-stats { grid-template-columns: minmax(0, 1fr); gap: 16px; }
-          .cc-in-stat { display: flex; align-items: baseline; gap: 14px; }
-          .cc-in-stat b { min-width: 3.2ch; }
-          .cc-in-stat span { margin-top: 0; }
+        }
+        @media (max-width: 420px) {
+          .cc-in-stat { width: calc(50% - 6px); height: auto; padding: 16px 12px; flex-direction: row; gap: 12px; justify-content: flex-start; }
+          .cc-in-stat b { min-width: 2.6ch; }
+          .cc-in-stat span { margin-top: 0; text-align: left; }
+        }
+
+        /* ── large screens: everything below ~1728px keeps the tuned desktop look;
+           above it the floor, stage and cards keep scaling with the viewport so the
+           composition stays the same size *relative to the screen* on 2K / 4K ── */
+        @media (min-width: 1728px) {
+          .cc-in-floor { font-size: clamp(13.5px, 0.781vw, 30px); }
+          .cc-in-stage { min-height: clamp(840px, 48.6vw, 1320px); }
+          .cc-in-stat { width: clamp(128px, 7.4vw, 200px); height: clamp(142px, 8.2vw, 232px); }
+          .cc-in-stat b { font-size: clamp(42px, 2.42vw, 60px); }
+          .cc-in-stat span { font-size: clamp(11px, 0.637vw, 16px); }
+          .cc-in-panel { width: clamp(292px, 16.9vw, 440px); }
+        }
+        @media (min-width: 1843px) {
+          .cc-in-title { font-size: clamp(118px, 6.4vw, 175px); }
         }
         @media (prefers-reduced-motion: reduce) {
-          .cc-chip, .cc-beam, .cc-ticket, .cc-grid9 i.lit, .cc-cal i.lit,
-          .cc-route-dot, .cc-arc-dot, .cc-ticks i, .cc-in-console .bars i, .cc-in-console .live i::after {
-            animation: none;
-          }
-          .cc-ticks i { transform: scaleX(1); }
-          .cc-in-opt, .cc-in-ticks i { transition: none; }
+          .cc-in-dais .top::after, .cc-in-console .bars i, .cc-in-console .live i::after { animation: none; }
+          .cc-in-tile, .cc-in-knob, .cc-in-tile .face { transition: none; }
         }
       `}</style>
+
+      {/* honeycomb: four hexagons tiled seamlessly, near-invisible */}
+      <svg className="cc-in-hex" aria-hidden>
+        <defs>
+          <pattern id="cc-in-hexpat" width="17.32" height="30" patternUnits="userSpaceOnUse" patternTransform="scale(2.4)">
+            <polygon points="8.66,-10 17.32,-5 17.32,5 8.66,10 0,5 0,-5" />
+            <polygon points="8.66,20 17.32,25 17.32,35 8.66,40 0,35 0,25" />
+            <polygon points="0,5 8.66,10 8.66,20 0,25 -8.66,20 -8.66,10" />
+            <polygon points="17.32,5 25.98,10 25.98,20 17.32,25 8.66,20 8.66,10" />
+          </pattern>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#cc-in-hexpat)" />
+      </svg>
 
       <div className="cc-in-inner">
         {/* ── masthead ── */}
@@ -733,134 +594,171 @@ export function Industries() {
           </motion.div>
         </div>
 
-        {/* ── body: panel + dial ── */}
-        <div className="cc-in-body">
-          {/* left: the sector, written out */}
-          <motion.div className="cc-in-panel" {...rise(0.06)}>
-            <span className="cc-in-code">{active.code}</span>
+        {/* ── stage: floor + floating UI ── */}
+        <motion.div
+          className="cc-in-stage"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          initial={reduce ? false : { opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 1, ease: EASE }}
+        >
+          {/* the isometric floor */}
+          <div className="cc-in-scene" aria-hidden>
+            <div className="cc-in-floor">
+              <div className="cc-in-dais">
+                <span className="side" />
+                <span className="top" />
+              </div>
 
+              <svg className="cc-in-arcs" viewBox="0 0 100 100">
+                <defs>
+                  <linearGradient id="cc-in-arcV" x1="0" y1="1" x2="1" y2="0">
+                    <stop offset="0%" stopColor={ACCENT} stopOpacity="0.35" />
+                    <stop offset="55%" stopColor={ACCENT} stopOpacity="0.95" />
+                    <stop offset="100%" stopColor={ACCENT_INK} />
+                  </linearGradient>
+                  <linearGradient id="cc-in-arcT" x1="1" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={LIVE} stopOpacity="0.35" />
+                    <stop offset="55%" stopColor={LIVE} stopOpacity="0.9" />
+                    <stop offset="100%" stopColor={LIVE_INK} />
+                  </linearGradient>
+                  <marker id="cc-in-arrowV" markerWidth="5.4" markerHeight="5.4" refX="2.7" refY="2.7" orient="auto">
+                    <path d="M0,0 L5.4,2.7 L0,5.4 Z" fill={ACCENT_INK} />
+                  </marker>
+                  <marker id="cc-in-arrowT" markerWidth="5.4" markerHeight="5.4" refX="2.7" refY="2.7" orient="auto">
+                    <path d="M0,0 L5.4,2.7 L0,5.4 Z" fill={LIVE_INK} />
+                  </marker>
+                </defs>
+                {/* purple arc sweeps the back half, teal the front - together a ring round the cards */}
+                <path d="M 10,50 A 40,40 0 0,1 90,50" stroke="url(#cc-in-arcV)" markerEnd="url(#cc-in-arrowV)" />
+                <path d="M 90,50 A 40,40 0 0,1 10,50" stroke="url(#cc-in-arcT)" markerEnd="url(#cc-in-arrowT)" />
+              </svg>
+
+              {SECTORS.map((s, i) => {
+                const a = (RING[i] * Math.PI) / 180
+                const x = (Math.cos(a) * R).toFixed(2)
+                const y = (Math.sin(a) * R).toFixed(2)
+                const on = i === sel
+                /* the two back tiles (Fintech, SaaS) read larger, like the reference */
+                const sc = i === 0 || i === 1 ? 1.24 : 1
+                return (
+                  <button
+                    key={s.code}
+                    type="button"
+                    role="tab"
+                    aria-selected={on}
+                    aria-label={s.name}
+                    className={`cc-in-tile${on ? ' on' : ''}`}
+                    style={{
+                      ['--tx' as string]: `${x}em`,
+                      ['--ty' as string]: `${y}em`,
+                      ['--sc' as string]: sc,
+                      transform: `translate3d(${x}em, ${y}em, 0) scale(${sc})`,
+                    }}
+                    onClick={() => pick(i)}
+                  >
+                    <span className="wall w3" aria-hidden />
+                    <span className="wall w2" aria-hidden />
+                    <span className="wall w1" aria-hidden />
+                    <span className="face">
+                      <span className="label"><s.Icon aria-hidden /> {s.name}</span>
+                      {on && <span className="dot" aria-hidden />}
+                    </span>
+                  </button>
+                )
+              })}
+
+              {/* the knob sits at the front lip of the dais; its notch turns to the live sector */}
+              <div
+                className="cc-in-knob"
+                style={{ transform: `translate3d(-1.5em, 3.5em, 1.6em) rotate(${RING[sel] + 90}deg)` }}
+                aria-hidden
+              >
+                <span className="base" />
+                <span className="base2" />
+                <span className="rim">
+                  <span className="cap"><i /></span>
+                </span>
+                <span className="notch" />
+              </div>
+            </div>
+          </div>
+
+          {/* the active sector, written above the floor */}
+          <div className="cc-in-head">
             <motion.div
-              key={`name-${sel}`}
+              key={`head-${sel}`}
               className="cc-in-swap"
               initial={reduce ? false : { opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: EASE }}
             >
               <h3 className="cc-in-name">{active.name}</h3>
-              <p className="cc-in-desc">{active.desc}</p>
-              <ul className="cc-in-runs">
+              <ul className="cc-in-pills">
                 {active.runs.map((r) => <li key={r}>{r}</li>)}
               </ul>
             </motion.div>
+          </div>
 
-            <div className="cc-in-stats">
-              {active.stats.map(([v, l]) => (
-                <motion.div
-                  className="cc-in-stat"
-                  key={`${sel}-${l}`}
-                  initial={reduce ? false : { opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.6, ease: EASE, delay: 0.08 }}
-                >
-                  <b>{v}</b>
-                  <span>{l}</span>
-                </motion.div>
-              ))}
-            </div>
-
-            <Link className="cc-in-cta" to="/contact#write">
-              <span>Talk about {active.short}</span>
-              <ArrowRight size={18} strokeWidth={2.3} aria-hidden />
-            </Link>
-
-            {/* mobile: the wheel is gone, so the sectors become a rail */}
-            <div className="cc-in-rail" role="tablist" aria-label="Choose a sector">
-              {SECTORS.map((s, i) => (
-                <button
-                  key={s.code}
-                  type="button"
-                  role="tab"
-                  aria-selected={i === sel}
-                  className={i === sel ? 'on' : undefined}
-                  onClick={() => pick(i)}
-                >
-                  {s.name}
-                </button>
-              ))}
-            </div>
-          </motion.div>
-
-          {/* right: the dial */}
+          {/* the three glass stats rising off the dial */}
           <motion.div
-            className="cc-in-stage"
-            onMouseEnter={() => setPaused(true)}
-            onMouseLeave={() => setPaused(false)}
-            initial={reduce ? false : { opacity: 0, scale: 0.94 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 1, ease: EASE }}
+            className="cc-in-cards"
+            key={`cards-${sel}`}
+            initial={reduce ? false : { opacity: 0, scale: 0.94, x: '-50%' }}
+            animate={{ opacity: 1, scale: 1, x: '-50%' }}
+            transition={{ duration: 0.5, ease: EASE }}
           >
-            <div className="cc-in-dial">
-              <div className="cc-in-disc">
-                {SECTORS.map((s, i) => <Scene key={s.code} s={s} on={i === sel} />)}
-
-                <svg className="cc-in-ring" viewBox="0 0 100 100" aria-hidden>
-                  <circle className="bg" cx="50" cy="50" r="47" />
-                  <circle
-                    className="fg" cx="50" cy="50" r="47" ref={progRef}
-                    strokeDasharray={2 * Math.PI * 47}
-                    strokeDashoffset={2 * Math.PI * 47}
-                  />
-                </svg>
+            {active.stats.map(([v, l]) => (
+              <div className="cc-in-stat" key={l}>
+                <b>{v}</b>
+                <span>{l}</span>
               </div>
-
-              <div className="cc-in-ticks" aria-hidden>
-                {SECTORS.map((s, i) => (
-                  <i
-                    key={s.code}
-                    className={i === sel ? 'on' : undefined}
-                    style={{ ['--a' as string]: `${(i - sel) * SPREAD}deg` }}
-                  />
-                ))}
-              </div>
-            </div>
-
-            {/* the names ride a cylinder that turns behind the needle */}
-            <div className="cc-in-picker" role="tablist" aria-label="Choose a sector">
-              {SECTORS.map((s, i) => {
-                const off = i - sel
-                return (
-                  <div
-                    className={`cc-in-opt${i === sel ? ' on' : ''}`}
-                    key={s.code}
-                    style={{
-                      /* negative offset must ride up, not down */
-                      ['--a' as string]: `${-off * SPREAD}deg`,
-                      opacity: Math.max(0, 1 - Math.abs(off) * 0.26),
-                      zIndex: 10 - Math.abs(off),
-                    }}
-                  >
-                    <button type="button" role="tab" aria-selected={i === sel} onClick={() => pick(i)}>
-                      {s.name}
-                    </button>
-                  </div>
-                )
-              })}
-            </div>
-
-            {/* the extra panel: what the floor is doing for this sector, right now */}
-            <div className="cc-in-console">
-              <span className="live"><i aria-hidden /> Live</span>
-              <span className="fig"><b>{queue}</b><span>In queue</span></span>
-              <span className="fig"><b>{active.answer}</b><span>Answered in</span></span>
-              <span className="bars" aria-hidden>
-                {[0.4, 0.72, 0.55, 0.94, 0.62, 0.85, 0.48].map((h, i) => (
-                  <i key={i} style={{ ['--h' as string]: h, ['--d' as string]: `${i * 0.1}s` }} />
-                ))}
-              </span>
-            </div>
+            ))}
           </motion.div>
-        </div>
+
+          {/* the right helper panel */}
+          <aside className="cc-in-panel">
+            <p className="pcount">
+              <b>{String(sel + 1).padStart(2, '0')}</b>
+              <span>/ 06 on the dial</span>
+            </p>
+            <p>
+              Turn the dial, or click any tile. Each sector is staffed by agents who already know its
+              products, its policies and its toughest scenarios.
+            </p>
+            <div className="cc-in-track"><span className="cc-in-prog" ref={progRef} /></div>
+          </aside>
+
+          {/* the live console */}
+          <div className="cc-in-console floating">
+            <span className="live"><i aria-hidden /> Live</span>
+            <span className="fig"><b>{queue}</b><span>In queue</span></span>
+            <span className="fig"><b>{active.answer}</b><span>Answered in</span></span>
+            <span className="bars" aria-hidden>
+              {[0.4, 0.72, 0.55, 0.94, 0.62, 0.85, 0.48].map((h, i) => (
+                <i key={i} style={{ ['--h' as string]: h, ['--d' as string]: `${i * 0.1}s` }} />
+              ))}
+            </span>
+          </div>
+
+          {/* mobile only: the floor is retired, sectors become a tap rail */}
+          <div className="cc-in-rail" role="tablist" aria-label="Choose a sector">
+            {SECTORS.map((s, i) => (
+              <button
+                key={s.code}
+                type="button"
+                role="tab"
+                aria-selected={i === sel}
+                className={i === sel ? 'on' : undefined}
+                onClick={() => pick(i)}
+              >
+                {s.name}
+              </button>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   )

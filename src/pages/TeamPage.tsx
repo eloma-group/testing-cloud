@@ -198,18 +198,18 @@ export function TeamPage() {
         .tm-row:hover .tm-row-shot img, .tm-row.on .tm-row-shot img { filter: none; }
 
         .tm-row b {
-          display: block; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.025em;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.025em;
           font-size: clamp(17px, 1.5vw, 27px); line-height: 1.16; color: ${TEXT};
           will-change: transform; transition: transform .7s cubic-bezier(.16,1,.3,1), color .45s ease;
         }
         .tm-row:hover b { transform: translateX(4px); }
         .tm-row.on b { color: ${ACCENT}; }
         .tm-row em {
-          display: block; margin-top: 4px; font-style: normal; font-family: 'Inter', sans-serif;
+          display: block; margin-top: 4px; font-style: normal; font-family: 'Universal Sans', sans-serif;
           font-weight: 600; font-size: clamp(12px, 0.92vw, 14px); color: ${MUTED};
         }
         .tm-row .city {
-          font-family: 'Inter', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(9px, 0.72vw, 11px); letter-spacing: 1.6px; color: rgba(22,20,31,0.35);
           white-space: nowrap; transition: color .45s ease;
         }
@@ -232,12 +232,12 @@ export function TeamPage() {
           position: absolute; z-index: 2; left: clamp(18px, 2vw, 28px); bottom: clamp(16px, 1.8vw, 24px);
         }
         .tm-card-name b {
-          display: block; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           font-size: clamp(26px, 2.4vw, 44px); line-height: 1; color: #fff;
           text-shadow: 0 2px 20px rgba(20,17,31,0.5);
         }
         .tm-card-name span {
-          display: block; margin-top: 8px; font-family: 'Inter', sans-serif; font-weight: 700;
+          display: block; margin-top: 8px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
           text-transform: uppercase; font-size: 10px; letter-spacing: 1.8px; color: #D6D0FF;
         }
         .tm-card-body { padding: clamp(22px, 2.4vw, 36px); }
@@ -249,7 +249,7 @@ export function TeamPage() {
         }
         .tm-card-bio {
           margin: 0 0 clamp(20px, 2.2vw, 28px);
-          font-family: 'Inter', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85; color: ${MUTED};
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85; color: ${MUTED};
         }
         .tm-card-meta {
           display: flex; flex-wrap: wrap; gap: clamp(12px, 1.4vw, 22px);
@@ -261,7 +261,7 @@ export function TeamPage() {
           font-size: clamp(18px, 1.6vw, 27px); line-height: 1; color: ${TEXT};
         }
         .tm-card-meta span {
-          display: block; margin-top: 6px; font-family: 'Inter', sans-serif; font-weight: 700;
+          display: block; margin-top: 6px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
           text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; color: ${MUTED};
         }
 
@@ -277,7 +277,7 @@ export function TeamPage() {
         }
         .tm-desk b {
           display: flex; align-items: center; gap: 9px;
-          font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.02em;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em;
           font-size: clamp(17px, 1.5vw, 26px); color: #fff;
         }
         .tm-desk b i { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #3E3852; }
@@ -288,7 +288,7 @@ export function TeamPage() {
           line-height: 1; letter-spacing: -0.03em; color: ${ACCENT}; font-variant-numeric: tabular-nums;
         }
         .tm-desk-z {
-          font-family: 'Inter', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.6px; color: #858387;
         }
         .tm-desk-m {
@@ -296,7 +296,7 @@ export function TeamPage() {
           padding-top: clamp(14px, 1.6vw, 18px); border-top: 1px solid #2F2A42;
         }
         .tm-desk-m span {
-          font-family: 'Inter', sans-serif; font-weight: 600; font-size: 12.5px; color: #BDBDBD;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: 12.5px; color: #BDBDBD;
         }
         .tm-desk-m span + span::before {
           content: '·'; margin-right: 10px; color: #3E3852;
@@ -310,11 +310,11 @@ export function TeamPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .tm-how h3 {
-          margin: 0 0 12px; font-family: 'Poppins', sans-serif; font-weight: 600; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.025em;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1.14; color: ${TEXT};
         }
         .tm-how p {
-          margin: 0; font-family: 'Inter', sans-serif; font-size: clamp(13px, 1vw, 16px);
+          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
           line-height: 1.8; color: ${MUTED};
         }
         .tm-hire {
@@ -323,7 +323,7 @@ export function TeamPage() {
           border-top: 1px solid rgba(22,20,31,0.16);
         }
         .tm-hire p {
-          margin: 0; max-width: 54ch; font-family: 'Inter', sans-serif;
+          margin: 0; max-width: 54ch; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(14px, 1.05vw, 17px); line-height: 1.8; color: ${MUTED};
         }
         .tm-hire p b { color: ${TEXT}; font-weight: 700; }
