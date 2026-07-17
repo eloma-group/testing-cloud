@@ -16,12 +16,14 @@ const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const GLOSS      = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 48%, #4A3DBF 100%)'
 const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
 
-/* the six tiles are pinned around the floor at 60deg apart, starting at the top */
-const RING = [-90, -30, 30, 90, 150, 210]
+/* the six tiles are pinned around the floor roughly 60deg apart, starting at the top -
+   the two back tiles sit 1deg closer together so their edge gaps stay even with the
+   neighbouring tiles once their wider radius and 1.24 upscale are applied */
+const RING = [-89, -31, 30, 90, 150, 210]
 const R    = 23        // ring radius, in floor-em - tiles ring wider around the dais
 const TILT = 54        // floor rotateX
 const SPIN = 26        // floor rotateZ (labels counter-rotate by this to stay horizontal)
-const DWELL = 6200     // ms each sector holds before the dial turns itself
+const DWELL = 3000     // ms each sector holds before the dial turns itself
 
 type Sector = {
   code: string
@@ -152,17 +154,13 @@ export function Industries() {
           content: ''; position: absolute; inset: 0; z-index: 0; pointer-events: none;
           background: radial-gradient(52% 42% at 50% 40%, rgba(153,142,255,0.10), transparent 72%);
         }
-        /* the honeycomb, extremely faint, behind everything */
-        .cc-in-hex { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; pointer-events: none; opacity: 0.5; }
-        .cc-in-hex polygon { fill: none; stroke: rgba(22,20,31,0.05); stroke-width: 0.6; }
-
         .cc-in-inner { position: relative; z-index: 1; width: 100%; max-width: 1760px; margin: 0 auto; }
         @media (min-width: 1920px) { .cc-in-inner { max-width: 1900px; } }
         @media (min-width: 2560px) { .cc-in-inner { max-width: 2400px; } }
 
         /* ── masthead: heading left, live index right, hairline under both ── */
         .cc-in-mast {
-          display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(260px, 0.72fr);
+          display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(340px, 0.9fr);
           gap: clamp(24px, 4vw, 72px); align-items: end;
           padding-bottom: clamp(22px, 2.6vw, 36px);
           border-bottom: 1px solid rgba(22,20,31,0.16);
@@ -177,26 +175,46 @@ export function Industries() {
         .cc-in-title {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
           font-size: clamp(40px, 6.4vw, 118px); line-height: 0.98; letter-spacing: -0.03em;
-          margin: 0; max-width: 15ch;
+          margin: 0;
         }
         .cc-in-title .accent { color: ${ACCENT}; }
-
-        .cc-in-index { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
-        .cc-in-count {
-          display: flex; align-items: baseline; gap: 8px;
-          font-family: Georgia, 'Times New Roman', serif; font-variant-numeric: tabular-nums;
+        /* the live sector line - its own vw clamp keeps the longest name on a single
+           row, so the heading is always exactly two lines and never shifts height */
+        .cc-in-title .swap {
+          display: block; white-space: nowrap; min-height: 1.1em;
+          font-size: clamp(24px, 4.4vw, 112px); line-height: 1.06; margin-top: 0.08em;
+          will-change: transform, opacity;
         }
-        .cc-in-count b { font-size: clamp(34px, 3.4vw, 58px); line-height: 1; font-weight: 400; color: ${ACCENT}; }
-        .cc-in-count span { font-size: clamp(15px, 1.2vw, 20px); color: rgba(22,20,31,0.42); }
-        .cc-in-note {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.7;
-          color: ${MUTED}; margin: 0; max-width: 34ch;
+
+        .cc-in-index { width: 100%; }
+        /* the four glass chips - what the live sector actually runs, swapping with the dial */
+        .cc-in-runs {
+          display: grid; grid-template-columns: repeat(4, 1fr); gap: clamp(8px, 0.8vw, 12px);
+          margin: 0; padding: 0; list-style: none; width: 100%;
+        }
+        .cc-in-runs li {
+          display: flex; align-items: center; gap: 9px; min-height: 44px;
+          padding: clamp(12px, 1.1vw, 16px) clamp(14px, 1.2vw, 18px); border-radius: 14px;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-size: clamp(12px, 0.95vw, 15px); line-height: 1.3; color: ${TEXT};
+          will-change: transform, opacity;
+          background: linear-gradient(155deg, rgba(255,255,255,0.66), rgba(232,242,244,0.38));
+          backdrop-filter: blur(10px) saturate(1.4); -webkit-backdrop-filter: blur(10px) saturate(1.4);
+          box-shadow:
+            inset 0 1px 0 rgba(255,255,255,0.95),
+            inset 0 0 0 1px rgba(255,255,255,0.6),
+            0 18px 34px -20px rgba(22,20,31,0.45);
+        }
+        .cc-in-runs li i { flex: none; width: 6px; height: 6px; border-radius: 50%; background: ${ACCENT}; }
+        /* only on very small phones the single row would be unreadable - fall back to two-up */
+        @media (max-width: 480px) {
+          .cc-in-runs { grid-template-columns: 1fr 1fr; }
         }
 
         /* ══════════ the stage: one isometric floor, with flat UI floating over it ══════════ */
         .cc-in-stage {
-          position: relative; margin-top: clamp(24px, 3vw, 48px);
-          min-height: clamp(560px, 50vw, 840px);
+          position: relative; margin-top: clamp(16px, 2vw, 32px);
+          min-height: clamp(608px, 54vw, 917px);
         }
 
         /* the perspective box; the floor scales off a single clamped unit so every
@@ -204,7 +222,9 @@ export function Industries() {
         .cc-in-scene {
           position: absolute; inset: 0; display: grid; place-items: center;
           perspective: 1600px; perspective-origin: 50% 42%;
-          transform: translateY(-4%); pointer-events: none;
+          /* -6.4% on the taller stage keeps the floor's top exactly where it was,
+             so all the extra height lands below the front tiles */
+          transform: translateY(-6.4%); pointer-events: none;
         }
         .cc-in-floor {
           position: relative; width: 74em; height: 74em; font-size: clamp(5px, 1.32vw, 13.5px);
@@ -371,37 +391,11 @@ export function Industries() {
 
         /* ══════════ flat UI floating over the floor ══════════ */
 
-        /* the active sector, written at the top */
-        .cc-in-head {
-          position: absolute; top: 0; left: 50%; transform: translateX(-50%);
-          width: min(560px, 92%); text-align: center; z-index: 5;
-        }
-        .cc-in-name {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
-          font-size: clamp(30px, 3.6vw, 60px); line-height: 1.04; letter-spacing: -0.02em;
-          margin: 0 0 clamp(10px, 1.2vw, 16px); color: ${TEXT};
-        }
-        .cc-in-desc {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.15vw, 17px); line-height: 1.7;
-          color: ${MUTED}; margin: 0 auto clamp(14px, 1.6vw, 20px); max-width: 46ch;
-        }
-        .cc-in-swap { will-change: transform, opacity; }
-        .cc-in-pills { display: flex; flex-wrap: wrap; justify-content: center; gap: 7px; margin: 0; padding: 0; list-style: none; }
-        .cc-in-pills li {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 13px);
-          padding: 7px 13px; border-radius: 100px; color: ${TEXT};
-          background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.7));
-          box-shadow:
-            inset 0 1px 0 rgba(255,255,255,1),
-            inset 0 0 0 1px rgba(22,20,31,0.1),
-            0 8px 20px -14px rgba(22,20,31,0.5);
-        }
-
         /* the three glass stat cards rising off the dial */
         /* the cards sit in the gap between the back tiles' labels and the knob, over the
            platform - low enough to clear the tile labels above, short enough to clear the knob */
         .cc-in-cards {
-          position: absolute; top: 39%; left: 50%; transform: translateX(-50%);
+          position: absolute; top: 36%; left: 50%; transform: translateX(-50%);
           display: flex; gap: clamp(10px, 1vw, 16px); z-index: 6; pointer-events: none;
         }
         .cc-in-stat {
@@ -428,7 +422,7 @@ export function Industries() {
 
         /* the right helper panel */
         .cc-in-panel {
-          position: absolute; top: 22%; right: 0; width: clamp(220px, 20vw, 292px); z-index: 5;
+          position: absolute; top: 7%; right: 0; width: clamp(220px, 20vw, 292px); z-index: 5;
           padding: clamp(18px, 1.6vw, 24px); border-radius: 18px;
           background: linear-gradient(160deg, rgba(255,255,255,0.72), rgba(255,255,255,0.44));
           backdrop-filter: blur(12px) saturate(1.3); -webkit-backdrop-filter: blur(12px) saturate(1.3);
@@ -507,12 +501,9 @@ export function Industries() {
             position: static; min-height: 0; display: flex; flex-direction: column;
             align-items: stretch; gap: clamp(22px, 4vw, 32px);
           }
-          .cc-in-head, .cc-in-cards, .cc-in-console {
+          .cc-in-cards, .cc-in-console {
             position: static; transform: none; width: 100%;
           }
-          .cc-in-head { text-align: left; }
-          .cc-in-desc { margin-left: 0; }
-          .cc-in-pills { justify-content: flex-start; }
           .cc-in-cards { justify-content: flex-start; flex-wrap: wrap; }
           .cc-in-stat:nth-child(2) { transform: none; }
           .cc-in-console { align-self: flex-start; width: auto; bottom: auto; }
@@ -543,7 +534,7 @@ export function Industries() {
            composition stays the same size *relative to the screen* on 2K / 4K ── */
         @media (min-width: 1728px) {
           .cc-in-floor { font-size: clamp(13.5px, 0.781vw, 30px); }
-          .cc-in-stage { min-height: clamp(840px, 48.6vw, 1320px); }
+          .cc-in-stage { min-height: clamp(917px, 52.4vw, 1440px); }
           .cc-in-stat { width: clamp(128px, 7.4vw, 200px); height: clamp(142px, 8.2vw, 232px); }
           .cc-in-stat b { font-size: clamp(42px, 2.42vw, 60px); }
           .cc-in-stat span { font-size: clamp(11px, 0.637vw, 16px); }
@@ -558,19 +549,6 @@ export function Industries() {
         }
       `}</style>
 
-      {/* honeycomb: four hexagons tiled seamlessly, near-invisible */}
-      <svg className="cc-in-hex" aria-hidden>
-        <defs>
-          <pattern id="cc-in-hexpat" width="17.32" height="30" patternUnits="userSpaceOnUse" patternTransform="scale(2.4)">
-            <polygon points="8.66,-10 17.32,-5 17.32,5 8.66,10 0,5 0,-5" />
-            <polygon points="8.66,20 17.32,25 17.32,35 8.66,40 0,35 0,25" />
-            <polygon points="0,5 8.66,10 8.66,20 0,25 -8.66,20 -8.66,10" />
-            <polygon points="17.32,5 25.98,10 25.98,20 17.32,25 8.66,20 8.66,10" />
-          </pattern>
-        </defs>
-        <rect width="100%" height="100%" fill="url(#cc-in-hexpat)" />
-      </svg>
-
       <div className="cc-in-inner">
         {/* ── masthead ── */}
         <div className="cc-in-mast">
@@ -579,18 +557,31 @@ export function Industries() {
               <i aria-hidden /> Who We Serve
             </motion.p>
             <MaskReveal as="h2" className="cc-in-title" delay={0.05}>
-              Six sectors. <span className="accent">One floor.</span>
+              Six sectors.
+              <motion.span
+                key={`title-${sel}`}
+                className="accent swap"
+                initial={reduce ? false : { opacity: 0, y: '0.35em' }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.7, ease: EASE }}
+              >
+                {active.name}.
+              </motion.span>
             </MaskReveal>
           </div>
           <motion.div className="cc-in-index" {...rise(0.12)}>
-            <p className="cc-in-count">
-              <b>{String(sel + 1).padStart(2, '0')}</b>
-              <span>/ 06 on the dial</span>
-            </p>
-            <p className="cc-in-note">
-              Turn the dial, or leave it running. Each sector is staffed by agents who already know
-              its products, its policies and its worst day.
-            </p>
+            <ul className="cc-in-runs">
+              {active.runs.map((r, i) => (
+                <motion.li
+                  key={`${sel}-${r}`}
+                  initial={reduce ? false : { opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: i * 0.06, ease: EASE }}
+                >
+                  <i aria-hidden /> {r}
+                </motion.li>
+              ))}
+            </ul>
           </motion.div>
         </div>
 
@@ -638,11 +629,14 @@ export function Industries() {
 
               {SECTORS.map((s, i) => {
                 const a = (RING[i] * Math.PI) / 180
-                const x = (Math.cos(a) * R).toFixed(2)
-                const y = (Math.sin(a) * R).toFixed(2)
                 const on = i === sel
-                /* the two back tiles (Fintech, SaaS) read larger, like the reference */
-                const sc = i === 0 || i === 1 ? 1.24 : 1
+                /* the two back tiles (Fintech, SaaS) read larger, like the reference -
+                   they also sit on a wider radius so the upscale doesn't crowd the centre */
+                const big = i === 0 || i === 1
+                const sc = big ? 1.24 : 1
+                const r = big ? R + 8.5 : R
+                const x = (Math.cos(a) * r).toFixed(2)
+                const y = (Math.sin(a) * r).toFixed(2)
                 return (
                   <button
                     key={s.code}
@@ -684,22 +678,6 @@ export function Industries() {
                 <span className="notch" />
               </div>
             </div>
-          </div>
-
-          {/* the active sector, written above the floor */}
-          <div className="cc-in-head">
-            <motion.div
-              key={`head-${sel}`}
-              className="cc-in-swap"
-              initial={reduce ? false : { opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: EASE }}
-            >
-              <h3 className="cc-in-name">{active.name}</h3>
-              <ul className="cc-in-pills">
-                {active.runs.map((r) => <li key={r}>{r}</li>)}
-              </ul>
-            </motion.div>
           </div>
 
           {/* the three glass stats rising off the dial */}

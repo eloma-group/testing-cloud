@@ -1,7 +1,7 @@
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowRight, ArrowUpRight } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Users, Clock } from 'lucide-react'
 import { MaskReveal, useParallax } from '../../lib/anim'
 
 const TEXT   = '#16141F'
@@ -14,25 +14,43 @@ const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
 const GLOSS      = 'linear-gradient(168deg, #C3BCFF 0%, #998EFF 46%, #4A3DBF 100%)'
 const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40,32,100,0.3)'
 
-const TILES = [
-  { src: '/images/about/tile-1.webp', alt: 'Close up of a headset microphone beside an agent laptop' },
-  { src: '/images/about/tile-2.webp', alt: 'Support agent smiling while taking a customer call on a headset' },
-  { src: '/images/about/tile-3.webp', alt: 'Agent handling a live customer call from the support floor' },
+/* What the board shows, mapped to plain words - each row ties the copy to a
+   region of the live dashboard beside it. */
+const BOARD = [
+  'Calls answered and customers connected',
+  'Wait times and the live queue, per second',
+  'Satisfaction, tracked right through the day',
 ]
 
 const STATS = [
-  { v: '10+',  l: 'Years building support teams' },
+  { v: '10+',  l: 'Years running support floors' },
+  { v: '3.2M', l: 'Conversations handled a year' },
   { v: '24/7', l: 'Cover across every time zone' },
-  { v: '92%',  l: 'Issues fixed on first contact' },
 ]
+
+/* A real, ticking Sydney clock - the site sells the Australian market, so the
+   floor clock reading live seconds is the honest "this is live" signal. */
+function useSydneyClock(active: boolean) {
+  const [t, setT] = useState('--:--:--')
+  useEffect(() => {
+    if (!active) return
+    const fmt = new Intl.DateTimeFormat('en-AU', {
+      timeZone: 'Australia/Sydney', hour: '2-digit', minute: '2-digit',
+      second: '2-digit', hour12: false,
+    })
+    const tick = () => setT(fmt.format(new Date()))
+    tick()
+    const id = setInterval(tick, 1000)
+    return () => clearInterval(id)
+  }, [active])
+  return t
+}
 
 export function AboutUs() {
   const reduce = useReducedMotion() ?? false
   const stageRef = useRef<HTMLDivElement>(null)
-  /* Counter-parallax: the product drifts up, the tile rail drifts down. Two
-     compositor-only transforms, so the depth is free at 120fps. */
-  const heroY  = useParallax(stageRef, 26)
-  const tilesY = useParallax(stageRef, -16)
+  const heroY = useParallax(stageRef, 22)
+  const clock = useSydneyClock(!reduce)
 
   const fade = (d: number) => ({
     initial: reduce ? false : { opacity: 0, y: 24 },
@@ -42,7 +60,7 @@ export function AboutUs() {
   })
 
   return (
-    <section className="cc-au" id="about" aria-label="About us">
+    <section className="cc-au" id="about" aria-label="Live operations">
       <style>{`
         .cc-au {
           position: relative;
@@ -55,56 +73,61 @@ export function AboutUs() {
           margin: 0 auto;
           padding: clamp(56px, 8vw, 130px) clamp(24px, 4vw, 64px) clamp(48px, 6vw, 96px);
         }
-        /* pool of violet light behind the product, so it reads as lit, not pasted */
-        .cc-au-inner::before {
-          content: ''; position: absolute; z-index: 0; pointer-events: none;
-          top: 2%; right: -4%; width: min(52vw, 700px); aspect-ratio: 1;
-          background: radial-gradient(closest-side, rgba(153,142,255,0.20), transparent 72%);
-        }
 
-        /* ── stage: copy | product | tile rail ── */
+        /* ── stage: copy | live board ── */
         .cc-au-stage {
           position: relative; z-index: 1;
           display: grid;
-          grid-template-columns: minmax(0, 1.36fr) minmax(0, 1.08fr) auto;
-          column-gap: clamp(24px, 3vw, 56px);
-          align-items: start;
+          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.32fr);
+          column-gap: clamp(30px, 4vw, 84px);
+          align-items: center;
         }
-        .cc-au-copy { grid-column: 1; grid-row: 1; }
-        .cc-au-foot { grid-column: 1; grid-row: 2; }
-        .cc-au-hero { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
-        /* spans both rows so the rail can sit low beside the product without its own
-           height forcing row 1 (and the section) taller */
-        .cc-au-tiles { grid-column: 3; grid-row: 1 / span 2; align-self: start; }
+
+        /* ── eyebrow ── */
+        .cc-au-eye {
+          display: inline-flex; align-items: center; gap: 11px; margin: 0 0 clamp(20px, 2vw, 30px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(11px, 0.82vw, 13px); letter-spacing: 2.4px; color: ${MUTED};
+        }
+        .cc-au-eye .live {
+          position: relative; width: 9px; height: 9px; flex: none;
+        }
+        .cc-au-eye .live b {
+          position: absolute; inset: 0; border-radius: 50%; background: #23B26D;
+        }
+        .cc-au-eye .live::after {
+          content: ''; position: absolute; inset: 0; border-radius: 50%;
+          border: 1.5px solid #23B26D;
+          animation: ccAuPing 2s cubic-bezier(0,.2,.3,1) infinite; will-change: transform, opacity;
+        }
 
         /* ── headline ── */
         .cc-au-head { margin: 0; }
         .cc-au-h {
           display: block;
           font-family: 'Universal Sans', sans-serif; font-weight: 900; text-transform: uppercase;
-          font-size: clamp(52px, 7.4vw, 124px); line-height: 0.9; letter-spacing: -0.045em;
+          font-size: clamp(52px, 6.6vw, 118px); line-height: 0.9; letter-spacing: -0.045em;
           color: ${TEXT}; margin: 0;
         }
         .cc-au-h-row {
-          display: flex; align-items: center; flex-wrap: wrap;
-          gap: clamp(12px, 1.6vw, 26px); margin-top: clamp(2px, 0.4vw, 8px);
+          display: flex; align-items: baseline; flex-wrap: wrap;
+          gap: clamp(12px, 1.4vw, 24px); margin-top: clamp(2px, 0.4vw, 8px);
         }
         .cc-au-h-note {
           font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 2.2px; line-height: 1.7;
-          color: ${MUTED}; margin: 0; max-width: 16ch;
+          color: ${MUTED}; margin: 0; max-width: 16ch; align-self: center;
         }
-        /* the accent word carries the editorial serif, exactly one voice change */
         .cc-au-h-accent {
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400; text-transform: none;
-          font-size: clamp(48px, 6.4vw, 108px); line-height: 0.92; letter-spacing: -0.02em;
+          font-size: clamp(48px, 6vw, 104px); line-height: 0.92; letter-spacing: -0.02em;
           color: ${ACCENT};
         }
 
         /* ── paragraph on a hairline rule ── */
         .cc-au-lede {
           display: flex; gap: clamp(14px, 1.4vw, 22px);
-          margin: clamp(26px, 3.2vw, 46px) 0 0; max-width: 42ch;
+          margin: clamp(26px, 3.2vw, 44px) 0 0; max-width: 46ch;
         }
         .cc-au-lede i {
           flex: none; width: 2px; border-radius: 2px;
@@ -116,10 +139,30 @@ export function AboutUs() {
           font-size: clamp(14px, 1.15vw, 17px); line-height: 1.8; color: ${MUTED}; margin: 0;
         }
 
+        /* ── board legend ── */
+        .cc-au-legend {
+          list-style: none; margin: clamp(26px, 3vw, 40px) 0 0; padding: 0;
+          display: flex; flex-direction: column; gap: clamp(12px, 1.3vw, 18px);
+        }
+        .cc-au-legend li {
+          display: flex; align-items: center; gap: 14px;
+          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-size: clamp(14px, 1.05vw, 16px); line-height: 1.4; color: ${TEXT};
+        }
+        .cc-au-legend i {
+          flex: none; width: 22px; height: 22px; border-radius: 7px;
+          background: rgba(153,142,255,0.16); position: relative;
+        }
+        .cc-au-legend i::after {
+          content: ''; position: absolute; inset: 0; margin: auto;
+          width: 8px; height: 8px; border-radius: 50%; background: ${GLOSS};
+          box-shadow: ${ACCENT_RIM};
+        }
+
         /* ── CTAs ── */
         .cc-au-ctas {
           display: flex; align-items: center; flex-wrap: wrap;
-          gap: clamp(14px, 1.8vw, 28px); margin-top: clamp(26px, 3vw, 44px);
+          gap: clamp(14px, 1.8vw, 28px); margin-top: clamp(30px, 3.4vw, 48px);
         }
         .cc-au-cta {
           display: inline-flex; align-items: center; justify-content: center; gap: 10px;
@@ -138,13 +181,10 @@ export function AboutUs() {
         }
         .cc-au-cta:hover {
           background: ${GLOSS}; color: #FFFFFF; transform: translateY(-3px);
-          box-shadow: ${ACCENT_RIM},
-            0 3px 6px rgba(74,61,191,0.4),
-            0 18px 32px -12px rgba(74,61,191,0.72);
+          box-shadow: ${ACCENT_RIM}, 0 3px 6px rgba(74,61,191,0.4), 0 18px 32px -12px rgba(74,61,191,0.72);
         }
         .cc-au-cta svg { transition: transform .45s cubic-bezier(.16,1,.3,1); will-change: transform; }
         .cc-au-cta:hover svg { transform: translateX(4px); }
-
         .cc-au-ghost {
           display: inline-flex; align-items: center; gap: 12px;
           min-height: 52px; padding: 4px; background: none; border: 0;
@@ -155,8 +195,7 @@ export function AboutUs() {
         .cc-au-ghost i {
           display: grid; place-items: center; flex: none;
           width: 40px; height: 40px; border-radius: 50%;
-          background: var(--gl-pane); box-shadow: var(--rim-light), var(--sh-1);
-          color: ${TEXT};
+          background: var(--gl-pane); box-shadow: var(--rim-light), var(--sh-1); color: ${TEXT};
           transition: transform .45s cubic-bezier(.16,1,.3,1), background .35s ease, color .35s ease;
           will-change: transform;
         }
@@ -165,88 +204,100 @@ export function AboutUs() {
           box-shadow: ${ACCENT_RIM}, 0 10px 20px -8px rgba(74,61,191,0.65);
         }
 
-        /* ── hero product ──
-           A true alpha cutout, so the shadow is drawn here rather than photographed.
-           Deliberately not mix-blend-mode: any animated ancestor forms a stacking
-           context, which isolates the blend group and resurrects the white plate. */
-        .cc-au-hero img {
+        /* ════ the live board ════ */
+        .cc-au-board { position: relative; }
+
+        /* breathing violet pool the board is lit by */
+        .cc-au-board::before {
+          content: ''; position: absolute; z-index: 0; pointer-events: none;
+          inset: -14% -10% -18%;
+          background: radial-gradient(52% 46% at 62% 42%, rgba(153,142,255,0.34), transparent 70%);
+          animation: ccAuBreathe 7s ease-in-out infinite; will-change: opacity, transform;
+        }
+        /* control-room sonar: rings pulsing out from behind the board */
+        .cc-au-sonar {
+          position: absolute; z-index: 0; left: 58%; top: 44%; width: 46%; aspect-ratio: 1;
+          transform: translate(-50%, -50%); pointer-events: none;
+        }
+        .cc-au-sonar span {
+          position: absolute; inset: 0; border-radius: 50%;
+          border: 1px solid rgba(153,142,255,0.5);
+          animation: ccAuSonar 4.6s cubic-bezier(0,.3,.4,1) infinite; will-change: transform, opacity;
+        }
+        .cc-au-sonar span:nth-child(2) { animation-delay: 2.3s; }
+
+        .cc-au-screen { position: relative; z-index: 2; width: 100%; will-change: transform; }
+        .cc-au-screen img {
           display: block; width: 100%; height: auto; pointer-events: none;
-          filter: drop-shadow(0 26px 34px rgba(22,20,31, 0.18))
-                  drop-shadow(0 4px 8px rgba(22,20,31, 0.10));
-          will-change: transform;
+          filter: drop-shadow(0 36px 62px rgba(30,22,70, 0.36))
+                  drop-shadow(0 6px 14px rgba(22,20,31, 0.16));
+        }
+        .cc-au-screen::after {
+          content: ''; position: absolute; left: 8%; right: 8%; bottom: -4%; height: 12%;
+          background: radial-gradient(closest-side, rgba(30,22,70,0.3), transparent 74%);
+          filter: blur(6px); pointer-events: none; z-index: -1;
+        }
+        /* screen power-on light sweep, clipped to the display area of the cutout */
+        .cc-au-sweep {
+          position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden;
+          clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
+          -webkit-clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
+        }
+        .cc-au-sweep b {
+          position: absolute; top: -20%; left: -70%; width: 55%; height: 140%;
+          background: linear-gradient(105deg, transparent, rgba(199,188,255,0.6), transparent);
+          transform: translateX(0) skewX(-14deg); mix-blend-mode: screen;
+          animation: ccAuSweep 6s cubic-bezier(.55,0,.45,1) infinite; will-change: transform;
         }
 
-        /* ── tile rail ── */
-        .cc-au-tiles {
-          display: flex; flex-direction: column; align-items: flex-start;
-          gap: clamp(10px, 1vw, 16px);
-          /* sits low beside the product, but short enough that rail bottom stays inside
-             the height col 1 already sets - otherwise it stretches the grid */
-          margin: clamp(170px, 24vw, 370px) 0 0 clamp(-56px, -2.6vw, -20px);
-          will-change: transform;
-        }
-        /* staggered, not a straight column - margins (not transforms) so they never
-           fight the tiles' own animated x */
-        .cc-au-tile:nth-child(1) { margin-left: clamp(14px, 1.7vw, 30px); }
-        .cc-au-tile:nth-child(3) { margin-left: clamp(22px, 2.6vw, 46px); }
-        .cc-au-tile {
-          width: clamp(74px, 7vw, 112px); aspect-ratio: 1;
-          border-radius: clamp(10px, 0.9vw, 16px); overflow: hidden;
-          background: ${WASH};
+        /* wrapper is transparent to layout on desktop, so chips position
+           absolutely against the board; it becomes a flex row on mobile */
+        .cc-au-chiprow { display: contents; }
+        /* floating context chips */
+        .cc-au-chip {
+          position: absolute; z-index: 5; display: flex; align-items: center; gap: 13px;
+          padding: 13px 20px 13px 13px; border-radius: 16px;
+          background: rgba(255,255,255,0.94);
           box-shadow:
             inset 0 0 0 1px rgba(255,255,255,0.6),
-            0 1px 3px rgba(26,22,44,0.05),
-            0 16px 30px -14px rgba(22,20,31,0.45);
-          transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .5s ease;
-          will-change: transform;
+            0 2px 5px rgba(22,20,31,0.09),
+            0 24px 42px -16px rgba(30,22,70,0.42);
+          animation: ccAuFloat 5s cubic-bezier(.45,.05,.55,.95) infinite alternate; will-change: transform;
         }
-        .cc-au-tile img { width: 100%; height: 100%; object-fit: cover; display: block; }
-        .cc-au-tile:hover {
-          transform: translateY(-4px) scale(1.03);
-          box-shadow:
-            inset 0 0 0 1px rgba(255,255,255,0.6),
-            0 3px 6px rgba(22,20,31,0.18),
-            0 24px 42px -14px rgba(22,20,31,0.55);
+        .cc-au-chip-a { top: -6%; left: -6%; }
+        .cc-au-chip-b { bottom: -5%; right: -5%; animation-duration: 5.8s; animation-delay: .7s; }
+        .cc-au-chip i {
+          display: grid; place-items: center; flex: none;
+          width: 38px; height: 38px; border-radius: 12px;
+          background: ${GLOSS}; box-shadow: ${ACCENT_RIM}; color: #FFFFFF;
         }
-
-        /* ── foot: rotated label + alt product + copy ── */
-        .cc-au-foot {
-          display: grid; grid-template-columns: auto minmax(0, 1fr);
-          gap: clamp(18px, 2.4vw, 40px); align-items: center;
-          padding-top: clamp(30px, 4vw, 58px);
+        .cc-au-chip small {
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          text-transform: uppercase; font-size: 10px; letter-spacing: 1.8px; color: ${MUTED};
         }
-        .cc-au-foot-media { display: flex; align-items: center; gap: clamp(4px, 0.6vw, 12px); }
-        .cc-au-rot {
-          writing-mode: vertical-rl; transform: rotate(180deg);
+        .cc-au-chip b {
+          display: block; margin-top: 3px;
           font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
-          font-size: clamp(13px, 1vw, 17px); letter-spacing: 0.14em;
-          color: rgba(22,20,31,0.42); white-space: nowrap; margin: 0;
-        }
-        .cc-au-alt {
-          width: clamp(150px, 15vw, 240px); height: auto; display: block;
-          pointer-events: none;
-          filter: drop-shadow(0 16px 22px rgba(22,20,31, 0.16));
-        }
-        .cc-au-foot h3 {
-          font-family: 'Universal Sans', sans-serif; font-weight: 900; text-transform: uppercase;
-          font-size: clamp(24px, 2.4vw, 40px); line-height: 0.98; letter-spacing: -0.04em;
-          color: ${TEXT}; margin: 0 0 clamp(10px, 1.1vw, 16px);
-        }
-        .cc-au-foot p {
-          font-family: 'Universal Sans', sans-serif; font-weight: 400;
-          font-size: clamp(14px, 1.05vw, 16px); line-height: 1.8; color: ${MUTED};
-          margin: 0; max-width: 38ch;
+          font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -0.01em; color: ${TEXT};
+          font-variant-numeric: tabular-nums;
         }
 
-        /* ── stats bar ── */
-        .cc-au-stats {
-          position: relative; z-index: 1;
-          display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
-          gap: clamp(20px, 3vw, 56px);
-          margin-top: clamp(44px, 6vw, 96px);
-          padding-top: clamp(26px, 3vw, 44px);
-          border-top: 1px solid rgba(22,20,31,0.13);
+        /* ── stats strip ── */
+        .cc-au-foot {
+          position: relative; z-index: 1; margin-top: clamp(48px, 6vw, 100px);
+          padding-top: clamp(26px, 3vw, 44px); border-top: 1px solid rgba(22,20,31,0.13);
+          display: grid; grid-template-columns: auto repeat(3, minmax(0, 1fr));
+          gap: clamp(20px, 3vw, 56px); align-items: center;
         }
+        .cc-au-floortag {
+          display: inline-flex; align-items: center; gap: 9px;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2px; color: ${TEXT};
+          white-space: nowrap;
+        }
+        .cc-au-floortag i { width: 8px; height: 8px; border-radius: 50%; background: #23B26D;
+          box-shadow: 0 0 0 4px rgba(35,178,109,0.16);
+          animation: ccAuPulse 1.9s ease-in-out infinite; will-change: opacity, transform; }
         .cc-au-stat b {
           display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
           font-size: clamp(30px, 2.5vw, 46px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
@@ -257,39 +308,53 @@ export function AboutUs() {
           line-height: 1.6; color: ${MUTED};
         }
 
-        @media (min-width: 1920px) {
-          .cc-au-inner { max-width: min(calc(100vw - 140px), 1900px); }
+        /* ── keyframes ── */
+        @keyframes ccAuPing {
+          0% { transform: scale(1); opacity: 0.9; }
+          70%, 100% { transform: scale(2.6); opacity: 0; }
         }
-        @media (min-width: 2560px) {
-          .cc-au-inner { max-width: min(calc(100vw - 160px), 2400px); }
+        @keyframes ccAuPulse {
+          0%, 100% { transform: scale(1); opacity: 1; }
+          50% { transform: scale(0.72); opacity: 0.5; }
+        }
+        @keyframes ccAuBreathe {
+          0%, 100% { opacity: 0.7; transform: scale(1); }
+          50% { opacity: 1; transform: scale(1.05); }
+        }
+        @keyframes ccAuSonar {
+          0% { transform: scale(0.4); opacity: 0.7; }
+          100% { transform: scale(1.15); opacity: 0; }
+        }
+        @keyframes ccAuSweep {
+          0%, 48% { transform: translateX(0) skewX(-14deg); }
+          100% { transform: translateX(300%) skewX(-14deg); }
+        }
+        @keyframes ccAuFloat {
+          from { transform: translateY(-5px); }
+          to { transform: translateY(5px); }
         }
 
-        /* stack the stage: copy, then product + rail, then foot */
-        @media (max-width: 1100px) {
-          .cc-au-stage { grid-template-columns: minmax(0, 1fr); row-gap: clamp(32px, 5vw, 56px); }
-          .cc-au-copy, .cc-au-foot, .cc-au-hero, .cc-au-tiles {
-            grid-column: 1; grid-row: auto;
-          }
-          .cc-au-hero { display: flex; justify-content: center; }
-          /* the inline scale(1.22) is baked in, so cap the box lower to compensate */
-          .cc-au-hero img { max-width: min(460px, 74%); }
-          .cc-au-tiles {
-            flex-direction: row; justify-content: center; align-items: center;
-            margin: clamp(-40px, -4vw, -16px) 0 0;
-          }
-          .cc-au-tile { width: clamp(88px, 15vw, 132px); }
-          .cc-au-tile:nth-child(1), .cc-au-tile:nth-child(3) { margin-left: 0; }
-          .cc-au-tile:nth-child(2) { margin-top: clamp(16px, 3vw, 30px); }
-          .cc-au-lede, .cc-au-foot p { max-width: 60ch; }
+        @media (min-width: 1920px) { .cc-au-inner { max-width: min(calc(100vw - 140px), 1900px); } }
+        @media (min-width: 2560px) { .cc-au-inner { max-width: min(calc(100vw - 160px), 2400px); } }
+
+        @media (max-width: 1024px) {
+          .cc-au-stage { grid-template-columns: minmax(0, 1fr); row-gap: clamp(56px, 9vw, 84px); }
+          .cc-au-board { max-width: 660px; margin: 0 auto; width: 100%; }
+          .cc-au-lede { max-width: 60ch; }
+          .cc-au-foot { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+          .cc-au-floortag { display: none; }
         }
-        @media (max-width: 768px) {
-          .cc-au-inner { max-width: 100%; }
-          .cc-au-foot { grid-template-columns: minmax(0, 1fr); row-gap: clamp(20px, 4vw, 32px); }
-          .cc-au-foot-media { justify-content: flex-start; }
-          .cc-au-alt { width: clamp(160px, 42vw, 240px); }
+        /* on narrow screens the board is too small to overhang - dock the chips
+           into a static row beneath it so nothing covers the dashboard */
+        @media (max-width: 720px) {
+          .cc-au-chiprow {
+            display: flex; flex-wrap: wrap; justify-content: center;
+            gap: clamp(10px, 3vw, 16px); margin-top: clamp(18px, 4vw, 26px);
+          }
+          .cc-au-chip { position: static; inset: auto; animation: none; }
         }
-        @media (max-width: 800px) {
-          .cc-au-stats { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+        @media (max-width: 640px) {
+          .cc-au-foot { grid-template-columns: minmax(0, 1fr); gap: 20px; }
           .cc-au-stat { display: flex; align-items: baseline; gap: 16px; }
           .cc-au-stat b { min-width: 3.4ch; }
           .cc-au-stat span { margin-top: 0; }
@@ -299,8 +364,14 @@ export function AboutUs() {
           .cc-au-ctas { gap: 14px; }
           .cc-au-cta { width: 100%; }
         }
+        @media (max-width: 380px) {
+          .cc-au-chiprow { flex-direction: column; align-items: stretch; }
+        }
         @media (prefers-reduced-motion: reduce) {
-          .cc-au-cta, .cc-au-ghost i, .cc-au-tile { transition: none; }
+          .cc-au-cta, .cc-au-ghost i { transition: none; }
+          .cc-au-eye .live::after, .cc-au-board::before, .cc-au-sonar span,
+          .cc-au-sweep b, .cc-au-chip, .cc-au-floortag i { animation: none; }
+          .cc-au-sonar, .cc-au-sweep { display: none; }
         }
       `}</style>
 
@@ -308,12 +379,16 @@ export function AboutUs() {
         <div className="cc-au-stage" ref={stageRef}>
           {/* ── Copy ── */}
           <div className="cc-au-copy">
+            <MaskReveal as="span" className="cc-au-eye" duration={0.9}>
+              <span className="live" aria-hidden><b /></span>Live operations
+            </MaskReveal>
+
             <h2 className="cc-au-head">
-              <MaskReveal as="span" className="cc-au-h" duration={1}>Always</MaskReveal>
+              <MaskReveal as="span" className="cc-au-h" duration={1}>Every call</MaskReveal>
               <MaskReveal as="span" className="cc-au-h-row" duration={1} delay={0.08}>
-                <span className="cc-au-h">On</span>
-                <span className="cc-au-h-note">An extension of your own brand</span>
-                <span className="cc-au-h-accent">24/7</span>
+                <span className="cc-au-h">On one</span>
+                <span className="cc-au-h-accent">board</span>
+                <span className="cc-au-h-note">Calls, agents and queue in real time</span>
               </MaskReveal>
             </h2>
 
@@ -326,13 +401,17 @@ export function AboutUs() {
                 transition={{ delay: 0.3, duration: 0.9, ease: EASE }}
               />
               <p>
-                We are Nexa, an outsourced support partner for growing brands. For over a decade we have
-                staffed, trained and managed dedicated teams that answer every call, chat and email as a
-                true extension of your business.
+                This is the operations board our team runs on - the same view behind your account.
+                Calls answered, customers connected, wait times and satisfaction, all moving live. Nothing
+                on your support floor happens out of sight.
               </p>
             </motion.div>
 
-            <motion.div className="cc-au-ctas" {...fade(0.26)}>
+            <motion.ul className="cc-au-legend" {...fade(0.24)}>
+              {BOARD.map((b) => (<li key={b}><i aria-hidden />{b}</li>))}
+            </motion.ul>
+
+            <motion.div className="cc-au-ctas" {...fade(0.32)}>
               <Link className="cc-au-cta" to="/contact#write">
                 Book a Free Call
                 <ArrowRight size={16} strokeWidth={2.6} aria-hidden />
@@ -344,67 +423,49 @@ export function AboutUs() {
             </motion.div>
           </div>
 
-          {/* ── Hero product ── */}
+          {/* ── Live board ── */}
           <motion.div
-            className="cc-au-hero"
-            initial={reduce ? false : { opacity: 0, scale: 0.94 }}
+            className="cc-au-board"
+            initial={reduce ? false : { opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
             transition={{ duration: 1.1, ease: EASE }}
           >
-            <motion.img
-              src="/images/about/headset-hero.webp"
-              alt="Premium over-ear support headset, the tool behind every Nexa conversation"
-              width={1500} height={1604} loading="lazy" decoding="async"
-              /* scale, not width: the product grows past its column without the layout
-                 box (and so the section) getting any taller */
-              style={reduce ? { scale: 1.08, x: '3%' } : { y: heroY, scale: 1.08, x: '3%' }}
-            />
-          </motion.div>
+            {!reduce && (
+              <div className="cc-au-sonar" aria-hidden><span /><span /></div>
+            )}
 
-          {/* ── Tile rail ── */}
-          <motion.div
-            className="cc-au-tiles"
-            style={reduce ? undefined : { y: tilesY }}
-            initial={reduce ? false : 'hidden'}
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-          >
-            {TILES.map((t, i) => (
-              <motion.div
-                className="cc-au-tile"
-                key={t.src}
-                variants={{ hidden: { opacity: 0, x: 26 }, show: { opacity: 1, x: 0 } }}
-                transition={{ delay: 0.3 + i * 0.1, duration: 0.8, ease: EASE }}
-              >
-                <img src={t.src} alt={t.alt} width={520} height={520} loading="lazy" decoding="async" />
-              </motion.div>
-            ))}
-          </motion.div>
-
-          {/* ── Foot: alt product + copy ── */}
-          <motion.div className="cc-au-foot" {...fade(0.1)}>
-            <div className="cc-au-foot-media">
-              <p className="cc-au-rot">Since 2014</p>
+            <motion.div className="cc-au-screen" style={reduce ? undefined : { y: heroY }}>
               <img
-                className="cc-au-alt"
-                src="/images/about/phone-alt.webp"
-                alt="Corded telephone handset with its cord trailing away"
-                width={1000} height={527} loading="lazy" decoding="async"
+                src="/images/about/live-console.webp"
+                alt="Nexa live operations board on a monitor: 2,847 calls today, 1,932 customers connected, an 8 second average answer time and 98% satisfaction, with the live call queue beside it"
+                width={1368} height={815} loading="lazy" decoding="async"
               />
-            </div>
-            <div>
-              <h3>Real People,<br />Real Time</h3>
-              <p>
-                Every conversation is handled by a trained agent who knows your product, your tone and
-                your customer. No scripts to read from, no queues to die in, no guesswork.
-              </p>
+              {!reduce && <div className="cc-au-sweep" aria-hidden><b /></div>}
+            </motion.div>
+
+            <div className="cc-au-chiprow">
+              <div className="cc-au-chip cc-au-chip-a">
+                <i aria-hidden><Users size={18} strokeWidth={2.2} /></i>
+                <span>
+                  <small>On the floor now</small>
+                  <b>214 agents</b>
+                </span>
+              </div>
+              <div className="cc-au-chip cc-au-chip-b">
+                <i aria-hidden><Clock size={18} strokeWidth={2.2} /></i>
+                <span>
+                  <small>Sydney floor</small>
+                  <b>{clock}</b>
+                </span>
+              </div>
             </div>
           </motion.div>
         </div>
 
-        {/* ── Stats ── */}
-        <motion.div className="cc-au-stats" {...fade(0.14)}>
+        {/* ── Floor status strip ── */}
+        <motion.div className="cc-au-foot" {...fade(0.14)}>
+          <span className="cc-au-floortag"><i aria-hidden />Floor status</span>
           {STATS.map((s) => (
             <div className="cc-au-stat" key={s.v}>
               <b>{s.v}</b>
