@@ -283,8 +283,9 @@ export function ContactPage() {
             border-top: 1px solid rgba(22,20,31,0.14);
           }
           .cc-ct-promise b {
-            display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+            display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
             font-size: clamp(24px, 2.2vw, 40px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
+            font-variant-numeric: tabular-nums;
           }
           .cc-ct-promise span {
             display: block; margin-top: 8px; font-family: 'Universal Sans', sans-serif; font-weight: 600;
@@ -791,7 +792,7 @@ export function ContactPage() {
           .cc-ct-desk b i.on { background: ${LIVE}; }
           .cc-ct-desk time {
             display: block; margin-top: 8px;
-            font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 1.8vw, 30px);
+            font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(20px, 1.8vw, 30px);
             line-height: 1; color: ${TEXT}; font-variant-numeric: tabular-nums;
           }
           .cc-ct-desk span {

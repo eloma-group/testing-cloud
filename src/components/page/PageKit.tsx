@@ -103,7 +103,7 @@ const KIT_CSS = `
   .pg-eyebrow i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
 
   .pg-title {
-    font-family: 'Universal Sans', sans-serif; font-weight: 600;
+    font-family: 'Universal Sans', sans-serif;
     font-size: clamp(44px, 6.2vw, 104px); line-height: 0.98; letter-spacing: -0.035em;
     margin: 0 0 clamp(18px, 2.2vw, 30px); max-width: 13ch; color: ${TEXT};
   }
@@ -127,8 +127,9 @@ const KIT_CSS = `
     border-top: 1px solid rgba(22,20,31,0.14);
   }
   .pg-stat b {
-    display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+    display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
     font-size: clamp(26px, 2.4vw, 44px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
+    font-variant-numeric: tabular-nums;
   }
   .pg-stat span {
     display: block; margin-top: 8px; font-family: 'Universal Sans', sans-serif; font-weight: 600;

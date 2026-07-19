@@ -207,8 +207,8 @@ export function Engagement() {
         }
         .cc-en-tagrow { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
         .cc-en-n {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(13px, 1vw, 16px);
-          color: rgba(22,20,31,0.34); letter-spacing: 0.5px;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: clamp(13px, 1vw, 16px);
+          color: rgba(22,20,31,0.34); letter-spacing: 0.5px; font-variant-numeric: tabular-nums;
         }
         .cc-en-tag {
           display: inline-flex; align-items: center; padding: 6px 12px; border-radius: 100px;

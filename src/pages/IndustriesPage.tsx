@@ -131,7 +131,7 @@ export function IndustriesPage() {
         }
         .in-fig-cell em {
           display: block; margin-top: 5px; font-style: normal;
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(14px, 1.2vw, 19px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(14px, 1.2vw, 19px);
           color: ${TEXT}; font-variant-numeric: tabular-nums;
         }
 
@@ -228,8 +228,9 @@ export function IndustriesPage() {
           padding: clamp(12px, 1.4vw, 17px) clamp(13px, 1.5vw, 18px);
         }
         .in-figs b {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
+          font-variant-numeric: tabular-nums;
         }
         .in-figs span {
           text-align: right; font-family: 'Universal Sans', sans-serif; font-weight: 600;

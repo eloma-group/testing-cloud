@@ -269,8 +269,9 @@ export function AboutPage() {
           padding: clamp(24px, 2.8vw, 44px);
         }
         .ab-floor-cell b {
-          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(38px, 4.4vw, 78px); line-height: 1; letter-spacing: -0.03em; color: #fff;
+          font-variant-numeric: tabular-nums;
         }
         .ab-floor-cell span {
           display: block; margin-top: clamp(10px, 1.2vw, 16px);

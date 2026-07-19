@@ -303,8 +303,9 @@ export function CareersPage() {
           background: rgba(22,20,31,0.04); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
         }
         .cr-pay b {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(18px, 1.6vw, 27px); line-height: 1.2; letter-spacing: -0.02em; color: ${TEXT};
+          font-variant-numeric: tabular-nums;
         }
         .cr-pay span {
           font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;

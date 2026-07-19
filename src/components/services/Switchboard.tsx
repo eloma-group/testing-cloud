@@ -220,8 +220,9 @@ export function Switchboard() {
         }
         .sw-figs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.4vw, 22px); }
         .sw-figs b {
-          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(22px, 2.1vw, 38px); line-height: 1; letter-spacing: -0.02em; color: #fff;
+          font-variant-numeric: tabular-nums;
         }
         .sw-figs span {
           display: block; margin-top: 7px; font-family: 'Universal Sans', sans-serif; font-weight: 600;

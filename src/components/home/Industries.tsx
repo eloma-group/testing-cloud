@@ -20,7 +20,7 @@ const ACCENT_RIM = 'inset 0 1px 0 rgba(255,255,255,0.55), inset 0 -1px 0 rgba(40
    the two back tiles sit 1deg closer together so their edge gaps stay even with the
    neighbouring tiles once their wider radius and 1.24 upscale are applied */
 const RING = [-89, -31, 30, 90, 150, 210]
-const R    = 23        // ring radius, in floor-em - tiles ring wider around the dais
+const R    = 31        // ring radius, in floor-em - tiles ring wider around the dais (raised to spread the tiles apart and push them off-centre for wide screens)
 const TILT = 54        // floor rotateX
 const SPIN = 26        // floor rotateZ (labels counter-rotate by this to stay horizontal)
 const DWELL = 3000     // ms each sector holds before the dial turns itself
@@ -214,7 +214,7 @@ export function Industries() {
         /* ══════════ the stage: one isometric floor, with flat UI floating over it ══════════ */
         .cc-in-stage {
           position: relative; margin-top: clamp(16px, 2vw, 32px);
-          min-height: clamp(608px, 54vw, 917px);
+          min-height: clamp(680px, 58vw, 1020px);
         }
 
         /* the perspective box; the floor scales off a single clamped unit so every
@@ -295,9 +295,8 @@ export function Industries() {
         .cc-in-tile .w1 { transform: translateZ(-1.1em); background: linear-gradient(150deg, #D6DAE0, #B2B8C0); }
         .cc-in-tile .face {
           transform-style: preserve-3d;      /* keeps the label a true 3D layer, so it lies flat, not slanted */
-          /* banded reflection = anisotropic brushed aluminium, not a flat matte panel */
-          background: linear-gradient(125deg,
-            #F7F9FB 0%, #D6DBE2 20%, #EEF1F4 38%, #C4CAD2 55%, #EAEDF0 74%, #C9CFD7 90%, #E0E4E9 100%);
+          /* clean, near-flat light surface - no grey reflection banding */
+          background: linear-gradient(150deg, #FBFCFD 0%, #EFF2F5 100%);
           /* thin crisp bevels (px, so they stay sharp) read as machined metal, not a soft cushion */
           box-shadow:
             inset 0 0 0 1px rgba(255,255,255,0.85),
@@ -306,13 +305,6 @@ export function Industries() {
             inset 2px 0 3px rgba(255,255,255,0.4),
             inset -2px 0 4px rgba(22,20,31,0.08);
           transition: transform .55s cubic-bezier(.16,1,.3,1), box-shadow .55s ease;
-        }
-        /* fine brushed grain across the plate */
-        .cc-in-tile .face::before {
-          content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
-          background: repeating-linear-gradient(116deg,
-            rgba(255,255,255,0.12) 0 1.5px, rgba(22,20,31,0.04) 1.5px 3.5px);
-          opacity: 0.5;
         }
         /* a crisp diagonal glare travelling across the metal */
         .cc-in-tile .face::after {
@@ -342,8 +334,7 @@ export function Industries() {
         .cc-in-tile:hover .label { color: ${TEXT}; }
         .cc-in-tile.on { transform: translate3d(var(--tx), var(--ty), 2em) scale(var(--sc, 1)) !important; }
         .cc-in-tile.on .face {
-          background: linear-gradient(125deg,
-            #FFFFFF 0%, #E2E7EC 20%, #F6F8FA 40%, #CFD5DC 56%, #F1F3F6 76%, #D5DAE1 100%);
+          background: linear-gradient(150deg, #FFFFFF 0%, #F2F5F8 100%);
           box-shadow:
             inset 0 0 0 1px rgba(255,255,255,0.95),
             inset 0 0 0 3px rgba(153,142,255,0.55),
@@ -411,7 +402,7 @@ export function Industries() {
         }
         .cc-in-stat:nth-child(2) { transform: translateY(-16px); }
         .cc-in-stat b {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-variant-numeric: tabular-nums;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
           font-size: clamp(26px, 2.7vw, 42px); line-height: 1; color: ${TEXT};
         }
         .cc-in-stat span {
@@ -433,9 +424,9 @@ export function Industries() {
         }
         .cc-in-panel .pcount {
           display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;
-          font-family: Georgia, 'Times New Roman', serif; font-variant-numeric: tabular-nums;
+          font-family: 'Universal Sans', sans-serif; font-variant-numeric: tabular-nums;
         }
-        .cc-in-panel .pcount b { font-size: clamp(30px, 2.6vw, 46px); line-height: 1; color: ${TEXT}; }
+        .cc-in-panel .pcount b { font-weight: 800; letter-spacing: -0.02em; font-size: clamp(30px, 2.6vw, 46px); line-height: 1; color: ${TEXT}; }
         .cc-in-panel .pcount span { font-size: clamp(13px, 1vw, 16px); color: rgba(22,20,31,0.42); }
         .cc-in-panel p {
           font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.95vw, 14px); line-height: 1.7;
@@ -474,7 +465,7 @@ export function Industries() {
         }
         @keyframes cc-ping { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
         .cc-in-console .fig { display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums; }
-        .cc-in-console .fig b { font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-size: clamp(18px, 1.5vw, 24px); line-height: 1; }
+        .cc-in-console .fig b { font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(18px, 1.5vw, 24px); line-height: 1; }
         .cc-in-console .fig span {
           font-family: 'Universal Sans', sans-serif; font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase;
           font-weight: 700; color: rgba(22,20,31,0.45); white-space: nowrap;
@@ -534,7 +525,7 @@ export function Industries() {
            composition stays the same size *relative to the screen* on 2K / 4K ── */
         @media (min-width: 1728px) {
           .cc-in-floor { font-size: clamp(13.5px, 0.781vw, 30px); }
-          .cc-in-stage { min-height: clamp(917px, 52.4vw, 1440px); }
+          .cc-in-stage { min-height: clamp(1020px, 56vw, 1560px); }
           .cc-in-stat { width: clamp(128px, 7.4vw, 200px); height: clamp(142px, 8.2vw, 232px); }
           .cc-in-stat b { font-size: clamp(42px, 2.42vw, 60px); }
           .cc-in-stat span { font-size: clamp(11px, 0.637vw, 16px); }
@@ -633,8 +624,12 @@ export function Industries() {
                 /* the two back tiles (Fintech, SaaS) read larger, like the reference -
                    they also sit on a wider radius so the upscale doesn't crowd the centre */
                 const big = i === 0 || i === 1
+                /* the top pair (0,1) and the two mid-height side tiles (2 right, 5 left)
+                   get an extra push out, so those 4 spread a little wider while the two
+                   front tiles (3,4) stay where they are */
+                const side = i === 2 || i === 5
                 const sc = big ? 1.24 : 1
-                const r = big ? R + 8.5 : R
+                const r = R + (big ? 8.5 : 0) + (big || side ? 3.5 : 0)
                 const x = (Math.cos(a) * r).toFixed(2)
                 const y = (Math.sin(a) * r).toFixed(2)
                 return (

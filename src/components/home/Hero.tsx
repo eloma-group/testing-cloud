@@ -67,7 +67,7 @@ export function Hero() {
         .cc-hero-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 2px; border-radius: 2px;
           background: linear-gradient(90deg, ${ACCENT_HI}, ${ACCENT}, transparent); }
         .cc-hero-h1 {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif;
           font-size: clamp(34px, 5.3vw, 84px); line-height: 1.03; letter-spacing: -0.025em;
           margin: 0; color: #fff; max-width: 18ch;
           text-shadow: 0 1px 2px rgba(0,0,0,0.28);

@@ -277,8 +277,8 @@ export function AboutUs() {
         }
         .cc-au-chip b {
           display: block; margin-top: 3px;
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
-          font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -0.01em; color: ${TEXT};
+          font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -0.02em; color: ${TEXT};
           font-variant-numeric: tabular-nums;
         }
 
@@ -299,8 +299,9 @@ export function AboutUs() {
           box-shadow: 0 0 0 4px rgba(35,178,109,0.16);
           animation: ccAuPulse 1.9s ease-in-out infinite; will-change: opacity, transform; }
         .cc-au-stat b {
-          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(30px, 2.5vw, 46px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
+          font-variant-numeric: tabular-nums;
         }
         .cc-au-stat span {
           display: block; margin-top: 8px;

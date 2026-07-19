@@ -284,7 +284,7 @@ export function TeamPage() {
         .tm-desk b i.live { background: ${LIVE}; box-shadow: 0 0 12px rgba(46,186,198,0.7); }
         .tm-desk time {
           display: block; margin: clamp(14px, 1.6vw, 20px) 0 clamp(10px, 1.2vw, 14px);
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(30px, 3.2vw, 56px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: clamp(30px, 3.2vw, 56px);
           line-height: 1; letter-spacing: -0.03em; color: ${ACCENT}; font-variant-numeric: tabular-nums;
         }
         .tm-desk-z {

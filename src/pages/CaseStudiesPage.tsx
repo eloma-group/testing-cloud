@@ -187,7 +187,7 @@ export function CaseStudiesPage() {
           text-decoration: line-through; text-decoration-color: rgba(133,131,135,0.55);
         }
         .cs-fig-row time {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 1.9vw, 32px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: clamp(20px, 1.9vw, 32px);
           color: ${ACCENT}; font-variant-numeric: tabular-nums; letter-spacing: -0.02em;
         }
         /* the sparkline, drawn once */
@@ -277,8 +277,9 @@ export function CaseStudiesPage() {
           padding: clamp(15px, 1.7vw, 22px) clamp(16px, 1.8vw, 24px);
         }
         .cs-moved b {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(24px, 2.3vw, 42px); line-height: 1; letter-spacing: -0.025em; color: ${ACCENT};
+          font-variant-numeric: tabular-nums;
         }
         .cs-moved span {
           text-align: right; font-family: 'Universal Sans', sans-serif; font-weight: 600;
@@ -349,8 +350,9 @@ export function CaseStudiesPage() {
         .cs-row:hover .cs-row-t { transform: translateX(clamp(4px, 0.6vw, 10px)); }
         .cs-row.on .cs-row-t { color: ${ACCENT}; }
         .cs-row-fig {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 1.9vw, 34px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: clamp(20px, 1.9vw, 34px);
           line-height: 1; letter-spacing: -0.02em; color: ${ACCENT}; white-space: nowrap;
+          font-variant-numeric: tabular-nums;
         }
         .cs-row-x {
           position: relative; flex: none; width: 44px; height: 44px; border-radius: 50%;

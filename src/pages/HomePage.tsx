@@ -1,11 +1,12 @@
 import { Header }       from '../components/Header/Header'
 import { Hero }         from '../components/home/Hero'
-import { Services }     from '../components/home/Services'
+/// import { Services }     from '../components/home/Services'
 import { Switchboard }  from '../components/services/Switchboard'
 import { Industries }   from '../components/home/Industries'
 import { ExtendedBenchHero } from '../components/home/ExtendedBenchHero'
 // import { HowWeHelp }    from '../components/home/HowWeHelp'
 import { AboutUs }      from '../components/home/AboutUs'
+import { LiveDashboard } from '../components/home/LiveDashboard'
 import { Omnichannel }  from '../components/home/Omnichannel'
 import { Spotlight }    from '../components/home/Spotlight'
 import { Engagement }   from '../components/home/Engagement'
@@ -17,12 +18,14 @@ export function HomePage() {
       <Header />
       <main>
         <Hero />
-        <Services />
+        {/* <RealPeople /> */}
+        {/* <Services /> */}
         <Switchboard />
         <Industries />
         {/* <HowWeHelp /> */}
         <ExtendedBenchHero />
         <AboutUs />
+        <LiveDashboard />
         <Spotlight />
         <Omnichannel />
         <Engagement />

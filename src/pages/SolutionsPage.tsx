@@ -169,7 +169,8 @@ export function SolutionsPage() {
           font-size: clamp(11px, 0.88vw, 13px); color: ${MUTED};
         }
         .so-layer time {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(14px, 1.2vw, 19px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+          font-size: clamp(14px, 1.2vw, 19px);
           color: ${ACCENT}; font-variant-numeric: tabular-nums;
         }
         /* the total, sitting under the stack */
@@ -260,7 +261,7 @@ export function SolutionsPage() {
           padding-top: clamp(16px, 1.8vw, 22px); border-top: 1px dashed rgba(22,20,31,0.2);
         }
         .so-prob-proof b {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(24px, 2.2vw, 40px); line-height: 1; letter-spacing: -0.02em; color: ${ACCENT};
         }
         .so-prob-proof span {
@@ -316,7 +317,7 @@ export function SolutionsPage() {
           border-bottom: 1px solid #2F2A42;
         }
         .so-price-fig b {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 800;
           font-size: clamp(34px, 3.6vw, 62px); line-height: 1; letter-spacing: -0.03em; color: ${ACCENT};
         }
         .so-price-fig span {
@@ -329,7 +330,7 @@ export function SolutionsPage() {
         .so-price-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #2F2A42; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px #2F2A42; }
         .so-price-meta div { background: #191527; padding: clamp(14px, 1.6vw, 20px); }
         .so-price-meta b {
-          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
           font-size: clamp(18px, 1.6vw, 27px); line-height: 1; color: #fff;
         }
         .so-price-meta span {

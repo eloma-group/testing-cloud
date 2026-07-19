@@ -78,7 +78,8 @@ export function ServicesPage() {
           font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 1.05vw, 16px); color: ${TEXT};
         }
         .sv-fig-row time {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(15px, 1.3vw, 21px);
+          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+          font-size: clamp(15px, 1.3vw, 21px);
           color: ${ACCENT}; font-variant-numeric: tabular-nums;
         }
         .sv-fig-bar {
