@@ -243,7 +243,7 @@ export function Services() {
         }
         .cc-sv-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-sv-h2 {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(36px, 4.9vw, 78px); line-height: 1.0; letter-spacing: -0.028em;
           margin: 0; color: ${TEXT}; max-width: 12ch;
         }
@@ -297,7 +297,7 @@ export function Services() {
           color: ${ACCENT_INK}; margin: 0 0 clamp(6px, 0.7vw, 10px);
         }
         .cc-sv-note h3 {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(20px, 1.85vw, 30px); line-height: 1.14; letter-spacing: -0.022em;
           color: ${TEXT}; margin: 0 0 clamp(8px, 0.9vw, 14px);
         }

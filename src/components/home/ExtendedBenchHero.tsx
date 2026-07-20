@@ -116,7 +116,7 @@ export function ExtendedBenchHero() {
         /* ── left: the claim ── */
         .xb h2 {
           margin: 0 0 clamp(20px, 2.4vw, 34px);
-          font-family: 'Universal Sans', sans-serif; font-weight: 500; letter-spacing: -0.01em;
+          font-family: 'Universal Sans', sans-serif; letter-spacing: -0.01em;
           text-transform: uppercase;
           font-size: clamp(36px, 4.4vw, 80px); line-height: 1.12; color: ${TEXT}; max-width: 20ch;
         }

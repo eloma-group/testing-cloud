@@ -4,7 +4,10 @@ import { Phone, Mail, MessageCircle, ArrowUpRight, ArrowRight } from 'lucide-rea
 import type { LucideIcon } from 'lucide-react'
 import { Header } from '../components/Header/Header'
 import { Footer } from '../components/Footer'
-import { MaskReveal, staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
+import {
+  MaskReveal, Reveal, staggerParent, VIEWPORT,
+  slideLeft, slideRight, flipIn, popUp, zoomIn, tiltIn,
+} from '../lib/anim'
 
 const TEXT   = '#16141F'
 const ACCENT = '#998EFF'
@@ -47,7 +50,7 @@ const ANSWERS: [string, string][] = [
 ]
 
 const DIRECT: { Icon: LucideIcon; k: string; v: string; note: string; href: string }[] = [
-  { Icon: Phone,         k: 'Call the floor', v: '1800 000 000',       note: 'A person, not a menu',      href: 'tel:1800000000' },
+  { Icon: Phone,         k: 'Call the floor', v: '1800 054 555',       note: 'A person, not a menu',      href: 'tel:1800054555' },
   { Icon: Mail,          k: 'Email us',       v: 'hello@nexa.support', note: 'Answered within 2 hours',   href: 'mailto:hello@nexa.support' },
   { Icon: MessageCircle, k: 'WhatsApp',       v: '+61 400 000 000',    note: 'Fastest for quick questions', href: 'https://wa.me/61400000000' },
 ]
@@ -77,8 +80,12 @@ function Blank({
   bad?: boolean
   type?: string
 }) {
+  /* data-value drives the invisible sizer in CSS, so the field is exactly as
+     wide as the text it is showing. The `size` attribute counts average
+     character widths, which under-measures a proportional face and clipped
+     the right edge of the longer placeholders. */
   return (
-    <span className="cc-lt-blank">
+    <span className="cc-lt-blank" data-value={value || placeholder}>
       <input
         id={id}
         className={`cc-lt-fill${bad ? ' bad' : ''}`}
@@ -87,7 +94,6 @@ function Blank({
         placeholder={placeholder}
         aria-label={placeholder}
         aria-invalid={!!bad}
-        size={Math.max(placeholder.length, value.length + 1)}
         onChange={(e) => onChange(e.target.value)}
       />
     </span>
@@ -246,7 +252,7 @@ export function ContactPage() {
           }
           .cc-ct-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
           .cc-ct-title {
-            font-family: 'Universal Sans', sans-serif; font-weight: 600;
+            font-family: 'Universal Sans', sans-serif; 
             font-size: clamp(44px, 6.2vw, 104px); line-height: 0.98; letter-spacing: -0.035em;
             margin: 0 0 clamp(18px, 2.2vw, 30px); max-width: 11ch;
           }
@@ -348,7 +354,7 @@ export function ContactPage() {
             font-size: 9.5px; letter-spacing: 1.8px; color: rgba(22,20,31,0.4);
           }
           .cc-ct-env-to b {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+            font-family: 'Universal Sans', sans-serif; font-weight: 400;
             font-size: clamp(17px, 1.5vw, 24px); line-height: 1.25; color: ${TEXT};
           }
           .cc-ct-env-to span {
@@ -388,7 +394,7 @@ export function ContactPage() {
           }
           .cc-ct-seal-n {
             position: relative; z-index: 2;
-            font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 2vw, 30px);
+            font-family: 'Universal Sans', sans-serif; font-size: clamp(20px, 2vw, 30px);
             color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.25);
           }
           .cc-ct-seal-ring {
@@ -434,7 +440,7 @@ export function ContactPage() {
           }
           .cc-lt-margin dd { margin: 0; }
           .cc-lt-margin b {
-            display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+            display: block; font-family: 'Universal Sans', sans-serif; font-weight: 400;
             font-size: clamp(20px, 1.7vw, 28px); line-height: 1.1; color: ${TEXT}; margin-bottom: 6px;
           }
           .cc-lt-margin span {
@@ -486,17 +492,27 @@ export function ContactPage() {
 
           /* the prose the form lives inside */
           .cc-lt-body {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+            font-family: 'Universal Sans', sans-serif; font-weight: 400;
             font-size: clamp(19px, 1.85vw, 32px); line-height: 2.05; letter-spacing: -0.005em;
             color: ${TEXT}; margin: 0;
           }
-          .cc-lt-blank { position: relative; display: inline-block; }
+          .cc-lt-blank { position: relative; display: inline-grid; max-width: 100%; }
+          /* The sizer: an invisible copy of whatever the field is showing, laid in
+             the same grid cell as the input. The cell takes its width from this,
+             so the text always fits exactly - no clipped right edge, and no
+             dependence on the font's average character width. */
+          .cc-lt-blank[data-value]::after {
+            content: attr(data-value);
+            grid-area: 1 / 1;
+            font: inherit; white-space: pre; visibility: hidden;
+            padding: 0 5px 2px; min-width: 4ch; max-width: min(100%, 38ch);
+          }
           /* a blank and the punctuation after it must never be split across lines */
           .cc-lt-nb { white-space: nowrap; }
           .cc-lt-fill {
+            grid-area: 1 / 1; width: 100%; min-width: 0;
             font: inherit; color: ${ACCENT}; background: transparent; border: 0; outline: none;
             border-bottom: 2px solid rgba(153,142,255,0.38); padding: 0 5px 2px;
-            min-width: 4ch; max-width: min(100%, 38ch);
             transition: border-color .35s ease, background .35s ease;
           }
           .cc-lt-fill::placeholder { color: rgba(22,20,31,0.3); font-style: italic; }
@@ -505,6 +521,9 @@ export function ContactPage() {
           .cc-lt-pick {
             font: inherit; color: ${ACCENT}; background: transparent; cursor: pointer; border: 0;
             border-bottom: 2px dashed rgba(153,142,255,0.5); padding: 0 5px 2px;
+            /* a multi-select can hold four channel names - let it wrap inside the
+               sentence rather than push past the letter's right edge */
+            max-width: 100%; text-align: left; white-space: normal;
             transition: border-color .3s ease, background .3s ease;
           }
           .cc-lt-pick:hover { border-bottom-style: solid; background: rgba(153,142,255,0.07); }
@@ -544,7 +563,7 @@ export function ContactPage() {
             display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 8px;
           }
           .cc-lt-ps-k b {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+            font-family: 'Universal Sans', sans-serif; font-weight: 400;
             font-size: clamp(19px, 1.7vw, 28px); color: ${TEXT};
           }
           .cc-lt-ps-k span {
@@ -564,7 +583,7 @@ export function ContactPage() {
             background: rgba(153,142,255,0.05);
             box-shadow: inset 0 0 0 1px rgba(22,20,31,0.12);
             padding: clamp(14px, 1.5vw, 20px);
-            font-family: Georgia, 'Times New Roman', serif;
+            font-family: 'Universal Sans', sans-serif;
             font-size: clamp(16px, 1.25vw, 20px); line-height: 1.75; color: ${TEXT};
             transition: box-shadow .4s ease, background .4s ease;
           }
@@ -635,7 +654,7 @@ export function ContactPage() {
             100% { transform: scale(1) rotate(-8deg); opacity: 1; }
           }
           .cc-lt-sent p {
-            font-family: Georgia, 'Times New Roman', serif;
+            font-family: 'Universal Sans', sans-serif;
             font-size: clamp(19px, 1.6vw, 27px); line-height: 1.7; color: ${TEXT};
             margin: 0 0 clamp(22px, 2.4vw, 30px); max-width: 44ch;
           }
@@ -656,7 +675,7 @@ export function ContactPage() {
             border-bottom: 1px solid rgba(22,20,31,0.16);
           }
           .cc-ct-band-head h2 {
-            font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+            font-family: 'Universal Sans', sans-serif; letter-spacing: -0.03em;
             font-size: clamp(24px, 2.6vw, 44px); line-height: 1.1; margin: 0; color: ${TEXT};
           }
           .cc-ct-band-head h2 .accent { color: ${ACCENT}; }
@@ -689,7 +708,7 @@ export function ContactPage() {
           }
           .cc-ct-q:hover .cc-ct-q-n, .cc-ct-q.on .cc-ct-q-n { color: ${ACCENT_INK}; }
           .cc-ct-q-t {
-            font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+            font-family: 'Universal Sans', sans-serif; font-weight: 400;
             font-size: clamp(19px, 1.9vw, 34px); line-height: 1.25; letter-spacing: -0.01em; color: ${TEXT};
             will-change: transform;
             transition: transform .7s cubic-bezier(.16,1,.3,1), color .4s ease;
@@ -916,7 +935,7 @@ export function ContactPage() {
               viewport={VIEWPORT}
             >
               {MARGIN.map(([k, v, note]) => (
-                <motion.div key={k} variants={fadeUp}>
+                <motion.div key={k} variants={slideLeft}>
                   <dt>{k}</dt>
                   <dd>
                     <b>{v}</b>
@@ -926,7 +945,17 @@ export function ContactPage() {
               ))}
             </motion.dl>
 
-            <motion.div className="cc-lt-sheet" {...rise(0.08)}>
+            {/* the sheet arrives from the right, opposite the margin notes
+                that slid in from the left beside it */}
+            <motion.div
+              className="cc-lt-sheet"
+              variants={slideRight}
+              initial={reduce ? false : 'hidden'}
+              whileInView="show"
+              viewport={VIEWPORT}
+              transition={{ delay: 0.08 }}
+              style={{ willChange: 'transform, opacity' }}
+            >
               <div className="cc-lt-head">
                 <b><i aria-hidden /> Nexa Support Group</b>
                 <span>{today}</span>
@@ -1009,10 +1038,10 @@ export function ContactPage() {
 
           {/* ══════════ straight answers ══════════ */}
           <section className="cc-ct-band" aria-label="Straight answers">
-            <div className="cc-ct-band-head">
+            <Reveal className="cc-ct-band-head" variant={popUp}>
               <h2>Straight answers, <span className="accent">before you ask.</span></h2>
               <p>The five things everybody wants to know before they will write to anyone. No sales language.</p>
-            </div>
+            </Reveal>
 
             <motion.div
               className="cc-ct-qa"
@@ -1024,7 +1053,7 @@ export function ContactPage() {
               {ANSWERS.map(([q, a], i) => {
                 const on = open === i
                 return (
-                  <motion.div key={q} variants={fadeUp}>
+                  <motion.div key={q} variants={flipIn}>
                     <button
                       type="button"
                       className={`cc-ct-q${on ? ' on' : ''}`}
@@ -1049,31 +1078,43 @@ export function ContactPage() {
           <div className="cc-ct-tail">
             <div>
               <p className="cc-ct-k">Rather not write</p>
-              <div className="cc-ct-direct">
+              <motion.div
+                className="cc-ct-direct"
+                variants={staggerParent(0.08)}
+                initial={reduce ? false : 'hidden'}
+                whileInView="show"
+                viewport={VIEWPORT}
+              >
                 {DIRECT.map(({ Icon, k, v, note, href }) => (
-                  <a className="cc-ct-line" key={k} href={href}>
+                  <motion.a className="cc-ct-line" key={k} href={href} variants={tiltIn}>
                     <span className="cc-ct-ic" aria-hidden><Icon size={19} strokeWidth={1.9} /></span>
                     <span>
                       <b>{v}</b>
                       <em>{k}, {note.toLowerCase()}</em>
                     </span>
                     <ArrowUpRight className="go" size={19} strokeWidth={2.2} aria-hidden />
-                  </a>
+                  </motion.a>
                 ))}
-              </div>
+              </motion.div>
             </div>
 
             <div>
               <p className="cc-ct-k">Where the floors are</p>
-              <div className="cc-ct-desks">
+              <motion.div
+                className="cc-ct-desks"
+                variants={staggerParent(0.07)}
+                initial={reduce ? false : 'hidden'}
+                whileInView="show"
+                viewport={VIEWPORT}
+              >
                 {clocks.map((c) => (
-                  <div className="cc-ct-desk" key={c.city}>
+                  <motion.div className="cc-ct-desk" key={c.city} variants={zoomIn}>
                     <b><i className={c.onShift ? 'on' : undefined} aria-hidden /> {c.city}</b>
                     <time>{c.label}</time>
                     <span>{c.zone} {c.onShift ? '- on shift' : '- night cover'}</span>
-                  </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             </div>
           </div>
         </div>

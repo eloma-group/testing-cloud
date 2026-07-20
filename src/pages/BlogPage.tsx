@@ -1,13 +1,56 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'framer-motion'
+import type { Variants } from 'framer-motion'
 import { ArrowUpRight, ArrowRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
+import { Reveal, staggerParent, VIEWPORT, EASE, unfoldLeft, slideLeft, slideRight, popUp } from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
 const ACCENT_INK = '#6A5BE8'
 const MUTED      = '#5E5B6B'
+
+/* ──────────────────────────────────────────────────────────────
+   The archive grid enters column by column: every card in the
+   left column slides in together, the middle follows 0.3s later,
+   the right 0.3s after that. The delay is the card's column, not
+   its index, so the cascade stays 0.6s long whether the filter
+   shows three cards or thirty.
+   ────────────────────────────────────────────────────────────── */
+const COL_GAP = 0.3
+
+const GRID: Variants = { hidden: {}, show: {} }
+
+const cardIn: Variants = {
+  hidden: { opacity: 0, x: -64 },
+  show: (delay: number) => ({
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.85, ease: EASE, delay },
+  }),
+}
+
+/* which column a card lands in depends on how many the grid is
+   showing, and .bl-grid drops to two columns at 1100 and one at 720 */
+function useGridColumns() {
+  const [cols, setCols] = useState(3)
+
+  useEffect(() => {
+    const wide = window.matchMedia('(min-width: 1101px)')
+    const mid = window.matchMedia('(min-width: 721px)')
+    const read = () => setCols(wide.matches ? 3 : mid.matches ? 2 : 1)
+
+    read()
+    wide.addEventListener('change', read)
+    mid.addEventListener('change', read)
+    return () => {
+      wide.removeEventListener('change', read)
+      mid.removeEventListener('change', read)
+    }
+  }, [])
+
+  return cols
+}
 
 /* ──────────────────────────────────────────────────────────────
    Blog: a magazine, not a content marketing dump.
@@ -106,6 +149,7 @@ const TOPICS: Topic[] = ['All', 'Operations', 'Hiring', 'Cost', 'Quality']
 export function BlogPage() {
   const reduce = useReducedMotion() ?? false
   const [topic, setTopic] = useState<Topic>('All')
+  const cols = useGridColumns()
 
   const shown = useMemo(
     () => (topic === 'All' ? POSTS : POSTS.filter((p) => p.topic === topic)),
@@ -154,7 +198,7 @@ export function BlogPage() {
           color: rgba(22,20,31,0.32);
         }
         .bl-fig-row b {
-          display: block; font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 400;
           font-size: clamp(16px, 1.35vw, 23px); line-height: 1.3; color: ${TEXT};
         }
         .bl-fig-row span {
@@ -190,7 +234,7 @@ export function BlogPage() {
         }
         .bl-tag i { width: 5px; height: 5px; border-radius: 50%; background: ${ACCENT}; }
         .bl-lead h3 {
-          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.032em; font-size: clamp(26px, 2.9vw, 54px); line-height: 1.06; color: ${TEXT};
         }
         .bl-lead p {
@@ -280,7 +324,7 @@ export function BlogPage() {
         }
         .bl-card-body { padding: clamp(20px, 2.2vw, 30px); display: flex; flex-direction: column; flex: 1; }
         .bl-card-body h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.028em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.028em;
           font-size: clamp(19px, 1.6vw, 28px); line-height: 1.16; color: ${TEXT};
         }
         .bl-card-body p {
@@ -295,12 +339,12 @@ export function BlogPage() {
           gap: clamp(24px, 3.4vw, 62px); align-items: center;
         }
         .bl-sub h2 {
-          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(14px, 1.6vw, 22px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.032em; font-size: clamp(28px, 3.2vw, 58px); line-height: 1.04; color: #fff;
           max-width: 16ch;
         }
         .bl-sub h2 .serif {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-style: italic;
+          font-family: 'Universal Sans', sans-serif;
           color: ${ACCENT}; letter-spacing: -0.02em;
         }
         /* classed, not a bare p: it would otherwise outrank the .pg-eyebrow above it */
@@ -394,10 +438,11 @@ export function BlogPage() {
         <motion.a
           href={`#${LEAD.slug}`}
           className="bl-lead"
-          initial={reduce ? false : { opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={unfoldLeft}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
           viewport={VIEWPORT}
-          transition={{ duration: 0.9, ease: EASE }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <div className="bl-lead-body">
             <span className="bl-tag"><i aria-hidden /> {LEAD.topic}</span>
@@ -428,34 +473,51 @@ export function BlogPage() {
           lead="Filter it by what is bothering you. There are only four things anybody ever asks us about."
         />
 
-        <div className="bl-rail" role="tablist" aria-label="Topics">
+        <motion.div
+          className="bl-rail"
+          role="tablist"
+          aria-label="Topics"
+          variants={staggerParent(0.05)}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           {TOPICS.map((t) => {
             const count = t === 'All' ? POSTS.length : POSTS.filter((p) => p.topic === t).length
             return (
-              <button
+              <motion.button
                 key={t}
                 type="button"
                 role="tab"
                 aria-selected={topic === t}
                 className={`bl-pill${topic === t ? ' on' : ''}`}
                 onClick={() => setTopic(t)}
+                variants={popUp}
               >
                 {t}
                 <em>{count}</em>
-              </button>
+              </motion.button>
             )
           })}
-        </div>
+        </motion.div>
 
         <motion.div
           className="bl-grid"
           key={topic}
-          variants={staggerParent(0.06)}
+          variants={GRID}
           initial={reduce ? false : 'hidden'}
           animate="show"
         >
-          {shown.map((p) => (
-            <motion.a href={`#${p.slug}`} className="bl-card" key={p.slug} variants={fadeUp}>
+          {shown.map((p, i) => (
+            <motion.a
+              href={`#${p.slug}`}
+              className="bl-card"
+              key={p.slug}
+              variants={cardIn}
+              /* the column this card sits in decides when it starts, so a whole
+                 column slides in at once and the next follows 0.3s behind */
+              custom={cols === 1 ? i * 0.08 : (i % cols) * COL_GAP}
+            >
               <div className="bl-card-shot">
                 <img src={p.img} alt={p.alt} width={640} height={400} decoding="async" />
                 <span className="bl-tag"><i aria-hidden /> {p.topic}</span>
@@ -480,16 +542,25 @@ export function BlogPage() {
       {/* ══════════ the list ══════════ */}
       <Band tone="ink" label="Subscribe">
         <div className="bl-sub">
-          <div>
+          <Reveal variant={slideLeft}>
             <p className="pg-eyebrow"><i aria-hidden /> The list</p>
             <h2>One email a month. <span className="serif">Nothing else.</span></h2>
             <p className="bl-sub-lead">
               When we publish, you get it. When we do not, you hear nothing at all, which is most
               months. No sequences, no offers, and one click to leave.
             </p>
-          </div>
+          </Reveal>
 
-          <form className="bl-form" onSubmit={(e) => e.preventDefault()}>
+          <motion.form
+            className="bl-form"
+            onSubmit={(e) => e.preventDefault()}
+            variants={slideRight}
+            initial={reduce ? false : 'hidden'}
+            whileInView="show"
+            viewport={VIEWPORT}
+            transition={{ delay: 0.12 }}
+            style={{ willChange: 'transform, opacity' }}
+          >
             <label htmlFor="bl-email">Get the next one</label>
             <div className="bl-form-row">
               <input
@@ -504,7 +575,7 @@ export function BlogPage() {
               </button>
             </div>
             <small>We have sent thirteen emails in two years. That is the whole track record.</small>
-          </form>
+          </motion.form>
         </div>
       </Band>
 

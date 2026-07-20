@@ -1,21 +1,18 @@
 import { useRef } from 'react'
+import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { Headphones, Users, MessageSquare, BarChart3, Heart, ArrowRight } from 'lucide-react'
 import { MaskReveal } from '../../lib/anim'
 
 /* ──────────────────────────────────────────────────────────────
-   Real People, Real Conversations - one headset, cut out of a
-   single silhouette into eleven bespoke photo pieces.
+   Real People, Real Conversations - a headset built from photo
+   tiles of the support floor, sitting beside the message.
 
-   The trick is that NO two pieces share a shape. Each is a
-   rounded rectangle with its OWN per-corner radii and tilt, so
-   the outer corners trace the smooth headband + ear-cup outline
-   while the inner corners stay tight - the eleven only read as a
-   3D headset because each one is cut for its own spot. The top
-   tile bows into a barrel crown; the boom tapers into a round
-   foam mic. Every piece carries its own soft drop-shadow (filter
-   on the outer <g>, clip on the inner one, so the shadow is never
-   clipped away). Compositor-only, 120fps-safe.
+   The headset is a single pre-cut transparent PNG (background
+   flood-filled out, trimmed to the artwork, so it drops onto any
+   surface). The centre copy is absolutely placed into the open
+   ear-hole. Nothing animates but transform + opacity, so the
+   whole block stays compositor-only and 120fps-safe.
    ────────────────────────────────────────────────────────────── */
 
 const EASE = [0.16, 1, 0.3, 1] as [number, number, number, number]
@@ -25,66 +22,8 @@ const BLUE  = '#3B5BFF'   // royal blue - accent
 const MUTED = '#5E6A7D'   // secondary text
 const BG    = '#F6F7FA'   // near-white page
 
-/* ── SVG geometry ── */
-const VB_W = 1000
-const VB_H = 1080
-
-type Radii = [number, number, number, number]   // tl, tr, br, bl
-type Box = { x: number; y: number; w: number; h: number }
-
-/** rounded rect centred at origin; bow bulges the top edge up (barrel crown) */
-function rr(w: number, h: number, [tl, tr, br, bl]: Radii, bow = 0) {
-  const hw = w / 2, hh = h / 2
-  const top = bow > 0 ? `Q 0 ${-hh - bow} ${hw - tr} ${-hh}` : `L ${hw - tr} ${-hh}`
-  return [
-    `M ${-hw + tl} ${-hh}`,
-    top, `Q ${hw} ${-hh} ${hw} ${-hh + tr}`,
-    `L ${hw} ${hh - br}`, `Q ${hw} ${hh} ${hw - br} ${hh}`,
-    `L ${-hw + bl} ${hh}`, `Q ${-hw} ${hh} ${-hw} ${hh - bl}`,
-    `L ${-hw} ${-hh + tl}`, `Q ${-hw} ${-hh} ${-hw + tl} ${-hh}`,
-    'Z',
-  ].join(' ')
-}
-/** axis-aligned bounding box of a rotated rect (frames the photo behind it) */
-function aabb(cx: number, cy: number, w: number, h: number, rot: number): Box {
-  const a = Math.abs((rot * Math.PI) / 180), c = Math.cos(a), s = Math.sin(a)
-  const halfW = (w / 2) * c + (h / 2) * s
-  const halfH = (w / 2) * s + (h / 2) * c
-  return { x: cx - halfW, y: cy - halfH, w: halfW * 2, h: halfH * 2 }
-}
-
-type Tile = {
-  key: string; src: string; alt: string
-  cx: number; cy: number; w: number; h: number; rot: number; r: Radii
-  bow?: number; focus?: string
-}
-
-/* the nine band pieces - headband crown + two ear columns */
-const TILES: Tile[] = [
-  { key: 'world',      src: '/images/home/showcase/network.jpg',     alt: 'Global network lighting up with live connections',    cx: 500, cy: 138, w: 322, h: 156, rot: 0,   r: [56, 56, 30, 30], bow: 30 },
-  { key: 'womanTL',    src: '/images/home/live-team.webp',           alt: 'Support specialist smiling on a headset call',        cx: 300, cy: 214, w: 182, h: 224, rot: -24, r: [96, 30, 28, 44], focus: 'xMidYMin slice' },
-  { key: 'manTR',      src: '/images/home/showcase/agent-man.jpg',   alt: 'Account manager taking a customer call',              cx: 700, cy: 214, w: 182, h: 224, rot: 24,  r: [30, 96, 44, 28], focus: 'xMidYMin slice' },
-  { key: 'headphones', src: '/images/home/showcase/headphones.jpg',  alt: 'Professional headset ready at a workstation',         cx: 214, cy: 366, w: 186, h: 176, rot: -20, r: [58, 26, 26, 62] },
-  { key: 'dashboard',  src: '/images/home/showcase/dashboard.jpg',   alt: 'Live analytics dashboard tracking call volume',       cx: 208, cy: 536, w: 192, h: 182, rot: -4,  r: [56, 24, 24, 56] },
-  { key: 'typing',     src: '/images/home/showcase/typing.jpg',      alt: 'Agent typing up notes with a coffee at hand',         cx: 296, cy: 690, w: 186, h: 186, rot: 16,  r: [30, 28, 40, 88] },
-  { key: 'chat',       src: '/images/home/showcase/chat.jpg',        alt: 'Live chat lighting up between customer and agent',     cx: 786, cy: 366, w: 186, h: 176, rot: 20,  r: [26, 58, 62, 26] },
-  { key: 'woman2',     src: '/images/home/showcase/agent-woman.jpg', alt: 'Customer service agent listening on a call',          cx: 792, cy: 536, w: 192, h: 182, rot: 4,   r: [24, 56, 56, 24], focus: 'xMidYMin slice' },
-  { key: 'phone',      src: '/images/home/showcase/phone.jpg',       alt: 'Desk phone on a busy support floor',                  cx: 704, cy: 690, w: 186, h: 186, rot: -16, r: [28, 30, 88, 40] },
-]
-
-const MIC = { cx: 432, cy: 906, r: 84 }
-const BOOM = { cx: 606, cy: 848, w: 272, h: 100, rot: -30 }
-
-type Part = Tile & { d: string; tf: string; box: Box }
-const PARTS: Part[] = TILES.map((t) => ({
-  ...t,
-  d: rr(t.w, t.h, t.r, t.bow ?? 0),
-  tf: `translate(${t.cx} ${t.cy}) rotate(${t.rot})`,
-  box: aabb(t.cx, t.cy, t.w, t.h, t.rot),
-}))
-const BOOM_D = rr(BOOM.w, BOOM.h, [50, 50, 50, 50])
-const BOOM_TF = `translate(${BOOM.cx} ${BOOM.cy}) rotate(${BOOM.rot})`
-const boomBox = aabb(BOOM.cx, BOOM.cy, BOOM.w, BOOM.h, BOOM.rot)
+/* the pre-cut headset artwork - trimmed to its own bounds */
+const HEADSET = { src: '/images/home/headset-collage.webp', w: 838, h: 910 }
 
 type Feature = { key: string; a: string; b: string; color: string; tint: string; icon: 'headset' | 'users' | 'chat' | 'chart' }
 const FEATURES: Feature[] = [
@@ -137,15 +76,15 @@ export function RealPeople() {
           background-image: radial-gradient(120% 90% at 82% 8%, #FFFFFF 0%, ${BG} 55%); }
         .cc-rp-inner {
           position: relative; z-index: 1;
-          max-width: min(calc(100vw - 120px), 1560px); margin: 0 auto;
-          padding: clamp(56px, 8vw, 132px) clamp(20px, 4vw, 60px);
-          display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.04fr);
-          gap: clamp(28px, 4vw, 72px); align-items: center;
+          max-width: min(calc(100vw - 96px), 1820px); margin: 0 auto;
+          padding: clamp(56px, 8vw, 132px) clamp(20px, 2.4vw, 40px);
+          display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+          gap: clamp(28px, 4vw, 64px); align-items: center;
         }
 
         /* ── left: the message ── */
         .cc-rp-h {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; color: ${INK};
+          font-family: 'Universal Sans', sans-serif; color: ${INK};
           font-size: clamp(40px, 6.2vw, 90px); line-height: 1.0; letter-spacing: -0.035em;
           margin: 0; max-width: 15ch;
         }
@@ -170,19 +109,25 @@ export function RealPeople() {
           box-shadow: 0 18px 34px -18px rgba(11,27,51,0.55);
           transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; will-change: transform;
         }
-        .cc-rp-btn:hover { transform: translateY(-3px); box-shadow: 0 24px 44px -18px rgba(11,27,51,0.6); }
+        .cc-rp-btn:hover, .cc-rp-btn:focus-visible {
+          transform: translateY(-3px) scale(1.02);
+          box-shadow: 0 26px 48px -18px rgba(11,27,51,0.62), 0 0 0 4px rgba(59,91,255,0.16);
+        }
+        .cc-rp-btn:active { transform: translateY(-1px) scale(0.99); }
         .cc-rp-btn svg { transition: transform .4s cubic-bezier(.16,1,.3,1); }
-        .cc-rp-btn:hover svg { transform: translateX(5px); }
+        .cc-rp-btn:hover svg, .cc-rp-btn:focus-visible svg { transform: translateX(5px); }
         .cc-rp-link {
           display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
           color: ${INK}; text-decoration: none; position: relative;
           font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 16px);
         }
         .cc-rp-link span { position: relative; }
-        .cc-rp-link span::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: ${BLUE}; transform-origin: left; transition: transform .4s cubic-bezier(.16,1,.3,1); }
-        .cc-rp-link:hover span::after { transform: scaleX(0.55); }
+        .cc-rp-link { transition: color .35s ease; }
+        .cc-rp-link span::after { content: ''; position: absolute; left: 0; right: 0; bottom: -3px; height: 2px; background: ${BLUE}; transform-origin: left bottom; transition: transform .4s cubic-bezier(.16,1,.3,1); }
+        .cc-rp-link:hover, .cc-rp-link:focus-visible { color: ${BLUE}; }
+        .cc-rp-link:hover span::after, .cc-rp-link:focus-visible span::after { transform: scaleY(2); }
         .cc-rp-link svg { color: ${BLUE}; transition: transform .4s cubic-bezier(.16,1,.3,1); }
-        .cc-rp-link:hover svg { transform: translateX(4px); }
+        .cc-rp-link:hover svg, .cc-rp-link:focus-visible svg { transform: translateX(4px); }
 
         /* ── feature row ── */
         .cc-rp-feats {
@@ -192,46 +137,85 @@ export function RealPeople() {
         .cc-rp-feat { display: flex; flex-direction: column; gap: 10px; padding: 0 clamp(10px, 1.4vw, 22px); }
         .cc-rp-feat + .cc-rp-feat { border-left: 1px solid rgba(11,27,51,0.10); }
         .cc-rp-feat:first-child { padding-left: 0; }
-        .cc-rp-disc { width: clamp(44px, 3.6vw, 56px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; }
+        .cc-rp-disc { width: clamp(44px, 3.6vw, 56px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center;
+          transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease; will-change: transform; }
+        /* the icons ship at a fixed size - let them grow with the disc */
+        .cc-rp-disc svg { width: 22px; height: auto; transition: transform .45s cubic-bezier(.16,1,.3,1); }
+        /* --c is set inline per feature so each tile lifts in its own colour */
+        .cc-rp-feat:hover .cc-rp-disc { transform: translateY(-5px) scale(1.08); box-shadow: 0 14px 26px -10px var(--c); }
+        .cc-rp-feat:hover .cc-rp-disc svg { transform: scale(1.12); }
+        .cc-rp-feat:hover b { color: var(--c); }
         .cc-rp-feat b {
           font-family: 'Universal Sans', sans-serif; font-weight: 800; color: ${INK};
           font-size: clamp(15px, 1.25vw, 19px); line-height: 1.15; letter-spacing: -0.01em;
+          transition: color .35s ease;
         }
         .cc-rp-feat b em { display: block; font-style: normal; font-weight: 500; color: ${MUTED};
           font-size: clamp(13px, 1vw, 15px); }
 
         /* ── right: the headset cut-out ── */
-        .cc-rp-stage { position: relative; width: 100%; max-width: clamp(320px, 46vw, 760px); margin: 0 auto; }
-        .cc-rp-set { width: 100%; height: auto; display: block; overflow: visible; }
+        .cc-rp-stage { position: relative; width: 100%; max-width: clamp(340px, 50vw, 880px); margin: 0 auto; }
+        .cc-rp-set {
+          width: 100%; height: auto; display: block;
+          aspect-ratio: ${HEADSET.w} / ${HEADSET.h};
+        }
         .cc-rp-stage::before {
           content: ''; position: absolute; z-index: 0; pointer-events: none;
-          left: 50%; top: 43.5%; transform: translate(-50%, -50%);
-          width: 44%; aspect-ratio: 1; border-radius: 50%;
+          left: 49.9%; top: 46.4%; transform: translate(-50%, -50%);
+          width: 52%; aspect-ratio: 1; border-radius: 50%;
           background: radial-gradient(closest-side, rgba(59,91,255,0.10), transparent 72%);
         }
-        .cc-rp-seg { opacity: 0; animation: ccRpIn .7s cubic-bezier(.16,1,.3,1) forwards; }
-        @keyframes ccRpIn { to { opacity: 1; } }
-        .cc-rp-rim { fill: none; stroke: rgba(255,255,255,0.5); stroke-width: 2; }
 
-        /* ── centre message, sitting in the ear-hole ── */
+        /* ── centre message, sitting in the ear-hole. the 49.9/46.4 anchor is
+           the centre of the largest circle that fits inside the open hole
+           (measured off the artwork's alpha), so the block reads as optically
+           centred rather than page-centred.
+
+           The hole box is centred with negative margins, NOT a transform:
+           Framer Motion owns the transform on the inner element, so a
+           translate(-50%,-50%) here would be overwritten the moment the
+           reveal runs and the copy would sit half a box down and right.
+           Percentage margins resolve against the container WIDTH, and the
+           box is a square (aspect-ratio: 1), so -26% is exactly half of it
+           on both axes. ── */
         .cc-rp-centre {
-          position: absolute; left: 50%; top: 43.5%; transform: translate(-50%, -50%);
-          z-index: 5; text-align: center; width: clamp(150px, 21vw, 300px);
+          position: absolute; left: 49.9%; top: 46.4%;
+          width: 52%; aspect-ratio: 1; margin: -26% 0 0 -26%;
+          z-index: 5; display: grid; place-items: center;
         }
+        .cc-rp-centre-in { width: 100%; text-align: center; }
         .cc-rp-centre .wf { height: clamp(20px, 2vw, 28px); width: auto; margin: 0 auto clamp(12px, 1.4vw, 18px); display: block; }
         .cc-rp-msg {
           font-family: 'Universal Sans', sans-serif; font-weight: 600; color: ${INK};
-          font-size: clamp(15px, 1.85vw, 29px); line-height: 1.3; letter-spacing: -0.02em; margin: 0;
+          font-size: clamp(15px, 2vw, 33px); line-height: 1.3; letter-spacing: -0.02em; margin: 0;
         }
         .cc-rp-msg .b { color: ${BLUE}; font-weight: 800; }
-        .cc-rp-heart { margin: clamp(10px, 1.3vw, 18px) auto 0; color: ${BLUE}; display: block; }
+        .cc-rp-heart { margin: clamp(10px, 1.3vw, 18px) auto 0; color: ${BLUE}; display: block;
+          width: clamp(20px, 1.7vw, 30px); height: auto; }
 
-        @media (min-width: 1920px) { .cc-rp-inner { max-width: min(calc(100vw - 140px), 1780px); } }
+        /* ── large screens only. Everything above is the standard-laptop scale
+           and must stay untouched up to 1600px; past that the copy column has
+           room to spare, so each clamp restarts from the value it had capped
+           at (its min here) and grows from there - no jump at the boundary. ── */
+        @media (min-width: 1600px) {
+          .cc-rp-sub { font-size: clamp(19px, 1.19vw, 23px); }
+          .cc-rp-btn { min-height: clamp(52px, 3.25vw, 68px); padding: 0 clamp(32px, 2vw, 40px);
+            font-size: clamp(16px, 1vw, 20px); }
+          .cc-rp-link { font-size: clamp(16px, 1vw, 20px); }
+          .cc-rp-feat { gap: clamp(10px, 0.65vw, 16px); padding: 0 clamp(22px, 1.375vw, 28px); }
+          .cc-rp-disc { width: clamp(56px, 3.5vw, 78px); }
+          .cc-rp-disc svg { width: clamp(22px, 1.38vw, 32px); }
+          .cc-rp-feat b { font-size: clamp(19px, 1.19vw, 27px); line-height: 1.2; }
+          .cc-rp-feat b em { font-size: clamp(15px, 0.94vw, 21px); }
+        }
+
+        @media (min-width: 1920px) { .cc-rp-inner { max-width: min(calc(100vw - 110px), 2020px); } }
+        @media (min-width: 2560px) { .cc-rp-inner { max-width: min(calc(100vw - 140px), 2400px); } }
 
         /* ── stack ── */
         @media (max-width: 980px) {
           .cc-rp-inner { grid-template-columns: minmax(0, 1fr); gap: clamp(30px, 6vw, 48px); }
-          .cc-rp-stage { order: 2; max-width: min(92vw, 580px); }
+          .cc-rp-stage { order: 2; max-width: min(94vw, 640px); }
           .cc-rp-copy { order: 1; }
           .cc-rp-h { max-width: 18ch; }
         }
@@ -243,8 +227,9 @@ export function RealPeople() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .cc-rp-btn, .cc-rp-btn svg, .cc-rp-link svg, .cc-rp-link span::after { transition: none; }
-          .cc-rp-seg { animation: none; opacity: 1; }
+          .cc-rp-btn, .cc-rp-btn svg, .cc-rp-link, .cc-rp-link svg, .cc-rp-link span::after,
+          .cc-rp-disc, .cc-rp-disc svg, .cc-rp-feat b { transition: none; }
+          .cc-rp-btn:hover, .cc-rp-feat:hover .cc-rp-disc, .cc-rp-feat:hover .cc-rp-disc svg { transform: none; }
         }
       `}</style>
 
@@ -265,17 +250,18 @@ export function RealPeople() {
           </motion.p>
 
           <motion.div className="cc-rp-ctas" {...rise(0.24)}>
-            <a className="cc-rp-btn" href="/contact">
-              Connect With Us <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
-            </a>
-            <a className="cc-rp-link" href="/services">
+            <Link className="cc-rp-btn gl-shine" to="/contact#write">
+              <span>Connect With Us</span>
+              <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
+            </Link>
+            <Link className="cc-rp-link" to="/services">
               <span>Learn more</span> <ArrowRight size={18} strokeWidth={2.4} aria-hidden />
-            </a>
+            </Link>
           </motion.div>
 
           <motion.div className="cc-rp-feats" {...rise(0.3)}>
             {FEATURES.map((ft) => (
-              <div className="cc-rp-feat" key={ft.key}>
+              <div className="cc-rp-feat" key={ft.key} style={{ '--c': ft.color } as React.CSSProperties}>
                 <span className="cc-rp-disc" style={{ background: ft.tint }}>
                   <FeatureIcon icon={ft.icon} color={ft.color} />
                 </span>
@@ -287,75 +273,34 @@ export function RealPeople() {
 
         {/* ── headset cut-out ── */}
         <div className="cc-rp-stage">
-          <motion.svg
+          <motion.img
             className="cc-rp-set"
-            viewBox={`0 0 ${VB_W} ${VB_H}`}
-            role="img"
-            aria-label="A headset made from eleven photos of our support floor - agents, a live world map, chat, a dashboard, a desk phone and a studio microphone"
+            src={HEADSET.src}
+            width={HEADSET.w}
+            height={HEADSET.h}
+            decoding="async"
+            alt="A headset built from photos of our support floor - agents on calls, a live world map, an analytics dashboard, a desk phone and a studio microphone"
             initial={reduce ? false : { opacity: 0, scale: 0.94 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-60px' }}
             transition={{ duration: 0.9, ease: EASE }}
-          >
-            <defs>
-              {PARTS.map((p) => (
-                <clipPath id={`rp-${p.key}`} key={p.key}>
-                  <path d={p.d} transform={p.tf} />
-                </clipPath>
-              ))}
-              <clipPath id="rp-mic"><circle cx={MIC.cx} cy={MIC.cy} r={MIC.r} /></clipPath>
-              <clipPath id="rp-boom"><path d={BOOM_D} transform={BOOM_TF} /></clipPath>
-              <filter id="rp-tile" x="-25%" y="-25%" width="150%" height="150%">
-                <feDropShadow dx="0" dy="9" stdDeviation="11" floodColor="#0B1B33" floodOpacity="0.22" />
-              </filter>
-            </defs>
+          />
 
-            {/* each photo poured into its own bespoke cut piece. filter on the
-               outer <g>, clip on the inner one: SVG applies the filter before
-               the clip, so nesting keeps every piece's shadow from being
-               clipped away with its silhouette. */}
-            <g>
-              {/* boom first so the foam mic + band overlap it cleanly */}
-              <g filter="url(#rp-tile)" className="cc-rp-seg" style={{ animationDelay: '0.66s' }}>
-                <g clipPath="url(#rp-boom)">
-                  <image href="/images/home/showcase/bokeh.jpg" x={boomBox.x} y={boomBox.y} width={boomBox.w} height={boomBox.h} preserveAspectRatio="xMidYMid slice" />
-                </g>
-              </g>
-              {PARTS.map((p, i) => (
-                <g filter="url(#rp-tile)" key={p.key} className="cc-rp-seg" style={{ animationDelay: `${0.12 + i * 0.06}s` }}>
-                  <g clipPath={`url(#rp-${p.key})`}>
-                    <image href={p.src} x={p.box.x} y={p.box.y} width={p.box.w} height={p.box.h} preserveAspectRatio={p.focus ?? 'xMidYMid slice'} />
-                  </g>
-                </g>
-              ))}
-              <g filter="url(#rp-tile)" className="cc-rp-seg" style={{ animationDelay: '0.72s' }}>
-                <g clipPath="url(#rp-mic)">
-                  <image href="/images/home/showcase/mic.jpg" x={MIC.cx - MIC.r} y={MIC.cy - MIC.r} width={MIC.r * 2} height={MIC.r * 2} preserveAspectRatio="xMidYMid slice" />
-                </g>
-              </g>
-            </g>
-
-            {/* light bevel rims, drawn over the pieces (no shadow) */}
-            <g>
-              <path d={BOOM_D} transform={BOOM_TF} className="cc-rp-rim" />
-              {PARTS.map((p) => <path d={p.d} transform={p.tf} key={p.key} className="cc-rp-rim" />)}
-              <circle cx={MIC.cx} cy={MIC.cy} r={MIC.r} className="cc-rp-rim" />
-            </g>
-          </motion.svg>
-
-          <motion.div className="cc-rp-centre"
-            initial={reduce ? false : { opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ delay: 0.5, duration: 0.8, ease: EASE }}>
-            <Waveform className="wf" color={BLUE} bars={[8, 16, 26, 14, 30, 20, 10, 22, 12]} />
-            <p className="cc-rp-msg">
-              Real People.<br />
-              Real Conversations.<br />
-              <span className="b">Real Solutions.</span>
-            </p>
-            <Heart className="cc-rp-heart" size={22} strokeWidth={2} aria-hidden />
-          </motion.div>
+          <div className="cc-rp-centre">
+            <motion.div className="cc-rp-centre-in"
+              initial={reduce ? false : { opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true, margin: '-40px' }}
+              transition={{ delay: 0.5, duration: 0.8, ease: EASE }}>
+              <Waveform className="wf" color={BLUE} bars={[8, 16, 26, 14, 30, 20, 10, 22, 12]} />
+              <p className="cc-rp-msg">
+                Real People.<br />
+                Real Conversations.<br />
+                <span className="b">Real Solutions.</span>
+              </p>
+              <Heart className="cc-rp-heart" size={22} strokeWidth={2} aria-hidden />
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

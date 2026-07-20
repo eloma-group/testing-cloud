@@ -3,7 +3,10 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, Quote } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
+import {
+  MaskReveal, Reveal, staggerParent, VIEWPORT,
+  zoomIn, slideRight, swingIn, popUp,
+} from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
@@ -243,7 +246,7 @@ export function CaseStudiesPage() {
           padding: clamp(26px, 3.2vw, 54px);
         }
         .cs-case-body h3 {
-          margin: 0 0 clamp(16px, 1.8vw, 24px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(16px, 1.8vw, 24px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.032em; font-size: clamp(24px, 2.6vw, 48px); line-height: 1.06; color: ${TEXT};
         }
         .cs-k {
@@ -299,7 +302,7 @@ export function CaseStudiesPage() {
         }
         .cs-quote svg { color: rgba(153,142,255,0.4); margin-bottom: 10px; }
         .cs-quote p {
-          margin: 0 0 16px; font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+          margin: 0 0 16px; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(15px, 1.3vw, 22px); line-height: 1.55; color: ${TEXT};
         }
         .cs-quote footer {
@@ -309,7 +312,7 @@ export function CaseStudiesPage() {
         .cs-quote footer i {
           display: grid; place-items: center; flex: none; width: 36px; height: 36px; border-radius: 50%;
           background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
-          color: #fff; font-family: Georgia, serif; font-style: normal; font-size: 14px;
+          color: #fff; font-family: 'Universal Sans', sans-serif; font-style: normal; font-size: 14px;
           box-shadow: 0 8px 18px -10px rgba(74,61,191,0.8);
         }
         .cs-quote footer b {
@@ -395,11 +398,11 @@ export function CaseStudiesPage() {
           gap: clamp(24px, 3.4vw, 62px); align-items: center;
         }
         .cs-fine-q {
-          margin: 0; font-family: Georgia, 'Times New Roman', serif;
+          margin: 0; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(22px, 2.6vw, 46px); line-height: 1.38; letter-spacing: -0.015em; color: #fff;
           max-width: 20ch;
         }
-        .cs-fine-q b { font-weight: 400; font-style: italic; color: ${ACCENT}; }
+        .cs-fine-q b { font-weight: 400; color: ${ACCENT}; }
         .cs-fine-note {
           display: grid; gap: 16px; padding-left: clamp(18px, 2vw, 28px);
           border-left: 2px solid #2F2A42;
@@ -487,10 +490,11 @@ export function CaseStudiesPage() {
 
         <motion.article
           className="cs-hero-case"
-          initial={reduce ? false : { opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          variants={zoomIn}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
           viewport={VIEWPORT}
-          transition={{ duration: 0.9, ease: EASE }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <div className="cs-shot">
             <img src={FEATURED.img} alt={FEATURED.alt} width={1400} height={600} decoding="async" />
@@ -561,7 +565,7 @@ export function CaseStudiesPage() {
           {CASES.map((c) => {
             const on = open === c.id
             return (
-              <motion.div key={c.id} variants={fadeUp}>
+              <motion.div key={c.id} variants={swingIn}>
                 <button
                   type="button"
                   className={`cs-row${on ? ' on' : ''}`}
@@ -634,7 +638,7 @@ export function CaseStudiesPage() {
             <b>None of them moved in week one.</b>
           </MaskReveal>
 
-          <div className="cs-fine-note">
+          <Reveal className="cs-fine-note" variant={slideRight} delay={0.1}>
             <p>
               We are showing you the good quarters, the same as everybody else. The difference is that
               we will also walk you through the two accounts we lost, and why, on the first call if
@@ -646,10 +650,10 @@ export function CaseStudiesPage() {
               different metric.
             </p>
             <span className="cs-fine-dot"><i aria-hidden /> References available, live, on request</span>
-          </div>
+          </Reveal>
         </div>
 
-        <div style={{ marginTop: 'clamp(30px, 3.5vw, 52px)', display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+        <Reveal variant={popUp} delay={0.14} style={{ marginTop: 'clamp(30px, 3.5vw, 52px)', display: 'flex', flexWrap: 'wrap', gap: 14 }}>
           <Link to="/solutions" className="pg-btn">
             <span>Price a team like these</span>
             <ArrowUpRight size={17} strokeWidth={2.4} aria-hidden />
@@ -657,7 +661,7 @@ export function CaseStudiesPage() {
           <Link to="/industries" className="pg-btn ghost">
             <span>Find your sector</span>
           </Link>
-        </div>
+        </Reveal>
       </Band>
 
       <CTABand

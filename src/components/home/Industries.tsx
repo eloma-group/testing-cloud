@@ -173,7 +173,7 @@ export function Industries() {
         }
         .cc-in-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .cc-in-title {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(40px, 6.4vw, 118px); line-height: 0.98; letter-spacing: -0.03em;
           margin: 0;
         }
@@ -400,7 +400,10 @@ export function Industries() {
             inset 0 0 0 1px rgba(255,255,255,0.6),
             0 26px 44px -22px rgba(22,20,31,0.5);
         }
-        .cc-in-stat:nth-child(2) { transform: translateY(-16px); }
+        /* the outer pair fan out a touch, the middle one lifts - so the trio reads as an arc */
+        .cc-in-stat:nth-child(1) { transform: translateX(clamp(-22px, -1.1vw, -10px)); }
+        .cc-in-stat:nth-child(2) { transform: translateY(clamp(-52px, -2.6vw, -38px)); }
+        .cc-in-stat:nth-child(3) { transform: translateX(clamp(10px, 1.1vw, 22px)); }
         .cc-in-stat b {
           font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
           font-size: clamp(26px, 2.7vw, 42px); line-height: 1; color: ${TEXT};
@@ -496,7 +499,9 @@ export function Industries() {
             position: static; transform: none; width: 100%;
           }
           .cc-in-cards { justify-content: flex-start; flex-wrap: wrap; }
-          .cc-in-stat:nth-child(2) { transform: none; }
+          .cc-in-stat:nth-child(1),
+          .cc-in-stat:nth-child(2),
+          .cc-in-stat:nth-child(3) { transform: none; }
           .cc-in-console { align-self: flex-start; width: auto; bottom: auto; }
           .cc-in-rail {
             display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;

@@ -133,7 +133,7 @@ export function Spotlight() {
         }
         .cc-sl-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-sl-h2 {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(36px, 3.9vw, 66px); line-height: 1.0; letter-spacing: -0.03em;
           margin: 0; color: ${TEXT};
         }
@@ -208,7 +208,7 @@ export function Spotlight() {
           margin-bottom: 10px;
         }
         .cc-sl-card h3 {
-          margin: 0 0 6px; font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          margin: 0 0 6px; font-family: 'Universal Sans', sans-serif; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 1.8px; color: ${TEXT};
         }
         .cc-sl-card p {

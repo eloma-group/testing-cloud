@@ -4,7 +4,10 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, Check, Clock, Flame, Globe2, Wallet } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
+import {
+  MaskReveal, staggerParent, VIEWPORT, EASE,
+  tiltIn, popUp, fadeDown,
+} from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
@@ -186,7 +189,7 @@ export function SolutionsPage() {
           font-size: 10px; letter-spacing: 1.8px; color: #858387;
         }
         .so-tot span {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(19px, 1.7vw, 28px);
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(19px, 1.7vw, 28px);
           color: #fff; letter-spacing: -0.02em;
         }
         .so-tot span em { font-style: normal; color: ${ACCENT}; }
@@ -236,13 +239,13 @@ export function SolutionsPage() {
           font-size: 12px; letter-spacing: 2px; color: rgba(22,20,31,0.3);
         }
         .so-prob h3 {
-          margin: 0 0 clamp(12px, 1.4vw, 16px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(12px, 1.4vw, 16px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.028em; font-size: clamp(21px, 2vw, 36px); line-height: 1.1; color: ${TEXT};
         }
         .so-prob blockquote {
           margin: 0 0 clamp(16px, 1.8vw, 22px); padding-left: clamp(14px, 1.4vw, 18px);
           border-left: 2px solid rgba(153,142,255,0.4);
-          font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+          font-family: 'Universal Sans', sans-serif;
           font-size: clamp(15px, 1.25vw, 21px); line-height: 1.55; color: ${ACCENT_INK};
         }
         .so-prob > p {
@@ -308,7 +311,7 @@ export function SolutionsPage() {
           font-size: 10px; letter-spacing: 1.8px; color: #C3BCFF;
         }
         .so-price h3 {
-          margin: 0 0 clamp(14px, 1.6vw, 20px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(14px, 1.6vw, 20px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.03em; font-size: clamp(26px, 2.6vw, 46px); line-height: 1.06; color: #fff;
         }
         .so-price-fig {
@@ -375,7 +378,7 @@ export function SolutionsPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .so-keep h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.025em;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1.14; color: ${TEXT};
         }
         .so-keep p {
@@ -458,7 +461,7 @@ export function SolutionsPage() {
           viewport={VIEWPORT}
         >
           {PROBLEMS.map(({ n, Icon, symptom, says, fix, moves, proof }) => (
-            <motion.article className="so-prob" key={n} variants={fadeUp}>
+            <motion.article className="so-prob" key={n} variants={tiltIn}>
               <div className="so-prob-top">
                 <span className="so-prob-ic" aria-hidden><Icon size={20} strokeWidth={1.9} /></span>
                 <span className="so-prob-n">{n}</span>
@@ -486,9 +489,18 @@ export function SolutionsPage() {
           lead="Same agents, same training, same systems. The only thing that changes is how you pay for the hour and how quickly you can walk away."
         />
 
-        <div className="so-pick" role="tablist" aria-label="Engagement models">
+        <motion.div
+          className="so-pick"
+          role="tablist"
+          aria-label="Engagement models"
+          variants={staggerParent(0.07)}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           {MODELS.map((m, i) => (
-            <button
+            <motion.button
+              variants={fadeDown}
               key={m.id}
               type="button"
               role="tab"
@@ -499,18 +511,19 @@ export function SolutionsPage() {
             >
               <em>{String(i + 1).padStart(2, '0')}</em>
               {m.name}
-            </button>
+            </motion.button>
           ))}
-        </div>
+        </motion.div>
 
         <motion.div
           className="so-plan"
           id="so-plan"
           role="tabpanel"
           key={MODELS[pick].id}
-          initial={reduce ? false : { opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={reduce ? false : { opacity: 0, x: 40, scale: 0.98 }}
+          animate={{ opacity: 1, x: 0, scale: 1 }}
           transition={{ duration: 0.7, ease: EASE }}
+          style={{ willChange: 'transform, opacity' }}
         >
           <div className="so-price">
             {MODELS[pick].best && <span className="so-price-badge">Most chosen</span>}
@@ -570,7 +583,7 @@ export function SolutionsPage() {
           viewport={VIEWPORT}
         >
           {KEEPS.map(([t, d]) => (
-            <motion.article className="so-keep" key={t} variants={fadeUp}>
+            <motion.article className="so-keep" key={t} variants={popUp}>
               <h3>{t}</h3>
               <p>{d}</p>
             </motion.article>
@@ -584,7 +597,7 @@ export function SolutionsPage() {
           >
             <span style={{
               display: 'block',
-              fontFamily: "Georgia, 'Times New Roman', serif",
+              fontFamily: "'Universal Sans', sans-serif",
               fontSize: 'clamp(22px, 2.6vw, 44px)',
               lineHeight: 1.4,
               letterSpacing: '-0.015em',
@@ -592,7 +605,7 @@ export function SolutionsPage() {
               maxWidth: '30ch',
             }}>
               If we cannot make the queue smaller, we would rather you stopped paying us.{' '}
-              <span style={{ color: ACCENT, fontStyle: 'italic' }}>That is the whole pitch.</span>
+              <span style={{ color: ACCENT }}>That is the whole pitch.</span>
             </span>
           </MaskReveal>
         </div>

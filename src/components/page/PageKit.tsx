@@ -108,10 +108,10 @@ const KIT_CSS = `
     margin: 0 0 clamp(18px, 2.2vw, 30px); max-width: 13ch; color: ${TEXT};
   }
   .pg-title .accent { color: ${ACCENT}; }
-  /* the serif turn: one clause set in Georgia, the way the site does display type */
+  /* the accent clause: same typeface as the rest of the title, tracked a touch tighter */
   .pg-title .serif {
-    font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
-    font-style: italic; letter-spacing: -0.02em;
+    font-family: 'Universal Sans', sans-serif;
+    letter-spacing: -0.02em;
   }
 
   .pg-lead {
@@ -146,13 +146,13 @@ const KIT_CSS = `
   .pg-band.ink .pg-head { border-bottom-color: #2F2A42; }
   .pg-head.solo { grid-template-columns: minmax(0, 1fr); }
   .pg-head h2 {
-    font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+    font-family: 'Universal Sans', sans-serif; letter-spacing: -0.03em;
     font-size: clamp(30px, 3.6vw, 62px); line-height: 1.04; margin: 0; color: ${TEXT}; max-width: 16ch;
   }
   .pg-band.ink .pg-head h2 { color: #FFFFFF; }
   .pg-head h2 .accent { color: ${ACCENT}; }
   .pg-head h2 .serif {
-    font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-style: italic;
+    font-family: 'Universal Sans', sans-serif;
     letter-spacing: -0.02em;
   }
   /* the lead is classed, never a bare p: an unqualified .pg-head p would also
@@ -212,13 +212,13 @@ const KIT_CSS = `
      keep the dark close, and a page that would otherwise stack three black
      sections in a row can end on paper instead. */
   .pg-cta h2 {
-    font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.035em;
+    font-family: 'Universal Sans', sans-serif; letter-spacing: -0.035em;
     font-size: clamp(34px, 4.4vw, 78px); line-height: 1.02; margin: 0 0 clamp(16px, 2vw, 24px);
     color: ${TEXT}; max-width: 15ch;
   }
   .pg-band.ink.pg-cta h2 { color: #fff; }
   .pg-cta h2 .serif {
-    font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-style: italic;
+    font-family: 'Universal Sans', sans-serif;
     color: ${ACCENT}; letter-spacing: -0.02em;
   }
   .pg-cta-lead {

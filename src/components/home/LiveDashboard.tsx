@@ -91,22 +91,14 @@ export function LiveDashboard() {
       <style>{`
         .cc-ld {
           position: relative; overflow: hidden;
-          background:
-            radial-gradient(120% 80% at 50% -10%, #FFFFFF 0%, #F5F7FB 46%, #EEF1F7 100%);
+          background: #FFFFFF;
         }
         .cc-ld-inner {
           position: relative; z-index: 1;
           max-width: min(calc(100vw - 100px), 1780px); margin: 0 auto;
           padding: clamp(64px, 9vw, 140px) clamp(24px, 4vw, 72px) clamp(56px, 7vw, 112px);
         }
-        /* soft ambient panels behind, like the reference's faint rounded shadows */
-        .cc-ld::before, .cc-ld::after {
-          content: ''; position: absolute; pointer-events: none; z-index: 0;
-          border-radius: 60px; background: #FFFFFF;
-          box-shadow: 0 40px 90px -50px rgba(31,44,61,0.18);
-        }
-        .cc-ld::before { top: 8%; left: 12%; right: 12%; height: 44%; opacity: 0.5; }
-        .cc-ld::after  { bottom: 3%; left: 22%; right: 22%; height: 90px; opacity: 0.7; }
+        .cc-ld::before, .cc-ld::after { display: none; }
 
         /* ── header ── */
         .cc-ld-head { text-align: center; position: relative; z-index: 2; }
@@ -122,7 +114,7 @@ export function LiveDashboard() {
         }
         .cc-ld-title {
           margin: clamp(12px, 1.4vw, 20px) 0 0;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+          font-family: 'Universal Sans', sans-serif; letter-spacing: -0.02em;
           font-size: clamp(32px, 4.6vw, 68px); line-height: 1.02; color: #1B2733;
         }
         .cc-ld-rule {
@@ -152,8 +144,15 @@ export function LiveDashboard() {
         .cc-ld-wires path {
           fill: none; stroke-linecap: round; vector-effect: non-scaling-stroke;
         }
-        .cc-ld-wireglow path { stroke-width: 9; opacity: 0.4; }
-        .cc-ld-wirecore path { stroke-width: 3; opacity: 0.95; }
+        /* wide soft ribbon that swells as it nears the photo, like flowing wind */
+        .cc-ld-wireribbon path { stroke-width: 26; opacity: 0.5; }
+        .cc-ld-wireglow path   { stroke-width: 11; opacity: 0.55; }
+        .cc-ld-wirecore path   { stroke-width: 2.6; opacity: 0.95; }
+        .cc-ld-wireribbon, .cc-ld-wireglow {
+          transform-origin: 500px 207px; will-change: transform;
+          animation: ccLdDrift 10s ease-in-out infinite;
+        }
+        .cc-ld-wireglow { animation-duration: 12.5s; animation-direction: reverse; }
 
         /* ── card ── */
         .cc-ld-card {
@@ -197,7 +196,10 @@ export function LiveDashboard() {
         .cc-ld-label {
           display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
           text-transform: uppercase; font-size: clamp(10px, 0.8vw, 12px); letter-spacing: 1.4px;
-          color: #90A0B3; margin-bottom: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+          color: #90A0B3; margin-bottom: 5px;
+          /* "Customer satisfaction" outruns the card column on narrow viewports -
+             wrap it rather than truncate, so no label ever reads half-cut */
+          line-height: 1.35; overflow-wrap: break-word;
         }
         .cc-ld-val {
           display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
@@ -214,6 +216,10 @@ export function LiveDashboard() {
         .cc-ld-card-l .cc-ld-nub { right: -6px; }
         .cc-ld-card-r .cc-ld-nub { left: -6px; }
 
+        /* narrower cards pushed to the outer edge, so the connectors run longer */
+        .cc-ld-card-l { width: 90%; align-self: flex-start; }
+        .cc-ld-card-r { width: 90%; align-self: flex-end; }
+
         /* ── centre blob ── */
         .cc-ld-blob { position: relative; z-index: 2; width: 100%; aspect-ratio: 1; }
         .cc-ld-blob svg { display: block; width: 100%; height: 100%; overflow: visible; }
@@ -221,28 +227,20 @@ export function LiveDashboard() {
           animation: ccLdFloat 7s ease-in-out infinite; will-change: transform;
           transform-origin: center;
         }
-        /* soft flowing "wind" streams that weave around the photo */
-        .cc-ld-stream {
-          fill: none; stroke-linecap: round; stroke-width: 7;
-          transform-origin: 100px 98px; will-change: transform;
-          animation: ccLdDrift 9s ease-in-out infinite;
-        }
-        .cc-ld-stream.s1 { opacity: 0.7;  animation-duration: 8.4s;  animation-delay: -0.4s; }
-        .cc-ld-stream.s2 { opacity: 0.62; animation-duration: 10.2s; animation-delay: -3.1s; animation-direction: reverse; }
-        .cc-ld-stream.s3 { opacity: 0.66; animation-duration: 9.1s;  animation-delay: -1.8s; }
-        .cc-ld-stream.s4 { opacity: 0.6;  animation-duration: 11s;   animation-delay: -5.4s; animation-direction: reverse; }
-        .cc-ld-stream.s5 { opacity: 0.58; animation-duration: 9.7s;  animation-delay: -2.5s; }
-
         /* ── caption + footer ── */
         .cc-ld-script {
           text-align: center; margin: clamp(22px, 3vw, 40px) 0 0; position: relative; z-index: 2;
-          font-family: 'Dancing Script', cursive; font-weight: 700;
+          font-family: 'Universal Sans', sans-serif; font-weight: 700;
           font-size: clamp(28px, 3.4vw, 46px); line-height: 1; color: #4C7DF0;
         }
         .cc-ld-script em { font-style: normal; color: #22B8A6; }
+        /* footer sits inside its own soft pill, text vertically centred */
         .cc-ld-foot {
           display: flex; align-items: center; justify-content: center; gap: 12px;
-          margin: clamp(34px, 5vw, 64px) 0 0; position: relative; z-index: 2;
+          margin: clamp(34px, 5vw, 64px) auto 0; position: relative; z-index: 2;
+          width: min(100%, 56%); min-height: 90px; padding: 0 clamp(20px, 3vw, 40px);
+          border-radius: 60px; background: #FFFFFF; text-align: center;
+          box-shadow: 0 40px 90px -50px rgba(31,44,61,0.18);
           font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(11px, 0.9vw, 13px); letter-spacing: 3.5px; color: #90A0B3;
         }
@@ -268,14 +266,17 @@ export function LiveDashboard() {
           .cc-ld-wires { display: none; }
           .cc-ld-nub { display: none; }
           .cc-ld-col { display: contents; }   /* let the 6 cards flow in the stage grid */
+          .cc-ld-card-l, .cc-ld-card-r { width: 100%; align-self: stretch; }
+          .cc-ld-foot { width: min(100%, 86%); }
         }
         @media (max-width: 600px) {
           .cc-ld-inner { max-width: 100%; }
           .cc-ld-stage { grid-template-columns: minmax(0,1fr); }
-          .cc-ld::before, .cc-ld::after { display: none; }
+          .cc-ld-foot { width: 100%; min-height: 76px; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .cc-ld-eye i, .cc-ld-blobwrap, .cc-ld-stream { animation: none; }
+          .cc-ld-eye i, .cc-ld-blobwrap,
+          .cc-ld-wireribbon, .cc-ld-wireglow { animation: none; }
           .cc-ld-card { transition: none; }
         }
       `}</style>
@@ -305,49 +306,71 @@ export function LiveDashboard() {
              positions; viewBox aspect matches the stage so strokes stay uniform */}
           <svg className="cc-ld-wires" viewBox="0 0 1000 414" preserveAspectRatio="none" aria-hidden>
             <defs>
-              {/* each connector fades from its card colour into the blob's glow */}
-              <linearGradient id="ccWireGN" gradientUnits="userSpaceOnUse" x1="312" y1="0" x2="402" y2="0">
-                <stop offset="0" stopColor="#25C07A" stopOpacity="0.85" />
-                <stop offset="1" stopColor="#25C07A" stopOpacity="0" />
+              {/* each connector leaves its card as a crisp line, then swells into a
+                 soft wind ribbon that wraps the photo and fades into its halo */}
+              <linearGradient id="ccWireGN" gradientUnits="userSpaceOnUse" x1="282" y1="62" x2="420" y2="180">
+                <stop offset="0" stopColor="#25C07A" stopOpacity="0.9" />
+                <stop offset="0.45" stopColor="#3FD3A0" stopOpacity="0.7" />
+                <stop offset="1" stopColor="#8FE3C2" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="ccWirePU" gradientUnits="userSpaceOnUse" x1="312" y1="0" x2="398" y2="0">
-                <stop offset="0" stopColor="#8B7FF5" stopOpacity="0.85" />
-                <stop offset="1" stopColor="#8B7FF5" stopOpacity="0" />
+              <linearGradient id="ccWirePU" gradientUnits="userSpaceOnUse" x1="282" y1="207" x2="410" y2="275">
+                <stop offset="0" stopColor="#8B7FF5" stopOpacity="0.9" />
+                <stop offset="0.45" stopColor="#A79EF8" stopOpacity="0.7" />
+                <stop offset="1" stopColor="#C9C4F7" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="ccWireOR" gradientUnits="userSpaceOnUse" x1="312" y1="0" x2="402" y2="0">
-                <stop offset="0" stopColor="#F5A524" stopOpacity="0.85" />
-                <stop offset="1" stopColor="#F5A524" stopOpacity="0" />
+              <linearGradient id="ccWireOR" gradientUnits="userSpaceOnUse" x1="282" y1="352" x2="420" y2="235">
+                <stop offset="0" stopColor="#F5A524" stopOpacity="0.9" />
+                <stop offset="0.45" stopColor="#F8BE5E" stopOpacity="0.66" />
+                <stop offset="1" stopColor="#FBD9A5" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="ccWireBL" gradientUnits="userSpaceOnUse" x1="688" y1="0" x2="598" y2="0">
-                <stop offset="0" stopColor="#4C7DF0" stopOpacity="0.85" />
-                <stop offset="1" stopColor="#4C7DF0" stopOpacity="0" />
+              <linearGradient id="ccWireBL" gradientUnits="userSpaceOnUse" x1="718" y1="62" x2="580" y2="180">
+                <stop offset="0" stopColor="#4C7DF0" stopOpacity="0.9" />
+                <stop offset="0.45" stopColor="#7B9FF5" stopOpacity="0.7" />
+                <stop offset="1" stopColor="#B7CCF7" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="ccWireTE" gradientUnits="userSpaceOnUse" x1="688" y1="0" x2="602" y2="0">
-                <stop offset="0" stopColor="#22B8A6" stopOpacity="0.85" />
-                <stop offset="1" stopColor="#22B8A6" stopOpacity="0" />
+              <linearGradient id="ccWireTE" gradientUnits="userSpaceOnUse" x1="718" y1="207" x2="590" y2="275">
+                <stop offset="0" stopColor="#22B8A6" stopOpacity="0.9" />
+                <stop offset="0.45" stopColor="#5CD0C2" stopOpacity="0.7" />
+                <stop offset="1" stopColor="#9BDFD6" stopOpacity="0" />
               </linearGradient>
-              <linearGradient id="ccWirePK" gradientUnits="userSpaceOnUse" x1="688" y1="0" x2="598" y2="0">
-                <stop offset="0" stopColor="#EC5F8B" stopOpacity="0.85" />
-                <stop offset="1" stopColor="#EC5F8B" stopOpacity="0" />
+              <linearGradient id="ccWirePK" gradientUnits="userSpaceOnUse" x1="718" y1="352" x2="580" y2="235">
+                <stop offset="0" stopColor="#EC5F8B" stopOpacity="0.9" />
+                <stop offset="0.45" stopColor="#F189AB" stopOpacity="0.66" />
+                <stop offset="1" stopColor="#F5BFD3" stopOpacity="0" />
               </linearGradient>
+              <filter id="ccWireSoft" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="7" />
+              </filter>
+              <filter id="ccWireHaze" x="-30%" y="-30%" width="160%" height="160%">
+                <feGaussianBlur stdDeviation="2.6" />
+              </filter>
             </defs>
-            {/* soft wide glow layer */}
-            <g className="cc-ld-wireglow">
-              <path d="M312 62 C 372 58, 356 120, 402 120" stroke="url(#ccWireGN)" />
-              <path d="M312 207 C 352 204, 360 210, 398 207" stroke="url(#ccWirePU)" />
-              <path d="M312 352 C 372 356, 356 296, 402 296" stroke="url(#ccWireOR)" />
-              <path d="M688 62 C 628 58, 644 120, 598 120" stroke="url(#ccWireBL)" />
-              <path d="M688 207 C 648 204, 640 210, 602 207" stroke="url(#ccWireTE)" />
-              <path d="M688 352 C 628 356, 644 296, 598 296" stroke="url(#ccWirePK)" />
+            {/* wide, blurred wind ribbon */}
+            <g className="cc-ld-wireribbon" filter="url(#ccWireSoft)">
+              <path d="M282 62 C 348 58, 392 68, 418 96 C 442 122, 436 158, 414 186" stroke="url(#ccWireGN)" />
+              <path d="M282 207 C 340 204, 372 212, 398 226 C 414 236, 412 260, 402 280" stroke="url(#ccWirePU)" />
+              <path d="M282 352 C 348 356, 392 346, 418 318 C 440 294, 436 262, 416 238" stroke="url(#ccWireOR)" />
+              <path d="M718 62 C 652 58, 608 68, 582 96 C 558 122, 564 158, 586 186" stroke="url(#ccWireBL)" />
+              <path d="M718 207 C 660 204, 628 212, 602 226 C 586 236, 588 260, 598 280" stroke="url(#ccWireTE)" />
+              <path d="M718 352 C 652 356, 608 346, 582 318 C 560 294, 564 262, 584 238" stroke="url(#ccWirePK)" />
             </g>
-            {/* crisp core layer */}
+            {/* mid glow */}
+            <g className="cc-ld-wireglow" filter="url(#ccWireHaze)">
+              <path d="M282 62 C 348 58, 392 68, 418 96 C 442 122, 436 158, 414 186" stroke="url(#ccWireGN)" />
+              <path d="M282 207 C 340 204, 372 212, 398 226 C 414 236, 412 260, 402 280" stroke="url(#ccWirePU)" />
+              <path d="M282 352 C 348 356, 392 346, 418 318 C 440 294, 436 262, 416 238" stroke="url(#ccWireOR)" />
+              <path d="M718 62 C 652 58, 608 68, 582 96 C 558 122, 564 158, 586 186" stroke="url(#ccWireBL)" />
+              <path d="M718 207 C 660 204, 628 212, 602 226 C 586 236, 588 260, 598 280" stroke="url(#ccWireTE)" />
+              <path d="M718 352 C 652 356, 608 346, 582 318 C 560 294, 564 262, 584 238" stroke="url(#ccWirePK)" />
+            </g>
+            {/* crisp core leaving the nub */}
             <g className="cc-ld-wirecore">
-              <path d="M312 62 C 372 58, 356 120, 402 120" stroke="url(#ccWireGN)" />
-              <path d="M312 207 C 352 204, 360 210, 398 207" stroke="url(#ccWirePU)" />
-              <path d="M312 352 C 372 356, 356 296, 402 296" stroke="url(#ccWireOR)" />
-              <path d="M688 62 C 628 58, 644 120, 598 120" stroke="url(#ccWireBL)" />
-              <path d="M688 207 C 648 204, 640 210, 602 207" stroke="url(#ccWireTE)" />
-              <path d="M688 352 C 628 356, 644 296, 598 296" stroke="url(#ccWirePK)" />
+              <path d="M282 62 C 348 58, 392 68, 418 96 C 442 122, 436 158, 414 186" stroke="url(#ccWireGN)" />
+              <path d="M282 207 C 340 204, 372 212, 398 226 C 414 236, 412 260, 402 280" stroke="url(#ccWirePU)" />
+              <path d="M282 352 C 348 356, 392 346, 418 318 C 440 294, 436 262, 416 238" stroke="url(#ccWireOR)" />
+              <path d="M718 62 C 652 58, 608 68, 582 96 C 558 122, 564 158, 586 186" stroke="url(#ccWireBL)" />
+              <path d="M718 207 C 660 204, 628 212, 602 226 C 586 236, 588 260, 598 280" stroke="url(#ccWireTE)" />
+              <path d="M718 352 C 652 356, 608 346, 582 318 C 560 294, 564 262, 584 238" stroke="url(#ccWirePK)" />
             </g>
           </svg>
 
@@ -366,9 +389,6 @@ export function LiveDashboard() {
                 </clipPath>
                 <filter id="ccLdGlow" x="-40%" y="-40%" width="180%" height="180%">
                   <feGaussianBlur stdDeviation="5" />
-                </filter>
-                <filter id="ccLdSoft" x="-45%" y="-45%" width="190%" height="190%">
-                  <feGaussianBlur stdDeviation="2.6" />
                 </filter>
                 {/* domed fill so the halo reads as a raised 3D surface */}
                 <linearGradient id="ccLdDome" x1="0.2" y1="0" x2="0.8" y2="1">
@@ -390,13 +410,6 @@ export function LiveDashboard() {
                 {/* soft aura */}
                 <ellipse cx="100" cy="98" rx="99" ry="99" fill="url(#ccLdAura)" />
 
-                {/* wind streams BEHIND the photo - short flowing wisps, not a closed ring */}
-                <g filter="url(#ccLdSoft)">
-                  <path className="cc-ld-stream s1" d="M40 40 C 66 16, 104 12, 142 24" stroke="#8FE3C2" />
-                  <path className="cc-ld-stream s2" d="M172 42 C 192 62, 196 92, 186 116" stroke="#9BDFD6" />
-                  <path className="cc-ld-stream s3" d="M152 168 C 118 187, 76 189, 44 172" stroke="#B7CCF7" />
-                </g>
-
                 {/* domed white halo */}
                 <path d="M104 12 C133 8 158 26 162 50 C165 70 180 78 176 100 C172 124 156 140 132 150 C112 158 108 178 88 180 C62 183 40 168 30 146 C22 128 6 120 10 96 C14 70 28 54 50 42 C70 31 78 16 104 12 Z"
                   fill="url(#ccLdDome)" filter="url(#ccLdGlow)" opacity="0.95" />
@@ -404,12 +417,6 @@ export function LiveDashboard() {
                 {/* photo */}
                 <image href="/images/home/live-team.webp" x="6" y="6" width="188" height="188"
                   preserveAspectRatio="xMidYMid slice" clipPath="url(#ccLdClip)" />
-
-                {/* wind streams IN FRONT, weaving over the left edge - open gaps kept */}
-                <g filter="url(#ccLdSoft)">
-                  <path className="cc-ld-stream s4" d="M20 122 C 6 98, 10 66, 28 46" stroke="#C9C4F7" />
-                  <path className="cc-ld-stream s5" d="M42 160 C 28 148, 21 132, 22 114" stroke="#F5BFD3" />
-                </g>
 
                 {/* crisp inner rim */}
                 <path d="M104 12 C133 8 158 26 162 50 C165 70 180 78 176 100 C172 124 156 140 132 150 C112 158 108 178 88 180 C62 183 40 168 30 146 C22 128 6 120 10 96 C14 70 28 54 50 42 C70 31 78 16 104 12 Z"

@@ -161,13 +161,13 @@ export function Footer() {
                   background: 'radial-gradient(circle at 32% 28%, #D6D0FF, #998EFF 58%, #4A3DBF)',
                   boxShadow: '0 0 14px rgba(153,142,255,0.55)',
                 }} />
-                <span style={{ fontFamily: "'Universal Sans', sans-serif", fontWeight: 600, fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>
+                <span style={{ fontFamily: "'Universal Sans', sans-serif", fontSize: 22, color: '#fff', letterSpacing: '-0.01em' }}>
                   Nexa
                 </span>
               </div>
 
               <h2 style={{
-                fontFamily: "'Universal Sans', sans-serif", fontWeight: 600,
+                fontFamily: "'Universal Sans', sans-serif",
                 fontSize: 'clamp(28px, 3.4vw, 44px)', lineHeight: 1.05, letterSpacing: '-0.02em',
                 color: '#fff', margin: '0 0 18px', maxWidth: 12 + 'ch',
               }}>
@@ -181,9 +181,9 @@ export function Footer() {
 
               {/* Contact details */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 26 }}>
-                <a href="tel:1800000000" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: LINK }}>
+                <a href="tel:1800054555" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: LINK }}>
                   <Phone size={15} strokeWidth={1.6} style={{ color: ACCENT, flexShrink: 0 }} />
-                  1800 000 000
+                  1800 054 555
                 </a>
                 <a href="mailto:hello@nexa.support" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, fontSize: 14, color: LINK }}>
                   <Mail size={15} strokeWidth={1.6} style={{ color: ACCENT, flexShrink: 0 }} />

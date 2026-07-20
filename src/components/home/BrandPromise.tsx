@@ -116,7 +116,7 @@ export function BrandPromise() {
         /* ── the statement ── */
         .cc-bp-say {
           margin: 0; max-width: 20ch;
-          font-family: 'Universal Sans', sans-serif; font-weight: 500;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(34px, 4.6vw, 88px); line-height: 1.08; letter-spacing: -0.035em;
           color: #fff;
         }

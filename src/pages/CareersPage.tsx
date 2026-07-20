@@ -3,7 +3,10 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight, MapPin, Clock3 } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { MaskReveal, staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
+import {
+  MaskReveal, Reveal, staggerParent, VIEWPORT,
+  slideLeft, flipIn, popUp, tiltIn, driftUp, fadeDown,
+} from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
@@ -288,7 +291,7 @@ export function CareersPage() {
           text-transform: uppercase; font-size: 10px; letter-spacing: 1.7px; color: ${ACCENT_INK};
         }
         .cr-hard span {
-          font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+          font-family: 'Universal Sans', sans-serif;
           font-size: clamp(15px, 1.25vw, 21px); line-height: 1.55; color: ${TEXT};
         }
         .cr-want { list-style: none; display: grid; gap: 11px; margin: 0 0 clamp(20px, 2.2vw, 28px); padding: 0; }
@@ -320,7 +323,7 @@ export function CareersPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .cr-real h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.026em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.026em;
           font-size: clamp(19px, 1.7vw, 31px); line-height: 1.14; color: #fff; max-width: 20ch;
         }
         .cr-real p {
@@ -411,24 +414,33 @@ export function CareersPage() {
           lead="Every application gets a written answer inside five working days, including the no. We have never once broken that, and it is the easiest promise on this site to check."
         />
 
-        <div className="cr-rail" role="tablist" aria-label="Cities">
+        <motion.div
+          className="cr-rail"
+          role="tablist"
+          aria-label="Cities"
+          variants={staggerParent(0.05)}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           {CITIES.map((c) => {
             const count = c === 'All' ? ROLES.length : ROLES.filter((r) => r.city === c).length
             return (
-              <button
+              <motion.button
                 key={c}
                 type="button"
                 role="tab"
                 aria-selected={city === c}
                 className={`cr-pill${city === c ? ' on' : ''}`}
                 onClick={() => setCity(c)}
+                variants={fadeDown}
               >
                 {c}
                 <em>{count}</em>
-              </button>
+              </motion.button>
             )
           })}
-        </div>
+        </motion.div>
 
         <motion.div
           className="cr-board"
@@ -440,7 +452,7 @@ export function CareersPage() {
           {shown.map((r) => {
             const on = open === r.id
             return (
-              <motion.div key={r.id} variants={fadeUp}>
+              <motion.div key={r.id} variants={slideLeft}>
                 <button
                   type="button"
                   className={`cr-row${on ? ' on' : ''}`}
@@ -516,27 +528,33 @@ export function CareersPage() {
           viewport={VIEWPORT}
         >
           {REAL.map(([t, d]) => (
-            <motion.article key={t} variants={fadeUp}>
+            <motion.article key={t} variants={flipIn}>
               <h3>{t}</h3>
               <p>{d}</p>
             </motion.article>
           ))}
         </motion.div>
 
-        <div className="cr-steps">
+        <motion.div
+          className="cr-steps"
+          variants={staggerParent(0.09)}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
           {[
             ['01', 'You apply', 'A form, or an email. No cover letter, and we mean that.'],
             ['02', 'A written answer', 'Inside five working days, always, including the no.'],
             ['03', 'Two conversations', 'One with the lead you would work for, one on the floor.'],
             ['04', 'An offer, or a reason', 'If it is a no, you get the actual reason, in writing.'],
           ].map(([n, t, d]) => (
-            <div className="cr-step" key={n}>
+            <motion.div className="cr-step" key={n} variants={popUp}>
               <em>{n}</em>
               <b>{t}</b>
               <span>{d}</span>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </Band>
 
       {/* ══════════ the line ══════════ */}
@@ -544,7 +562,7 @@ export function CareersPage() {
         <MaskReveal as="p">
           <span style={{
             display: 'block',
-            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontFamily: "'Universal Sans', sans-serif",
             fontSize: 'clamp(24px, 3vw, 52px)',
             lineHeight: 1.36,
             letterSpacing: '-0.015em',
@@ -552,10 +570,10 @@ export function CareersPage() {
             maxWidth: '28ch',
           }}>
             The industry loses four in ten people a year and blames the wage.{' '}
-            <span style={{ color: ACCENT, fontStyle: 'italic' }}>We lose one in eleven, and the wage is not why.</span>
+            <span style={{ color: ACCENT }}>We lose one in eleven, and the wage is not why.</span>
           </span>
         </MaskReveal>
-        <p style={{
+        <Reveal variant={driftUp} delay={0.08} as="p" style={{
           marginTop: 'clamp(20px, 2.4vw, 32px)',
           fontFamily: "'Universal Sans', sans-serif",
           fontSize: 'clamp(14px, 1.05vw, 17px)',
@@ -566,8 +584,8 @@ export function CareersPage() {
           People leave support floors because the work is designed badly, not because the pay is bad.
           Fix the rota, fix the training, publish the scores, and promote off the phones. That is the
           entire retention strategy, and it took us ten years to be sure of it.
-        </p>
-        <div style={{ marginTop: 'clamp(24px, 2.8vw, 38px)', display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+        </Reveal>
+        <Reveal variant={tiltIn} delay={0.16} style={{ marginTop: 'clamp(24px, 2.8vw, 38px)', display: 'flex', flexWrap: 'wrap', gap: 14 }}>
           <Link to="/team" className="pg-btn">
             <span>Meet the people you would work for</span>
             <ArrowUpRight size={17} strokeWidth={2.4} aria-hidden />
@@ -575,7 +593,7 @@ export function CareersPage() {
           <Link to="/about" className="pg-btn ghost">
             <span>Read the story</span>
           </Link>
-        </div>
+        </Reveal>
       </Band>
 
       <CTABand

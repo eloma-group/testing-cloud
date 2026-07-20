@@ -1,7 +1,7 @@
 import { motion, useInView, useReducedMotion, useScroll, useTransform } from 'framer-motion'
 import type { Variants } from 'framer-motion'
 import { useRef } from 'react'
-import type { ElementType, ReactNode, RefObject } from 'react'
+import type { CSSProperties, ElementType, ReactNode, RefObject } from 'react'
 
 /* ──────────────────────────────────────────────────────────────
    Shared motion system. Compositor-only (transform / opacity),
@@ -25,6 +25,108 @@ export const fadeUp: Variants = {
 export const popUp: Variants = {
   hidden: { opacity: 0, y: 30, scale: 0.92 },
   show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: EASE } },
+}
+
+/* ──────────────────────────────────────────────────────────────
+   The entry vocabulary.
+
+   Every page draws from this set, and no page draws only one
+   card from it - a section that fades is followed by one that
+   slides, then one that folds - so the scroll never settles into
+   a single tic. All of them move transform and opacity only, so
+   each one composites on the GPU and costs the same as a fade.
+   ────────────────────────────────────────────────────────────── */
+
+/** Settles downward - good for heads sitting above the thing they name. */
+export const fadeDown: Variants = {
+  hidden: { opacity: 0, y: -28 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.8, ease: EASE } },
+}
+
+/** Enters from the left edge. Reads well on rows and list items. */
+export const slideLeft: Variants = {
+  hidden: { opacity: 0, x: -64 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.85, ease: EASE } },
+}
+
+/** Enters from the right edge - the mirror, for alternating bands. */
+export const slideRight: Variants = {
+  hidden: { opacity: 0, x: 64 },
+  show: { opacity: 1, x: 0, transition: { duration: 0.85, ease: EASE } },
+}
+
+/** Comes forward out of the page. Best on cards and figures. */
+export const zoomIn: Variants = {
+  hidden: { opacity: 0, scale: 0.86 },
+  show: { opacity: 1, scale: 1, transition: { duration: 0.75, ease: EASE } },
+}
+
+/** Falls open on its top edge, like a card being dealt face up. */
+export const flipIn: Variants = {
+  hidden: { opacity: 0, rotateX: -34, y: 40, transformPerspective: 1000 },
+  show: { opacity: 1, rotateX: 0, y: 0, transition: { duration: 0.9, ease: EASE } },
+}
+
+/** Swings in on its left hinge - a door opening toward the reader. */
+export const swingIn: Variants = {
+  hidden: { opacity: 0, rotateY: -28, x: -36, transformPerspective: 1200 },
+  show: { opacity: 1, rotateY: 0, x: 0, transition: { duration: 0.9, ease: EASE } },
+}
+
+/** Lands with a slight rotation off true, then straightens. */
+export const tiltIn: Variants = {
+  hidden: { opacity: 0, y: 46, rotate: -3.5, scale: 0.97 },
+  show: { opacity: 1, y: 0, rotate: 0, scale: 1, transition: { duration: 0.85, ease: EASE } },
+}
+
+/** Grows out of its left edge and settles - for bars, rails and wide slabs.
+    Scales uniformly rather than on X alone, so type never stretches. */
+export const unfoldLeft: Variants = {
+  hidden: { opacity: 0, x: -48, scale: 0.94, originX: 0 },
+  show: { opacity: 1, x: 0, scale: 1, transition: { duration: 0.9, ease: EASE } },
+}
+
+/** A longer, heavier rise - for large single blocks rather than grids. */
+export const driftUp: Variants = {
+  hidden: { opacity: 0, y: 76 },
+  show: { opacity: 1, y: 0, transition: { duration: 1.05, ease: EASE } },
+}
+
+/**
+ * One element, one entry. Wraps a single block in any of the variants
+ * above without having to hand-write initial / whileInView each time.
+ */
+export function Reveal({
+  children,
+  variant = fadeUp,
+  delay = 0,
+  className,
+  style,
+  as = 'div',
+}: {
+  children: ReactNode
+  variant?: Variants
+  delay?: number
+  className?: string
+  style?: CSSProperties
+  as?: 'div' | 'p' | 'section' | 'article' | 'span'
+}) {
+  const reduce = useReducedMotion() ?? false
+  const Tag = motion[as]
+
+  return (
+    <Tag
+      className={className}
+      style={{ ...style, willChange: 'transform, opacity' }}
+      variants={variant}
+      initial={reduce ? false : 'hidden'}
+      whileInView="show"
+      viewport={VIEWPORT}
+      transition={{ delay }}
+    >
+      {children}
+    </Tag>
+  )
 }
 
 /* Masked reveal: inner content rises up from behind a clip.

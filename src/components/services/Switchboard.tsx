@@ -75,11 +75,11 @@ export function Switchboard() {
         }
         .sw-eyebrow i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .sw-head h2 {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-family: 'Universal Sans', sans-serif; letter-spacing: -0.03em;
           font-size: clamp(30px, 3.6vw, 62px); line-height: 1.04; margin: 0; color: #FFFFFF; max-width: 16ch;
         }
         .sw-head h2 .serif {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400; font-style: italic;
+          font-family: 'Universal Sans', sans-serif;
           letter-spacing: -0.02em;
         }
         .sw-head-lead {
@@ -196,12 +196,12 @@ export function Switchboard() {
         .sw-card-body { padding: clamp(22px, 2.6vw, 40px); }
         .sw-card-body h3 {
           margin: 0 0 clamp(12px, 1.4vw, 16px);
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-family: 'Universal Sans', sans-serif; letter-spacing: -0.03em;
           font-size: clamp(24px, 2.5vw, 46px); line-height: 1.06; color: #fff;
         }
         .sw-card-body .line {
           margin: 0 0 clamp(16px, 1.8vw, 24px);
-          font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+          font-family: 'Universal Sans', sans-serif;
           font-size: clamp(16px, 1.4vw, 25px); line-height: 1.45; color: ${ACCENT};
         }
         .sw-card-body .body {

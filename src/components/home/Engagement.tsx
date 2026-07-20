@@ -131,7 +131,7 @@ export function Engagement() {
         }
         .cc-en-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .cc-en-title {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(34px, 5vw, 80px); line-height: 1.02; letter-spacing: -0.03em;
           margin: 0; max-width: 15ch;
         }
@@ -222,7 +222,7 @@ export function Engagement() {
           box-shadow: ${ACCENT_RIM}, 0 12px 24px -12px rgba(74,61,191,0.9);
         }
         .cc-en-name {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(22px, 2vw, 36px); line-height: 1.08; letter-spacing: -0.03em;
           margin: 0 0 10px; color: ${TEXT}; transition: color .45s ease;
         }
@@ -260,7 +260,7 @@ export function Engagement() {
         /* best-for row */
         .cc-en-cell.best { border-bottom: 0; padding-top: clamp(16px, 1.6vw, 22px); }
         .cc-en-best {
-          font-family: Georgia, 'Times New Roman', serif; font-size: clamp(15px, 1.2vw, 20px);
+          font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.2vw, 20px);
           line-height: 1.4; color: ${TEXT}; margin: 0;
         }
         .cc-en-col.label .cc-en-cell.best .cc-en-k { align-self: flex-start; }

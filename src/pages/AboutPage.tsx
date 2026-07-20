@@ -2,7 +2,10 @@ import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowUpRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { MaskReveal, staggerParent, fadeUp, VIEWPORT, EASE } from '../lib/anim'
+import {
+  MaskReveal, staggerParent, VIEWPORT,
+  slideLeft, slideRight, flipIn, popUp, tiltIn, zoomIn,
+} from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
@@ -131,7 +134,7 @@ export function AboutPage() {
           border: 1.5px dashed rgba(255,255,255,0.45);
         }
         .ab-seal-y {
-          position: relative; z-index: 2; font-family: Georgia, 'Times New Roman', serif;
+          position: relative; z-index: 2; font-family: 'Universal Sans', sans-serif;
           font-size: clamp(15px, 1.5vw, 21px); color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.25);
         }
         .ab-seal-ring {
@@ -150,11 +153,11 @@ export function AboutPage() {
           gap: clamp(28px, 4vw, 76px); align-items: start;
         }
         .ab-say-q {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 400;
           font-size: clamp(26px, 3.1vw, 54px); line-height: 1.34; letter-spacing: -0.015em;
           color: ${TEXT}; margin: 0;
         }
-        .ab-say-q b { font-weight: 400; color: ${ACCENT}; font-style: italic; }
+        .ab-say-q b { font-weight: 400; color: ${ACCENT}; }
         .ab-say-note {
           border-left: 2px solid rgba(153,142,255,0.4); padding-left: clamp(16px, 1.8vw, 26px);
           display: grid; gap: 16px;
@@ -170,7 +173,7 @@ export function AboutPage() {
         .ab-say-sig span {
           display: grid; place-items: center; flex: none; width: 42px; height: 42px; border-radius: 50%;
           background: linear-gradient(168deg, #C3BCFF 0%, ${ACCENT} 48%, #4A3DBF 100%);
-          color: #fff; font-family: Georgia, serif; font-size: 16px;
+          color: #fff; font-family: 'Universal Sans', sans-serif; font-size: 16px;
           box-shadow: 0 10px 22px -12px rgba(74,61,191,0.8);
         }
         .ab-say-sig b {
@@ -200,14 +203,14 @@ export function AboutPage() {
         }
         .ab-yr:hover::before { transform: scaleX(1); }
         .ab-yr-y {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400;
+          font-family: 'Universal Sans', sans-serif; font-weight: 400;
           font-size: clamp(24px, 2.4vw, 42px); line-height: 1; letter-spacing: -0.02em;
           color: rgba(22,20,31,0.32); font-variant-numeric: tabular-nums;
           transition: color .5s ease;
         }
         .ab-yr:hover .ab-yr-y { color: ${ACCENT}; }
         .ab-yr h3 {
-          margin: 0 0 10px; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 10px; font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.025em; font-size: clamp(19px, 1.75vw, 30px); line-height: 1.2;
           color: ${TEXT}; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1);
@@ -248,7 +251,7 @@ export function AboutPage() {
           font-size: 12px; letter-spacing: 2px; color: ${ACCENT_INK};
         }
         .ab-led-card h3 {
-          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.028em; font-size: clamp(20px, 1.9vw, 34px); line-height: 1.14; color: ${TEXT};
         }
         .ab-led-card p {
@@ -281,6 +284,8 @@ export function AboutPage() {
 
         /* the two doors out of this page */
         .ab-doors { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(16px, 1.8vw, 26px); margin-top: clamp(28px, 3.2vw, 48px); }
+        /* the motion wrapper each door enters in must not shorten the door */
+        .ab-doors > div { display: grid; }
         .ab-door {
           position: relative; isolation: isolate; overflow: hidden; text-decoration: none;
           display: flex; align-items: center; justify-content: space-between; gap: 18px;
@@ -391,12 +396,16 @@ export function AboutPage() {
             calls, and why we would rather lose a contract than keep a customer who no longer needs us.
           </MaskReveal>
 
+          {/* the founder's note slides in from the right, against the
+              quote that rose from the mask beside it */}
           <motion.div
             className="ab-say-note"
-            initial={reduce ? false : { opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            variants={slideRight}
+            initial={reduce ? false : 'hidden'}
+            whileInView="show"
             viewport={VIEWPORT}
-            transition={{ duration: 0.85, ease: EASE, delay: 0.1 }}
+            transition={{ delay: 0.1 }}
+            style={{ willChange: 'transform, opacity' }}
           >
             <p>
               I spent two years on the other side of this. I was the founder answering tickets at
@@ -434,7 +443,7 @@ export function AboutPage() {
           viewport={VIEWPORT}
         >
           {YEARS.map(({ y, t, d }) => (
-            <motion.article className="ab-yr" key={y} variants={fadeUp}>
+            <motion.article className="ab-yr" key={y} variants={slideLeft}>
               <span className="ab-yr-y">{y}</span>
               <div>
                 <h3>{t}</h3>
@@ -461,7 +470,7 @@ export function AboutPage() {
           viewport={VIEWPORT}
         >
           {LEDGER.map(({ n, claim, cost }) => (
-            <motion.article className="ab-led-card" key={n} variants={fadeUp}>
+            <motion.article className="ab-led-card" key={n} variants={flipIn}>
               <span className="ab-led-n">{n}</span>
               <h3>{claim}</h3>
               <p>{cost}</p>
@@ -486,29 +495,39 @@ export function AboutPage() {
           viewport={VIEWPORT}
         >
           {FLOOR.map(([v, l]) => (
-            <motion.div className="ab-floor-cell" key={l} variants={fadeUp}>
+            <motion.div className="ab-floor-cell" key={l} variants={popUp}>
               <b>{v}</b>
               <span>{l}</span>
             </motion.div>
           ))}
         </motion.div>
 
-        <div className="ab-doors">
-          <Link to="/team" className="ab-door">
-            <span>
-              <b>Meet the floor</b>
-              <em>The people who would run your queue, by name</em>
-            </span>
-            <ArrowUpRight size={22} strokeWidth={2.2} aria-hidden />
-          </Link>
-          <Link to="/careers" className="ab-door">
-            <span>
-              <b>Work here</b>
-              <em>Nine roles open across four cities</em>
-            </span>
-            <ArrowUpRight size={22} strokeWidth={2.2} aria-hidden />
-          </Link>
-        </div>
+        <motion.div
+          className="ab-doors"
+          variants={staggerParent(0.1)}
+          initial={reduce ? false : 'hidden'}
+          whileInView="show"
+          viewport={VIEWPORT}
+        >
+          <motion.div variants={tiltIn}>
+            <Link to="/team" className="ab-door">
+              <span>
+                <b>Meet the floor</b>
+                <em>The people who would run your queue, by name</em>
+              </span>
+              <ArrowUpRight size={22} strokeWidth={2.2} aria-hidden />
+            </Link>
+          </motion.div>
+          <motion.div variants={zoomIn}>
+            <Link to="/careers" className="ab-door">
+              <span>
+                <b>Work here</b>
+                <em>Nine roles open across four cities</em>
+              </span>
+              <ArrowUpRight size={22} strokeWidth={2.2} aria-hidden />
+            </Link>
+          </motion.div>
+        </motion.div>
       </Band>
 
       <CTABand />

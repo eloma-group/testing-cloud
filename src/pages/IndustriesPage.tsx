@@ -3,7 +3,10 @@ import { Link } from 'react-router-dom'
 import { ArrowUpRight, Package, Ticket, CalendarCheck, Truck, ShieldCheck, Plane } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
-import { MaskReveal, staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
+import {
+  MaskReveal, Reveal, staggerParent, VIEWPORT,
+  unfoldLeft, zoomIn, slideLeft, fadeDown, driftUp,
+} from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
@@ -175,14 +178,14 @@ export function IndustriesPage() {
         .in-slab:hover .in-mark b { color: ${ACCENT_INK}; }
 
         .in-slab h3 {
-          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Universal Sans', sans-serif; 
           letter-spacing: -0.03em; font-size: clamp(24px, 2.5vw, 46px); line-height: 1.06; color: ${TEXT};
           will-change: transform; transition: transform .75s cubic-bezier(.16,1,.3,1);
         }
         .in-slab:hover h3 { transform: translateX(clamp(4px, 0.5vw, 10px)); }
         .in-lead {
           margin: 0 0 clamp(16px, 1.8vw, 24px);
-          font-family: Georgia, 'Times New Roman', serif; font-style: italic;
+          font-family: 'Universal Sans', sans-serif;
           font-size: clamp(16px, 1.35vw, 23px); line-height: 1.5; color: ${ACCENT};
         }
         /* what actually goes wrong in this sector */
@@ -245,7 +248,7 @@ export function IndustriesPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .in-common h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.025em;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1.14; color: #fff;
         }
         .in-common p {
@@ -327,7 +330,7 @@ export function IndustriesPage() {
           viewport={VIEWPORT}
         >
           {SECTORS.map(({ code, name, Icon, lead, breaks, runs, words, figs }) => (
-            <motion.article className="in-slab" key={code} variants={fadeUp}>
+            <motion.article className="in-slab" key={code} variants={unfoldLeft}>
               <div className="in-mark">
                 <i aria-hidden><Icon size={22} strokeWidth={1.9} /></i>
                 <b>{code}</b>
@@ -382,14 +385,14 @@ export function IndustriesPage() {
           viewport={VIEWPORT}
         >
           {COMMON.map(([t, d]) => (
-            <motion.article key={t} variants={fadeUp}>
+            <motion.article key={t} variants={zoomIn}>
               <h3>{t}</h3>
               <p>{d}</p>
             </motion.article>
           ))}
         </motion.div>
 
-        <div className="in-none">
+        <Reveal className="in-none" variant={slideLeft} delay={0.1}>
           <p>
             <b>Your sector is not on the list?</b> Neither were four of the six, until somebody rang
             and explained the queue. Tell us what your customers ask for and we will tell you honestly
@@ -399,7 +402,7 @@ export function IndustriesPage() {
             <span>See the results</span>
             <ArrowUpRight size={17} strokeWidth={2.4} aria-hidden />
           </Link>
-        </div>
+        </Reveal>
       </Band>
 
       {/* ══════════ the line ══════════ */}
@@ -407,7 +410,7 @@ export function IndustriesPage() {
         <MaskReveal as="p">
           <span style={{
             display: 'block',
-            fontFamily: "Georgia, 'Times New Roman', serif",
+            fontFamily: "'Universal Sans', sans-serif",
             fontSize: 'clamp(24px, 3vw, 52px)',
             lineHeight: 1.36,
             letterSpacing: '-0.015em',
@@ -415,10 +418,10 @@ export function IndustriesPage() {
             maxWidth: '26ch',
           }}>
             A script can be learned in a day. A sector takes a fortnight.{' '}
-            <span style={{ color: ACCENT, fontStyle: 'italic' }}>We spend the fortnight.</span>
+            <span style={{ color: ACCENT }}>We spend the fortnight.</span>
           </span>
         </MaskReveal>
-        <p style={{
+        <Reveal variant={driftUp} delay={0.08} as="p" style={{
           marginTop: 'clamp(20px, 2.4vw, 32px)',
           fontFamily: "'Universal Sans', sans-serif",
           fontSize: 'clamp(14px, 1.05vw, 17px)',
@@ -429,8 +432,8 @@ export function IndustriesPage() {
           It is the least glamorous thing we do and the only reason the first-time-fix number holds up.
           Agents who understand the sector stop guessing, and an agent who stops guessing stops
           escalating.
-        </p>
-        <div style={{ marginTop: 'clamp(24px, 2.8vw, 38px)', display: 'flex', flexWrap: 'wrap', gap: 14 }}>
+        </Reveal>
+        <Reveal variant={fadeDown} delay={0.16} style={{ marginTop: 'clamp(24px, 2.8vw, 38px)', display: 'flex', flexWrap: 'wrap', gap: 14 }}>
           <Link to="/services" className="pg-btn">
             <span>See the six services</span>
             <ArrowUpRight size={17} strokeWidth={2.4} aria-hidden />
@@ -438,7 +441,7 @@ export function IndustriesPage() {
           <Link to="/solutions" className="pg-btn ghost">
             <span>Price a team</span>
           </Link>
-        </div>
+        </Reveal>
       </Band>
 
       <CTABand

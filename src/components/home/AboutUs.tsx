@@ -28,6 +28,34 @@ const STATS = [
   { v: '24/7', l: 'Cover across every time zone' },
 ]
 
+/* Digit shuffle - the figures land one character at a time, left to right, the way a
+   board does when it first pulls its data. Writes straight to the node rather than
+   through state, so an 800ms burst never costs a React render per frame. */
+function Scramble({ value, run, delay = 0 }: { value: string; run: boolean; delay?: number }) {
+  const ref = useRef<HTMLSpanElement>(null)
+  useEffect(() => {
+    const el = ref.current
+    if (!el) return
+    if (!run) { el.textContent = value; return }
+    const chars = value.split('')
+    const DUR = 820
+    let raf = 0
+    let start = 0
+    const step = (now: number) => {
+      if (!start) start = now
+      const p = (now - start - delay) / DUR
+      if (p >= 1) { el.textContent = value; return }
+      el.textContent = chars
+        .map((c, i) => (!/\d/.test(c) || p >= (i + 1) / chars.length ? c : String((Math.random() * 10) | 0)))
+        .join('')
+      raf = requestAnimationFrame(step)
+    }
+    raf = requestAnimationFrame(step)
+    return () => cancelAnimationFrame(raf)
+  }, [run, value, delay])
+  return <span ref={ref}>{value}</span>
+}
+
 /* A real, ticking Sydney clock - the site sells the Australian market, so the
    floor clock reading live seconds is the honest "this is live" signal. */
 function useSydneyClock(active: boolean) {
@@ -51,6 +79,9 @@ export function AboutUs() {
   const stageRef = useRef<HTMLDivElement>(null)
   const heroY = useParallax(stageRef, 22)
   const clock = useSydneyClock(!reduce)
+  /* the board only powers on once it is actually looked at - and again on every reload */
+  const [built, setBuilt] = useState(false)
+  const [footIn, setFootIn] = useState(false)
 
   const fade = (d: number) => ({
     initial: reduce ? false : { opacity: 0, y: 24 },
@@ -105,7 +136,7 @@ export function AboutUs() {
         .cc-au-head { margin: 0; }
         .cc-au-h {
           display: block;
-          font-family: 'Universal Sans', sans-serif; font-weight: 900; text-transform: uppercase;
+          font-family: 'Universal Sans', sans-serif; text-transform: uppercase;
           font-size: clamp(52px, 6.6vw, 118px); line-height: 0.9; letter-spacing: -0.045em;
           color: ${TEXT}; margin: 0;
         }
@@ -119,7 +150,7 @@ export function AboutUs() {
           color: ${MUTED}; margin: 0; max-width: 16ch; align-self: center;
         }
         .cc-au-h-accent {
-          font-family: Georgia, 'Times New Roman', serif; font-weight: 400; text-transform: none;
+          font-family: 'Universal Sans', sans-serif; text-transform: none;
           font-size: clamp(48px, 6vw, 104px); line-height: 0.92; letter-spacing: -0.02em;
           color: ${ACCENT};
         }
@@ -250,6 +281,41 @@ export function AboutUs() {
           animation: ccAuSweep 6s cubic-bezier(.55,0,.45,1) infinite; will-change: transform;
         }
 
+        /* ── power-on build: the board paints itself in from the left ──
+           a veil the colour of the screen retracts to the right, with a bright
+           violet front edge riding on it, so the panels and the chart appear to
+           be drawn left to right. Compositor-only: scaleX + opacity, nothing else. */
+        .cc-au-build {
+          position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden;
+          clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
+          -webkit-clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
+        }
+        /* the second pass is clipped to the "Calls per hour" panel only, and runs
+           late, so the graph is the last thing to draw itself across */
+        .cc-au-build.chart {
+          clip-path: inset(40.4% 41.2% 11.2% 6.6% round 1.4%);
+          -webkit-clip-path: inset(40.4% 41.2% 11.2% 6.6% round 1.4%);
+        }
+        .cc-au-build .veil, .cc-au-build .edge {
+          position: absolute; inset: 0; will-change: transform;
+        }
+        .cc-au-build .veil {
+          background: linear-gradient(118deg, #1C1833 0%, #16122A 52%, #110E20 100%);
+          transform-origin: right center; transform: scaleX(1);
+          transition: transform 1.15s cubic-bezier(.16,1,.3,1);
+        }
+        .cc-au-build .edge {
+          transform-origin: left center; transform: scaleX(0);
+          background: linear-gradient(90deg,
+            rgba(153,142,255,0) 88%, rgba(153,142,255,0.34) 97%,
+            rgba(214,208,255,0.85) 99.6%, rgba(240,238,255,0.95) 100%);
+          transition: transform 1.15s cubic-bezier(.16,1,.3,1), opacity .3s ease .95s;
+        }
+        .cc-au-build.chart .veil { transition-duration: 1.05s; transition-delay: .62s; }
+        .cc-au-build.chart .edge { transition-duration: 1.05s; transition-delay: .62s, 1.42s; }
+        .cc-au-board.on .cc-au-build .veil { transform: scaleX(0); }
+        .cc-au-board.on .cc-au-build .edge { transform: scaleX(1); opacity: 0; }
+
         /* wrapper is transparent to layout on desktop, so chips position
            absolutely against the board; it becomes a flex row on mobile */
         .cc-au-chiprow { display: contents; }
@@ -372,7 +438,7 @@ export function AboutUs() {
           .cc-au-cta, .cc-au-ghost i { transition: none; }
           .cc-au-eye .live::after, .cc-au-board::before, .cc-au-sonar span,
           .cc-au-sweep b, .cc-au-chip, .cc-au-floortag i { animation: none; }
-          .cc-au-sonar, .cc-au-sweep { display: none; }
+          .cc-au-sonar, .cc-au-sweep, .cc-au-build { display: none; }
         }
       `}</style>
 
@@ -426,10 +492,11 @@ export function AboutUs() {
 
           {/* ── Live board ── */}
           <motion.div
-            className="cc-au-board"
+            className={`cc-au-board${built ? ' on' : ''}`}
             initial={reduce ? false : { opacity: 0, scale: 0.95 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true, margin: '-80px' }}
+            onViewportEnter={() => setBuilt(true)}
             transition={{ duration: 1.1, ease: EASE }}
           >
             {!reduce && (
@@ -442,7 +509,13 @@ export function AboutUs() {
                 alt="Nexa live operations board on a monitor: 2,847 calls today, 1,932 customers connected, an 8 second average answer time and 98% satisfaction, with the live call queue beside it"
                 width={1368} height={815} loading="lazy" decoding="async"
               />
-              {!reduce && <div className="cc-au-sweep" aria-hidden><b /></div>}
+              {!reduce && (
+                <>
+                  <div className="cc-au-build" aria-hidden><span className="veil" /><span className="edge" /></div>
+                  <div className="cc-au-build chart" aria-hidden><span className="veil" /><span className="edge" /></div>
+                  <div className="cc-au-sweep" aria-hidden><b /></div>
+                </>
+              )}
             </motion.div>
 
             <div className="cc-au-chiprow">
@@ -450,7 +523,7 @@ export function AboutUs() {
                 <i aria-hidden><Users size={18} strokeWidth={2.2} /></i>
                 <span>
                   <small>On the floor now</small>
-                  <b>214 agents</b>
+                  <b><Scramble value="214 agents" run={built && !reduce} delay={520} /></b>
                 </span>
               </div>
               <div className="cc-au-chip cc-au-chip-b">
@@ -465,11 +538,11 @@ export function AboutUs() {
         </div>
 
         {/* ── Floor status strip ── */}
-        <motion.div className="cc-au-foot" {...fade(0.14)}>
+        <motion.div className="cc-au-foot" {...fade(0.14)} onViewportEnter={() => setFootIn(true)}>
           <span className="cc-au-floortag"><i aria-hidden />Floor status</span>
-          {STATS.map((s) => (
+          {STATS.map((s, i) => (
             <div className="cc-au-stat" key={s.v}>
-              <b>{s.v}</b>
+              <b><Scramble value={s.v} run={footIn && !reduce} delay={220 + i * 130} /></b>
               <span>{s.l}</span>
             </div>
           ))}

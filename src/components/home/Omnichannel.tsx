@@ -370,7 +370,7 @@ export function Omnichannel() {
         }
         .cc-oc-eyebrow::before, .cc-oc-eyebrow::after { content: ''; width: clamp(22px, 3vw, 44px); height: 1px; background: ${ACCENT}; opacity: 0.55; }
         .cc-oc-title {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(34px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -0.03em;
           margin: 0 auto; color: ${TEXT}; max-width: 18ch;
         }

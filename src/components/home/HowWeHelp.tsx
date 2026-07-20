@@ -184,7 +184,7 @@ export function HowWeHelp() {
         }
         .cc-hw-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-hw-title {
-          font-family: 'Universal Sans', sans-serif; font-weight: 500;
+          font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(42px, 6.4vw, 98px); line-height: 0.98; letter-spacing: -0.03em;
           margin: 0; color: ${TEXT};
         }
@@ -281,7 +281,7 @@ export function HowWeHelp() {
           margin-left: 0; margin-right: clamp(-260px, -16vw, -70px);
         }
         .cc-hw-name {
-          margin: 0; font-family: 'Universal Sans', sans-serif; font-weight: 500;
+          margin: 0; font-family: 'Universal Sans', sans-serif; 
           font-size: clamp(44px, 6.6vw, 128px); line-height: 0.9; letter-spacing: -0.042em;
           color: ${TEXT};
         }

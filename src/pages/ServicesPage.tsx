@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight } from 'lucide-react'
 import { PageShell, InnerHero, Band, SectionHead, CTABand } from '../components/page/PageKit'
 import { BrandPromise } from '../components/home/BrandPromise'
-import { staggerParent, fadeUp, VIEWPORT } from '../lib/anim'
+import { Reveal, staggerParent, VIEWPORT, flipIn, tiltIn } from '../lib/anim'
 
 const TEXT       = '#16141F'
 const ACCENT     = '#998EFF'
@@ -117,7 +117,7 @@ export function ServicesPage() {
           font-size: 12px; letter-spacing: 2px; color: ${ACCENT_INK};
         }
         .sv-step h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.025em;
           font-size: clamp(18px, 1.6vw, 28px); line-height: 1.16; color: ${TEXT};
         }
         .sv-step p {
@@ -204,7 +204,7 @@ export function ServicesPage() {
           viewport={VIEWPORT}
         >
           {STEPS.map(([n, t, d]) => (
-            <motion.article className="sv-step" key={n} variants={fadeUp}>
+            <motion.article className="sv-step" key={n} variants={flipIn}>
               <em>{n}</em>
               <h3>{t}</h3>
               <p>{d}</p>
@@ -212,7 +212,7 @@ export function ServicesPage() {
           ))}
         </motion.div>
 
-        <div className="sv-out">
+        <Reveal className="sv-out" variant={tiltIn} delay={0.1}>
           <p>
             <b>Not sure which of the six you need?</b> Solutions starts from the problem instead of
             the service, and ends with a number.
@@ -221,7 +221,7 @@ export function ServicesPage() {
             <span>Start from the problem</span>
             <ArrowRight size={17} strokeWidth={2.4} aria-hidden />
           </Link>
-        </div>
+        </Reveal>
       </Band>
 
       <CTABand
