@@ -386,11 +386,11 @@ export function Industries() {
         /* the cards sit in the gap between the back tiles' labels and the knob, over the
            platform - low enough to clear the tile labels above, short enough to clear the knob */
         .cc-in-cards {
-          position: absolute; top: 36%; left: 50%; transform: translateX(-50%);
-          display: flex; gap: clamp(10px, 1vw, 16px); z-index: 6; pointer-events: none;
+          position: absolute; top: 29%; left: 50%; transform: translateX(-50%);
+          display: flex; gap: clamp(8px, 0.85vw, 14px); z-index: 6; pointer-events: none;
         }
         .cc-in-stat {
-          width: clamp(84px, 7.4vw, 128px); height: clamp(104px, 8.8vw, 142px); border-radius: 18px;
+          width: clamp(72px, 6.2vw, 106px); height: clamp(88px, 7.4vw, 118px); border-radius: 16px;
           display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
           padding: 10px; will-change: transform, opacity;
           background: linear-gradient(155deg, rgba(255,255,255,0.62), rgba(232,242,244,0.34));
@@ -406,7 +406,7 @@ export function Industries() {
         .cc-in-stat:nth-child(3) { transform: translateX(clamp(10px, 1.1vw, 22px)); }
         .cc-in-stat b {
           font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
-          font-size: clamp(26px, 2.7vw, 42px); line-height: 1; color: ${TEXT};
+          font-size: clamp(22px, 2.25vw, 35px); line-height: 1; color: ${TEXT};
         }
         .cc-in-stat span {
           margin-top: 9px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
@@ -531,8 +531,8 @@ export function Industries() {
         @media (min-width: 1728px) {
           .cc-in-floor { font-size: clamp(13.5px, 0.781vw, 30px); }
           .cc-in-stage { min-height: clamp(1020px, 56vw, 1560px); }
-          .cc-in-stat { width: clamp(128px, 7.4vw, 200px); height: clamp(142px, 8.2vw, 232px); }
-          .cc-in-stat b { font-size: clamp(42px, 2.42vw, 60px); }
+          .cc-in-stat { width: clamp(106px, 6.2vw, 166px); height: clamp(118px, 6.9vw, 192px); }
+          .cc-in-stat b { font-size: clamp(35px, 2.02vw, 50px); }
           .cc-in-stat span { font-size: clamp(11px, 0.637vw, 16px); }
           .cc-in-panel { width: clamp(292px, 16.9vw, 440px); }
         }

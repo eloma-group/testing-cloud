@@ -1,5 +1,5 @@
-import { useRef, useState } from 'react'
-import { motion, AnimatePresence, useMotionValue, useSpring, useReducedMotion } from 'framer-motion'
+import { useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowRight, Play, Headset, Clock, Smile, Users, Globe, User } from 'lucide-react'
 import type { LucideIcon } from 'lucide-react'
@@ -21,9 +21,9 @@ const ACCENT_CAST = '0 2px 4px rgba(74,61,191,0.34), 0 12px 24px -10px rgba(74,6
    Our Team. Left: one giant word per person, each tied by a
    leader line to a small label. Right: five cards, one per person,
    holding the person icon, name and designation. Hovering a word
-   (or its card) links the pair and lifts a portrait that trails
-   the cursor - a single shared element on two springs, so the
-   follow costs one transform per frame.
+   (or its card) links the pair and develops that card's own
+   portrait, in the slot on its right - the slot is always reserved,
+   so only opacity and transform ever move.
    ────────────────────────────────────────────────────────────── */
 
 type Member = {
@@ -31,63 +31,19 @@ type Member = {
   label: string
   name: string
   role: string
-  /** which vector bust to draw - the two differ only in hair */
-  sex: 'm' | 'f'
+  /** the portrait, shot head-and-shoulders so a 3:4 cover crop always holds the face */
+  photo: string
   /** the accent-coloured lines, alternating down the stack */
   tint?: boolean
 }
 
 const TEAM: Member[] = [
-  { word: 'Behind',     label: 'The Founder',   name: 'RJ',              role: 'Founder of Eloma Group',           sex: 'm' },
-  { word: 'Every',      label: 'The Design',    name: 'Shashank Namedo', role: 'VP of Digital Design',             sex: 'm', tint: true },
-  { word: 'Great Call', label: 'The Growth',    name: 'Arpita Negi',     role: 'Senior Digital Marketing Manager', sex: 'f' },
-  { word: 'Is Someone', label: 'The Build',     name: 'Sawan Chourasia', role: 'Developer',                        sex: 'm', tint: true },
-  { word: 'Who Cares.', label: 'The Craft',     name: 'Ritesh Raj',      role: 'Developer',                        sex: 'm' },
+  { word: 'Behind',     label: 'The Founder',   name: 'RJ',              role: 'Founder of Eloma Group',           photo: '/images/team/rj.jpg' },
+  { word: 'Every',      label: 'The Design',    name: 'Shashank Namedo', role: 'VP of Digital Design',             photo: '/images/team/shashank.jpg', tint: true },
+  { word: 'Great Call', label: 'The Growth',    name: 'Arpita Negi',     role: 'Senior Digital Marketing Manager', photo: '/images/team/arpita.jpg' },
+  { word: 'Is Someone', label: 'The Build',     name: 'Sawan Chourasia', role: 'Developer',                        photo: '/images/team/sawan.jpg', tint: true },
+  { word: 'Who Cares.', label: 'The Craft',     name: 'Ritesh Raj',      role: 'Developer',                        photo: '/images/team/ritesh.jpg' },
 ]
-
-/* ──────────────────────────────────────────────────────────────
-   A flat vector bust, drawn in the brand palette: headset band,
-   boom mic, collared shirt. The male and female cuts share every
-   path except the hair, so the set reads as one illustration
-   family rather than two clip-art picks.
-   ────────────────────────────────────────────────────────────── */
-function Avatar({ sex }: { sex: 'm' | 'f' }) {
-  const SKIN  = '#E8D5C7'
-  const HAIR  = '#2B2440'
-  const SHIRT = '#4A3DBF'
-  const GEAR  = '#16141F'
-
-  return (
-    <svg viewBox="0 0 200 200" className="cc-tm-vec" aria-hidden focusable="false">
-      <circle cx="100" cy="100" r="100" fill="rgba(153,142,255,0.16)" />
-
-      {/* shoulders and collar */}
-      <path d="M34 200c0-33 30-52 66-52s66 19 66 52z" fill={SHIRT} />
-      <path d="M84 150l16 20 16-20 -8-5h-16z" fill="#FFFFFF" opacity="0.92" />
-      <rect x="94" y="128" width="12" height="26" rx="6" fill={SKIN} />
-
-      {/* head */}
-      <ellipse cx="100" cy="98" rx="34" ry="38" fill={SKIN} />
-      {sex === 'f' ? (
-        <>
-          {/* hair falls past the jaw on both sides */}
-          <path d="M62 100c0-26 17-44 38-44s38 18 38 44v34c0 6-5 10-11 10-5 0-9-4-9-9V96c0-8-8-12-18-12s-18 4-18 12v39c0 5-4 9-9 9-6 0-11-4-11-10z" fill={HAIR} />
-          <path d="M66 92c2-24 16-38 34-38s32 14 34 38c-6-14-18-21-34-21s-28 7-34 21z" fill={HAIR} />
-        </>
-      ) : (
-        /* a short, tidy crop */
-        <path d="M64 94c0-24 16-40 36-40s36 16 36 40c-6-16-19-24-36-24s-30 8-36 24z" fill={HAIR} />
-      )}
-
-      {/* headset: band, earpiece, boom mic */}
-      <path d="M62 100a38 38 0 0 1 76 0" fill="none" stroke={GEAR} strokeWidth="7" strokeLinecap="round" />
-      <rect x="54" y="96" width="15" height="26" rx="7" fill={GEAR} />
-      <rect x="131" y="96" width="15" height="26" rx="7" fill={GEAR} />
-      <path d="M62 120c0 16 10 26 24 30" fill="none" stroke={GEAR} strokeWidth="5" strokeLinecap="round" />
-      <circle cx="88" cy="151" r="6" fill={GEAR} />
-    </svg>
-  )
-}
 
 const STATS: { Icon: LucideIcon; value: string; label: string }[] = [
   { Icon: Headset, value: '12,548', label: 'Calls Handled' },
@@ -99,22 +55,7 @@ const STATS: { Icon: LucideIcon; value: string; label: string }[] = [
 
 export function OurTeam() {
   const reduce = useReducedMotion() ?? false
-  const stageRef = useRef<HTMLDivElement>(null)
   const [active, setActive] = useState<number | null>(null)
-
-  /* cursor position, in stage-local pixels */
-  const mx = useMotionValue(0)
-  const my = useMotionValue(0)
-  const x = useSpring(mx, { stiffness: 260, damping: 30, mass: 0.6 })
-  const y = useSpring(my, { stiffness: 260, damping: 30, mass: 0.6 })
-
-  const track = (e: React.MouseEvent) => {
-    if (reduce) return
-    const box = stageRef.current?.getBoundingClientRect()
-    if (!box) return
-    mx.set(e.clientX - box.left)
-    my.set(e.clientY - box.top)
-  }
 
   const pair = {
     onMouseLeave: () => setActive(null),
@@ -277,9 +218,12 @@ export function OurTeam() {
         /* ── right: five cards, one per person ── */
         .cc-tm-cards { display: flex; flex-direction: column; gap: clamp(14px, 1.5vw, 24px); }
         .cc-tm-card {
-          position: relative; display: flex; align-items: center; gap: clamp(16px, 1.6vw, 28px);
+          position: relative; z-index: 1;
+          display: flex; align-items: center; gap: clamp(16px, 1.6vw, 28px);
           width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
           padding: clamp(20px, 2.1vw, 32px) clamp(20px, 2.2vw, 34px);
+          /* the right end is kept clear so the popup never lands on the name */
+          padding-right: clamp(104px, 8.6vw, 146px);
           border-radius: 20px; border: 1px dashed rgba(22,20,31,0.16);
           background: rgba(255,255,255,0.55);
           will-change: transform;
@@ -287,7 +231,7 @@ export function OurTeam() {
                       background .4s ease, box-shadow .55s cubic-bezier(.16,1,.3,1);
         }
         .cc-tm-card.on {
-          transform: translateX(8px);
+          z-index: 6; transform: translateX(8px);
           border-color: ${ACCENT}; border-style: solid; background: #fff;
           box-shadow: 0 10px 24px -16px rgba(74,61,191,0.5), 0 34px 60px -34px rgba(74,61,191,0.55);
         }
@@ -302,16 +246,21 @@ export function OurTeam() {
           transition: box-shadow .4s ease;
         }
         .cc-tm-card.on .cc-tm-avatar { box-shadow: inset 0 0 0 1px rgba(153,142,255,0.6); }
-        /* the placeholder glyph, which the vector bust replaces on hover */
-        .cc-tm-avatar > svg:not(.cc-tm-vec) { color: rgba(22,20,31,0.34); transition: opacity .4s ease; }
-        .cc-tm-card.on .cc-tm-avatar > svg:not(.cc-tm-vec) { opacity: 0; }
-        .cc-tm-avatar .cc-tm-vec {
-          position: absolute; inset: 0; width: 100%; height: 100%; display: block;
+        /* the placeholder glyph, which the photo replaces on hover */
+        .cc-tm-avatar > svg { color: rgba(22,20,31,0.34); transition: opacity .4s ease; }
+        .cc-tm-card.on .cc-tm-avatar > svg { opacity: 0; }
+        /* every portrait is cropped from the top, so a cover crop keeps the face */
+        .cc-tm-face {
+          display: block; width: 100%; height: 100%;
+          object-fit: cover; object-position: 50% 16%;
+        }
+        .cc-tm-avatar .cc-tm-face {
+          position: absolute; inset: 0;
           opacity: 0; will-change: transform, opacity;
           transform: scale(0.86);
           transition: opacity .5s ease, transform .7s cubic-bezier(.16,1,.3,1);
         }
-        .cc-tm-card.on .cc-tm-avatar .cc-tm-vec { opacity: 1; transform: scale(1); }
+        .cc-tm-card.on .cc-tm-avatar .cc-tm-face { opacity: 1; transform: scale(1); }
 
         .cc-tm-id { flex: 1; min-width: 0; }
         .cc-tm-name {
@@ -329,50 +278,54 @@ export function OurTeam() {
           font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 2px; color: ${ACCENT_INK}; opacity: 0.6;
         }
 
-        /* ── the portrait that trails the cursor ── */
-        .cc-tm-follow {
-          position: absolute; top: 0; left: 0; z-index: 5; pointer-events: none;
-          width: clamp(180px, 15vw, 250px); aspect-ratio: 3 / 4; margin: 0;
-          will-change: transform;
-          /* the independent translate property offsets the card off the cursor
-             without fighting the transform Framer writes for the springs */
-          translate: 28px -50%;
+        /* ── the portrait popup, pinned to the right of its own row ──
+           it never moves with the cursor: it simply pops where that card is,
+           on opacity and transform only, so the row stays on the compositor */
+        .cc-tm-pop {
+          position: absolute; top: 50%; right: clamp(14px, 1.4vw, 24px); z-index: 5;
+          width: clamp(124px, 9.8vw, 164px); aspect-ratio: 3 / 4; margin: 0;
+          pointer-events: none; opacity: 0; will-change: transform, opacity;
+          transform: translate3d(0, -50%, 0) scale(0.86) rotate(6deg);
+          transition: opacity .4s ease, transform .55s cubic-bezier(.16,1,.3,1);
         }
-        /* the trailing card is a lit panel the vector sits inside */
-        .cc-tm-follow-art {
-          position: absolute; inset: 0; display: flex; align-items: flex-end; justify-content: center;
-          border-radius: 20px; overflow: hidden;
+        .cc-tm-card.on .cc-tm-pop {
+          opacity: 1; transform: translate3d(0, -50%, 0) scale(1) rotate(3deg);
+        }
+        /* the popup is a lit panel the portrait sits inside */
+        .cc-tm-pop-art {
+          position: absolute; inset: 0; overflow: hidden;
+          border-radius: 18px;
           background: linear-gradient(168deg, #FFFFFF 0%, #F6F4FE 52%, #E7E2FB 100%);
           box-shadow:
             inset 0 0 0 1px rgba(153,142,255,0.4),
             0 10px 24px -12px rgba(74,61,191,0.4),
             0 40px 70px -30px rgba(74,61,191,0.55);
         }
-        .cc-tm-follow-art .cc-tm-vec { width: 82%; height: auto; display: block; }
-        .cc-tm-follow figcaption {
-          position: absolute; left: 0; right: 0; bottom: 0; padding: 26px 16px 14px;
-          border-radius: 0 0 20px 20px;
+        .cc-tm-pop-cap {
+          position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 14px 12px;
+          border-radius: 0 0 18px 18px;
           background: linear-gradient(to top, rgba(22,20,31,0.82), rgba(22,20,31,0));
-          font-family: 'Universal Sans', sans-serif; color: #fff;
+          font-family: 'Universal Sans', sans-serif; color: #fff; text-align: left;
         }
-        .cc-tm-follow figcaption b {
-          display: block; font-weight: 700; font-size: clamp(13px, 0.95vw, 16px); letter-spacing: -0.01em;
+        .cc-tm-pop-cap b {
+          display: block; font-weight: 700; font-size: clamp(12px, 0.85vw, 15px); letter-spacing: -0.01em;
         }
-        .cc-tm-follow figcaption span {
-          display: block; margin-top: 2px; font-size: clamp(11px, 0.75vw, 13px);
+        .cc-tm-pop-cap span {
+          display: block; margin-top: 2px; font-size: clamp(10px, 0.7vw, 12px);
           color: rgba(255,255,255,0.78); line-height: 1.4;
         }
 
         @media (max-width: 1024px) {
           .cc-tm-stage { grid-template-columns: 1fr; gap: clamp(36px, 6vw, 56px); }
-          .cc-tm-follow { display: none; }
           .cc-tm-lines.picked .cc-tm-lineRow:not(.on) .cc-tm-word { opacity: 1; }
           .cc-tm-card { transform: none; }
           .cc-tm-card.on { transform: none; }
           .cc-tm-stats { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-          /* no hover on touch, so every card shows its vector outright */
-          .cc-tm-avatar .cc-tm-vec { opacity: 1; transform: none; }
-          .cc-tm-avatar > svg:not(.cc-tm-vec) { opacity: 0; }
+          /* no hover on touch: the popup is retired and every card shows its vector outright */
+          .cc-tm-pop { display: none; }
+          .cc-tm-card { padding-right: clamp(20px, 2.2vw, 34px); }
+          .cc-tm-avatar .cc-tm-face { opacity: 1; transform: none; }
+          .cc-tm-avatar > svg { opacity: 0; }
         }
         @media (max-width: 640px) {
           .cc-tm-leader { display: none; }
@@ -383,7 +336,8 @@ export function OurTeam() {
           .cc-tm-card { padding: 18px; gap: 14px; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .cc-tm-follow { display: none; }
+          .cc-tm-pop { display: none; }
+          .cc-tm-card { padding-right: clamp(20px, 2.2vw, 34px); }
           .cc-tm-lines.picked .cc-tm-lineRow:not(.on) .cc-tm-word { opacity: 1; }
         }
       `}</style>
@@ -399,7 +353,7 @@ export function OurTeam() {
           Our Team
         </motion.p>
 
-        <div className="cc-tm-stage" ref={stageRef} onMouseMove={track} {...pair}>
+        <div className="cc-tm-stage" {...pair}>
           {/* ── left column ── */}
           <div>
             <div className={`cc-tm-lines${active !== null ? ' picked' : ''}`}>
@@ -479,40 +433,27 @@ export function OurTeam() {
               >
                 <span className="cc-tm-avatar">
                   <User size={26} strokeWidth={1.6} aria-hidden />
-                  <Avatar sex={m.sex} />
+                  <img className="cc-tm-face" src={m.photo} alt="" width={1000} height={1500} decoding="async" loading="lazy" />
                 </span>
                 <span className="cc-tm-id">
                   <span className="cc-tm-name">{m.name}</span>
                   <span className="cc-tm-role">{m.role}</span>
                 </span>
                 <span className="cc-tm-idx">{String(i + 1).padStart(2, '0')}</span>
+
+                {/* the portrait pops right here, on this row - it does not travel */}
+                <span className="cc-tm-pop" aria-hidden>
+                  <span className="cc-tm-pop-art">
+                    <img className="cc-tm-face" src={m.photo} alt="" width={1000} height={1500} decoding="async" loading="lazy" />
+                  </span>
+                  <span className="cc-tm-pop-cap">
+                    <b>{m.name}</b>
+                    <span>{m.role}</span>
+                  </span>
+                </span>
               </motion.button>
             ))}
           </motion.div>
-
-          {/* one shared portrait, sprung to the cursor */}
-          <motion.figure className="cc-tm-follow" style={{ x, y }} aria-hidden>
-            <AnimatePresence>
-              {active !== null && (
-                <motion.div
-                  key={active}
-                  style={{ position: 'absolute', inset: 0 }}
-                  initial={{ opacity: 0, scale: 0.86, rotate: -6, y: 18 }}
-                  animate={{ opacity: 1, scale: 1, rotate: -3, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.9, rotate: 4, y: 12 }}
-                  transition={{ duration: 0.4, ease: EASE }}
-                >
-                  <div className="cc-tm-follow-art">
-                    <Avatar sex={TEAM[active].sex} />
-                  </div>
-                  <figcaption>
-                    <b>{TEAM[active].name}</b>
-                    <span>{TEAM[active].role}</span>
-                  </figcaption>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.figure>
         </div>
       </div>
     </section>

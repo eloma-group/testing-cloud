@@ -31,8 +31,8 @@ type Person = {
   since: string
   line: string
   bio: string
-  /** which tint of the vector plate to draw, 0-4 */
-  cut: 0 | 1 | 2 | 3 | 4
+  /** head-and-shoulders portrait, cropped from the top by every frame */
+  photo: string
   alt: string
 }
 
@@ -45,8 +45,8 @@ const PEOPLE: Person[] = [
     since: '2016',
     line: 'Took the first overnight shift himself, and still reads every letter this site sends.',
     bio: 'Spent two years as the founder answering his own tickets at midnight, could not find an outsourcer who wanted to talk about why the tickets existed, and built one. Takes the first call with every new client personally, which does not scale and is the point.',
-    cut: 0,
-    alt: 'Illustrated portrait of RJ, Founder of Eloma Group',
+    photo: '/images/team/rj.jpg',
+    alt: 'Portrait of RJ, Founder of Eloma Group',
   },
   {
     id: 'shashank',
@@ -56,8 +56,8 @@ const PEOPLE: Person[] = [
     since: '2018',
     line: 'Designs the screens the agents live in, then sits on the floor watching them get used.',
     bio: 'Owns every surface a customer or an agent ever touches, from the ticket view to the letter that lands in your inbox at 3am. He builds nothing without watching somebody use the version before it, which is why the console has fewer buttons every year instead of more.',
-    cut: 1,
-    alt: 'Illustrated portrait of Shashank Namedo, VP of Digital Design',
+    photo: '/images/team/shashank.jpg',
+    alt: 'Portrait of Shashank Namedo, VP of Digital Design',
   },
   {
     id: 'arpita',
@@ -67,8 +67,8 @@ const PEOPLE: Person[] = [
     since: '2019',
     line: 'Would rather publish the number that did not move than the one that did.',
     bio: 'Writes everything this company says in public, including the case studies that carry the figures we failed to shift. She has killed more campaigns than she has shipped, on the grounds that a support company that oversells itself is just making its own queue longer.',
-    cut: 2,
-    alt: 'Illustrated portrait of Arpita Negi, Senior Digital Marketing Manager',
+    photo: '/images/team/arpita.jpg',
+    alt: 'Portrait of Arpita Negi, Senior Digital Marketing Manager',
   },
   {
     id: 'sawan',
@@ -78,8 +78,8 @@ const PEOPLE: Person[] = [
     since: '2021',
     line: 'Built the routing that decides which agent your call actually reaches.',
     bio: 'Wrote most of the layer that sits between your helpdesk and our floor, so a pod can be live on your systems in ten days without anybody exporting a spreadsheet. Treats every integration as something that has to survive a Tuesday at peak, not a demo.',
-    cut: 3,
-    alt: 'Illustrated portrait of Sawan Chourasia, Developer',
+    photo: '/images/team/sawan.jpg',
+    alt: 'Portrait of Sawan Chourasia, Developer',
   },
   {
     id: 'ritesh',
@@ -89,47 +89,10 @@ const PEOPLE: Person[] = [
     since: '2022',
     line: 'Keeps the dashboard honest, including on the days it reads badly.',
     bio: 'Owns the reporting every client sees, and the rule that nothing on it is ever rounded in our favour. He built the night desk view Manila runs on after sitting a full shift on it, which is still how anything here gets designed.',
-    cut: 4,
-    alt: 'Illustrated portrait of Ritesh Raj, Developer',
+    photo: '/images/team/ritesh.jpg',
+    alt: 'Portrait of Ritesh Raj, Developer',
   },
 ]
-
-/* ──────────────────────────────────────────────────────────────
-   The plate.
-
-   The plainest person glyph there is: a detached circle for the
-   head, a dome for the shoulders, nothing else. No face, no hair,
-   no headset, which is what keeps it clear of the home page bust.
-   Only the two tints change down the roster.
-
-   Composed inside a centre-safe box because the plate is sliced
-   to 1:1, 4:3 and 3:4 in three different frames.
-   ────────────────────────────────────────────────────────────── */
-const PLATES: { wash: string; head: string; body: string }[] = [
-  { wash: '#F3F0FE', head: '#8B7BF0', body: '#4A3DBF' },
-  { wash: '#EFEBFD', head: '#4A3DBF', body: '#A99CF5' },
-  { wash: '#F5F2FE', head: '#7A6AEC', body: '#3F33A8' },
-  { wash: '#EDE9FD', head: '#3F33A8', body: '#B4A9F7' },
-  { wash: '#F2EFFE', head: '#9184F2', body: '#453AB4' },
-]
-
-function Plate({ cut }: { cut: 0 | 1 | 2 | 3 | 4 }) {
-  const { wash, head, body } = PLATES[cut]
-
-  return (
-    <svg
-      className="tm-vec"
-      viewBox="0 0 300 300"
-      preserveAspectRatio="xMidYMid slice"
-      aria-hidden
-      focusable="false"
-    >
-      <rect width="300" height="300" fill={wash} />
-      <circle cx="150" cy="112" r="46" fill={head} />
-      <path d="M64 244c0-47 39-80 86-80s86 33 86 80z" fill={body} />
-    </svg>
-  )
-}
 
 /* the desks, and what time it is on each */
 const DESKS: { city: string; zone: string; offset: number; seats: string; opened: string }[] = [
@@ -202,9 +165,12 @@ export function TeamPage() {
         .tm-fig:hover figure:nth-child(3) { transform: rotate(0deg) translateY(-16px); }
         .tm-fig:hover figure:nth-child(4) { transform: rotate(5deg) translateY(-2px); }
         .tm-fig:hover figure:nth-child(5) { transform: rotate(11deg) translateY(6px); }
-        /* the plate is an inline svg sliced to the frame, so it behaves
-           exactly like object-fit: cover on the photo it replaced */
-        .tm-vec { width: 100%; height: 100%; display: block; }
+        /* every portrait is cropped from the top, so a cover crop keeps the face
+           whatever shape the frame is - 1:1 in the roster, 3:4 in the card */
+        .tm-vec {
+          width: 100%; height: 100%; display: block;
+          object-fit: cover; object-position: 50% 16%;
+        }
 
         /* ══════════ the roster ══════════ */
         .tm-roster { display: grid; grid-template-columns: minmax(0, 0.52fr) minmax(0, 0.48fr); gap: clamp(24px, 3.4vw, 64px); align-items: start; }
@@ -403,7 +369,7 @@ export function TeamPage() {
           <div className="tm-fig" aria-hidden>
             {PEOPLE.map((x) => (
               <figure key={x.id}>
-                <Plate cut={x.cut} />
+                <img className="tm-vec" src={x.photo} alt="" width={1000} height={1500} decoding="async" loading="lazy" />
               </figure>
             ))}
           </div>
@@ -441,7 +407,7 @@ export function TeamPage() {
                 onMouseEnter={() => setOn(i)}
               >
                 <span className="tm-row-shot">
-                  <Plate cut={x.cut} />
+                  <img className="tm-vec" src={x.photo} alt="" width={1000} height={1500} decoding="async" loading="lazy" />
                 </span>
                 <span>
                   <b>{x.name}</b>
@@ -462,8 +428,8 @@ export function TeamPage() {
             transition={{ duration: 0.65, ease: EASE }}
             style={{ willChange: 'transform, opacity' }}
           >
-            <div className="tm-card-shot" role="img" aria-label={p.alt}>
-              <Plate cut={p.cut} />
+            <div className="tm-card-shot">
+              <img className="tm-vec" src={p.photo} alt={p.alt} width={1000} height={1500} decoding="async" />
               <div className="tm-card-name">
                 <b>{p.name}</b>
                 <span>{p.role}</span>
