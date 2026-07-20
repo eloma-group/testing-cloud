@@ -84,7 +84,7 @@ export function RealPeople() {
 
         /* ── left: the message ── */
         .cc-rp-h {
-          font-family: 'Universal Sans', sans-serif; color: ${INK};
+          font-family: 'Eloma Sans', sans-serif; color: ${INK};
           font-size: clamp(40px, 6.2vw, 90px); line-height: 1.0; letter-spacing: -0.035em;
           margin: 0; max-width: 15ch;
         }
@@ -95,7 +95,7 @@ export function RealPeople() {
         .cc-rp-wave svg { height: clamp(22px, 2.4vw, 30px); width: auto; display: block; }
 
         .cc-rp-sub {
-          font-family: 'Universal Sans', sans-serif; font-weight: 400; color: ${MUTED};
+          font-family: 'Eloma Sans', sans-serif; font-weight: 400; color: ${MUTED};
           font-size: clamp(15px, 1.3vw, 19px); line-height: 1.7; margin: 0; max-width: 40ch;
         }
 
@@ -104,7 +104,7 @@ export function RealPeople() {
           display: inline-flex; align-items: center; gap: 12px; min-height: 52px;
           padding: 0 clamp(22px, 2.2vw, 32px); border-radius: 14px;
           background: ${INK}; color: #fff; text-decoration: none;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; letter-spacing: -0.01em;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; letter-spacing: -0.01em;
           font-size: clamp(14px, 1.1vw, 16px);
           box-shadow: 0 18px 34px -18px rgba(11,27,51,0.55);
           transition: transform .4s cubic-bezier(.16,1,.3,1), box-shadow .4s ease; will-change: transform;
@@ -119,7 +119,7 @@ export function RealPeople() {
         .cc-rp-link {
           display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
           color: ${INK}; text-decoration: none; position: relative;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 16px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 16px);
         }
         .cc-rp-link span { position: relative; }
         .cc-rp-link { transition: color .35s ease; }
@@ -146,7 +146,7 @@ export function RealPeople() {
         .cc-rp-feat:hover .cc-rp-disc svg { transform: scale(1.12); }
         .cc-rp-feat:hover b { color: var(--c); }
         .cc-rp-feat b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; color: ${INK};
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; color: ${INK};
           font-size: clamp(15px, 1.25vw, 19px); line-height: 1.15; letter-spacing: -0.01em;
           transition: color .35s ease;
         }
@@ -186,7 +186,7 @@ export function RealPeople() {
         .cc-rp-centre-in { width: 100%; text-align: center; }
         .cc-rp-centre .wf { height: clamp(20px, 2vw, 28px); width: auto; margin: 0 auto clamp(12px, 1.4vw, 18px); display: block; }
         .cc-rp-msg {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; color: ${INK};
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; color: ${INK};
           font-size: clamp(15px, 2vw, 33px); line-height: 1.3; letter-spacing: -0.02em; margin: 0;
         }
         .cc-rp-msg .b { color: ${BLUE}; font-weight: 800; }

@@ -152,7 +152,7 @@ export function CareersPage() {
         }
         .cr-fig-top b {
           display: inline-flex; align-items: center; gap: 9px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14px); color: ${TEXT};
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14px); color: ${TEXT};
         }
         .cr-fig-top b i {
           position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE};
@@ -166,7 +166,7 @@ export function CareersPage() {
           70%, 100% { transform: scale(2.8); opacity: 0; }
         }
         .cr-fig-top span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.6px; color: ${ACCENT_INK};
         }
         .cr-fig-rows { display: grid; }
@@ -177,15 +177,15 @@ export function CareersPage() {
         }
         .cr-fig-row:last-child { border-bottom: 0; }
         .cr-fig-row b {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(13px, 1.02vw, 15.5px); color: ${TEXT};
         }
         .cr-fig-row em {
-          display: block; margin-top: 3px; font-style: normal; font-family: 'Universal Sans', sans-serif;
+          display: block; margin-top: 3px; font-style: normal; font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(11px, 0.86vw, 13px); color: ${MUTED};
         }
         .cr-fig-row span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 9.5px; letter-spacing: 1.4px; color: ${ACCENT};
           padding: 6px 11px; border-radius: 100px; background: rgba(153,142,255,0.1);
           box-shadow: inset 0 0 0 1px rgba(153,142,255,0.24); white-space: nowrap;
@@ -198,7 +198,7 @@ export function CareersPage() {
           display: inline-flex; align-items: center; gap: 9px;
           min-height: 44px; padding: 11px clamp(16px, 1.6vw, 22px); border-radius: 100px;
           box-shadow: inset 0 0 0 1px rgba(22,20,31,0.16);
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14.5px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(12px, 0.95vw, 14.5px);
           color: ${MUTED}; will-change: transform;
           transition: color .4s ease, box-shadow .4s ease, background .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
         }
@@ -228,20 +228,20 @@ export function CareersPage() {
         }
         .cr-row:hover::before, .cr-row.on::before, .cr-row:focus-visible::before { transform: scaleX(1); }
         .cr-row-t {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.028em;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; letter-spacing: -0.028em;
           font-size: clamp(19px, 1.75vw, 32px); line-height: 1.16; color: ${TEXT}; will-change: transform;
           transition: transform .7s cubic-bezier(.16,1,.3,1), color .45s ease;
         }
         .cr-row:hover .cr-row-t { transform: translateX(clamp(4px, 0.6vw, 10px)); }
         .cr-row.on .cr-row-t { color: ${ACCENT}; }
         .cr-row-t em {
-          display: block; margin-top: 5px; font-style: normal; font-family: 'Universal Sans', sans-serif;
+          display: block; margin-top: 5px; font-style: normal; font-family: 'Eloma Sans', sans-serif;
           font-weight: 700; text-transform: uppercase; font-size: 10px; letter-spacing: 1.6px;
           color: rgba(22,20,31,0.4); transform: none;
         }
         .cr-row-m {
           display: inline-flex; align-items: center; gap: 7px; white-space: nowrap;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(12px, 0.95vw, 14.5px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(12px, 0.95vw, 14.5px);
           color: ${MUTED};
         }
         .cr-row-m svg { color: rgba(22,20,31,0.35); flex: none; transition: color .45s ease; }
@@ -274,11 +274,11 @@ export function CareersPage() {
         }
         .cr-open.on .cr-open-grid { opacity: 1; transform: translateY(0); }
         .cr-k {
-          margin: 0 0 10px; font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          margin: 0 0 10px; font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: ${ACCENT_INK};
         }
         .cr-open-grid p.day {
-          margin: 0 0 clamp(20px, 2.2vw, 28px); font-family: 'Universal Sans', sans-serif;
+          margin: 0 0 clamp(20px, 2.2vw, 28px); font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(14px, 1.05vw, 17px); line-height: 1.85; color: ${MUTED};
         }
         /* the paragraph nobody else writes */
@@ -287,17 +287,17 @@ export function CareersPage() {
           background: rgba(153,142,255,0.07); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.2);
         }
         .cr-hard b {
-          display: block; margin-bottom: 8px; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          display: block; margin-bottom: 8px; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           text-transform: uppercase; font-size: 10px; letter-spacing: 1.7px; color: ${ACCENT_INK};
         }
         .cr-hard span {
-          font-family: 'Universal Sans', sans-serif;
+          font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(15px, 1.25vw, 21px); line-height: 1.55; color: ${TEXT};
         }
         .cr-want { list-style: none; display: grid; gap: 11px; margin: 0 0 clamp(20px, 2.2vw, 28px); padding: 0; }
         .cr-want li {
           display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 12px; align-items: start;
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.7; color: ${TEXT};
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.7; color: ${TEXT};
         }
         .cr-want li i { flex: none; margin-top: 8px; width: 6px; height: 6px; border-radius: 50%; background: ${ACCENT}; }
         .cr-pay {
@@ -306,12 +306,12 @@ export function CareersPage() {
           background: rgba(22,20,31,0.04); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
         }
         .cr-pay b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(18px, 1.6vw, 27px); line-height: 1.2; letter-spacing: -0.02em; color: ${TEXT};
           font-variant-numeric: tabular-nums;
         }
         .cr-pay span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.6px; color: ${MUTED};
         }
 
@@ -323,11 +323,11 @@ export function CareersPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .cr-real h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.026em;
+          margin: 0 0 12px; font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.026em;
           font-size: clamp(19px, 1.7vw, 31px); line-height: 1.14; color: #fff; max-width: 20ch;
         }
         .cr-real p {
-          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
+          margin: 0; font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
           line-height: 1.8; color: #BDBDBD;
         }
 
@@ -338,16 +338,16 @@ export function CareersPage() {
           border-top: 1px solid #2F2A42;
         }
         .cr-step em {
-          display: block; margin-bottom: 10px; font-style: normal; font-family: 'Universal Sans', sans-serif;
+          display: block; margin-bottom: 10px; font-style: normal; font-family: 'Eloma Sans', sans-serif;
           font-weight: 800; font-variant-numeric: tabular-nums; font-size: 11px; letter-spacing: 1.8px;
           color: #C3BCFF;
         }
         .cr-step b {
-          display: block; margin-bottom: 7px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          display: block; margin-bottom: 7px; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(14px, 1.1vw, 17px); color: #fff;
         }
         .cr-step span {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.95vw, 14.5px); line-height: 1.7; color: #858387;
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(12px, 0.95vw, 14.5px); line-height: 1.7; color: #858387;
         }
 
         /* ══════════ responsive ══════════ */
@@ -562,7 +562,7 @@ export function CareersPage() {
         <MaskReveal as="p">
           <span style={{
             display: 'block',
-            fontFamily: "'Universal Sans', sans-serif",
+            fontFamily: "'Eloma Sans', sans-serif",
             fontSize: 'clamp(24px, 3vw, 52px)',
             lineHeight: 1.36,
             letterSpacing: '-0.015em',
@@ -575,7 +575,7 @@ export function CareersPage() {
         </MaskReveal>
         <Reveal variant={driftUp} delay={0.08} as="p" style={{
           marginTop: 'clamp(20px, 2.4vw, 32px)',
-          fontFamily: "'Universal Sans', sans-serif",
+          fontFamily: "'Eloma Sans', sans-serif",
           fontSize: 'clamp(14px, 1.05vw, 17px)',
           lineHeight: 1.8,
           color: MUTED,

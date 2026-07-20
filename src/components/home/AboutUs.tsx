@@ -117,7 +117,7 @@ export function AboutUs() {
         /* ── eyebrow ── */
         .cc-au-eye {
           display: inline-flex; align-items: center; gap: 11px; margin: 0 0 clamp(20px, 2vw, 30px);
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.82vw, 13px); letter-spacing: 2.4px; color: ${MUTED};
         }
         .cc-au-eye .live {
@@ -136,7 +136,7 @@ export function AboutUs() {
         .cc-au-head { margin: 0; }
         .cc-au-h {
           display: block;
-          font-family: 'Universal Sans', sans-serif; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; text-transform: uppercase;
           font-size: clamp(52px, 6.6vw, 118px); line-height: 0.9; letter-spacing: -0.045em;
           color: ${TEXT}; margin: 0;
         }
@@ -145,12 +145,12 @@ export function AboutUs() {
           gap: clamp(12px, 1.4vw, 24px); margin-top: clamp(2px, 0.4vw, 8px);
         }
         .cc-au-h-note {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 2.2px; line-height: 1.7;
           color: ${MUTED}; margin: 0; max-width: 16ch; align-self: center;
         }
         .cc-au-h-accent {
-          font-family: 'Universal Sans', sans-serif; text-transform: none;
+          font-family: 'Eloma Sans', sans-serif; text-transform: none;
           font-size: clamp(48px, 6vw, 104px); line-height: 0.92; letter-spacing: -0.02em;
           color: ${ACCENT};
         }
@@ -166,7 +166,7 @@ export function AboutUs() {
           transform-origin: top; will-change: transform;
         }
         .cc-au-lede p {
-          font-family: 'Universal Sans', sans-serif; font-weight: 400;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 400;
           font-size: clamp(14px, 1.15vw, 17px); line-height: 1.8; color: ${MUTED}; margin: 0;
         }
 
@@ -177,7 +177,7 @@ export function AboutUs() {
         }
         .cc-au-legend li {
           display: flex; align-items: center; gap: 14px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(14px, 1.05vw, 16px); line-height: 1.4; color: ${TEXT};
         }
         .cc-au-legend i {
@@ -200,7 +200,7 @@ export function AboutUs() {
           min-height: 52px; padding: 15px clamp(24px, 2.4vw, 36px);
           background: linear-gradient(168deg, #38324F 0%, ${TEXT} 48%, ${INK} 100%);
           color: #FAF9FE; text-decoration: none; border-radius: 4px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
@@ -220,7 +220,7 @@ export function AboutUs() {
           display: inline-flex; align-items: center; gap: 12px;
           min-height: 52px; padding: 4px; background: none; border: 0;
           color: ${TEXT}; text-decoration: none;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
         }
         .cc-au-ghost i {
@@ -338,12 +338,12 @@ export function AboutUs() {
           background: ${GLOSS}; box-shadow: ${ACCENT_RIM}; color: #FFFFFF;
         }
         .cc-au-chip small {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           text-transform: uppercase; font-size: 10px; letter-spacing: 1.8px; color: ${MUTED};
         }
         .cc-au-chip b {
           display: block; margin-top: 3px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(18px, 1.5vw, 24px); letter-spacing: -0.02em; color: ${TEXT};
           font-variant-numeric: tabular-nums;
         }
@@ -357,7 +357,7 @@ export function AboutUs() {
         }
         .cc-au-floortag {
           display: inline-flex; align-items: center; gap: 9px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2px; color: ${TEXT};
           white-space: nowrap;
         }
@@ -365,13 +365,13 @@ export function AboutUs() {
           box-shadow: 0 0 0 4px rgba(35,178,109,0.16);
           animation: ccAuPulse 1.9s ease-in-out infinite; will-change: opacity, transform; }
         .cc-au-stat b {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(30px, 2.5vw, 46px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
           font-variant-numeric: tabular-nums;
         }
         .cc-au-stat span {
           display: block; margin-top: 8px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 0.95vw, 15px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(13px, 0.95vw, 15px);
           line-height: 1.6; color: ${MUTED};
         }
 

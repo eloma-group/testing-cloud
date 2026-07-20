@@ -72,18 +72,18 @@ export function FloatingWorldClock({ className = '' }: { className?: string }) {
         }
         .wc-col em {
           display: block; font-style: normal;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(9px, 0.7vw, 11px); letter-spacing: 2px;
           color: #16141F; margin-bottom: 4px;
         }
         .wc-col b {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-variant-numeric: tabular-nums; letter-spacing: 0.01em;
           font-size: clamp(20px, 2vw, 34px); line-height: 1; color: #6A5BE8;
         }
         .wc-col span {
           display: block; margin-top: 5px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(9px, 0.72vw, 11px); letter-spacing: 1.6px; text-transform: uppercase;
           color: #16141F;
         }

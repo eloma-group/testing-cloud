@@ -104,7 +104,7 @@ export function LiveDashboard() {
         .cc-ld-head { text-align: center; position: relative; z-index: 2; }
         .cc-ld-eye {
           display: inline-flex; align-items: center; gap: 9px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.85vw, 13px); letter-spacing: 3px; color: #25C07A;
         }
         .cc-ld-eye i {
@@ -114,7 +114,7 @@ export function LiveDashboard() {
         }
         .cc-ld-title {
           margin: clamp(12px, 1.4vw, 20px) 0 0;
-          font-family: 'Universal Sans', sans-serif; letter-spacing: -0.02em;
+          font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.02em;
           font-size: clamp(32px, 4.6vw, 68px); line-height: 1.02; color: #1B2733;
         }
         .cc-ld-rule {
@@ -123,7 +123,7 @@ export function LiveDashboard() {
         }
         .cc-ld-sub {
           margin: clamp(14px, 1.6vw, 22px) auto 0; max-width: 44ch;
-          font-family: 'Universal Sans', sans-serif; font-weight: 500;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 500;
           font-size: clamp(14px, 1.2vw, 18px); line-height: 1.5; color: #7C8BA0;
         }
 
@@ -194,7 +194,7 @@ export function LiveDashboard() {
         .cc-ld-map { width: 60%; height: auto; object-fit: contain; }
         .cc-ld-body { grid-column: 2; grid-row: 1; min-width: 0; }
         .cc-ld-label {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           text-transform: uppercase; font-size: clamp(10px, 0.8vw, 12px); letter-spacing: 1.4px;
           color: #90A0B3; margin-bottom: 5px;
           /* "Customer satisfaction" outruns the card column on narrow viewports -
@@ -202,7 +202,7 @@ export function LiveDashboard() {
           line-height: 1.35; overflow-wrap: break-word;
         }
         .cc-ld-val {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(26px, 2.6vw, 40px); line-height: 1; letter-spacing: -0.02em; color: #1B2733;
         }
         .cc-ld-val em { font-style: normal; font-weight: 700; font-size: 0.5em; color: var(--c); margin-left: 4px; }
@@ -230,7 +230,7 @@ export function LiveDashboard() {
         /* ── caption + footer ── */
         .cc-ld-script {
           text-align: center; margin: clamp(22px, 3vw, 40px) 0 0; position: relative; z-index: 2;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(28px, 3.4vw, 46px); line-height: 1; color: #4C7DF0;
         }
         .cc-ld-script em { font-style: normal; color: #22B8A6; }
@@ -241,7 +241,7 @@ export function LiveDashboard() {
           width: min(100%, 56%); min-height: 90px; padding: 0 clamp(20px, 3vw, 40px);
           border-radius: 60px; background: #FFFFFF; text-align: center;
           box-shadow: 0 40px 90px -50px rgba(31,44,61,0.18);
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(11px, 0.9vw, 13px); letter-spacing: 3.5px; color: #90A0B3;
         }
         .cc-ld-foot svg { color: #22B8A6; }

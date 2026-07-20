@@ -81,7 +81,7 @@ export function OurTeam() {
 
         .cc-tm-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
           color: ${ACCENT_INK}; margin: 0 0 clamp(22px, 2.8vw, 40px);
         }
@@ -104,7 +104,7 @@ export function OurTeam() {
         .cc-tm-lineRow:focus-visible { outline: 2px solid ${ACCENT_INK}; outline-offset: 6px; border-radius: 8px; }
         .cc-tm-word {
           display: block; flex: none;
-          font-family: 'Universal Sans', sans-serif; 
+          font-family: 'Eloma Sans', sans-serif; 
           font-size: clamp(40px, 6.2vw, 112px); line-height: 1.0; letter-spacing: -0.045em;
           color: ${TEXT};
           transition: color .45s cubic-bezier(.16,1,.3,1), opacity .45s cubic-bezier(.16,1,.3,1);
@@ -129,7 +129,7 @@ export function OurTeam() {
         }
         .cc-tm-lineRow.on .cc-tm-dot { border-color: ${ACCENT_INK}; background: ${ACCENT_INK}; transform: scale(1.5); }
         .cc-tm-label {
-          flex: none; font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          flex: none; font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 1.8px; color: ${MUTED};
           transition: color .4s ease;
         }
@@ -138,14 +138,14 @@ export function OurTeam() {
         /* ── left: rule, lead, CTAs, stats ── */
         .cc-tm-rule { width: 52px; height: 3px; border-radius: 2px; background: ${ACCENT_INK}; margin: clamp(28px, 3.4vw, 48px) 0 clamp(16px, 1.8vw, 24px); }
         .cc-tm-lead {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.72;
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(15px, 1.25vw, 19px); line-height: 1.72;
           color: ${MUTED}; max-width: 44ch; margin: 0;
         }
         .cc-tm-cta { display: flex; flex-wrap: wrap; align-items: center; gap: clamp(16px, 2vw, 34px); margin-top: clamp(26px, 3vw, 42px); }
         .cc-tm-btn {
           display: inline-flex; align-items: center; justify-content: center; gap: 12px;
           min-height: 58px; padding: 17px clamp(26px, 2.6vw, 40px); border-radius: 100px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 17px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 17px);
           text-decoration: none; letter-spacing: 0.2px; color: #fff; background: ${GLOSS};
           box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
           will-change: transform;
@@ -161,7 +161,7 @@ export function OurTeam() {
         .cc-tm-watch {
           display: inline-flex; align-items: center; gap: 14px; min-height: 44px;
           text-decoration: none; color: ${TEXT};
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.3;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.05vw, 16px); line-height: 1.3;
         }
         .cc-tm-watch i {
           flex: none; display: grid; place-items: center; width: 52px; height: 52px; border-radius: 50%;
@@ -207,11 +207,11 @@ export function OurTeam() {
         }
         .cc-tm-stat:hover svg { transform: translateY(-2px) scale(1.12); }
         .cc-tm-stat b {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(16px, 1.35vw, 22px); letter-spacing: -0.02em; color: ${TEXT};
         }
         .cc-tm-stat span {
-          display: block; font-family: 'Universal Sans', sans-serif;
+          display: block; font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(12px, 0.9vw, 14px); color: ${MUTED}; margin-top: 2px;
         }
 
@@ -265,16 +265,16 @@ export function OurTeam() {
         .cc-tm-id { flex: 1; min-width: 0; }
         .cc-tm-name {
           display: block;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(20px, 1.85vw, 32px); line-height: 1.14; letter-spacing: -0.03em; color: ${TEXT};
         }
         .cc-tm-role {
           display: block; margin-top: 6px;
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
           line-height: 1.5; color: ${MUTED};
         }
         .cc-tm-idx {
-          flex: none; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          flex: none; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 2px; color: ${ACCENT_INK}; opacity: 0.6;
         }
 
@@ -305,7 +305,7 @@ export function OurTeam() {
           position: absolute; left: 0; right: 0; bottom: 0; padding: 24px 14px 12px;
           border-radius: 0 0 18px 18px;
           background: linear-gradient(to top, rgba(22,20,31,0.82), rgba(22,20,31,0));
-          font-family: 'Universal Sans', sans-serif; color: #fff; text-align: left;
+          font-family: 'Eloma Sans', sans-serif; color: #fff; text-align: left;
         }
         .cc-tm-pop-cap b {
           display: block; font-weight: 700; font-size: clamp(12px, 0.85vw, 15px); letter-spacing: -0.01em;

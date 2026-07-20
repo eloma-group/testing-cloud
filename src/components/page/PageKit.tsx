@@ -87,7 +87,7 @@ const KIT_CSS = `
 
   .pg-crumb {
     display: flex; align-items: center; gap: 9px; margin: 0 0 clamp(16px, 2vw, 26px);
-    font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.85vw, 13px);
+    font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.85vw, 13px);
     color: ${MUTED};
   }
   .pg-crumb a { color: ${MUTED}; transition: color .25s ease; }
@@ -97,25 +97,25 @@ const KIT_CSS = `
 
   .pg-eyebrow {
     display: inline-flex; align-items: center; gap: 10px; margin: 0 0 clamp(14px, 1.8vw, 22px);
-    font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+    font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
     font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: ${ACCENT_INK};
   }
   .pg-eyebrow i { flex: none; width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
 
   .pg-title {
-    font-family: 'Universal Sans', sans-serif;
+    font-family: 'Eloma Sans', sans-serif;
     font-size: clamp(44px, 6.2vw, 104px); line-height: 0.98; letter-spacing: -0.035em;
     margin: 0 0 clamp(18px, 2.2vw, 30px); max-width: 13ch; color: ${TEXT};
   }
   .pg-title .accent { color: ${ACCENT}; }
   /* the accent clause: same typeface as the rest of the title, tracked a touch tighter */
   .pg-title .serif {
-    font-family: 'Universal Sans', sans-serif;
+    font-family: 'Eloma Sans', sans-serif;
     letter-spacing: -0.02em;
   }
 
   .pg-lead {
-    font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.2vw, 19px); line-height: 1.8;
+    font-family: 'Eloma Sans', sans-serif; font-size: clamp(15px, 1.2vw, 19px); line-height: 1.8;
     color: ${MUTED}; margin: 0; max-width: 52ch;
   }
   .pg-lead b { color: ${TEXT}; font-weight: 700; }
@@ -127,12 +127,12 @@ const KIT_CSS = `
     border-top: 1px solid rgba(22,20,31,0.14);
   }
   .pg-stat b {
-    display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+    display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
     font-size: clamp(26px, 2.4vw, 44px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
     font-variant-numeric: tabular-nums;
   }
   .pg-stat span {
-    display: block; margin-top: 8px; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+    display: block; margin-top: 8px; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
     font-size: clamp(12px, 0.92vw, 14px); line-height: 1.5; color: ${MUTED};
   }
 
@@ -146,19 +146,19 @@ const KIT_CSS = `
   .pg-band.ink .pg-head { border-bottom-color: #2F2A42; }
   .pg-head.solo { grid-template-columns: minmax(0, 1fr); }
   .pg-head h2 {
-    font-family: 'Universal Sans', sans-serif; letter-spacing: -0.03em;
+    font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.03em;
     font-size: clamp(30px, 3.6vw, 62px); line-height: 1.04; margin: 0; color: ${TEXT}; max-width: 16ch;
   }
   .pg-band.ink .pg-head h2 { color: #FFFFFF; }
   .pg-head h2 .accent { color: ${ACCENT}; }
   .pg-head h2 .serif {
-    font-family: 'Universal Sans', sans-serif;
+    font-family: 'Eloma Sans', sans-serif;
     letter-spacing: -0.02em;
   }
   /* the lead is classed, never a bare p: an unqualified .pg-head p would also
      match the .pg-eyebrow inside this block and outrank it on specificity */
   .pg-head-lead {
-    margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
+    margin: 0; font-family: 'Eloma Sans', sans-serif; font-size: clamp(14px, 1.05vw, 17px);
     line-height: 1.8; color: ${MUTED}; max-width: 46ch;
   }
   .pg-band.ink .pg-head-lead { color: #BDBDBD; }
@@ -170,7 +170,7 @@ const KIT_CSS = `
     display: inline-flex; align-items: center; justify-content: center; gap: 10px;
     min-height: 52px; padding: 15px clamp(24px, 2.4vw, 34px); border-radius: 100px;
     background: ${GLOSS}; color: #fff;
-    font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
+    font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
     box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
     transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease;
     will-change: transform;
@@ -212,17 +212,17 @@ const KIT_CSS = `
      keep the dark close, and a page that would otherwise stack three black
      sections in a row can end on paper instead. */
   .pg-cta h2 {
-    font-family: 'Universal Sans', sans-serif; letter-spacing: -0.035em;
+    font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.035em;
     font-size: clamp(34px, 4.4vw, 78px); line-height: 1.02; margin: 0 0 clamp(16px, 2vw, 24px);
     color: ${TEXT}; max-width: 15ch;
   }
   .pg-band.ink.pg-cta h2 { color: #fff; }
   .pg-cta h2 .serif {
-    font-family: 'Universal Sans', sans-serif;
+    font-family: 'Eloma Sans', sans-serif;
     color: ${ACCENT}; letter-spacing: -0.02em;
   }
   .pg-cta-lead {
-    margin: 0 0 clamp(26px, 3vw, 38px); font-family: 'Universal Sans', sans-serif;
+    margin: 0 0 clamp(26px, 3vw, 38px); font-family: 'Eloma Sans', sans-serif;
     font-size: clamp(14px, 1.05vw, 17px); line-height: 1.8; color: ${MUTED}; max-width: 46ch;
   }
   .pg-band.ink.pg-cta .pg-cta-lead { color: #BDBDBD; }
@@ -251,7 +251,7 @@ const KIT_CSS = `
   }
   .pg-cta-row:hover::before, .pg-cta-row:focus-visible::before { transform: scaleX(1); }
   .pg-cta-row em {
-    font-style: normal; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+    font-style: normal; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
     font-variant-numeric: tabular-nums; font-size: clamp(11px, 0.85vw, 13px); letter-spacing: 1.6px;
     color: rgba(22,20,31,0.4); transition: color .4s ease;
   }
@@ -259,7 +259,7 @@ const KIT_CSS = `
   .pg-cta-row:hover em { color: ${ACCENT_INK}; }
   .pg-band.ink.pg-cta .pg-cta-row:hover em { color: ${ACCENT}; }
   .pg-cta-row b {
-    font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(14px, 1.1vw, 17px);
+    font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(14px, 1.1vw, 17px);
     color: ${TEXT}; will-change: transform;
     transition: transform .6s cubic-bezier(.16,1,.3,1);
   }

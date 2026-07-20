@@ -129,12 +129,12 @@ export function IndustriesPage() {
           color: ${ACCENT};
         }
         .in-fig-cell b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(9px, 0.72vw, 11px); letter-spacing: 1.6px; color: ${ACCENT_INK};
         }
         .in-fig-cell em {
           display: block; margin-top: 5px; font-style: normal;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(14px, 1.2vw, 19px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(14px, 1.2vw, 19px);
           color: ${TEXT}; font-variant-numeric: tabular-nums;
         }
 
@@ -171,21 +171,21 @@ export function IndustriesPage() {
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 14px 26px -12px rgba(74,61,191,0.8);
         }
         .in-mark b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: clamp(10px, 0.8vw, 12px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-size: clamp(10px, 0.8vw, 12px);
           letter-spacing: 2px; text-transform: uppercase; color: rgba(22,20,31,0.36);
           transition: color .5s ease;
         }
         .in-slab:hover .in-mark b { color: ${ACCENT_INK}; }
 
         .in-slab h3 {
-          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Universal Sans', sans-serif; 
+          margin: 0 0 clamp(12px, 1.4vw, 18px); font-family: 'Eloma Sans', sans-serif; 
           letter-spacing: -0.03em; font-size: clamp(24px, 2.5vw, 46px); line-height: 1.06; color: ${TEXT};
           will-change: transform; transition: transform .75s cubic-bezier(.16,1,.3,1);
         }
         .in-slab:hover h3 { transform: translateX(clamp(4px, 0.5vw, 10px)); }
         .in-lead {
           margin: 0 0 clamp(16px, 1.8vw, 24px);
-          font-family: 'Universal Sans', sans-serif;
+          font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(16px, 1.35vw, 23px); line-height: 1.5; color: ${ACCENT};
         }
         /* what actually goes wrong in this sector */
@@ -193,7 +193,7 @@ export function IndustriesPage() {
           margin: 0 0 clamp(18px, 2vw, 26px); padding: clamp(14px, 1.6vw, 20px);
           border-radius: 12px; background: rgba(22,20,31,0.04);
           box-shadow: inset 0 0 0 1px rgba(22,20,31,0.08);
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.8; color: ${MUTED};
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1.02vw, 16px); line-height: 1.8; color: ${MUTED};
         }
         .in-breaks b {
           display: block; margin-bottom: 6px; font-weight: 800; text-transform: uppercase;
@@ -204,7 +204,7 @@ export function IndustriesPage() {
           display: inline-flex; align-items: center; gap: 6px;
           padding: 7px 13px; border-radius: 100px;
           background: rgba(153,142,255,0.09); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.24);
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 14px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 14px);
           color: ${ACCENT_INK};
         }
 
@@ -212,12 +212,12 @@ export function IndustriesPage() {
         .in-side { display: grid; gap: clamp(18px, 2vw, 26px); }
         .in-words { display: grid; gap: 10px; }
         .in-k {
-          margin: 0; font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          margin: 0; font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: rgba(22,20,31,0.4);
         }
         .in-words-row { display: flex; flex-wrap: wrap; gap: 7px; }
         .in-words-row code {
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(11px, 0.88vw, 13px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(11px, 0.88vw, 13px);
           padding: 6px 11px; border-radius: 7px; color: ${TEXT};
           background: rgba(22,20,31,0.05); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
         }
@@ -231,12 +231,12 @@ export function IndustriesPage() {
           padding: clamp(12px, 1.4vw, 17px) clamp(13px, 1.5vw, 18px);
         }
         .in-figs b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
           font-variant-numeric: tabular-nums;
         }
         .in-figs span {
-          text-align: right; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          text-align: right; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(11px, 0.88vw, 13px); line-height: 1.4; color: ${MUTED};
         }
 
@@ -248,11 +248,11 @@ export function IndustriesPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .in-common h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.025em;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1.14; color: #fff;
         }
         .in-common p {
-          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
+          margin: 0; font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
           line-height: 1.8; color: #BDBDBD;
         }
 
@@ -263,7 +263,7 @@ export function IndustriesPage() {
           border-top: 1px solid #2F2A42;
         }
         .in-none p {
-          margin: 0; max-width: 54ch; font-family: 'Universal Sans', sans-serif;
+          margin: 0; max-width: 54ch; font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(14px, 1.05vw, 17px); line-height: 1.8; color: #BDBDBD;
         }
         .in-none p b { color: #fff; font-weight: 600; }
@@ -410,7 +410,7 @@ export function IndustriesPage() {
         <MaskReveal as="p">
           <span style={{
             display: 'block',
-            fontFamily: "'Universal Sans', sans-serif",
+            fontFamily: "'Eloma Sans', sans-serif",
             fontSize: 'clamp(24px, 3vw, 52px)',
             lineHeight: 1.36,
             letterSpacing: '-0.015em',
@@ -423,7 +423,7 @@ export function IndustriesPage() {
         </MaskReveal>
         <Reveal variant={driftUp} delay={0.08} as="p" style={{
           marginTop: 'clamp(20px, 2.4vw, 32px)',
-          fontFamily: "'Universal Sans', sans-serif",
+          fontFamily: "'Eloma Sans', sans-serif",
           fontSize: 'clamp(14px, 1.05vw, 17px)',
           lineHeight: 1.8,
           color: MUTED,

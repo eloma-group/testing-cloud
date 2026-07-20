@@ -1,19 +1,22 @@
 @import "tailwindcss";
 
-/* Universal Sans (Display, Trial) - the single site typeface.
-   Only one static weight ships in the trial, so it is declared once and the
-   browser synthesizes heavier weights (see font-synthesis-weight below), which
-   is what keeps the display headings reading bolder than the body. */
+/* Eloma Sans Premium - the single site typeface.
+   Only one static weight ships, so it is declared once and the browser
+   synthesizes heavier weights (see font-synthesis-weight below), which is
+   what keeps the display headings reading bolder than the body.
+   The face carries ASCII only, so the stack below still answers for the
+   handful of typographic marks (copyright, bullet, middle dot) the copy uses. */
 @font-face {
-  font-family: 'Universal Sans';
-  src: url('/fonts/UniversalSans-Display.ttf') format('truetype');
+  font-family: 'Eloma Sans';
+  src: url('/fonts/ElomaSans-Premium.woff2') format('woff2'),
+       url('/fonts/ElomaSans-Premium.otf') format('opentype');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
 }
 
 @theme {
-  --font-sans: 'Universal Sans', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Eloma Sans', system-ui, -apple-system, sans-serif;
 
   --color-cc-text:   #16141F;
   --color-cc-accent: #998EFF;
@@ -141,7 +144,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  /* Universal Sans ships a single static weight in the trial, so the heavier
+  /* Eloma Sans ships a single static weight in the trial, so the heavier
      weights the design asks for have to be synthesized - without this every
      heading would flatten to the one 450 weight and lose its hierarchy. */
   font-synthesis-weight: auto;
@@ -151,7 +154,7 @@ html {
 body {
   background-color: var(--cc-white);
   color: var(--cc-text);
-  font-family: 'Universal Sans', system-ui, sans-serif;
+  font-family: 'Eloma Sans', system-ui, sans-serif;
   font-weight: 400;
   line-height: 1.6;
   font-feature-settings: 'kern' 1, 'liga' 1, 'calt' 1;

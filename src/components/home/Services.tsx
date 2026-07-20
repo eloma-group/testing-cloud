@@ -237,13 +237,13 @@ export function Services() {
         .cc-sv-head { position: relative; z-index: 1; }
         .cc-sv-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
           color: ${ACCENT_INK}; margin: 0 0 clamp(12px, 1.4vw, 20px);
         }
         .cc-sv-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-sv-h2 {
-          font-family: 'Universal Sans', sans-serif; 
+          font-family: 'Eloma Sans', sans-serif; 
           font-size: clamp(36px, 4.9vw, 78px); line-height: 1.0; letter-spacing: -0.028em;
           margin: 0; color: ${TEXT}; max-width: 12ch;
         }
@@ -292,23 +292,23 @@ export function Services() {
 
         .cc-sv-note { flex: 1; min-width: 0; padding-bottom: clamp(2px, 0.5vw, 8px); }
         .cc-sv-note-n {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2.4px; text-transform: uppercase;
           color: ${ACCENT_INK}; margin: 0 0 clamp(6px, 0.7vw, 10px);
         }
         .cc-sv-note h3 {
-          font-family: 'Universal Sans', sans-serif; 
+          font-family: 'Eloma Sans', sans-serif; 
           font-size: clamp(20px, 1.85vw, 30px); line-height: 1.14; letter-spacing: -0.022em;
           color: ${TEXT}; margin: 0 0 clamp(8px, 0.9vw, 14px);
         }
         .cc-sv-note p {
-          font-family: 'Universal Sans', sans-serif; margin: 0;
+          font-family: 'Eloma Sans', sans-serif; margin: 0;
           font-size: clamp(14px, 1.05vw, 17px); line-height: 1.68; color: ${MUTED};
           max-width: 34ch;
         }
         /* the drop cap is what makes the block read as a printed note */
         .cc-sv-note p::first-letter {
-          float: left; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          float: left; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: 3.1em; line-height: 0.78; padding: 0.04em 0.1em 0 0; color: ${TEXT};
         }
 
@@ -332,18 +332,18 @@ export function Services() {
         .cc-sv-shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
         .cc-sv-shot-pill {
           position: absolute; top: 10px; left: 10px; z-index: 2;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(9px, 0.68vw, 11px); letter-spacing: 1.8px; color: ${TEXT};
           padding: 6px 12px; border-radius: 100px;
           background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.84));
           box-shadow: inset 0 1px 0 rgba(255,255,255,1), 0 6px 16px -8px rgba(22,20,31,0.5);
         }
         .cc-sv-shot-cap {
-          font-family: 'Universal Sans', sans-serif; margin: 0;
+          font-family: 'Eloma Sans', sans-serif; margin: 0;
           font-size: clamp(14px, 1vw, 16px); line-height: 1.66; color: ${MUTED};
         }
         .cc-sv-shot-cap::first-letter {
-          float: left; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          float: left; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: 2.9em; line-height: 0.8; padding: 0.04em 0.1em 0 0; color: ${ACCENT_INK};
         }
 
@@ -351,7 +351,7 @@ export function Services() {
         .cc-sv-count {
           position: absolute; z-index: 4; right: 0; bottom: 0;
           display: flex; align-items: baseline; gap: 6px; margin: 0;
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; letter-spacing: -0.03em;
           color: #B4AFC6;
         }
         .cc-sv-count b { font-weight: 600; font-size: clamp(38px, 4.4vw, 76px); line-height: 1; color: ${TEXT}; }
@@ -377,14 +377,14 @@ export function Services() {
           display: inline-flex; align-items: center; gap: 9px;
           min-height: 44px; padding: 0 clamp(12px, 1.1vw, 18px);
           border: 0; border-radius: 100px; cursor: pointer; background: transparent;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 1.6px;
           color: #5C5869;              /* opaque, ~5.9:1 on the rail - readable at rest */
           white-space: nowrap;
           transition: color .3s ease, background .35s ease, box-shadow .35s ease;
         }
         .cc-sv-tab em {
-          font-style: normal; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-style: normal; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(13px, 0.95vw, 16px); letter-spacing: -0.02em;
           color: #94909F; transition: color .3s ease;
         }
@@ -403,11 +403,11 @@ export function Services() {
         /* the counter under the rail is the label once the tabs collapse to numbers */
         .cc-sv-nav-label {
           margin: 0; display: none; align-items: baseline; gap: 10px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 2.2px; color: #6E6A7C;
         }
         .cc-sv-nav-label b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(15px, 1.05vw, 18px); letter-spacing: -0.02em; color: ${TEXT};
         }
         .cc-sv-nav-label span { color: ${TEXT}; }

@@ -116,7 +116,7 @@ export function ExtendedBenchHero() {
         /* ── left: the claim ── */
         .xb h2 {
           margin: 0 0 clamp(20px, 2.4vw, 34px);
-          font-family: 'Universal Sans', sans-serif; letter-spacing: -0.01em;
+          font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.01em;
           text-transform: uppercase;
           font-size: clamp(36px, 4.4vw, 80px); line-height: 1.12; color: ${TEXT}; max-width: 20ch;
         }
@@ -124,7 +124,7 @@ export function ExtendedBenchHero() {
         .xb h2 .hl2 { color: #BCB4F7; }
         .xb-lead {
           margin: 0 0 clamp(16px, 1.8vw, 28px);
-          font-family: 'Universal Sans', sans-serif;
+          font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(14px, 1.25vw, 19px); line-height: 1.65; color: #4A4756;
           max-width: 46ch;
         }
@@ -132,7 +132,7 @@ export function ExtendedBenchHero() {
           display: inline-flex; align-items: center; justify-content: center;
           min-height: 52px; padding: 16px 36px; border-radius: 14px;
           background: linear-gradient(180deg, #988DEC 0%, #8A7EE4 100%);
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; text-transform: uppercase;
           font-size: clamp(12px, 0.95vw, 15px); letter-spacing: 1.2px;
           color: #FFFFFF; text-decoration: none;
           box-shadow:
@@ -156,7 +156,7 @@ export function ExtendedBenchHero() {
         }
         .xb-foot > span {
           flex: none;
-          font-family: 'Universal Sans', sans-serif; font-weight: 500;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 500;
           font-size: clamp(13px, 1.05vw, 17px); color: #4A4756;
         }
         .xb-foot > i { flex: 1; height: 1px; background: rgba(22,20,31,0.45); }
@@ -223,7 +223,7 @@ export function ExtendedBenchHero() {
           background: rgba(255,255,255,0.55);
           backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
           box-shadow: inset 0 0 0 1px rgba(255,255,255,0.7), 0 14px 30px -18px rgba(40,32,100,0.4);
-          font-family: 'Universal Sans', sans-serif; font-weight: 600;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600;
           font-size: clamp(13px, 1.05vw, 17px); letter-spacing: 0.02em; color: #55525F;
           will-change: transform; animation: xb-drift 8s ease-in-out 1.4s infinite alternate;
         }

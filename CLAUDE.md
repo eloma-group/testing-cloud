@@ -124,7 +124,11 @@ Every page must target 120fps scrolling. No exceptions — this applies to every
 
 ## Fonts
 
-Same as the Eloma Group site: **Inter** (body / UI) and **Poppins** (headings / display). Loaded from Google Fonts in `index.html`.
+**Eloma Sans Premium** is the single site typeface - body, UI, headings and display all use it. It is self-hosted from `public/fonts/` (woff2 with an otf fallback), declared once in `src/index.css`, and preloaded in `index.html`. No Google Fonts.
+
+- Always write it as `font-family: 'Eloma Sans', sans-serif` in component styles.
+- Only one static weight (400) ships, so heavier weights are synthesized by the browser. Keep `font-synthesis-weight` enabled.
+- The face carries ASCII only. Anything outside that (the copyright symbol, bullets, middle dots, accented letters) falls back to the system stack, so avoid those glyphs in copy.
 
 ## Colour Tokens
 

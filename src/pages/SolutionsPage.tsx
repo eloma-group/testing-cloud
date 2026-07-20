@@ -164,15 +164,15 @@ export function SolutionsPage() {
           color: ${ACCENT};
         }
         .so-layer b {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(13px, 1.05vw, 16px); color: ${TEXT};
         }
         .so-layer em {
-          display: block; margin-top: 3px; font-style: normal; font-family: 'Universal Sans', sans-serif;
+          display: block; margin-top: 3px; font-style: normal; font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(11px, 0.88vw, 13px); color: ${MUTED};
         }
         .so-layer time {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
           font-size: clamp(14px, 1.2vw, 19px);
           color: ${ACCENT}; font-variant-numeric: tabular-nums;
         }
@@ -185,11 +185,11 @@ export function SolutionsPage() {
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.08), inset 0 0 0 1px #2F2A42;
         }
         .so-tot b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: #858387;
         }
         .so-tot span {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(19px, 1.7vw, 28px);
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(19px, 1.7vw, 28px);
           color: #fff; letter-spacing: -0.02em;
         }
         .so-tot span em { font-style: normal; color: ${ACCENT}; }
@@ -235,40 +235,40 @@ export function SolutionsPage() {
           box-shadow: inset 0 1px 0 rgba(255,255,255,0.55), 0 12px 24px -12px rgba(74,61,191,0.8);
         }
         .so-prob-n {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-variant-numeric: tabular-nums;
           font-size: 12px; letter-spacing: 2px; color: rgba(22,20,31,0.3);
         }
         .so-prob h3 {
-          margin: 0 0 clamp(12px, 1.4vw, 16px); font-family: 'Universal Sans', sans-serif; 
+          margin: 0 0 clamp(12px, 1.4vw, 16px); font-family: 'Eloma Sans', sans-serif; 
           letter-spacing: -0.028em; font-size: clamp(21px, 2vw, 36px); line-height: 1.1; color: ${TEXT};
         }
         .so-prob blockquote {
           margin: 0 0 clamp(16px, 1.8vw, 22px); padding-left: clamp(14px, 1.4vw, 18px);
           border-left: 2px solid rgba(153,142,255,0.4);
-          font-family: 'Universal Sans', sans-serif;
+          font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(15px, 1.25vw, 21px); line-height: 1.55; color: ${ACCENT_INK};
         }
         .so-prob > p {
           margin: 0 0 clamp(18px, 2vw, 26px);
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.85; color: ${MUTED};
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 16px); line-height: 1.85; color: ${MUTED};
         }
         .so-prob-moves { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: clamp(18px, 2vw, 26px); }
         .so-prob-moves span {
           display: inline-flex; align-items: center; gap: 6px;
           padding: 7px 12px; border-radius: 100px;
           background: rgba(22,20,31,0.05); box-shadow: inset 0 0 0 1px rgba(22,20,31,0.1);
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px); color: ${TEXT};
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.88vw, 13px); color: ${TEXT};
         }
         .so-prob-proof {
           display: flex; align-items: baseline; gap: 12px; margin-top: auto;
           padding-top: clamp(16px, 1.8vw, 22px); border-top: 1px dashed rgba(22,20,31,0.2);
         }
         .so-prob-proof b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(24px, 2.2vw, 40px); line-height: 1; letter-spacing: -0.02em; color: ${ACCENT};
         }
         .so-prob-proof span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 14px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(11px, 0.9vw, 14px);
           line-height: 1.5; color: ${MUTED};
         }
 
@@ -279,7 +279,7 @@ export function SolutionsPage() {
           display: inline-flex; align-items: center; gap: 10px;
           min-height: 48px; padding: 13px clamp(18px, 1.8vw, 26px); border-radius: 100px;
           box-shadow: inset 0 0 0 1px #2F2A42;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px);
           color: #BDBDBD;
           transition: color .4s ease, box-shadow .4s ease, background .4s ease, transform .5s cubic-bezier(.16,1,.3,1);
           will-change: transform;
@@ -307,11 +307,11 @@ export function SolutionsPage() {
           display: inline-flex; align-items: center; gap: 8px; margin-bottom: clamp(18px, 2vw, 26px);
           padding: 7px 13px; border-radius: 100px;
           background: rgba(153,142,255,0.16); box-shadow: inset 0 0 0 1px rgba(153,142,255,0.34);
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: 10px; letter-spacing: 1.8px; color: #C3BCFF;
         }
         .so-price h3 {
-          margin: 0 0 clamp(14px, 1.6vw, 20px); font-family: 'Universal Sans', sans-serif; 
+          margin: 0 0 clamp(14px, 1.6vw, 20px); font-family: 'Eloma Sans', sans-serif; 
           letter-spacing: -0.03em; font-size: clamp(26px, 2.6vw, 46px); line-height: 1.06; color: #fff;
         }
         .so-price-fig {
@@ -320,31 +320,31 @@ export function SolutionsPage() {
           border-bottom: 1px solid #2F2A42;
         }
         .so-price-fig b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           font-size: clamp(34px, 3.6vw, 62px); line-height: 1; letter-spacing: -0.03em; color: ${ACCENT};
         }
         .so-price-fig span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(12px, 0.95vw, 15px); color: #858387;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(12px, 0.95vw, 15px); color: #858387;
         }
         .so-price > p {
-          margin: 0 0 clamp(22px, 2.4vw, 32px); font-family: 'Universal Sans', sans-serif;
+          margin: 0 0 clamp(22px, 2.4vw, 32px); font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(13px, 1.02vw, 16px); line-height: 1.85; color: #BDBDBD;
         }
         .so-price-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: #2F2A42; border-radius: 12px; overflow: hidden; box-shadow: inset 0 0 0 1px #2F2A42; }
         .so-price-meta div { background: #191527; padding: clamp(14px, 1.6vw, 20px); }
         .so-price-meta b {
-          display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
+          display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em;
           font-size: clamp(18px, 1.6vw, 27px); line-height: 1; color: #fff;
         }
         .so-price-meta span {
-          display: block; margin-top: 7px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          display: block; margin-top: 7px; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           text-transform: uppercase; font-size: 10px; letter-spacing: 1.5px; color: #858387;
         }
 
         /* what is in the box */
         .so-has { display: grid; }
         .so-has-k {
-          margin: 0 0 clamp(16px, 2vw, 24px); font-family: 'Universal Sans', sans-serif; font-weight: 800;
+          margin: 0 0 clamp(16px, 2vw, 24px); font-family: 'Eloma Sans', sans-serif; font-weight: 800;
           text-transform: uppercase; font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2px; color: #C3BCFF;
         }
         .so-has-row {
@@ -359,14 +359,14 @@ export function SolutionsPage() {
           color: ${LIVE_INK};
         }
         .so-has-row span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: clamp(14px, 1.08vw, 17px); color: #fff;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: clamp(14px, 1.08vw, 17px); color: #fff;
         }
         .so-has-foot {
           display: flex; flex-wrap: wrap; align-items: center; gap: 16px;
           margin-top: clamp(24px, 2.8vw, 36px);
         }
         .so-has-foot p {
-          flex: 1; min-width: 220px; margin: 0; font-family: 'Universal Sans', sans-serif;
+          flex: 1; min-width: 220px; margin: 0; font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(12px, 0.95vw, 15px); line-height: 1.7; color: #858387;
         }
 
@@ -378,11 +378,11 @@ export function SolutionsPage() {
           background: linear-gradient(90deg, #C3BCFF, ${ACCENT});
         }
         .so-keep h3 {
-          margin: 0 0 12px; font-family: 'Universal Sans', sans-serif; letter-spacing: -0.025em;
+          margin: 0 0 12px; font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.025em;
           font-size: clamp(19px, 1.7vw, 30px); line-height: 1.14; color: ${TEXT};
         }
         .so-keep p {
-          margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
+          margin: 0; font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
           line-height: 1.8; color: ${MUTED};
         }
 
@@ -597,7 +597,7 @@ export function SolutionsPage() {
           >
             <span style={{
               display: 'block',
-              fontFamily: "'Universal Sans', sans-serif",
+              fontFamily: "'Eloma Sans', sans-serif",
               fontSize: 'clamp(22px, 2.6vw, 44px)',
               lineHeight: 1.4,
               letterSpacing: '-0.015em',

@@ -104,7 +104,7 @@ export function BrandPromise() {
 
         .cc-bp-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.8px;
           color: ${ACCENT_HI}; margin: 0 0 clamp(28px, 3.4vw, 54px);
         }
@@ -116,7 +116,7 @@ export function BrandPromise() {
         /* ── the statement ── */
         .cc-bp-say {
           margin: 0; max-width: 20ch;
-          font-family: 'Universal Sans', sans-serif; 
+          font-family: 'Eloma Sans', sans-serif; 
           font-size: clamp(34px, 4.6vw, 88px); line-height: 1.08; letter-spacing: -0.035em;
           color: #fff;
         }
@@ -137,7 +137,7 @@ export function BrandPromise() {
         }
         .cc-bp-body {
           grid-column: 2; margin: 0;
-          font-family: 'Universal Sans', sans-serif; font-weight: 400;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 400;
           font-size: clamp(15px, 1.2vw, 19px); line-height: 1.78;
           color: rgba(255,255,255,0.72); max-width: 46ch;
         }
@@ -152,7 +152,7 @@ export function BrandPromise() {
           display: inline-flex; align-items: center; justify-content: center; gap: 12px;
           min-height: 60px; padding: 18px clamp(28px, 3vw, 46px);
           background: ${GLOSS}; color: #fff; text-decoration: none; border-radius: 100px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(15px, 1.15vw, 18px); letter-spacing: 0.2px;
           box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
           transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .4s ease;
@@ -166,7 +166,7 @@ export function BrandPromise() {
         .cc-bp-btn:hover svg { transform: translateX(4px); }
         .cc-bp-ghost {
           display: inline-flex; align-items: center; gap: 9px; min-height: 44px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 16px);
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 16px);
           color: rgba(255,255,255,0.82); text-decoration: none;
           border-bottom: 1px solid rgba(255,255,255,0.28); padding-bottom: 3px;
           transition: color .3s ease, border-color .3s ease, gap .35s cubic-bezier(.16,1,.3,1);
@@ -190,7 +190,7 @@ export function BrandPromise() {
         }
         .cc-bp-fig {
           display: flex; align-items: baseline; gap: 4px; margin: 0;
-          font-family: 'Universal Sans', sans-serif; font-weight: 500; letter-spacing: -0.04em;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 500; letter-spacing: -0.04em;
           font-size: clamp(38px, 4.4vw, 80px); line-height: 1; color: #fff;
         }
         .cc-bp-fig i {
@@ -199,7 +199,7 @@ export function BrandPromise() {
         }
         .cc-bp-lab {
           margin: clamp(8px, 1vw, 14px) 0 0;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
           font-size: clamp(10px, 0.76vw, 12px); letter-spacing: 2px;
           color: rgba(255,255,255,0.5);
         }

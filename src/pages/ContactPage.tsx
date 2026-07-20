@@ -246,19 +246,19 @@ export function ContactPage() {
           }
           .cc-ct-eyebrow {
             display: inline-flex; align-items: center; gap: 10px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: ${ACCENT_INK};
             margin: 0 0 clamp(14px, 1.8vw, 24px);
           }
           .cc-ct-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
           .cc-ct-title {
-            font-family: 'Universal Sans', sans-serif; 
+            font-family: 'Eloma Sans', sans-serif; 
             font-size: clamp(44px, 6.2vw, 104px); line-height: 0.98; letter-spacing: -0.035em;
             margin: 0 0 clamp(18px, 2.2vw, 30px); max-width: 11ch;
           }
           .cc-ct-title .accent { color: ${ACCENT}; }
           .cc-ct-lead {
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(15px, 1.2vw, 19px); line-height: 1.78;
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(15px, 1.2vw, 19px); line-height: 1.78;
             color: ${MUTED}; margin: 0 0 clamp(22px, 2.6vw, 34px); max-width: 44ch;
           }
           .cc-ct-lead b { color: ${TEXT}; font-weight: 700; }
@@ -270,7 +270,7 @@ export function ContactPage() {
               inset 0 1px 0 rgba(255,255,255,1),
               inset 0 0 0 1px rgba(26,22,44,0.09),
               0 8px 18px -14px rgba(22,20,31,0.6);
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: 12px; color: ${TEXT};
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: 12px; color: ${TEXT};
           }
           .cc-ct-live i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE}; }
           .cc-ct-live i::after {
@@ -289,12 +289,12 @@ export function ContactPage() {
             border-top: 1px solid rgba(22,20,31,0.14);
           }
           .cc-ct-promise b {
-            display: block; font-family: 'Universal Sans', sans-serif; font-weight: 800;
+            display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 800;
             font-size: clamp(24px, 2.2vw, 40px); line-height: 1; letter-spacing: -0.02em; color: ${TEXT};
             font-variant-numeric: tabular-nums;
           }
           .cc-ct-promise span {
-            display: block; margin-top: 8px; font-family: 'Universal Sans', sans-serif; font-weight: 600;
+            display: block; margin-top: 8px; font-family: 'Eloma Sans', sans-serif; font-weight: 600;
             font-size: clamp(12px, 0.92vw, 14px); line-height: 1.5; color: ${MUTED};
           }
 
@@ -350,15 +350,15 @@ export function ContactPage() {
             display: grid; gap: 5px;
           }
           .cc-ct-env-to small {
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: 9.5px; letter-spacing: 1.8px; color: rgba(22,20,31,0.4);
           }
           .cc-ct-env-to b {
-            font-family: 'Universal Sans', sans-serif; font-weight: 400;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 400;
             font-size: clamp(17px, 1.5vw, 24px); line-height: 1.25; color: ${TEXT};
           }
           .cc-ct-env-to span {
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(11px, 0.9vw, 13px); color: ${MUTED};
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(11px, 0.9vw, 13px); color: ${MUTED};
           }
 
           /* the postmark */
@@ -373,7 +373,7 @@ export function ContactPage() {
             border: 1px solid rgba(22,20,31,0.18);
           }
           .cc-ct-mark b {
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: clamp(8px, 0.72vw, 10px); letter-spacing: 1.2px; line-height: 1.5;
           }
 
@@ -394,7 +394,7 @@ export function ContactPage() {
           }
           .cc-ct-seal-n {
             position: relative; z-index: 2;
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(20px, 2vw, 30px);
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(20px, 2vw, 30px);
             color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.25);
           }
           .cc-ct-seal-ring {
@@ -403,7 +403,7 @@ export function ContactPage() {
           }
           @keyframes cc-ct-spin { to { transform: rotate(360deg); } }
           .cc-ct-seal-ring text {
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 8.4px; letter-spacing: 2.6px;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-size: 8.4px; letter-spacing: 2.6px;
             text-transform: uppercase; fill: ${TEXT}; opacity: 0.5;
           }
 
@@ -420,7 +420,7 @@ export function ContactPage() {
             content: ''; position: absolute; inset: 4px; border: 1px dashed rgba(255,255,255,0.5); border-radius: 2px;
           }
           .cc-ct-stampsq b {
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: clamp(8px, 0.68vw, 10px); letter-spacing: 1px; line-height: 1.45;
           }
 
@@ -435,16 +435,16 @@ export function ContactPage() {
             display: grid; gap: clamp(20px, 2.4vw, 30px);
           }
           .cc-lt-margin dt {
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: 10px; letter-spacing: 1.7px; color: ${ACCENT_INK}; margin-bottom: 8px;
           }
           .cc-lt-margin dd { margin: 0; }
           .cc-lt-margin b {
-            display: block; font-family: 'Universal Sans', sans-serif; font-weight: 400;
+            display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 400;
             font-size: clamp(20px, 1.7vw, 28px); line-height: 1.1; color: ${TEXT}; margin-bottom: 6px;
           }
           .cc-lt-margin span {
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.92vw, 14px); line-height: 1.65; color: ${MUTED};
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(12px, 0.92vw, 14px); line-height: 1.65; color: ${MUTED};
           }
 
           /* the sheet */
@@ -481,18 +481,18 @@ export function ContactPage() {
           }
           .cc-lt-head b {
             display: inline-flex; align-items: center; gap: 9px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 600; letter-spacing: -0.02em;
             font-size: clamp(15px, 1.2vw, 19px); color: ${TEXT};
           }
           .cc-lt-head b i { width: 8px; height: 8px; border-radius: 50%; background: ${ACCENT}; }
           .cc-lt-head span {
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(11px, 0.85vw, 13px); color: ${MUTED};
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(11px, 0.85vw, 13px); color: ${MUTED};
             font-variant-numeric: tabular-nums;
           }
 
           /* the prose the form lives inside */
           .cc-lt-body {
-            font-family: 'Universal Sans', sans-serif; font-weight: 400;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 400;
             font-size: clamp(19px, 1.85vw, 32px); line-height: 2.05; letter-spacing: -0.005em;
             color: ${TEXT}; margin: 0;
           }
@@ -542,7 +542,7 @@ export function ContactPage() {
           .cc-lt-menu button {
             display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; cursor: pointer;
             border: 0; background: none; border-radius: 8px; padding: 12px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: 14.5px; color: ${TEXT};
+            font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: 14.5px; color: ${TEXT};
             transition: background .3s ease, color .3s ease;
           }
           .cc-lt-menu button i {
@@ -563,17 +563,17 @@ export function ContactPage() {
             display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px; margin-bottom: 8px;
           }
           .cc-lt-ps-k b {
-            font-family: 'Universal Sans', sans-serif; font-weight: 400;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 400;
             font-size: clamp(19px, 1.7vw, 28px); color: ${TEXT};
           }
           .cc-lt-ps-k span {
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
             font-size: 10px; letter-spacing: 1.6px; color: ${ACCENT_INK};
             padding: 5px 10px; border-radius: 100px; background: rgba(153,142,255,0.12);
           }
           .cc-lt-ps-hint {
             margin: 0 0 clamp(14px, 1.6vw, 20px);
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 15px); line-height: 1.7;
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 15px); line-height: 1.7;
             color: ${MUTED}; max-width: 62ch;
           }
           .cc-lt-ps-box { position: relative; }
@@ -583,7 +583,7 @@ export function ContactPage() {
             background: rgba(153,142,255,0.05);
             box-shadow: inset 0 0 0 1px rgba(22,20,31,0.12);
             padding: clamp(14px, 1.5vw, 20px);
-            font-family: 'Universal Sans', sans-serif;
+            font-family: 'Eloma Sans', sans-serif;
             font-size: clamp(16px, 1.25vw, 20px); line-height: 1.75; color: ${TEXT};
             transition: box-shadow .4s ease, background .4s ease;
           }
@@ -594,7 +594,7 @@ export function ContactPage() {
           }
           .cc-lt-ps-count {
             position: absolute; right: 14px; bottom: 12px; pointer-events: none;
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: 11px;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: 11px;
             letter-spacing: 1px; color: rgba(22,20,31,0.32); font-variant-numeric: tabular-nums;
           }
 
@@ -609,7 +609,7 @@ export function ContactPage() {
             display: inline-flex; align-items: center; gap: 10px;
             min-height: 58px; padding: 17px clamp(28px, 3vw, 40px); border-radius: 100px;
             background: ${GLOSS}; color: #fff;
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 16px);
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(14px, 1.1vw, 16px);
             box-shadow: ${ACCENT_RIM}, ${ACCENT_CAST};
             transition: transform .45s cubic-bezier(.16,1,.3,1), box-shadow .45s ease; will-change: transform;
           }
@@ -629,7 +629,7 @@ export function ContactPage() {
           .cc-lt-seal:hover svg { transform: translateX(4px); }
           .cc-lt-fine {
             flex: 1; min-width: 220px; margin: 0;
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.9vw, 14px); line-height: 1.65; color: ${MUTED};
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(12px, 0.9vw, 14px); line-height: 1.65; color: ${MUTED};
           }
           .cc-lt-fine b { color: #E5484D; font-weight: 700; }
 
@@ -639,7 +639,7 @@ export function ContactPage() {
             margin-bottom: clamp(22px, 2.6vw, 32px);
             background: radial-gradient(circle at 34% 28%, #C9C2FF, ${ACCENT} 52%, #4A3DBF 100%);
             color: #fff; text-align: center;
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 1.4px;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-size: 11px; letter-spacing: 1.4px;
             text-transform: uppercase; line-height: 1.3;
             box-shadow:
               inset 0 0 0 2px rgba(255,255,255,0.4),
@@ -654,7 +654,7 @@ export function ContactPage() {
             100% { transform: scale(1) rotate(-8deg); opacity: 1; }
           }
           .cc-lt-sent p {
-            font-family: 'Universal Sans', sans-serif;
+            font-family: 'Eloma Sans', sans-serif;
             font-size: clamp(19px, 1.6vw, 27px); line-height: 1.7; color: ${TEXT};
             margin: 0 0 clamp(22px, 2.4vw, 30px); max-width: 44ch;
           }
@@ -662,7 +662,7 @@ export function ContactPage() {
           .cc-lt-again {
             cursor: pointer; border: 1px solid rgba(22,20,31,0.2); background: transparent; color: ${TEXT};
             min-height: 48px; padding: 13px 24px; border-radius: 100px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: 14px;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: 14px;
             transition: background .35s ease, color .35s ease, border-color .35s ease;
           }
           .cc-lt-again:hover { background: ${TEXT}; color: ${WASH}; border-color: ${TEXT}; }
@@ -675,12 +675,12 @@ export function ContactPage() {
             border-bottom: 1px solid rgba(22,20,31,0.16);
           }
           .cc-ct-band-head h2 {
-            font-family: 'Universal Sans', sans-serif; letter-spacing: -0.03em;
+            font-family: 'Eloma Sans', sans-serif; letter-spacing: -0.03em;
             font-size: clamp(24px, 2.6vw, 44px); line-height: 1.1; margin: 0; color: ${TEXT};
           }
           .cc-ct-band-head h2 .accent { color: ${ACCENT}; }
           .cc-ct-band-head p {
-            margin: 0; font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
+            margin: 0; font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 1vw, 16px);
             line-height: 1.7; color: ${MUTED}; max-width: 40ch;
           }
 
@@ -702,13 +702,13 @@ export function ContactPage() {
           }
           .cc-ct-q:hover::before, .cc-ct-q.on::before, .cc-ct-q:focus-visible::before { transform: scaleX(1); }
           .cc-ct-q-n {
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-variant-numeric: tabular-nums;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-variant-numeric: tabular-nums;
             font-size: clamp(11px, 0.85vw, 14px); letter-spacing: 1.6px; color: rgba(22,20,31,0.35);
             transition: color .4s ease;
           }
           .cc-ct-q:hover .cc-ct-q-n, .cc-ct-q.on .cc-ct-q-n { color: ${ACCENT_INK}; }
           .cc-ct-q-t {
-            font-family: 'Universal Sans', sans-serif; font-weight: 400;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 400;
             font-size: clamp(19px, 1.9vw, 34px); line-height: 1.25; letter-spacing: -0.01em; color: ${TEXT};
             will-change: transform;
             transition: transform .7s cubic-bezier(.16,1,.3,1), color .4s ease;
@@ -742,7 +742,7 @@ export function ContactPage() {
           .cc-ct-a p {
             margin: 0; padding: 0 clamp(10px, 1.2vw, 20px) clamp(22px, 2.4vw, 34px)
                        calc(clamp(40px, 4vw, 68px) + clamp(24px, 3.2vw, 52px));
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.1vw, 18px); line-height: 1.8;
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(14px, 1.1vw, 18px); line-height: 1.8;
             color: ${MUTED}; max-width: 78ch;
             opacity: 0; transform: translateY(8px); will-change: transform, opacity;
             transition: opacity .5s ease .12s, transform .6s cubic-bezier(.16,1,.3,1) .12s;
@@ -756,7 +756,7 @@ export function ContactPage() {
             padding-top: clamp(28px, 3.4vw, 48px); border-top: 1px solid rgba(22,20,31,0.16);
           }
           .cc-ct-k {
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
             font-size: clamp(10px, 0.78vw, 12px); letter-spacing: 2px; color: ${ACCENT_INK};
             margin: 0 0 clamp(16px, 2vw, 24px);
           }
@@ -786,12 +786,12 @@ export function ContactPage() {
             box-shadow: ${ACCENT_RIM}, 0 12px 24px -12px rgba(74,61,191,0.8);
           }
           .cc-ct-line b {
-            display: block; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+            display: block; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
             font-size: clamp(15px, 1.15vw, 18px); color: ${TEXT};
           }
           .cc-ct-line em {
             display: block; margin-top: 4px; font-style: normal;
-            font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.9vw, 14px); color: ${MUTED};
+            font-family: 'Eloma Sans', sans-serif; font-size: clamp(12px, 0.9vw, 14px); color: ${MUTED};
           }
           .cc-ct-line svg.go { color: rgba(22,20,31,0.3); transition: transform .5s cubic-bezier(.16,1,.3,1), color .4s ease; }
           .cc-ct-line:hover svg.go { color: ${ACCENT}; transform: translate(3px, -3px); }
@@ -805,18 +805,18 @@ export function ContactPage() {
           }
           .cc-ct-desk b {
             display: flex; align-items: center; gap: 8px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px); color: ${TEXT};
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: clamp(13px, 1vw, 15px); color: ${TEXT};
           }
           .cc-ct-desk b i { width: 7px; height: 7px; border-radius: 50%; background: rgba(22,20,31,0.2); }
           .cc-ct-desk b i.on { background: ${LIVE}; }
           .cc-ct-desk time {
             display: block; margin-top: 8px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(20px, 1.8vw, 30px);
+            font-family: 'Eloma Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(20px, 1.8vw, 30px);
             line-height: 1; color: ${TEXT}; font-variant-numeric: tabular-nums;
           }
           .cc-ct-desk span {
             display: block; margin-top: 7px;
-            font-family: 'Universal Sans', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 1.4px;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 1.4px;
             text-transform: uppercase; color: ${MUTED};
           }
 
@@ -913,7 +913,7 @@ export function ContactPage() {
                   </defs>
                   <text>
                     <textPath href="#cc-ct-seal-path" startOffset="0">
-                      GET IN TOUCH • WE ANSWER • GET IN TOUCH •
+                      GET IN TOUCH / WE ANSWER / GET IN TOUCH /
                     </textPath>
                   </text>
                 </svg>

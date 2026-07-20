@@ -95,7 +95,7 @@ export function Spotlight() {
         .cc-sl-word {
           position: absolute; z-index: 0; pointer-events: none;
           top: clamp(28px, 5vw, 92px); left: 50%; transform: translateX(-50%);
-          font-family: 'Universal Sans', sans-serif; font-weight: 900; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 900; text-transform: uppercase;
           font-size: clamp(96px, 19vw, 330px); line-height: 0.78; letter-spacing: -0.05em;
           white-space: nowrap;
           background: linear-gradient(180deg, rgba(22,20,31,0.20) 0%, rgba(22,20,31,0.06) 62%, rgba(22,20,31,0.02) 100%);
@@ -127,26 +127,26 @@ export function Spotlight() {
         }
         .cc-sl-eyebrow {
           display: inline-flex; align-items: center; gap: 12px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px;
           color: ${ACCENT_INK}; margin: 0 0 clamp(12px, 1.4vw, 20px);
         }
         .cc-sl-eyebrow::before { content: ''; width: clamp(26px, 4vw, 54px); height: 1px; background: ${ACCENT}; opacity: 0.6; }
         .cc-sl-h2 {
-          font-family: 'Universal Sans', sans-serif; 
+          font-family: 'Eloma Sans', sans-serif; 
           font-size: clamp(36px, 3.9vw, 66px); line-height: 1.0; letter-spacing: -0.03em;
           margin: 0; color: ${TEXT};
         }
         .cc-sl-h2 .accent { color: ${ACCENT}; }
         .cc-sl-lead {
-          font-family: 'Universal Sans', sans-serif; margin: clamp(14px, 1.5vw, 22px) 0 0;
+          font-family: 'Eloma Sans', sans-serif; margin: clamp(14px, 1.5vw, 22px) 0 0;
           font-size: clamp(15px, 1.15vw, 18px); line-height: 1.75; color: ${MUTED};
         }
         .cc-sl-btns { display: flex; flex-wrap: wrap; gap: 10px; margin-top: clamp(20px, 2.2vw, 32px); }
         .cc-sl-btn {
           display: inline-flex; align-items: center; gap: 9px; min-height: 48px;
           padding: 0 clamp(18px, 1.5vw, 26px); border-radius: 100px; text-decoration: none;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 1.6px;
           transition: transform .5s cubic-bezier(.16,1,.3,1), box-shadow .35s ease, background .35s ease, color .3s ease;
           will-change: transform;
@@ -208,11 +208,11 @@ export function Spotlight() {
           margin-bottom: 10px;
         }
         .cc-sl-card h3 {
-          margin: 0 0 6px; font-family: 'Universal Sans', sans-serif; text-transform: uppercase;
+          margin: 0 0 6px; font-family: 'Eloma Sans', sans-serif; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 1.8px; color: ${TEXT};
         }
         .cc-sl-card p {
-          margin: 0; font-family: 'Universal Sans', sans-serif;
+          margin: 0; font-family: 'Eloma Sans', sans-serif;
           font-size: clamp(13px, 0.92vw, 14px); line-height: 1.55; color: ${MUTED};
         }
 
@@ -234,7 +234,7 @@ export function Spotlight() {
         }
         .cc-sl-faces img + img { margin-left: -11px; }
         .cc-sl-crew span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.72vw, 12px); letter-spacing: 1.8px; color: ${TEXT};
           display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
         }
@@ -263,16 +263,16 @@ export function Spotlight() {
         .cc-sl-dial .arc   { fill: none; stroke: url(#cc-sl-arc); stroke-width: 7; stroke-linecap: round; }
         .cc-sl-dial b {
           position: absolute; inset: 0; display: grid; place-items: center;
-          font-family: 'Universal Sans', sans-serif; font-weight: 900;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 900;
           font-size: clamp(20px, 1.9vw, 29px); letter-spacing: -0.04em; color: ${TEXT};
         }
         .cc-sl-meter-t { display: flex; flex-direction: column; gap: 6px; text-align: left; }
         .cc-sl-meter-t strong {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 1.8px; color: ${ACCENT_INK};
         }
         .cc-sl-meter-t span {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(13px, 0.95vw, 15px);
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(13px, 0.95vw, 15px);
           line-height: 1.5; color: ${MUTED}; max-width: 22ch;
         }
 
@@ -286,16 +286,16 @@ export function Spotlight() {
         .cc-sl-trust-l { display: flex; align-items: center; gap: clamp(12px, 1.3vw, 20px); }
         .cc-sl-trust-l p {
           margin: 0; max-width: 34ch;
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(14px, 1.05vw, 16px);
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(14px, 1.05vw, 16px);
           line-height: 1.55; color: ${MUTED};
         }
         .cc-sl-trust-r { display: flex; align-items: baseline; gap: clamp(10px, 1vw, 16px); }
         .cc-sl-trust-r b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 900;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 900;
           font-size: clamp(38px, 4vw, 68px); line-height: 1; letter-spacing: -0.045em; color: ${TEXT};
         }
         .cc-sl-trust-r span {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(11px, 0.78vw, 13px); letter-spacing: 2.2px; color: ${MUTED};
         }
 

@@ -167,13 +167,13 @@ export function Industries() {
         }
         .cc-in-eyebrow {
           display: inline-flex; align-items: center; gap: 10px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
           font-size: clamp(10px, 0.8vw, 13px); letter-spacing: 2.6px; color: ${ACCENT_INK};
           margin: 0 0 clamp(14px, 1.8vw, 22px);
         }
         .cc-in-eyebrow i { width: 7px; height: 7px; border-radius: 50%; background: ${ACCENT}; }
         .cc-in-title {
-          font-family: 'Universal Sans', sans-serif; 
+          font-family: 'Eloma Sans', sans-serif; 
           font-size: clamp(40px, 6.4vw, 118px); line-height: 0.98; letter-spacing: -0.03em;
           margin: 0;
         }
@@ -195,7 +195,7 @@ export function Industries() {
         .cc-in-runs li {
           display: flex; align-items: center; gap: 9px; min-height: 44px;
           padding: clamp(12px, 1.1vw, 16px) clamp(14px, 1.2vw, 18px); border-radius: 14px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(12px, 0.95vw, 15px); line-height: 1.3; color: ${TEXT};
           will-change: transform, opacity;
           background: linear-gradient(155deg, rgba(255,255,255,0.66), rgba(232,242,244,0.38));
@@ -272,7 +272,7 @@ export function Industries() {
         /* the "turn for sector" hints, lying flat on the platform, outside the ring */
         .cc-in-turn {
           position: absolute; left: 50%; top: 50%;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 1.7em; letter-spacing: 0.28em;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-size: 1.7em; letter-spacing: 0.28em;
           text-transform: uppercase; color: rgba(22,20,31,0.26); white-space: nowrap; pointer-events: none;
         }
         .cc-in-turn.l { transform: translate(-112%, 11.5em); }
@@ -320,7 +320,7 @@ export function Industries() {
           position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
           gap: 0.5em; text-align: center; padding: 1.4em;
           transform: translateZ(0.4em) rotate(${SPIN}deg); transform-origin: center;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 1.75em; line-height: 1.1;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-size: 1.75em; line-height: 1.1;
           letter-spacing: -0.01em; color: rgba(22,20,31,0.82);
           transition: color .45s ease;
         }
@@ -405,11 +405,11 @@ export function Industries() {
         .cc-in-stat:nth-child(2) { transform: translateY(clamp(-52px, -2.6vw, -38px)); }
         .cc-in-stat:nth-child(3) { transform: translateX(clamp(10px, 1.1vw, 22px)); }
         .cc-in-stat b {
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-variant-numeric: tabular-nums;
           font-size: clamp(22px, 2.25vw, 35px); line-height: 1; color: ${TEXT};
         }
         .cc-in-stat span {
-          margin-top: 9px; font-family: 'Universal Sans', sans-serif; font-weight: 700;
+          margin-top: 9px; font-family: 'Eloma Sans', sans-serif; font-weight: 700;
           font-size: clamp(9px, 0.72vw, 11px); line-height: 1.35; letter-spacing: 0.4px;
           text-transform: uppercase; color: rgba(22,20,31,0.5);
         }
@@ -427,12 +427,12 @@ export function Industries() {
         }
         .cc-in-panel .pcount {
           display: flex; align-items: baseline; gap: 8px; margin-bottom: 12px;
-          font-family: 'Universal Sans', sans-serif; font-variant-numeric: tabular-nums;
+          font-family: 'Eloma Sans', sans-serif; font-variant-numeric: tabular-nums;
         }
         .cc-in-panel .pcount b { font-weight: 800; letter-spacing: -0.02em; font-size: clamp(30px, 2.6vw, 46px); line-height: 1; color: ${TEXT}; }
         .cc-in-panel .pcount span { font-size: clamp(13px, 1vw, 16px); color: rgba(22,20,31,0.42); }
         .cc-in-panel p {
-          font-family: 'Universal Sans', sans-serif; font-size: clamp(12px, 0.95vw, 14px); line-height: 1.7;
+          font-family: 'Eloma Sans', sans-serif; font-size: clamp(12px, 0.95vw, 14px); line-height: 1.7;
           color: ${MUTED}; margin: 0;
         }
         .cc-in-track {
@@ -458,7 +458,7 @@ export function Industries() {
         }
         .cc-in-console .live {
           display: inline-flex; align-items: center; gap: 7px;
-          font-family: 'Universal Sans', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 1.6px;
+          font-family: 'Eloma Sans', sans-serif; font-weight: 800; font-size: 10px; letter-spacing: 1.6px;
           text-transform: uppercase; color: ${LIVE_INK};
         }
         .cc-in-console .live i { position: relative; width: 7px; height: 7px; border-radius: 50%; background: ${LIVE}; }
@@ -468,9 +468,9 @@ export function Industries() {
         }
         @keyframes cc-ping { 0% { transform: scale(1); opacity: .6; } 70%, 100% { transform: scale(2.8); opacity: 0; } }
         .cc-in-console .fig { display: flex; flex-direction: column; gap: 3px; font-variant-numeric: tabular-nums; }
-        .cc-in-console .fig b { font-family: 'Universal Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(18px, 1.5vw, 24px); line-height: 1; }
+        .cc-in-console .fig b { font-family: 'Eloma Sans', sans-serif; font-weight: 800; letter-spacing: -0.02em; font-size: clamp(18px, 1.5vw, 24px); line-height: 1; }
         .cc-in-console .fig span {
-          font-family: 'Universal Sans', sans-serif; font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase;
+          font-family: 'Eloma Sans', sans-serif; font-size: 10px; letter-spacing: 1.3px; text-transform: uppercase;
           font-weight: 700; color: rgba(22,20,31,0.45); white-space: nowrap;
         }
         .cc-in-console .bars { display: flex; align-items: flex-end; gap: 3px; height: 26px; }
@@ -512,7 +512,7 @@ export function Industries() {
             border: 0; color: ${TEXT};
             background: linear-gradient(168deg, rgba(255,255,255,0.98), rgba(255,255,255,0.7));
             box-shadow: inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(22,20,31,0.14);
-            font-family: 'Universal Sans', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap;
+            font-family: 'Eloma Sans', sans-serif; font-weight: 600; font-size: 14px; white-space: nowrap;
           }
           .cc-in-rail button.on {
             background: ${GLOSS}; color: #fff;
