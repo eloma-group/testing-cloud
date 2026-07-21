@@ -497,7 +497,7 @@ export function Spotlight() {
             <p>Trusted by teams in e-commerce, SaaS, healthcare, logistics and fintech.</p>
           </div>
           <div className="cc-sl-trust-r">
-            <b>10+</b>
+            <b>10 +</b>
             <span>Years on the phones</span>
           </div>
         </motion.div>

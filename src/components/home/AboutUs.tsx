@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowRight, ArrowUpRight, Users, Clock } from 'lucide-react'
 import { MaskReveal, useParallax } from '../../lib/anim'
+const Dashboard3D = lazy(() => import('./Dashboard3D').then((m) => ({ default: m.Dashboard3D })))
 
 const TEXT   = '#16141F'
 const ACCENT = '#998EFF'
@@ -100,16 +101,16 @@ export function AboutUs() {
         }
         .cc-au-inner {
           position: relative;
-          max-width: min(calc(100vw - 140px), 1760px);
+          max-width: min(calc(100vw - 44px), 2500px);
           margin: 0 auto;
-          padding: clamp(56px, 8vw, 130px) clamp(24px, 4vw, 64px) clamp(48px, 6vw, 96px);
+          padding: clamp(56px, 8vw, 130px) clamp(30px, 3.2vw, 62px) clamp(48px, 6vw, 96px);
         }
 
         /* ── stage: copy | live board ── */
         .cc-au-stage {
           position: relative; z-index: 1;
           display: grid;
-          grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.32fr);
+          grid-template-columns: minmax(0, 1fr) minmax(0, clamp(360px, 46vw, 900px));
           column-gap: clamp(30px, 4vw, 84px);
           align-items: center;
         }
@@ -118,7 +119,7 @@ export function AboutUs() {
         .cc-au-eye {
           display: inline-flex; align-items: center; gap: 11px; margin: 0 0 clamp(20px, 2vw, 30px);
           font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(11px, 0.82vw, 13px); letter-spacing: 2.4px; color: ${MUTED};
+          font-size: clamp(12px, 0.95vw, 15px); letter-spacing: 2.4px; color: ${MUTED};
         }
         .cc-au-eye .live {
           position: relative; width: 9px; height: 9px; flex: none;
@@ -146,7 +147,7 @@ export function AboutUs() {
         }
         .cc-au-h-note {
           font-family: 'Eloma Sans', sans-serif; font-weight: 800; text-transform: uppercase;
-          font-size: clamp(10px, 0.78vw, 13px); letter-spacing: 2.2px; line-height: 1.7;
+          font-size: clamp(11px, 0.85vw, 14px); letter-spacing: 2.2px; line-height: 1.7;
           color: ${MUTED}; margin: 0; max-width: 16ch; align-self: center;
         }
         .cc-au-h-accent {
@@ -167,7 +168,7 @@ export function AboutUs() {
         }
         .cc-au-lede p {
           font-family: 'Eloma Sans', sans-serif; font-weight: 400;
-          font-size: clamp(14px, 1.15vw, 17px); line-height: 1.8; color: ${MUTED}; margin: 0;
+          font-size: clamp(15px, 1.3vw, 20px); line-height: 1.8; color: ${MUTED}; margin: 0;
         }
 
         /* ── board legend ── */
@@ -178,7 +179,7 @@ export function AboutUs() {
         .cc-au-legend li {
           display: flex; align-items: center; gap: 14px;
           font-family: 'Eloma Sans', sans-serif; font-weight: 600;
-          font-size: clamp(14px, 1.05vw, 16px); line-height: 1.4; color: ${TEXT};
+          font-size: clamp(15px, 1.2vw, 19px); line-height: 1.45; color: ${TEXT};
         }
         .cc-au-legend i {
           flex: none; width: 22px; height: 22px; border-radius: 7px;
@@ -201,7 +202,7 @@ export function AboutUs() {
           background: linear-gradient(168deg, #38324F 0%, ${TEXT} 48%, ${INK} 100%);
           color: #FAF9FE; text-decoration: none; border-radius: 4px;
           font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
-          font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
+          font-size: clamp(13px, 0.95vw, 15px); letter-spacing: 1.5px;
           box-shadow:
             inset 0 1px 0 rgba(255,255,255,0.18),
             inset 0 -1px 0 rgba(0,0,0,0.28),
@@ -221,7 +222,7 @@ export function AboutUs() {
           min-height: 52px; padding: 4px; background: none; border: 0;
           color: ${TEXT}; text-decoration: none;
           font-family: 'Eloma Sans', sans-serif; font-weight: 700; text-transform: uppercase;
-          font-size: clamp(12px, 0.9vw, 14px); letter-spacing: 1.5px;
+          font-size: clamp(13px, 0.95vw, 15px); letter-spacing: 1.5px;
         }
         .cc-au-ghost i {
           display: grid; place-items: center; flex: none;
@@ -258,63 +259,6 @@ export function AboutUs() {
         .cc-au-sonar span:nth-child(2) { animation-delay: 2.3s; }
 
         .cc-au-screen { position: relative; z-index: 2; width: 100%; will-change: transform; }
-        .cc-au-screen img {
-          display: block; width: 100%; height: auto; pointer-events: none;
-          filter: drop-shadow(0 36px 62px rgba(30,22,70, 0.36))
-                  drop-shadow(0 6px 14px rgba(22,20,31, 0.16));
-        }
-        .cc-au-screen::after {
-          content: ''; position: absolute; left: 8%; right: 8%; bottom: -4%; height: 12%;
-          background: radial-gradient(closest-side, rgba(30,22,70,0.3), transparent 74%);
-          filter: blur(6px); pointer-events: none; z-index: -1;
-        }
-        /* screen power-on light sweep, clipped to the display area of the cutout */
-        .cc-au-sweep {
-          position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden;
-          clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
-          -webkit-clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
-        }
-        .cc-au-sweep b {
-          position: absolute; top: -20%; left: -70%; width: 55%; height: 140%;
-          background: linear-gradient(105deg, transparent, rgba(199,188,255,0.6), transparent);
-          transform: translateX(0) skewX(-14deg); mix-blend-mode: screen;
-          animation: ccAuSweep 6s cubic-bezier(.55,0,.45,1) infinite; will-change: transform;
-        }
-
-        /* ── power-on build: the board paints itself in from the left ──
-           a veil the colour of the screen retracts to the right, with a bright
-           violet front edge riding on it, so the panels and the chart appear to
-           be drawn left to right. Compositor-only: scaleX + opacity, nothing else. */
-        .cc-au-build {
-          position: absolute; inset: 0; z-index: 4; pointer-events: none; overflow: hidden;
-          clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
-          -webkit-clip-path: polygon(4.6% 6%, 96% 6.4%, 95.8% 93%, 4.4% 92%);
-        }
-        /* the second pass is clipped to the "Calls per hour" panel only, and runs
-           late, so the graph is the last thing to draw itself across */
-        .cc-au-build.chart {
-          clip-path: inset(40.4% 41.2% 11.2% 6.6% round 1.4%);
-          -webkit-clip-path: inset(40.4% 41.2% 11.2% 6.6% round 1.4%);
-        }
-        .cc-au-build .veil, .cc-au-build .edge {
-          position: absolute; inset: 0; will-change: transform;
-        }
-        .cc-au-build .veil {
-          background: linear-gradient(118deg, #1C1833 0%, #16122A 52%, #110E20 100%);
-          transform-origin: right center; transform: scaleX(1);
-          transition: transform 1.15s cubic-bezier(.16,1,.3,1);
-        }
-        .cc-au-build .edge {
-          transform-origin: left center; transform: scaleX(0);
-          background: linear-gradient(90deg,
-            rgba(153,142,255,0) 88%, rgba(153,142,255,0.34) 97%,
-            rgba(214,208,255,0.85) 99.6%, rgba(240,238,255,0.95) 100%);
-          transition: transform 1.15s cubic-bezier(.16,1,.3,1), opacity .3s ease .95s;
-        }
-        .cc-au-build.chart .veil { transition-duration: 1.05s; transition-delay: .62s; }
-        .cc-au-build.chart .edge { transition-duration: 1.05s; transition-delay: .62s, 1.42s; }
-        .cc-au-board.on .cc-au-build .veil { transform: scaleX(0); }
-        .cc-au-board.on .cc-au-build .edge { transform: scaleX(1); opacity: 0; }
 
         /* wrapper is transparent to layout on desktop, so chips position
            absolutely against the board; it becomes a flex row on mobile */
@@ -401,8 +345,21 @@ export function AboutUs() {
           to { transform: translateY(5px); }
         }
 
-        @media (min-width: 1920px) { .cc-au-inner { max-width: min(calc(100vw - 140px), 1900px); } }
-        @media (min-width: 2560px) { .cc-au-inner { max-width: min(calc(100vw - 160px), 2400px); } }
+        @media (min-width: 1920px) {
+          .cc-au-stage { grid-template-columns: minmax(0, 1fr) minmax(0, clamp(900px, 50vw, 1060px)); }
+          .cc-au-eye { font-size: 16px; }
+          .cc-au-lede p { font-size: 22px; line-height: 1.78; }
+          .cc-au-legend li { font-size: 20px; }
+          .cc-au-h-note { font-size: 15px; }
+        }
+        @media (min-width: 2560px) {
+          .cc-au-inner { max-width: min(calc(100vw - 52px), 2560px); }
+          .cc-au-stage { grid-template-columns: minmax(0, 1fr) minmax(0, clamp(1000px, 47vw, 1300px)); }
+          .cc-au-eye { font-size: 18px; }
+          .cc-au-lede p { font-size: 25px; }
+          .cc-au-legend li { font-size: 23px; }
+          .cc-au-h-note { font-size: 16px; }
+        }
 
         @media (max-width: 1024px) {
           .cc-au-stage { grid-template-columns: minmax(0, 1fr); row-gap: clamp(56px, 9vw, 84px); }
@@ -504,18 +461,9 @@ export function AboutUs() {
             )}
 
             <motion.div className="cc-au-screen" style={reduce ? undefined : { y: heroY }}>
-              <img
-                src="/images/about/live-console.webp"
-                alt="Nexa live operations board on a monitor: 2,847 calls today, 1,932 customers connected, an 8 second average answer time and 98% satisfaction, with the live call queue beside it"
-                width={1368} height={815} loading="lazy" decoding="async"
-              />
-              {!reduce && (
-                <>
-                  <div className="cc-au-build" aria-hidden><span className="veil" /><span className="edge" /></div>
-                  <div className="cc-au-build chart" aria-hidden><span className="veil" /><span className="edge" /></div>
-                  <div className="cc-au-sweep" aria-hidden><b /></div>
-                </>
-              )}
+              <Suspense fallback={<div style={{ width: '100%', aspectRatio: '1 / 1' }} aria-hidden />}>
+                <Dashboard3D built={built} reduce={reduce} />
+              </Suspense>
             </motion.div>
 
             <div className="cc-au-chiprow">

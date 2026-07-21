@@ -148,7 +148,9 @@ export function MaskReveal({
   inView?: boolean
 }) {
   const reduce = useReducedMotion() ?? false
-  const Tag = as
+  /* cast: @react-three/fiber's global JSX augmentation makes a bare
+     ElementType resolve children to never, so widen it here. */
+  const Tag = as as any
 
   /* Observe the clipping wrapper, never the masked child: the child starts
      translated fully outside the wrapper's overflow:hidden box, and an
