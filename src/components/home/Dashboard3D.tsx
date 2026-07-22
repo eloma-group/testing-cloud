@@ -214,12 +214,6 @@ function Scene({ run }: { run: boolean }) {
           <DonutSeg start={0} frac={0.4} color={C.light} />
           <DonutSeg start={0.4} frac={0.35} color={C.deep} />
           <DonutSeg start={0.75} frac={0.25} color={C.mid} />
-          <Text font={FONT} position={[0, 0, 0.05]} fontSize={0.2} color={C.text} anchorX="center" anchorY="middle" textAlign="center">
-            Service{'\n'}Mix
-          </Text>
-          <Text font={FONT} position={[0.78, -0.86, 0.4]} fontSize={0.18} color="#fff" anchorX="center" anchorY="middle" textAlign="center">Voice{'\n'}40%</Text>
-          <Text font={FONT} position={[-1.15, 0.05, 0.4]} fontSize={0.18} color="#fff" anchorX="center" anchorY="middle" textAlign="center">Chat{'\n'}35%</Text>
-          <Text font={FONT} position={[0.1, 1.2, 0.4]} fontSize={0.18} color="#fff" anchorX="center" anchorY="middle" textAlign="center">Email{'\n'}25%</Text>
         </group>
       </group>
 
